@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://babseii8m1lky"]
+
+[ext_resource type="PackedScene" uid="uid://lxaas42i2hy8" path="res://assets/3d/arrowtwist.glb" id="1_nqf4l"]
+
+[sub_resource type="ORMMaterial3D" id="ORMMaterial3D_xmhpm"]
+albedo_color = Color(0.886275, 0, 0.0901961, 0.34902)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_x17gd"]
+size = Vector3(0.719849, 0.0490723, 0.650391)
+
+[node name="arrowtwist" instance=ExtResource("1_nqf4l")]
+transform = Transform3D(0.9, 0, 0, 0, 0.6, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="Cube" parent="." index="0"]
+transform = Transform3D(0.589, 0, 0, 0, 4.37114e-08, -1.154, 0, -1, -5.04429e-08, 0, 0, 0.0686566)
+surface_material_override/0 = SubResource("ORMMaterial3D_xmhpm")
+
+[node name="Area3D" type="Area3D" parent="Cube" index="0"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Cube/Area3D" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 2.59348e-13, 0, 0, 1, 0.0187378, -0.0228272, -0.34062)
+shape = SubResource("BoxShape3D_x17gd")

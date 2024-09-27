@@ -1,0 +1,25 @@
+[gd_scene load_steps=2 format=3 uid="uid://ckusx353835ca"]
+
+[ext_resource type="PackedScene" uid="uid://cbjn06es1b4ef" path="res://assets/3d/troops/dragon_model(1).glb" id="1_2qh4l"]
+
+[node name="dragon_model(1)" instance=ExtResource("1_2qh4l")]
+
+[node name="GeneralSkeleton" parent="metarig" index="0"]
+bones/6/rotation = Quaternion(-0.386525, -0.054525, -0.683525, 0.616475)
+bones/13/rotation = Quaternion(-0.204525, -0.217525, -0.046525, 0.953475)
+bones/18/rotation = Quaternion(-0.261525, 0.000474975, -0.000525026, 0.965475)
+bones/19/rotation = Quaternion(-0.254525, 0.00247497, 0.00247497, 0.967475)
+bones/20/rotation = Quaternion(0.177475, -0.00152503, -0.000525026, 0.984475)
+bones/21/rotation = Quaternion(0.089475, -0.000525026, -0.00152503, 0.995475)
+bones/22/rotation = Quaternion(-0.240525, 0.00147497, 0.00447497, 0.970475)
+bones/23/rotation = Quaternion(0.455475, -0.000525026, -0.00152503, 0.890475)
+bones/24/rotation = Quaternion(0.353475, 0.000474975, 0.00147497, 0.935475)
+bones/25/rotation = Quaternion(-0.098525, 0.000474975, 0.000474975, 0.995475)
+bones/26/rotation = Quaternion(-0.332525, 0.000474975, 0.000474975, 0.942475)
+bones/27/rotation = Quaternion(0.144475, 0.000474975, 0.000474975, 0.989475)
+bones/28/rotation = Quaternion(0.264475, -0.113525, 0.031475, 0.957475)
+bones/29/rotation = Quaternion(0.000474975, 0.993475, -0.111525, 0.000474975)
+bones/75/rotation = Quaternion(-0.523525, 0.000474975, 0.000474975, 0.851475)
+bones/76/rotation = Quaternion(0.263475, 0.000474975, 0.000474975, 0.964475)
+bones/77/rotation = Quaternion(0.402475, 0.000474975, 0.000474975, 0.915475)
+bones/78/rotation = Quaternion(0.279475, 0.000474975, 0.000474975, 0.960475)

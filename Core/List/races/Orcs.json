@@ -1,0 +1,36 @@
+{
+  "Name": "Orcs",
+  "Units": [
+    {
+      "Name": "Orcs",
+      "Type": "Infantry",
+      "Category": "CORE",
+      "Weapons": [ "Hand Weapon", "Shield" ],
+      "Minimum": 5,
+      "SpecialRules": [
+        "Choppas"
+      ],
+      "Troop": {
+        "Name": "Orc",
+        "AssetFile": "orc30x30.tscn",
+        "Movement": 4,
+        "Dexterity": 3,
+        "Shooting": 3,
+        "Strength": 3,
+        "Resistance": 4,
+        "Wounds": 1,
+        "Attacks": 1,
+        "Initiative": 3,
+        "Leadership": 6,
+        "Armour": 1,
+        "Cost": 5,
+        "Size": {
+          "Width": 30,
+          "Height": 30
+        }
+      }
+    }
+  ]
+
+
+}

@@ -1,0 +1,65 @@
+{
+  "Name": "Ratkin",
+  "Units": [
+    {
+      "Name": "Basicrats",
+      "Type": "Infantry",
+      "Category": "CORE",
+      "Weapons": [ "Hand Weapon", "Shield" ],
+      "Minimum": 20,
+      "SpecialRules": [
+        "Close Order"
+      ],
+      "Troop": {
+        "Name": "Basicrat",
+        "AssetFile": "goblin25x25.tscn",
+        "Movement": 6,
+        "Dexterity": 3,
+        "Shooting": 3,
+        "Strength": 3,
+        "Resistance": 3,
+        "Wounds": 1,
+        "Attacks": 1,
+        "Initiative": 4,
+        "Leadership": 4,
+        "Armour": 1,
+        "Cost": 4,
+        "Size": {
+          "Width": 25,
+          "Height": 25
+        }
+      }
+    },
+    {
+      "Name": "Abomination",
+      "Type": "Monster",
+      "Category": "RARE",
+      "Weapons": [ "claws"],
+      "Minimum": 1,
+      "SpecialRules": [
+        "Close Order"
+      ],
+      "Troop": {
+        "Name": "Abomination",
+        "AssetFile": "dragon_unit.tscn",
+        "Movement": 10,
+        "Dexterity": 3,
+        "Shooting": 3,
+        "Strength": 3,
+        "Resistance": 3,
+        "Wounds": 1,
+        "Attacks": 0,
+        "Initiative": 4,
+        "Leadership": 4,
+        "Armour": 1,
+        "Cost": 4,
+        "Size": {
+          "Width": 60,
+          "Height": 100
+        }
+      }
+    }
+  ]
+
+
+}

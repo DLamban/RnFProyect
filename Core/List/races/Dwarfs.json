@@ -1,0 +1,64 @@
+{
+  "Name": "Dwarfs",
+  "Units": [
+    {
+      "Name": "Dwarf Warriors",
+      "Type": "Infantry",
+      "Category": "Core",
+      "Weapons": [ "Hand Weapon", "Shield" ],      
+      "Minimum": 5,
+      "SpecialRules": [
+        "Close Order"
+      ],
+      "Troop": {
+        "Name": "Dwarf Warrior",
+        "AssetFile": "dwarf25x25.tscn",
+        "Movement": 3,
+        "Dexterity": 4,
+        "Shooting": 3,
+        "Strength": 4,
+        "Resistance": 4,
+        "Wounds": 1,
+        "Attacks": 1,
+        "Initiative": 2,
+        "Leadership": 9,
+        "Armour": 2,
+        "Cost": 8,
+        "Size": {
+          "Width": 25,
+          "Height": 25
+        }
+      }
+    },
+    {
+      "Name": "Slayers",
+      "Type": "Infantry",
+      "Category": "Special",
+      "Weapons": [ "Hand Weapon", "Shield" ],      
+      "Minimum": 5,
+      "SpecialRules": [
+        "Close Order"
+      ],
+      "Troop": {
+        "Name": "Troll Slayer",
+        "AssetFile": "knight_unit25x25.tscn",
+        "Movement": 3,
+        "Dexterity": 4,
+        "Shooting": 3,
+        "Strength": 3,
+        "Resistance": 4,
+        "Wounds": 1,
+        "Attacks": 1,
+        "Initiative": 2,
+        "Leadership": 10,
+        "Armour": 0,
+        "Cost": 12,
+        "Size": {
+          "Width": 25,
+          "Height": 25
+        }
+      }
+    }
+  ]
+  
+}

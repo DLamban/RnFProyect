@@ -1,0 +1,202 @@
+[gd_scene load_steps=16 format=3 uid="uid://d3f1ae03k83uv"]
+
+[ext_resource type="Script" path="res://code/InputManager.cs" id="1_11q0i"]
+[ext_resource type="Script" path="res://battlefieldManager.cs" id="1_wimcb"]
+[ext_resource type="Texture2D" uid="uid://d0vwwjppvqoer" path="res://assets/tex/dirtcartoon/Dirt_01_Nrm.png" id="4_nx6cc"]
+[ext_resource type="Script" path="res://code/FieldCameraControl.cs" id="7_3lx50"]
+[ext_resource type="PackedScene" uid="uid://7avowxdh4u3l" path="res://assets/3d/rocks/objects/rock1.glb" id="7_ca4yh"]
+[ext_resource type="PackedScene" uid="uid://dpsexlp7rtu24" path="res://UICanvas.tscn" id="7_gkt7g"]
+[ext_resource type="PackedScene" uid="uid://ca7m5rbsas0bp" path="res://assets/3d/rocks/objects/rock2.glb" id="8_40wyv"]
+[ext_resource type="Script" path="res://units/UnitRenderCreator.cs" id="8_fpo1v"]
+[ext_resource type="PackedScene" uid="uid://bgn4q7owag65p" path="res://assets/3d/trees/treelowpoly.glb" id="9_g0wca"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1f0lg"]
+albedo_color = Color(0.00766618, 0.458077, 7.70092e-07, 1)
+roughness = 0.66
+normal_enabled = true
+normal_scale = 0.85
+normal_texture = ExtResource("4_nx6cc")
+uv1_scale = Vector3(100, 100, 100)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_faxed"]
+lightmap_size_hint = Vector2i(12, 12)
+material = SubResource("StandardMaterial3D_1f0lg")
+uv2_padding = 7.56
+size = Vector2(40, 40)
+subdivide_width = 2
+subdivide_depth = 2
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_a2yhs"]
+size = Vector3(30.5178, 0.0210571, 33.5242)
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_f1v4j"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_4veyh"]
+sky_material = SubResource("ProceduralSkyMaterial_f1v4j")
+
+[sub_resource type="Environment" id="Environment_pf7uf"]
+background_mode = 2
+sky = SubResource("Sky_4veyh")
+sky_rotation = Vector3(1.5708, 0, 0)
+ambient_light_source = 3
+ambient_light_color = Color(0.628189, 0, 0.252613, 1)
+ambient_light_energy = 0.0
+tonemap_mode = 2
+glow_enabled = true
+fog_enabled = true
+fog_light_color = Color(0.107041, 0.595631, 0.804565, 1)
+fog_density = 0.022
+fog_aerial_perspective = 0.456
+volumetric_fog_enabled = true
+volumetric_fog_density = 0.0
+
+[node name="Main" type="Node3D"]
+script = ExtResource("1_wimcb")
+
+[node name="Battlefield" type="Node3D" parent="."]
+script = ExtResource("1_11q0i")
+
+[node name="Environment" type="Node" parent="Battlefield"]
+
+[node name="battlefieldTerrain" type="MeshInstance3D" parent="Battlefield/Environment"]
+transform = Transform3D(20, 0, 0, 0, -8.74228e-07, -20, 0, 20, -8.74228e-07, 0, 0, 0.238)
+mesh = SubResource("PlaneMesh_faxed")
+skeleton = NodePath("")
+
+[node name="Area3D" type="Area3D" parent="Battlefield/Environment/battlefieldTerrain"]
+transform = Transform3D(1, 0, 0, 0, 1, 7.10543e-15, 0, -7.10543e-15, 1, 0, 0.000221126, -9.66563e-12)
+collision_layer = 2
+collision_mask = 2
+input_ray_pickable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Battlefield/Environment/battlefieldTerrain/Area3D"]
+transform = Transform3D(0.999999, 0, 0, 0, 0.999999, 1.94689e-12, 0, -1.94689e-12, 0.999999, -1.73795, 0, 0.474152)
+shape = SubResource("BoxShape3D_a2yhs")
+
+[node name="gimball" type="Node3D" parent="Battlefield/Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 5)
+script = ExtResource("7_3lx50")
+
+[node name="BattlefieldCamera" type="Camera3D" parent="Battlefield/Environment/gimball"]
+transform = Transform3D(1, 0, 0, 0, 0.814116, -0.580703, 0, 0.580703, 0.814116, 0, 0, 0)
+current = true
+fov = 78.3
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Battlefield/Environment"]
+transform = Transform3D(-0.91706, -0.0794977, -0.390744, 0, -0.979925, 0.199368, -0.398749, 0.182832, 0.89865, 0, 0, 0)
+light_color = Color(1, 0.896482, 0.85955, 1)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Battlefield/Environment"]
+environment = SubResource("Environment_pf7uf")
+
+[node name="UnitManager" type="Node" parent="Battlefield"]
+script = ExtResource("8_fpo1v")
+
+[node name="HUD" parent="Battlefield/UnitManager" instance=ExtResource("7_gkt7g")]
+
+[node name="terrainbackground" type="Node3D" parent="Battlefield"]
+
+[node name="rock1" parent="Battlefield/terrainbackground" instance=ExtResource("7_ca4yh")]
+transform = Transform3D(0.0945893, -8.81515e-10, -0.0324479, -0.0324479, -5.28643e-09, -0.0945893, -8.81515e-10, 0.1, -5.28643e-09, -4.90516, 6.6953, 0.333242)
+
+[node name="rock2" parent="Battlefield/terrainbackground" instance=ExtResource("7_ca4yh")]
+transform = Transform3D(0.0389313, -0.0284618, -0.0869844, -0.027623, -0.113507, 0.0105287, -0.0762976, 0.0265717, -0.0481961, -3.3089, 8.70014, -0.266354)
+
+[node name="rock3" parent="Battlefield/terrainbackground" instance=ExtResource("8_40wyv")]
+transform = Transform3D(0.12, 0, 0, 0, 0.0285574, -0.104316, 0, 0.0853491, 0.0349035, 3.73691, 9.60044, 9.53674e-07)
+
+[node name="rock4" parent="Battlefield/terrainbackground" instance=ExtResource("8_40wyv")]
+transform = Transform3D(0.14, 0, 0, 0, 0.0421036, -0.0907044, 0, 0.0907044, 0.0421036, -2.41475, 7.79817, -0.339553)
+
+[node name="Forest" type="Node3D" parent="Battlefield/terrainbackground"]
+transform = Transform3D(1.3, 0, 0, 0, 1.3, 0, 0, 0, 1.3, 3.27048, 3.39905, -0.0731337)
+
+[node name="treelowpoly" parent="Battlefield/terrainbackground/Forest" instance=ExtResource("9_g0wca")]
+transform = Transform3D(0.119982, -0.00209493, 7.30895e-05, 0.000109606, 0.00209142, -0.119982, 0.00209333, 0.119963, 0.00209301, 0, 0, 0.224048)
+
+[node name="treelowpoly2" parent="Battlefield/terrainbackground/Forest" instance=ExtResource("9_g0wca")]
+transform = Transform3D(0.1, 0, 0, 0, -4.37114e-09, -0.1, 0, 0.1, -4.37114e-09, 0.538532, -0.415744, 0.216582)
+
+[node name="treelowpoly3" parent="Battlefield/terrainbackground/Forest" instance=ExtResource("9_g0wca")]
+transform = Transform3D(0.119982, -0.00209493, 7.30895e-05, 0.000109606, 0.00209142, -0.119982, 0.00209333, 0.119963, 0.00209301, -0.263132, -0.950855, 0.276005)
+
+[node name="treelowpoly4" parent="Battlefield/terrainbackground/Forest" instance=ExtResource("9_g0wca")]
+transform = Transform3D(0.1, 0, 0, 0, -4.37114e-09, -0.1, 0, 0.1, -4.37114e-09, 0.83812, -0.950855, 0.216582)
+
+[node name="debugUI" type="Node" parent="."]
+
+[node name="CanvasGroup" type="CanvasGroup" parent="debugUI"]
+visible = false
+
+[node name="Panel" type="Panel" parent="debugUI/CanvasGroup"]
+offset_left = 410.0
+offset_top = 14.0
+offset_right = 701.0
+offset_bottom = 218.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="debugUI/CanvasGroup/Panel"]
+layout_mode = 0
+offset_right = 290.0
+offset_bottom = 202.0
+
+[node name="YworldHBox" type="HBoxContainer" parent="debugUI/CanvasGroup/Panel/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="debugUI/CanvasGroup/Panel/VBoxContainer/YworldHBox"]
+layout_mode = 2
+text = "Y en world"
+
+[node name="YWorld" type="TextEdit" parent="debugUI/CanvasGroup/Panel/VBoxContainer/YworldHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "fsdfds"
+placeholder_text = "gfdgfdgfd"
+
+[node name="DistanceHBox" type="HBoxContainer" parent="debugUI/CanvasGroup/Panel/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="debugUI/CanvasGroup/Panel/VBoxContainer/DistanceHBox"]
+layout_mode = 2
+text = "distancia"
+
+[node name="Distance" type="TextEdit" parent="debugUI/CanvasGroup/Panel/VBoxContainer/DistanceHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "ffds"
+placeholder_text = "fdsfds"
+
+[node name="UnitPos" type="HBoxContainer" parent="debugUI/CanvasGroup/Panel/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="debugUI/CanvasGroup/Panel/VBoxContainer/UnitPos"]
+layout_mode = 2
+text = "Unitpos"
+
+[node name="UnitPos" type="TextEdit" parent="debugUI/CanvasGroup/Panel/VBoxContainer/UnitPos"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "fsdfds"
+placeholder_text = "gfdgfdgfd"
+
+[node name="Button" type="Button" parent="debugUI/CanvasGroup/Panel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.249
+anchor_top = 2.637
+anchor_right = 0.746
+anchor_bottom = 2.637
+offset_left = 20.541
+offset_top = 0.052002
+offset_right = 18.914
+offset_bottom = 31.052
+grow_horizontal = 2
+grow_vertical = 0
+text = "RESET POSITIONS"
+
+[connection signal="pressed" from="debugUI/CanvasGroup/Panel/Button" to="Battlefield/UnitManager" method="_on_reset_positions_pressed"]

@@ -1,0 +1,27 @@
+[gd_scene load_steps=6 format=3 uid="uid://fvfex0bftv3k"]
+
+[ext_resource type="Script" path="res://units/Unidad.cs" id="1_hqgq2"]
+[ext_resource type="PackedScene" uid="uid://bpooqvtmbhoys" path="res://assets/3d/troops/MiniatureBase.glb" id="2_i1idb"]
+[ext_resource type="PackedScene" uid="uid://4p4ocatqrwxg" path="res://assets/3d/troops/Goblin_Male.glb" id="3_7ulp0"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_nmsne"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dmtvb"]
+albedo_color = Color(1, 0, 0, 1)
+
+[node name="nodounidad" type="Node3D"]
+script = ExtResource("1_hqgq2")
+
+[node name="MiniatureBase" parent="." instance=ExtResource("2_i1idb")]
+transform = Transform3D(0.25, 0, 0, 0, -1.09278e-08, -0.25, 0, 0.25, -1.09278e-08, 0, 0, 0.35)
+
+[node name="Goblin_Male" parent="MiniatureBase" instance=ExtResource("3_7ulp0")]
+transform = Transform3D(-0.934745, 7.60017e-09, -0.355319, 7.34079e-09, 1, 2.07814e-09, 0.355319, -6.65787e-10, -0.934745, 0, -0.86338, 3.77395e-08)
+
+[node name="CenterGizmo" type="Node3D" parent="."]
+visible = false
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CenterGizmo"]
+transform = Transform3D(0.04, 0, 0, 0, 0.04, 0, 0, 0, 2.2, 0, 0, 1.15444)
+mesh = SubResource("BoxMesh_nmsne")
+surface_material_override/0 = SubResource("StandardMaterial3D_dmtvb")

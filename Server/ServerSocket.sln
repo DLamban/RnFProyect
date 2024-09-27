@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35303.130
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServerSocket", "ServerSocket.csproj", "{A6CACF4B-9AD9-4E47-8580-9263EEA1104B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "..\proyectoOldWorld\games\RnFProyect\Core\Core.csproj", "{0F14D32A-93A2-4516-908F-D3E411B2F20B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A6CACF4B-9AD9-4E47-8580-9263EEA1104B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6CACF4B-9AD9-4E47-8580-9263EEA1104B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6CACF4B-9AD9-4E47-8580-9263EEA1104B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6CACF4B-9AD9-4E47-8580-9263EEA1104B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F14D32A-93A2-4516-908F-D3E411B2F20B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F14D32A-93A2-4516-908F-D3E411B2F20B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F14D32A-93A2-4516-908F-D3E411B2F20B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F14D32A-93A2-4516-908F-D3E411B2F20B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5596E11D-3EC0-4445-9771-B0604C464B0A}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://df8tpbclrf24e"]
+
+[ext_resource type="PackedScene" uid="uid://byku2n16l6ox6" path="res://assets/3d/dicecool.glb" id="1_h15ix"]
+
+[node name="dicecool" instance=ExtResource("1_h15ix")]
+
+[node name="DiceA_LOD000" parent="." index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)

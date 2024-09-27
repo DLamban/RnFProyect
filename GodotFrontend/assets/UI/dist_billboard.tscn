@@ -1,0 +1,39 @@
+[gd_scene load_steps=3 format=3 uid="uid://cprwhq4jcoe4p"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_a0squ"]
+viewport_path = NodePath("SubViewport")
+
+[sub_resource type="LabelSettings" id="LabelSettings_kwk4k"]
+font_size = 20
+font_color = Color(1, 1, 0.619608, 1)
+outline_size = 2
+
+[node name="DistBillboard" type="Sprite3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.400733)
+billboard = 1
+no_depth_test = true
+render_priority = 1
+texture = SubResource("ViewportTexture_a0squ")
+
+[node name="SubViewport" type="SubViewport" parent="."]
+disable_3d = true
+size = Vector2i(64, 64)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="SubViewport"]
+
+[node name="distance" type="Label" parent="SubViewport/CanvasLayer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "12"
+label_settings = SubResource("LabelSettings_kwk4k")
+horizontal_alignment = 1
+vertical_alignment = 1

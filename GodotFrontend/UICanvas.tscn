@@ -1,0 +1,500 @@
+[gd_scene load_steps=12 format=3 uid="uid://dpsexlp7rtu24"]
+
+[ext_resource type="Theme" uid="uid://c5l7fthgxiatx" path="res://assets/fonts/basic_theme.tres" id="1_7w5fx"]
+[ext_resource type="Script" path="res://UIcode/UICanvas.cs" id="1_uf8sf"]
+[ext_resource type="LabelSettings" uid="uid://drh30e3fryfv3" path="res://assets/fonts/BasicFont.tres" id="2_6wcfk"]
+[ext_resource type="PackedScene" uid="uid://bty8onggmax8r" path="res://dices_resources/velvetdicetray.glb" id="4_vvqy3"]
+[ext_resource type="Texture2D" uid="uid://bu1qu6rd35ub5" path="res://assets/2D/gamestatebar.png" id="5_4txjm"]
+[ext_resource type="Texture2D" uid="uid://c81elnyyc6frc" path="res://assets/2D/iconsgamebar.png" id="6_wpu2u"]
+[ext_resource type="Texture2D" uid="uid://cjkqqh1ls3d2s" path="res://assets/2D/gamestatebaroverlay.png" id="7_rpjy1"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_apgn1"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_jl446"]
+size = Vector3(1, 15.7183, 11.6635)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_a1ojn"]
+size = Vector3(13.3915, 1, 14.7846)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4jijp"]
+bg_color = Color(0.6, 0, 0.6, 0.137255)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_blend = true
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+shadow_color = Color(0, 0, 0, 0.796078)
+shadow_size = 5
+shadow_offset = Vector2(5, 5)
+
+[node name="CanvasLayer" type="CanvasLayer"]
+follow_viewport_enabled = true
+script = ExtResource("1_uf8sf")
+
+[node name="CanvasGroup" type="CanvasGroup" parent="."]
+
+[node name="CharacteristicsPanelPlayer" type="Panel" parent="CanvasGroup"]
+offset_left = 21.0
+offset_top = 25.0
+offset_right = 329.0
+offset_bottom = 345.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource("1_7w5fx")
+
+[node name="CenterContainer" type="CenterContainer" parent="CanvasGroup/CharacteristicsPanelPlayer"]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 35.0
+offset_right = 274.0
+offset_bottom = 287.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasGroup/CharacteristicsPanelPlayer/CenterContainer"]
+layout_mode = 2
+
+[node name="NameBox" type="HBoxContainer" parent="CanvasGroup/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Name" type="Label" parent="CanvasGroup/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/NameBox"]
+layout_mode = 2
+
+[node name="Value" type="Label" parent="CanvasGroup/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/NameBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "Dwarf warrior"
+label_settings = ExtResource("2_6wcfk")
+horizontal_alignment = 2
+
+[node name="MovementBox" type="HBoxContainer" parent="CanvasGroup/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Mov" type="Label" parent="CanvasGroup/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/MovementBox"]
+layout_mode = 2
+text = "Movement"
+
+[node name="Value" type="Label" parent="CanvasGroup/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/MovementBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "3"
+horizontal_alignment = 2
+
+[node name="DexterityBox" type="HBoxContainer" parent="CanvasGroup/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Dex" type="Label" parent="CanvasGroup/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/DexterityBox"]
+layout_mode = 2
+text = "Dexterity"
+
+[node name="Value" type="Label" parent="CanvasGroup/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/DexterityBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "4"
+horizontal_alignment = 2
+
+[node name="ShootingBox" type="HBoxContainer" parent="CanvasGroup/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Shoot" type="Label" parent="CanvasGroup/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/ShootingBox"]
+layout_mode = 2
+text = "Shooting"
+
+[node name="Value" type="Label" parent="CanvasGroup/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/ShootingBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "3"
+horizontal_alignment = 2
+
+[node name="StrengthBox" type="HBoxContainer" parent="CanvasGroup/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Str" type="Label" parent="CanvasGroup/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/StrengthBox"]
+layout_mode = 2
+text = "Strength"
+
+[node name="Value" type="Label" parent="CanvasGroup/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/StrengthBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "4"
+horizontal_alignment = 2
+
+[node name="ResistanceBox" type="HBoxContainer" parent="CanvasGroup/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Res" type="Label" parent="CanvasGroup/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/ResistanceBox"]
+layout_mode = 2
+text = "Resistance"
+
+[node name="Value" type="Label" parent="CanvasGroup/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/ResistanceBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "4"
+horizontal_alignment = 2
+
+[node name="WoundsBox" type="HBoxContainer" parent="CanvasGroup/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Wounds" type="Label" parent="CanvasGroup/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/WoundsBox"]
+layout_mode = 2
+text = "Wounds"
+
+[node name="Value" type="Label" parent="CanvasGroup/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/WoundsBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "1"
+horizontal_alignment = 2
+
+[node name="AttacksBox" type="HBoxContainer" parent="CanvasGroup/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Att" type="Label" parent="CanvasGroup/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/AttacksBox"]
+layout_mode = 2
+text = "Attacks"
+
+[node name="Value" type="Label" parent="CanvasGroup/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/AttacksBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "1"
+horizontal_alignment = 2
+
+[node name="InitiativeBox" type="HBoxContainer" parent="CanvasGroup/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Ini" type="Label" parent="CanvasGroup/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/InitiativeBox"]
+layout_mode = 2
+text = "Initiative"
+
+[node name="Value" type="Label" parent="CanvasGroup/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/InitiativeBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "2"
+horizontal_alignment = 2
+
+[node name="ArmourBox" type="HBoxContainer" parent="CanvasGroup/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Armour" type="Label" parent="CanvasGroup/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/ArmourBox"]
+layout_mode = 2
+text = "Armour"
+
+[node name="Value" type="Label" parent="CanvasGroup/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/ArmourBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "2"
+horizontal_alignment = 2
+
+[node name="CharacteristicsPanelEnemy" type="Panel" parent="CanvasGroup"]
+offset_left = 1596.0
+offset_top = 25.0
+offset_right = 1904.0
+offset_bottom = 345.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource("1_7w5fx")
+
+[node name="CenterContainer" type="CenterContainer" parent="CanvasGroup/CharacteristicsPanelEnemy"]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 35.0
+offset_right = 274.0
+offset_bottom = 287.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasGroup/CharacteristicsPanelEnemy/CenterContainer"]
+layout_mode = 2
+
+[node name="NameBox" type="HBoxContainer" parent="CanvasGroup/CharacteristicsPanelEnemy/CenterContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Name" type="Label" parent="CanvasGroup/CharacteristicsPanelEnemy/CenterContainer/VBoxContainer/NameBox"]
+layout_mode = 2
+
+[node name="Value" type="Label" parent="CanvasGroup/CharacteristicsPanelEnemy/CenterContainer/VBoxContainer/NameBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "Dwarf warrior"
+label_settings = ExtResource("2_6wcfk")
+horizontal_alignment = 2
+
+[node name="MovementBox" type="HBoxContainer" parent="CanvasGroup/CharacteristicsPanelEnemy/CenterContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Mov" type="Label" parent="CanvasGroup/CharacteristicsPanelEnemy/CenterContainer/VBoxContainer/MovementBox"]
+layout_mode = 2
+text = "Movement"
+
+[node name="Value" type="Label" parent="CanvasGroup/CharacteristicsPanelEnemy/CenterContainer/VBoxContainer/MovementBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "3"
+horizontal_alignment = 2
+
+[node name="DexterityBox" type="HBoxContainer" parent="CanvasGroup/CharacteristicsPanelEnemy/CenterContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Dex" type="Label" parent="CanvasGroup/CharacteristicsPanelEnemy/CenterContainer/VBoxContainer/DexterityBox"]
+layout_mode = 2
+text = "Dexterity"
+
+[node name="Value" type="Label" parent="CanvasGroup/CharacteristicsPanelEnemy/CenterContainer/VBoxContainer/DexterityBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "4"
+horizontal_alignment = 2
+
+[node name="ShootingBox" type="HBoxContainer" parent="CanvasGroup/CharacteristicsPanelEnemy/CenterContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Shoot" type="Label" parent="CanvasGroup/CharacteristicsPanelEnemy/CenterContainer/VBoxContainer/ShootingBox"]
+layout_mode = 2
+text = "Shooting"
+
+[node name="Value" type="Label" parent="CanvasGroup/CharacteristicsPanelEnemy/CenterContainer/VBoxContainer/ShootingBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "3"
+horizontal_alignment = 2
+
+[node name="StrengthBox" type="HBoxContainer" parent="CanvasGroup/CharacteristicsPanelEnemy/CenterContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Str" type="Label" parent="CanvasGroup/CharacteristicsPanelEnemy/CenterContainer/VBoxContainer/StrengthBox"]
+layout_mode = 2
+text = "Strength"
+
+[node name="Value" type="Label" parent="CanvasGroup/CharacteristicsPanelEnemy/CenterContainer/VBoxContainer/StrengthBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "4"
+horizontal_alignment = 2
+
+[node name="ResistanceBox" type="HBoxContainer" parent="CanvasGroup/CharacteristicsPanelEnemy/CenterContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Res" type="Label" parent="CanvasGroup/CharacteristicsPanelEnemy/CenterContainer/VBoxContainer/ResistanceBox"]
+layout_mode = 2
+text = "Resistance"
+
+[node name="Value" type="Label" parent="CanvasGroup/CharacteristicsPanelEnemy/CenterContainer/VBoxContainer/ResistanceBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "4"
+horizontal_alignment = 2
+
+[node name="WoundsBox" type="HBoxContainer" parent="CanvasGroup/CharacteristicsPanelEnemy/CenterContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Wounds" type="Label" parent="CanvasGroup/CharacteristicsPanelEnemy/CenterContainer/VBoxContainer/WoundsBox"]
+layout_mode = 2
+text = "Wounds"
+
+[node name="Value" type="Label" parent="CanvasGroup/CharacteristicsPanelEnemy/CenterContainer/VBoxContainer/WoundsBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "1"
+horizontal_alignment = 2
+
+[node name="AttacksBox" type="HBoxContainer" parent="CanvasGroup/CharacteristicsPanelEnemy/CenterContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Att" type="Label" parent="CanvasGroup/CharacteristicsPanelEnemy/CenterContainer/VBoxContainer/AttacksBox"]
+layout_mode = 2
+text = "Attacks"
+
+[node name="Value" type="Label" parent="CanvasGroup/CharacteristicsPanelEnemy/CenterContainer/VBoxContainer/AttacksBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "1"
+horizontal_alignment = 2
+
+[node name="InitiativeBox" type="HBoxContainer" parent="CanvasGroup/CharacteristicsPanelEnemy/CenterContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Ini" type="Label" parent="CanvasGroup/CharacteristicsPanelEnemy/CenterContainer/VBoxContainer/InitiativeBox"]
+layout_mode = 2
+text = "Initiative"
+
+[node name="Value" type="Label" parent="CanvasGroup/CharacteristicsPanelEnemy/CenterContainer/VBoxContainer/InitiativeBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "2"
+horizontal_alignment = 2
+
+[node name="ArmourBox" type="HBoxContainer" parent="CanvasGroup/CharacteristicsPanelEnemy/CenterContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Armour" type="Label" parent="CanvasGroup/CharacteristicsPanelEnemy/CenterContainer/VBoxContainer/ArmourBox"]
+layout_mode = 2
+text = "Armour"
+
+[node name="Value" type="Label" parent="CanvasGroup/CharacteristicsPanelEnemy/CenterContainer/VBoxContainer/ArmourBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "2"
+horizontal_alignment = 2
+
+[node name="DicePanel" type="CenterContainer" parent="CanvasGroup"]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_right = 1920.0
+offset_bottom = 1080.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource("1_7w5fx")
+
+[node name="Panel" type="Panel" parent="CanvasGroup/DicePanel"]
+custom_minimum_size = Vector2(610, 610)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_apgn1")
+
+[node name="diceView" type="SubViewportContainer" parent="CanvasGroup/DicePanel/Panel"]
+custom_minimum_size = Vector2(600, 600)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -300.0
+offset_top = -300.0
+offset_right = 300.0
+offset_bottom = 300.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+
+[node name="DiceViewport" type="SubViewport" parent="CanvasGroup/DicePanel/Panel/diceView"]
+handle_input_locally = false
+size = Vector2i(600, 600)
+render_target_update_mode = 0
+
+[node name="DiceTray" type="Node3D" parent="CanvasGroup/DicePanel/Panel/diceView/DiceViewport"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -13.8208)
+
+[node name="Camera3D" type="Camera3D" parent="CanvasGroup/DicePanel/Panel/diceView/DiceViewport/DiceTray"]
+transform = Transform3D(1, 0, 0, 0, 0.0871558, 0.996195, 0, -0.996195, 0.0871558, -1.31882, 14.809, 3.15111)
+fov = 56.3
+size = 18.142
+
+[node name="tray" type="Node3D" parent="CanvasGroup/DicePanel/Panel/diceView/DiceViewport/DiceTray"]
+
+[node name="StaticBody3D" type="StaticBody3D" parent="CanvasGroup/DicePanel/Panel/diceView/DiceViewport/DiceTray/tray"]
+
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="CanvasGroup/DicePanel/Panel/diceView/DiceViewport/DiceTray/tray/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.37753, 7.04634, 1.84468)
+shape = SubResource("BoxShape3D_jl446")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CanvasGroup/DicePanel/Panel/diceView/DiceViewport/DiceTray/tray/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.99212, 0, 1.77664)
+shape = SubResource("BoxShape3D_a1ojn")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="CanvasGroup/DicePanel/Panel/diceView/DiceViewport/DiceTray/tray/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.12893, 7.39134, 1.25304)
+shape = SubResource("BoxShape3D_jl446")
+
+[node name="CollisionShape3D4" type="CollisionShape3D" parent="CanvasGroup/DicePanel/Panel/diceView/DiceViewport/DiceTray/tray/StaticBody3D"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -2.08792, 7.06823, 7.22016)
+shape = SubResource("BoxShape3D_jl446")
+
+[node name="CollisionShape3D5" type="CollisionShape3D" parent="CanvasGroup/DicePanel/Panel/diceView/DiceViewport/DiceTray/tray/StaticBody3D"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -1.84798, 6.5424, -4.00775)
+shape = SubResource("BoxShape3D_jl446")
+
+[node name="velvetdicetray" parent="CanvasGroup/DicePanel/Panel/diceView/DiceViewport/DiceTray" instance=ExtResource("4_vvqy3")]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 0, 0)
+
+[node name="SpotLight3D" type="SpotLight3D" parent="CanvasGroup/DicePanel/Panel/diceView/DiceViewport/DiceTray"]
+transform = Transform3D(1, 0, 0, 0, -0.0769801, 0.997033, 0, -0.997033, -0.0769801, 0, 10.2917, 0)
+light_color = Color(1, 0.852779, 0.64635, 1)
+light_energy = 11.109
+spot_range = 15.5776
+spot_angle = 45.3366
+
+[node name="CenterContainer" type="CenterContainer" parent="CanvasGroup"]
+custom_minimum_size = Vector2(1920, 220)
+offset_right = 3200.0
+offset_bottom = 220.0
+scale = Vector2(0.6, 0.6)
+
+[node name="GameStateStatus" type="Panel" parent="CanvasGroup/CenterContainer"]
+clip_contents = true
+custom_minimum_size = Vector2(600, 200)
+layout_mode = 2
+size_flags_horizontal = 4
+tooltip_text = "Showing the state of the battle"
+theme = ExtResource("1_7w5fx")
+theme_override_styles/panel = SubResource("StyleBoxFlat_4jijp")
+
+[node name="background" type="TextureRect" parent="CanvasGroup/CenterContainer/GameStateStatus"]
+layout_mode = 0
+offset_right = 600.0
+offset_bottom = 600.0
+theme = ExtResource("1_7w5fx")
+texture = ExtResource("5_4txjm")
+
+[node name="Icons" type="TextureRect" parent="CanvasGroup/CenterContainer/GameStateStatus"]
+z_index = 1
+layout_mode = 0
+offset_right = 600.0
+offset_bottom = 600.0
+pivot_offset = Vector2(300, 300)
+texture = ExtResource("6_wpu2u")
+
+[node name="overlay" type="TextureRect" parent="CanvasGroup/CenterContainer/GameStateStatus"]
+z_index = 2
+clip_contents = true
+layout_mode = 0
+offset_right = 600.0
+offset_bottom = 600.0
+texture = ExtResource("7_rpjy1")
+
+[node name="Label" type="Label" parent="CanvasGroup/CenterContainer/GameStateStatus"]
+layout_mode = 0
+offset_left = 199.0
+offset_top = 169.0
+offset_right = 404.0
+offset_bottom = 218.0
+theme = ExtResource("1_7w5fx")
+theme_override_font_sizes/font_size = 24
+text = "STRATEGY PHASE "
+
+[node name="NextPhase" type="Button" parent="CanvasGroup/CenterContainer/GameStateStatus"]
+z_index = 2
+z_as_relative = false
+layout_mode = 0
+offset_left = 423.333
+offset_top = 75.0
+offset_right = 527.333
+offset_bottom = 145.0
+tooltip_text = "NEXT PHASE: Movement"
+theme = ExtResource("1_7w5fx")
+text = "NEXT 
+PHASE"

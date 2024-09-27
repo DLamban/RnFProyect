@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://cjm4346tcu1im"]
+
+[ext_resource type="PackedScene" uid="uid://lxaas42i2hy8" path="res://assets/3d/arrowtwist.glb" id="1_wpbln"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_io1m6"]
+size = Vector3(0.46521, 0.0490723, 0.685547)
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_6tnnq"]
+
+[node name="arrowtwist" type="Node3D"]
+
+[node name="Cube" parent="." instance=ExtResource("1_wpbln")]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+
+[node name="Area3D" type="Area3D" parent="Cube"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Cube/Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0309449, -0.0228272, -0.358198)
+shape = SubResource("BoxShape3D_io1m6")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("ArrayMesh_6tnnq")

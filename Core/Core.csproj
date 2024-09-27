@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>library</OutputType>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="List\races\Dwarfs.json" />
+    <None Remove="List\races\Orcs.json" />
+    <None Remove="List\races\Ratkin.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="List\races\Dwarfs.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="List\races\Orcs.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="List\races\Ratkin.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Azure.Messaging.WebPubSub" Version="1.4.0" />
+    <PackageReference Include="Azure.Messaging.WebPubSub.Client" Version="1.0.0" />
+  </ItemGroup>
+
+</Project>

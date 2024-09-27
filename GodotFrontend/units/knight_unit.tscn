@@ -1,0 +1,39 @@
+[gd_scene load_steps=7 format=3 uid="uid://ph5rccv3dimb"]
+
+[ext_resource type="Script" path="res://units/Unidad.cs" id="1_4vvrb"]
+[ext_resource type="PackedScene" uid="uid://bpooqvtmbhoys" path="res://assets/3d/troops/MiniatureBase.glb" id="2_fv3le"]
+[ext_resource type="PackedScene" uid="uid://dt2jeqehvbr48" path="res://assets/3d/troops/Knight_Male.glb" id="3_ekjvj"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_nmsne"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dmtvb"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_inyvu"]
+size = Vector3(0.507385, 0.497108, 0.911987)
+
+[node name="nodounidad" type="Node3D"]
+script = ExtResource("1_4vvrb")
+
+[node name="MiniatureBase" parent="." instance=ExtResource("2_fv3le")]
+transform = Transform3D(0.25, 0, 0, 0, -1.09278e-08, -0.25, 0, 0.25, -1.09278e-08, 0, 0, 0.245)
+
+[node name="Knight_Male" parent="MiniatureBase" instance=ExtResource("3_ekjvj")]
+transform = Transform3D(-0.934745, 7.60017e-09, -0.355319, 7.34079e-09, 1, 2.07814e-09, 0.355319, -6.65786e-10, -0.934745, 0, -0.86338, 3.77395e-08)
+
+[node name="CenterGizmo" type="Node3D" parent="."]
+visible = false
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CenterGizmo"]
+transform = Transform3D(0.04, 0, 0, 0, 0.04, 0, 0, 0, 2.2, 0, 0, 1.15444)
+mesh = SubResource("BoxMesh_nmsne")
+surface_material_override/0 = SubResource("StandardMaterial3D_dmtvb")
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00131226, 0.0017128, 0.457947)
+shape = SubResource("BoxShape3D_inyvu")
+
+[connection signal="mouse_entered" from="Area3D" to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Area3D" to="." method="_on_mouse_exited"]

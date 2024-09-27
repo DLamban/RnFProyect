@@ -1,0 +1,41 @@
+[gd_resource type="Theme" load_steps=6 format=3 uid="uid://c5l7fthgxiatx"]
+
+[ext_resource type="FontFile" uid="uid://dcyjlcm8v5xs6" path="res://assets/fonts/alagard_by_pix3m.ttf" id="1_r08hx"]
+[ext_resource type="Texture2D" uid="uid://drnxyvbb7j3xu" path="res://assets/tex/UITextures/ParchmentBlack.png" id="1_vnudh"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cp5g8"]
+bg_color = Color(0.372549, 0.690196, 0.117647, 0.670588)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.862745, 0.776471, 0.788235, 0.301961)
+border_blend = true
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+shadow_color = Color(0.207843, 0.129412, 0.0862745, 0.6)
+shadow_size = 5
+shadow_offset = Vector2(5, 5)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_oh2d5"]
+texture = ExtResource("1_vnudh")
+texture_margin_left = 8.0
+texture_margin_top = 8.0
+texture_margin_right = 6.0
+texture_margin_bottom = 8.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wjsdw"]
+
+[resource]
+default_base_scale = 1.0
+default_font = ExtResource("1_r08hx")
+default_font_size = 32
+Button/styles/normal = SubResource("StyleBoxFlat_cp5g8")
+Label/colors/font_color = Color(0.976471, 1, 0.631373, 1)
+Label/colors/font_outline_color = Color(1, 1, 1, 1)
+Label/colors/font_shadow_color = Color(0.387721, 0.235547, 0, 0.560784)
+Label/font_sizes/font_size = 18
+Panel/styles/panel = SubResource("StyleBoxTexture_oh2d5")
+Panel/styles/panel2 = SubResource("StyleBoxFlat_wjsdw")

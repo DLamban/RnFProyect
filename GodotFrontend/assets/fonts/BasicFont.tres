@@ -1,0 +1,10 @@
+[gd_resource type="LabelSettings" load_steps=2 format=3 uid="uid://drh30e3fryfv3"]
+
+[ext_resource type="FontFile" uid="uid://dcyjlcm8v5xs6" path="res://assets/fonts/alagard_by_pix3m.ttf" id="1_8nm5i"]
+
+[resource]
+font = ExtResource("1_8nm5i")
+font_size = 30
+font_color = Color(1, 1, 0.376471, 1)
+outline_size = 3
+outline_color = Color(1, 0.541176, 1, 0.670588)

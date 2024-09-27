@@ -1,0 +1,35 @@
+[gd_scene load_steps=3 format=3 uid="uid://smwt40yp7r81"]
+
+[ext_resource type="Theme" uid="uid://c5l7fthgxiatx" path="res://assets/fonts/basic_theme.tres" id="1_8ci20"]
+[ext_resource type="Script" path="res://UIcode/StartMenu.cs" id="1_xqrpa"]
+
+[node name="StartMenu" type="Control"]
+custom_minimum_size = Vector2(1920, 1080)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_xqrpa")
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+custom_minimum_size = Vector2(1920, 1080)
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
+layout_mode = 2
+theme = ExtResource("1_8ci20")
+theme_override_constants/separation = 40
+
+[node name="ConnPlayer1" type="Button" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("1_8ci20")
+text = "CONNECT PLAYER 1"
+
+[node name="ConnPlayer2" type="Button" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("1_8ci20")
+text = "CONNECT PLAYER 2"

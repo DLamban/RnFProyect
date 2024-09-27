@@ -1,0 +1,168 @@
+﻿using Core.GeometricEngine;
+using Core.List;
+using Core.Networking;
+using Core.Rules;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Numerics;
+using System.Text;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using System.Threading.Tasks;
+
+namespace Core.Units
+{
+    public class MinimumUnitTransferInfo
+    {
+        public string Name { get; set; }
+        public int WidthRank { get; set; }
+        public Guid guid { get; set; }
+        public int UnitCount { get; set; }        
+        public SerializableAffineTrans affTransSer { get; set; }
+        public MinimumUnitTransferInfo()
+        {
+
+        }
+        public MinimumUnitTransferInfo(BaseUnit unit)
+        {
+            Name = unit.Name;
+
+            WidthRank = unit.TroopsWidth;
+            UnitCount = unit.UnitCount;
+            guid = unit.Guid;
+            affTransSer = new SerializableAffineTrans(unit.Transform);
+            
+        }
+    }
+
+    public class UnitsServerManager
+    {
+        public Dictionary<string, BaseUnit> unitsPlayer { get; set; }
+        public Dictionary<string, BaseUnit> unitsEnemy { get; set; }
+
+
+        public UnitsServerManager()
+        {
+            unitsPlayer = new Dictionary<string, BaseUnit>();
+            unitsEnemy = new Dictionary<string, BaseUnit>();
+        }
+        public List<BaseUnit> createUnits(List<MinimumUnitTransferInfo> minimumUnitTransfers)
+        {
+            List<BaseUnit> units = new List<BaseUnit>();    
+            foreach(MinimumUnitTransferInfo minimumUnitTransferInfo in minimumUnitTransfers)
+            {
+                units.Add(CreateUnit(minimumUnitTransferInfo));
+            }
+            return units;
+        }
+        public BaseUnit CreateUnit(MinimumUnitTransferInfo minimumUnitTransferInfo)
+        {
+            return CreateNetworkUnit(minimumUnitTransferInfo.Name, minimumUnitTransferInfo.WidthRank, minimumUnitTransferInfo.UnitCount,  minimumUnitTransferInfo.guid, minimumUnitTransferInfo.affTransSer);
+        }        
+        public BaseUnit CreateNetworkUnit(string unitName, int widthRank, int unitCount, Guid guid, SerializableAffineTrans serializableAffineTrans)
+        {
+            BaseUnit unit = instantiateUnit(unitName, widthRank, unitCount, guid);
+            unit.Transform = new AffineTransformCore(serializableAffineTrans);
+            return unit;
+        }
+        public BaseUnit CreateNewUnit( string unitName,int widthRank, int unitCount, Vector2 startPos, float rotationDeg)
+        {
+            Guid guid = Guid.NewGuid();
+
+            BaseUnit unit = instantiateUnit(unitName,widthRank,unitCount,guid);
+            unit.Transform.offsetX = startPos.X;
+            unit.Transform.offsetY = startPos.Y;
+            unit.Transform.rotate(rotationDeg, unit.sizeEnclosedRectangledm.X / 2, -unit.sizeEnclosedRectangledm.Y / 2);            
+            return unit;
+        }
+        private BaseUnit instantiateUnit(string unitName, int widthRank, int unitCount, Guid guid)
+        {
+            BaseUnit unitType = CodexAll.Instance.getUnitCodex(unitName);
+
+            string jsonString = JsonSerializer.Serialize(unitType.Troop);
+            List<BaseTroop> troops = new List<BaseTroop>();
+
+            for (int i = 0; i < unitCount; i++)
+            {
+                BaseTroop baseTroop = JsonSerializer.Deserialize<BaseTroop>(jsonString);
+                //BaseTroop baseTroop = Basicrat
+                troops.Add(baseTroop);
+            }
+            BaseUnit baseunit = new BaseUnit(unitType.Name, widthRank, Formation_type.CLOSE_ORDER, new List<string> { "Reglaespecial1", "Reglaespecial2" }, troops);
+            baseunit.Guid = guid;
+
+            return baseunit;
+        }
+        
+        public void addPlayerUnit(BaseUnit unit)
+        {   
+            unitsPlayer[unit.Guid.ToString()] = unit;
+        }
+
+        public void addEnemyUnit(BaseUnit unit)
+        {
+            Guid guid = Guid.NewGuid();            
+            unit.Guid = guid;
+            unitsEnemy[unit.Guid.ToString()] = unit;
+        }
+        public List<BaseUnit> getUnitsPlayer()
+        {
+            List<BaseUnit> units = new List<BaseUnit>();
+            foreach (KeyValuePair<string, BaseUnit> unit in unitsPlayer)
+            {
+                units.Add(unit.Value);
+            }
+            return units;
+        }
+
+        public List<BaseUnit> getUnitsEnemy()
+        {
+            List<BaseUnit> units = new List<BaseUnit>();
+            foreach (KeyValuePair<string, BaseUnit> unit in unitsEnemy)
+            {
+                units.Add(unit.Value);
+            }
+            return units;
+        }
+        public List<MinimumUnitTransferInfo> getPlayerTransUnits()
+        {
+            List<MinimumUnitTransferInfo> units = new List<MinimumUnitTransferInfo>();
+            foreach (KeyValuePair<string, BaseUnit> unit in unitsPlayer)
+            {
+                MinimumUnitTransferInfo minimumUnitTransferInfo = new MinimumUnitTransferInfo(unit.Value);
+                units.Add(minimumUnitTransferInfo);
+            }
+            return units;
+        }
+        public List<MinimumUnitTransferInfo> getEnemyTransUnits()
+        {
+            List<MinimumUnitTransferInfo> units = new List<MinimumUnitTransferInfo>();
+            foreach (KeyValuePair<string, BaseUnit> unit in unitsEnemy)
+            {
+                MinimumUnitTransferInfo minimumUnitTransferInfo = new MinimumUnitTransferInfo(unit.Value);
+                units.Add(minimumUnitTransferInfo);
+            }
+            return units;
+        }
+        // ALIAS
+        // call player1 to player
+        public List<BaseUnit> getUnitsPlayer1()
+        {
+            return getUnitsPlayer();
+        }
+        // call player2 to enemy
+        public List<BaseUnit> getUnitsPlayer2()
+        {
+            return getUnitsEnemy();
+        }
+        public List<MinimumUnitTransferInfo> getPlayer1TransUnits()
+        {
+            return getPlayerTransUnits();
+        }
+        public List<MinimumUnitTransferInfo> getPlayer2TransUnits()
+        {
+            return getEnemyTransUnits();
+        }
+    }
+}

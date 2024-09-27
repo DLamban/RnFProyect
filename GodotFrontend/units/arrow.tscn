@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://dv2wxiuj8g1ve"]
+
+[ext_resource type="PackedScene" uid="uid://dqmoion08yfij" path="res://assets/3d/arrow.glb" id="1_qq550"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_uguj3"]
+transparency = 1
+albedo_color = Color(1, 0.156863, 0.054902, 0.243137)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ga2vk"]
+size = Vector3(0.420654, 0.0490723, 0.848633)
+
+[node name="arrow" instance=ExtResource("1_qq550")]
+
+[node name="Cube" parent="." index="0"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+surface_material_override/0 = SubResource("StandardMaterial3D_uguj3")
+
+[node name="Area3D" type="Area3D" parent="Cube" index="0"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Cube/Area3D" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00866699, -0.0228272, -0.439741)
+shape = SubResource("BoxShape3D_ga2vk")
