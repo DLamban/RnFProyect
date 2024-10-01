@@ -9,3 +9,4 @@ https://github.com/godotengine/godot/releases/download/4.3-stable/Godot_v4.3-sta
 
 .NET SDK is required.
 
+To open the solution, is inside GodotFrontend folder

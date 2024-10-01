@@ -21,6 +21,8 @@ namespace Core.List
         Vector2 startPosDwarfos = new Vector2(0.5f, 1.15f);
         Vector2 startPosSlayers = new Vector2(2.8f, 0.65f);
         Vector2 startPosGyros = new Vector2(4.5f, 1.35f);
+        Vector2 startPosElders = new Vector2(5.8f, 1.25f);
+
         public MockList(int numberList)
         {
             unitManagerCore = new UnitsServerManager();
@@ -62,6 +64,10 @@ namespace Core.List
             
             BaseUnit gyros = unitManagerCore.CreateNewUnit("Gyrocopters",1,1, startPosGyros, 190);
             unitManagerCore.addEnemyUnit(gyros);
+
+
+            BaseUnit elders = unitManagerCore.CreateNewUnit("Elder Dwarfs", 5, 12, startPosElders, 170);
+            unitManagerCore.addEnemyUnit(elders);
         }
     }
 }
