@@ -16,7 +16,7 @@ script = ExtResource("1_iibij")
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0.25)
 
 [node name="longbeard" parent="MiniatureBase" instance=ExtResource("3_dajhb")]
-transform = Transform3D(-0.0999848, 0, -0.00174524, 0, 0.1, 0, 0.00174524, 0, -0.0999848, 0, 0, 0)
+transform = Transform3D(-0.0999848, 0, -0.00174524, 0, 0.1, 0, 0.00174524, 0, -0.0999848, 0, 0.0145406, -6.35588e-10)
 
 [node name="CenterGizmo" type="Node3D" parent="."]
 visible = false

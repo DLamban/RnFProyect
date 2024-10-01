@@ -15,7 +15,7 @@ namespace Core.GameLoop
         {
             get
             {
-                return instance;
+                return HotSeatManager.Instance.getCurrentPlayer();
             }
         }
     }

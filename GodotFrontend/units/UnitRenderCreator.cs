@@ -28,6 +28,9 @@ public partial class UnitRenderCreator : Node
         loadedList += CreateAllUnits;
         UnitsClientManager.Instance.unitMovedNet = unitNetworkMoved;
         UnitsClientManager.Instance.setLoadedListEvent(loadedList);
+		
+		// We need to wait for the ready function, annoying
+        if (HotSeatManager.Instance.isHotseat) HotSeatManager.Instance.populateBoard();
     }
 	public void unitNetworkMoved(Guid guid)
 	{

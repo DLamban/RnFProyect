@@ -1,10 +1,10 @@
+Panel
 Button
 Label
 VBoxContainer
 CenterContainer
 HBoxContainer
 TextureRect
-Panel
 WorldEnvironment
 Node3D
 SpotLight3D
