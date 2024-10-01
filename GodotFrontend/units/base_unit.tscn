@@ -1,8 +1,8 @@
 [gd_scene load_steps=6 format=3 uid="uid://fvfex0bftv3k"]
 
 [ext_resource type="Script" path="res://units/Unidad.cs" id="1_hqgq2"]
-[ext_resource type="PackedScene" uid="uid://bpooqvtmbhoys" path="res://assets/3d/troops/MiniatureBase.glb" id="2_i1idb"]
-[ext_resource type="PackedScene" uid="uid://4p4ocatqrwxg" path="res://assets/3d/troops/Goblin_Male.glb" id="3_7ulp0"]
+[ext_resource type="PackedScene" uid="uid://bpooqvtmbhoys" path="res://assets/3d/troops/Bases/MiniatureBase.glb" id="2_i1idb"]
+[ext_resource type="PackedScene" uid="uid://4p4ocatqrwxg" path="res://assets/3d/troops/Orcs/Goblin_Male.glb" id="3_7ulp0"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_nmsne"]
 

@@ -1,7 +1,7 @@
 [gd_scene load_steps=11 format=3 uid="uid://d0kk1l87p5uu3"]
 
 [ext_resource type="Script" path="res://units/Unidad.cs" id="1_8orsx"]
-[ext_resource type="PackedScene" uid="uid://bw6pbcycj48gv" path="res://assets/3d/troops/MiniatureBase60x100.glb" id="1_mheag"]
+[ext_resource type="PackedScene" uid="uid://bw6pbcycj48gv" path="res://assets/3d/troops/Bases/MiniatureBase60x100.glb" id="1_mheag"]
 [ext_resource type="ArrayMesh" uid="uid://cppkk3pc2cpc7" path="res://assets/3d/rocks/rock_02.obj" id="2_6x6xy"]
 [ext_resource type="Texture2D" uid="uid://cqheyfynf85bh" path="res://assets/3d/rocks/diffuse.tga" id="3_gussy"]
 [ext_resource type="Texture2D" uid="uid://csvlb4r6swly1" path="res://assets/3d/rocks/normal.tga" id="4_sfr6v"]

@@ -9,8 +9,8 @@ namespace Core.GameLoop
     public enum BattleStates:byte
     {
         strategic,
-        magic,
-        charge,
+        //magic,
+        //charge,
         move,
         shoot,
         combat,

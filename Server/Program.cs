@@ -20,7 +20,7 @@ class Program
 
 
     // client string, does not matter if it's in the github, it's temporal
-    private static string connectionStringClient = "wss://rnfsocket.webpubsub.azure.com/client/hubs/rnfhub?access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJ3c3M6Ly9ybmZzb2NrZXQud2VicHVic3ViLmF6dXJlLmNvbS9jbGllbnQvaHVicy9ybmZodWIiLCJpYXQiOjE3Mjc0MTY1MjcsImV4cCI6MTcyNzUwMDUyNywicm9sZSI6WyJ3ZWJwdWJzdWIuc2VuZFRvR3JvdXAiLCJ3ZWJwdWJzdWIuam9pbkxlYXZlR3JvdXAiXSwic3ViIjoic2VydmVyX3Jvb20xIn0.WuXkXRRgLMqIVyTWzK-0wI8HHfULWGDfvXeGkiA8070";
+    private static string connectionStringClient = "wss://rnfsocket.webpubsub.azure.com/client/hubs/rnfhub?access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJ3c3M6Ly9ybmZzb2NrZXQud2VicHVic3ViLmF6dXJlLmNvbS9jbGllbnQvaHVicy9ybmZodWIiLCJpYXQiOjE3Mjc3NzE3NTAsImV4cCI6MTcyNzgzMTc1MCwicm9sZSI6WyJ3ZWJwdWJzdWIuc2VuZFRvR3JvdXAiLCJ3ZWJwdWJzdWIuam9pbkxlYXZlR3JvdXAiXSwic3ViIjoic2VydmVyMSJ9.mDdXXG1D_mTC555px2Ue5gNKJfn9h1gIJBlnMFy0FMw";
     private static string hubName = "RnFHub";
     private static string lobbyNameTest = "room1";
     //private static string groupClientDefaultName = "room1"; // DEV ONLY PHASE , CHANGE FOR DINAMIC GROUPS

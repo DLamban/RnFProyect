@@ -538,6 +538,7 @@ public partial class Unidad : Node3D
 	}
 	private void AnimateTroop(AnimationPlayer animationPlayer)
 	{
+		if (animationPlayer.GetAnimation("Idle")==null) return;
         // Set idle animation        
         animationPlayer.GetAnimation("Idle").LoopMode = Animation.LoopModeEnum.Pingpong;
         animationPlayer.Play("Idle");

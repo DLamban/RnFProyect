@@ -460,7 +460,7 @@ offset_bottom = 600.0
 theme = ExtResource("1_7w5fx")
 texture = ExtResource("5_4txjm")
 
-[node name="Icons" type="TextureRect" parent="CanvasGroup/CenterContainer/GameStateStatus"]
+[node name="PhaseIcon" type="TextureRect" parent="CanvasGroup/CenterContainer/GameStateStatus"]
 z_index = 1
 layout_mode = 0
 offset_right = 600.0
@@ -476,7 +476,7 @@ offset_right = 600.0
 offset_bottom = 600.0
 texture = ExtResource("7_rpjy1")
 
-[node name="Label" type="Label" parent="CanvasGroup/CenterContainer/GameStateStatus"]
+[node name="CurrentPhase" type="Label" parent="CanvasGroup/CenterContainer/GameStateStatus"]
 layout_mode = 0
 offset_left = 199.0
 offset_top = 169.0

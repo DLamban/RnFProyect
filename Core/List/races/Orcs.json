@@ -8,7 +8,7 @@
       "Weapons": [ "Hand Weapon", "Shield" ],
       "Minimum": 5,
       "SpecialRules": [
-        "Choppas"
+        "Close Order"
       ],
       "Troop": {
         "Name": "Orc",
@@ -27,6 +27,35 @@
         "Size": {
           "Width": 30,
           "Height": 30
+        }
+      }
+    },
+    {
+      "Name": "Goblins",
+      "Type": "Infantry",
+      "Category": "CORE",
+      "Weapons": [ "Hand Weapon", "Shield" ],
+      "Minimum": 10,
+      "SpecialRules": [
+        "Close Order"
+      ],
+      "Troop": {
+        "Name": "Goblin",
+        "AssetFile": "goblin_club25x25.tscn",
+        "Movement": 4,
+        "Dexterity": 2,
+        "Shooting": 3,
+        "Strength": 3,
+        "Resistance": 3,
+        "Wounds": 1,
+        "Attacks": 1,
+        "Initiative": 2,
+        "Leadership": 5,
+        "Armour": 1,
+        "Cost": 3,
+        "Size": {
+          "Width": 25,
+          "Height": 25
         }
       }
     }

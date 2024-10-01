@@ -1,8 +1,8 @@
 [gd_scene load_steps=6 format=3 uid="uid://cblvpb2nn67il"]
 
 [ext_resource type="Script" path="res://units/Unidad.cs" id="1_opdom"]
-[ext_resource type="PackedScene" uid="uid://gyh0c8ideubq" path="res://assets/3d/troops/MiniatureBase25x25.glb" id="2_bd1a5"]
-[ext_resource type="PackedScene" uid="uid://dey84n28rnmm4" path="res://assets/3d/troops/dwarf2.glb" id="3_2hno6"]
+[ext_resource type="PackedScene" uid="uid://gyh0c8ideubq" path="res://assets/3d/troops/Bases/MiniatureBase25x25.glb" id="2_bd1a5"]
+[ext_resource type="PackedScene" uid="uid://dey84n28rnmm4" path="res://assets/3d/troops/Dwarfs/dwarf2.glb" id="3_2hno6"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_y44rc"]
 

@@ -1,8 +1,8 @@
 [gd_scene load_steps=6 format=3 uid="uid://b1q2ju4c7s84g"]
 
 [ext_resource type="Script" path="res://units/Unidad.cs" id="1_gko7y"]
-[ext_resource type="PackedScene" uid="uid://bvpgxloy37mtl" path="res://assets/3d/troops/MiniatureBase30x30.glb" id="2_r8pil"]
-[ext_resource type="PackedScene" uid="uid://i13dyknuudj2" path="res://assets/3d/troops/orc_male_with_axe.glb" id="3_5um53"]
+[ext_resource type="PackedScene" uid="uid://bvpgxloy37mtl" path="res://assets/3d/troops/Bases/MiniatureBase30x30.glb" id="2_r8pil"]
+[ext_resource type="PackedScene" uid="uid://i13dyknuudj2" path="res://assets/3d/troops/Orcs/orc_male_with_axe.glb" id="3_5um53"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_y44rc"]
 

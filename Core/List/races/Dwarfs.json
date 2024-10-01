@@ -34,14 +34,14 @@
       "Name": "Slayers",
       "Type": "Infantry",
       "Category": "Special",
-      "Weapons": [ "Hand Weapon", "Shield" ],      
+      "Weapons": [ "Hand Weapon", "Shield" ],
       "Minimum": 5,
       "SpecialRules": [
         "Close Order"
       ],
       "Troop": {
         "Name": "Troll Slayer",
-        "AssetFile": "knight_unit25x25.tscn",
+        "AssetFile": "slayer25x25.tscn",
         "Movement": 3,
         "Dexterity": 4,
         "Shooting": 3,
@@ -56,6 +56,36 @@
         "Size": {
           "Width": 25,
           "Height": 25
+        }
+      }
+    },
+    {
+      "Name": "Gyrocopters",
+      "Type": "Cavalry",
+      "Category": "Special",
+      "Weapons": [ "Hand Weapon", "Shield" ],
+      "Minimum": 1,
+      "SpecialRules": [
+        "Skirmishers",
+        "Fly(9)"
+      ],
+      "Troop": {
+        "Name": "Gyrocopter",
+        "AssetFile": "gyrocopter50x50.tscn",
+        "Movement": 1,
+        "Dexterity": 4,
+        "Shooting": 3,
+        "Strength": 4,
+        "Resistance": 5,
+        "Wounds": 3,
+        "Attacks": 2,
+        "Initiative": 2,
+        "Leadership": 9,
+        "Armour": 3,
+        "Cost": 60,
+        "Size": {
+          "Width": 50,
+          "Height": 50
         }
       }
     }

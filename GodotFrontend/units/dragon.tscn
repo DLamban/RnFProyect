@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://ckusx353835ca"]
 
-[ext_resource type="PackedScene" uid="uid://cbjn06es1b4ef" path="res://assets/3d/troops/dragon_model(1).glb" id="1_2qh4l"]
+[ext_resource type="PackedScene" uid="uid://cbjn06es1b4ef" path="res://assets/3d/troops/Orcs/dragon_model(1).glb" id="1_2qh4l"]
 
 [node name="dragon_model(1)" instance=ExtResource("1_2qh4l")]
 

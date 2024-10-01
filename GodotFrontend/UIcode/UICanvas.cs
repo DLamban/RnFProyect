@@ -1,3 +1,4 @@
+using Core.GameLoop;
 using Core.Rules;
 using Godot;
 using GodotFrontend.UIcode;
@@ -13,7 +14,7 @@ public partial class UICanvas : CanvasLayer
 	Dictionary<string, Label> charValuesPlayer = new Dictionary<string, Label>();
 	Dictionary<string, Label> charValuesEnemy = new Dictionary<string, Label>();
 	public DiceThrower diceThrower { get; set; }
-
+	public Panel gameStatePanel;	
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
 	{
@@ -32,12 +33,45 @@ public partial class UICanvas : CanvasLayer
 		{
 			charValuesEnemy[node.GetChild(0).ToString()] = (Label)node.GetChild(1);
 		}
-		Node3D diceTray = GetNode<Node3D>("CanvasGroup/DicePanel/Panel/diceView/DiceViewport/DiceTray");
-		diceThrower = new DiceThrower(diceTray);
-	}
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
+
+        // DICE TRAY
+        Node3D diceTray = GetNode<Node3D>("CanvasGroup/DicePanel/Panel/diceView/DiceViewport/DiceTray");		
+		diceThrower = new DiceThrower(diceTray);
+        // BATTLESTATE MANAGER
+		gameStatePanel = GetNode<Panel>("CanvasGroup/CenterContainer/GameStateStatus");
+		SetEventsGameStatePanel(gameStatePanel);
+
+    }
+	private void SetEventsGameStatePanel(Panel _gameStatePanel)
+	{
+        Button nextBattleStateBtn = _gameStatePanel.GetNode<Button>("NextPhase");
+        nextBattleStateBtn.Pressed += ()=> {
+				NextBattleState(_gameStatePanel, nextBattleStateBtn);
+			};
+    }
+	private void NextBattleState(Panel _gameStatePanel, Button nextBattleStateBtn)
+	{
+        BattleStateManager battleManager = PlayerInfoSingleton.Instance.battleStateManager;        
+        battleManager.passNextState();
+        _gameStatePanel.GetNode<Label>("CurrentPhase").Text = battleManager.currentState.ToString();
+		TextureRect phaseIcon = _gameStatePanel.GetNode<TextureRect>("PhaseIcon");
+		Tween tween = CreateTween();
+		float targetRotation = phaseIcon.RotationDegrees + 90;
+		tween.TweenProperty(phaseIcon, "rotation_degrees", targetRotation, 1).SetTrans(Tween.TransitionType.Sine);
+		
+		// phaseIcon.RotationDegrees += 90;
+        if (battleManager.currentState == BattleStates.combat)
+		{
+			nextBattleStateBtn.Text = "End Turn";
+        } else if (battleManager.currentState == BattleStates.outofturn)
+		{
+			nextBattleStateBtn.Disabled = true;
+        }
+
+    }
+    // Called every frame. 'delta' is the elapsed time since the previous frame.
+    public override void _Process(double delta)
 	{
 	}
 	

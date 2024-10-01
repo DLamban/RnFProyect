@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://ph5rccv3dimb"]
 
 [ext_resource type="Script" path="res://units/Unidad.cs" id="1_4vvrb"]
-[ext_resource type="PackedScene" uid="uid://bpooqvtmbhoys" path="res://assets/3d/troops/MiniatureBase.glb" id="2_fv3le"]
+[ext_resource type="PackedScene" uid="uid://bpooqvtmbhoys" path="res://assets/3d/troops/Bases/MiniatureBase.glb" id="2_fv3le"]
 [ext_resource type="PackedScene" uid="uid://dt2jeqehvbr48" path="res://assets/3d/troops/Knight_Male.glb" id="3_ekjvj"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_nmsne"]

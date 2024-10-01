@@ -121,7 +121,7 @@ transform = Transform3D(0.119982, -0.00209493, 7.30895e-05, 0.000109606, 0.00209
 transform = Transform3D(0.1, 0, 0, 0, -4.37114e-09, -0.1, 0, 0.1, -4.37114e-09, 0.538532, -0.415744, 0.216582)
 
 [node name="treelowpoly3" parent="Battlefield/terrainbackground/Forest" instance=ExtResource("9_g0wca")]
-transform = Transform3D(0.119982, -0.00209493, 7.30895e-05, 0.000109606, 0.00209142, -0.119982, 0.00209333, 0.119963, 0.00209301, -0.263132, -0.950855, 0.276005)
+transform = Transform3D(0.119982, -0.00209493, 7.30895e-05, 0.000109606, 0.00209142, -0.119982, 0.00209333, 0.119963, 0.00209301, -0.263132, -0.950855, 0.2166)
 
 [node name="treelowpoly4" parent="Battlefield/terrainbackground/Forest" instance=ExtResource("9_g0wca")]
 transform = Transform3D(0.1, 0, 0, 0, -4.37114e-09, -0.1, 0, 0.1, -4.37114e-09, 0.83812, -0.950855, 0.216582)
