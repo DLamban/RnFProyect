@@ -1,0 +1,27 @@
+[gd_scene load_steps=6 format=3 uid="uid://do5js0ga36ol7"]
+
+[ext_resource type="Script" path="res://units/Unidad.cs" id="1_iibij"]
+[ext_resource type="PackedScene" uid="uid://gyh0c8ideubq" path="res://assets/3d/troops/Bases/MiniatureBase25x25.glb" id="2_qwe2c"]
+[ext_resource type="PackedScene" uid="uid://nccrrebeu4co" path="res://assets/3d/troops/Dwarfs/longbeard.glb" id="3_dajhb"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_y44rc"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_748c5"]
+albedo_color = Color(1, 0, 0, 1)
+
+[node name="nodounidad" type="Node3D"]
+script = ExtResource("1_iibij")
+
+[node name="MiniatureBase" parent="." instance=ExtResource("2_qwe2c")]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0.25)
+
+[node name="longbeard" parent="MiniatureBase" instance=ExtResource("3_dajhb")]
+transform = Transform3D(-0.0999848, 0, -0.00174524, 0, 0.1, 0, 0.00174524, 0, -0.0999848, 0, 0, 0)
+
+[node name="CenterGizmo" type="Node3D" parent="."]
+visible = false
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CenterGizmo"]
+transform = Transform3D(0.04, 0, 0, 0, 0.04, 0, 0, 0, 2.2, 0, 0, 1.15444)
+mesh = SubResource("BoxMesh_y44rc")
+surface_material_override/0 = SubResource("StandardMaterial3D_748c5")

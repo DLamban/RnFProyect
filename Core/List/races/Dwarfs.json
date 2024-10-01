@@ -5,7 +5,7 @@
       "Name": "Dwarf Warriors",
       "Type": "Infantry",
       "Category": "Core",
-      "Weapons": [ "Hand Weapon", "Shield" ],      
+      "Weapons": [ "Hand Weapon", "Shield" ],
       "Minimum": 5,
       "SpecialRules": [
         "Close Order"
@@ -53,6 +53,35 @@
         "Leadership": 10,
         "Armour": 0,
         "Cost": 12,
+        "Size": {
+          "Width": 25,
+          "Height": 25
+        }
+      }
+    },
+    {
+      "Name": "Elder Dwarfs",
+      "Type": "Infantry",
+      "Category": "Core",
+      "Weapons": [ "Hand Weapon", "Shield" ],
+      "Minimum": 5,
+      "SpecialRules": [
+        "Close Order"
+      ],
+      "Troop": {
+        "Name": "Elder Dwarf",
+        "AssetFile": "longbeard25x25.tscn",
+        "Movement": 3,
+        "Dexterity": 5,
+        "Shooting": 3,
+        "Strength": 4,
+        "Resistance": 4,
+        "Wounds": 1,
+        "Attacks": 1,
+        "Initiative": 2,
+        "Leadership": 9,
+        "Armour": 2,
+        "Cost": 14,
         "Size": {
           "Width": 25,
           "Height": 25
