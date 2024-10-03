@@ -1,13 +1,13 @@
 [gd_scene load_steps=4 format=3 uid="uid://by5iupo8ej5pw"]
 
-[ext_resource type="Script" path="res://units/Unidad.cs" id="1_wio12"]
+[ext_resource type="Script" path="res://units/Unidad.cs" id="1_2ib77"]
 [ext_resource type="PackedScene" uid="uid://bpooqvtmbhoys" path="res://assets/3d/troops/Bases/MiniatureBase.glb" id="2_c4w7o"]
 [ext_resource type="PackedScene" uid="uid://4p4ocatqrwxg" path="res://assets/3d/troops/Orcs/Goblin_Male.glb" id="3_hoh1e"]
 
 [node name="UnidadBase" type="Node"]
+script = ExtResource("1_2ib77")
 
 [node name="nodounidad" type="Node3D" parent="."]
-script = ExtResource("1_wio12")
 
 [node name="MiniatureBase" parent="nodounidad" instance=ExtResource("2_c4w7o")]
 transform = Transform3D(0.1, 0, 0, 0, -4.37114e-09, -0.1, 0, 0.1, -4.37114e-09, 0, 0, 0.105)

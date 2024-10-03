@@ -14,6 +14,7 @@ using GodotFrontend.units;
 using GodotFrontend.UIcode;
 using Core.Networking;
 using Core.GameLoop;
+using GodotFrontend.units.Animation;
 public partial class Unidad : Node3D
 {
 	// primitive state manager to handle the cases of UI
@@ -525,17 +526,54 @@ public partial class Unidad : Node3D
 			int x = i % width;
 			int y = i / width;
 			clone.Position = clone.Position + new Vector3(x*offsetTroop.X, y*-offsetTroop.Y, 0f);
-
+			AddVariationToTroop(clone);
             animationPlayer = clone.GetChild(1).GetNode<AnimationPlayer>("AnimationPlayer");
 			if (animationPlayer != null)
 			{
-				AnimateTroop(animationPlayer);
-			}
+                addModifierSkeleton3D(clone);
+                AnimateTroop(animationPlayer);
+
+            }
 
 
         }
 		original.QueueFree();
 	}
+	// Rotate, scale and translate every troop to break pattens
+	private void AddVariationToTroop(Node3D clone)
+	{
+		(clone.GetChild(1) as Node3D).RotateY(randomNumberGenerator.RandfRange(-Mathf.Tau / 60, Mathf.Tau/60));
+        
+    }
+    private void addModifierSkeleton3D(Node3D clone)
+	{
+        Skeleton3D skeleton = clone.GetChild(1).GetNode<Skeleton3D>("CharacterArmature/Skeleton3D");
+		if (skeleton == null) return;
+        skeleton.AddChild(new InfantrySkelModifier());
+
+    }
+	/// <summary>
+	/// DEPRECATED??
+	/// </summary>
+	/// <param name="clone"></param>
+    private void ModifySkeleton(Node3D clone)
+	{
+		Skeleton3D skeleton = clone.GetChild(1).GetNode<Skeleton3D>("CharacterArmature/Skeleton3D");
+  
+		if (skeleton == null) return;
+        int upperArmRindex = skeleton.FindBone("UpperArm.R");
+		
+		var t  = skeleton.GetBoneGlobalPose(upperArmRindex);
+        float randomAngle = randomNumberGenerator.RandfRange(0, Mathf.Tau / 40);
+        t = t.Rotated(new Vector3(1.0f, 0.0f, 0.0f), randomAngle);
+        randomAngle = randomNumberGenerator.RandfRange(0, Mathf.Tau / 40);
+
+        t = t.Rotated(new Vector3(0.0f, 1.0f, 0.0f), randomAngle);
+        randomAngle = randomNumberGenerator.RandfRange(0, Mathf.Tau / 40);
+        
+		t = t.Rotated(new Vector3(0.0f, 0.0f, 1.0f), randomAngle);
+        skeleton.SetBoneGlobalPose(upperArmRindex, t);
+    }
 	private void AnimateTroop(AnimationPlayer animationPlayer)
 	{
 		if (animationPlayer.GetAnimation("Idle")==null) return;
