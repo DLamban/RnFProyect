@@ -5,6 +5,7 @@
 [node name="dragon_model(1)" instance=ExtResource("1_2qh4l")]
 
 [node name="GeneralSkeleton" parent="metarig" index="0"]
+unique_name_in_owner = false
 bones/6/rotation = Quaternion(-0.386525, -0.054525, -0.683525, 0.616475)
 bones/13/rotation = Quaternion(-0.204525, -0.217525, -0.046525, 0.953475)
 bones/18/rotation = Quaternion(-0.261525, 0.000474975, -0.000525026, 0.965475)

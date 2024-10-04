@@ -250,7 +250,7 @@ public partial class Unidad : Node3D
     private void createSelectMenu(InputManager inputManager)
     {
         selectMenu = new SelectMenu(this, inputManager);
-		inputButtonsNode.AddChild(selectMenu.layer);
+		//inputButtonsNode.AddChild(selectMenu.layer);
     }
 	public async void charge()
 	{
@@ -462,11 +462,13 @@ public partial class Unidad : Node3D
 	/// Update the graphic transform so we can saw the actual changes in the affine matrix
 	/// </summary>
 	/// <param name="instantiation">When we instantiate, we shouldn't send the position or we will have ciclic calls, and an infinite loop</param>
-	public void updateTransformToRender(bool netReceived =false)
+	public void updateTransformToRender(bool netReceived = false)
 	{
 
         UnitMovementManager.ApplyAffineTransformation(affTrans, this);
-		if (!netReceived) PlayerInfoSingleton.Instance.clientNetworkController.updateUnitTransform(affTrans, coreUnit.Guid);
+        // TODO: if we're playing as hotseat, clientNetworkController is null, and sholud avoid this line....
+		// a bit ugly, but performant
+        if (!HotSeatManager.Instance.isHotseat && !netReceived) PlayerInfoSingleton.Instance.clientNetworkController.updateUnitTransform(affTrans, coreUnit.Guid);
     }
 	public void moveForward(double distance, bool updateRender=true)
 	{
@@ -527,15 +529,19 @@ public partial class Unidad : Node3D
 			int y = i / width;
 			clone.Position = clone.Position + new Vector3(x*offsetTroop.X, y*-offsetTroop.Y, 0f);
 			AddVariationToTroop(clone);
-            animationPlayer = clone.GetChild(1).GetNode<AnimationPlayer>("AnimationPlayer");
-			if (animationPlayer != null)
+
+
+			try
+			{
+				animationPlayer = clone.GetChild(1).GetNode<AnimationPlayer>("AnimationPlayer");
+			}catch(Exception e) {
+                animationPlayer = null;
+            }
+            if (animationPlayer != null)
 			{
                 addModifierSkeleton3D(clone);
                 AnimateTroop(animationPlayer);
-
             }
-
-
         }
 		original.QueueFree();
 	}
@@ -547,7 +553,7 @@ public partial class Unidad : Node3D
     }
     private void addModifierSkeleton3D(Node3D clone)
 	{
-        Skeleton3D skeleton = clone.GetChild(1).GetNode<Skeleton3D>("CharacterArmature/Skeleton3D");
+        Skeleton3D skeleton = clone.GetChild(1).GetNodeOrNull<Skeleton3D>("CharacterArmature/Skeleton3D");
 		if (skeleton == null) return;
         skeleton.AddChild(new InfantrySkelModifier());
 
@@ -558,7 +564,7 @@ public partial class Unidad : Node3D
 	/// <param name="clone"></param>
     private void ModifySkeleton(Node3D clone)
 	{
-		Skeleton3D skeleton = clone.GetChild(1).GetNode<Skeleton3D>("CharacterArmature/Skeleton3D");
+		Skeleton3D skeleton = clone.GetChild(1).GetNodeOrNull<Skeleton3D>("CharacterArmature/Skeleton3D");
   
 		if (skeleton == null) return;
         int upperArmRindex = skeleton.FindBone("UpperArm.R");
@@ -576,13 +582,15 @@ public partial class Unidad : Node3D
     }
 	private void AnimateTroop(AnimationPlayer animationPlayer)
 	{
-		if (animationPlayer.GetAnimation("Idle")==null) return;
-        // Set idle animation        
-        animationPlayer.GetAnimation("Idle").LoopMode = Animation.LoopModeEnum.Pingpong;
-        animationPlayer.Play("Idle");
-        // adding some randomness to make it more appeal
-        animationPlayer.SpeedScale = randomNumberGenerator.RandfRange(0.75f, 1.25f);
-        animationPlayer.Seek(randomNumberGenerator.RandfRange(0, animationPlayer.GetAnimation("Idle").Length));
+		if (animationPlayer.GetAnimationList().Contains("Idle"))
+		{
+            // Set idle animation        
+            animationPlayer.GetAnimation("Idle").LoopMode = Animation.LoopModeEnum.Pingpong;
+            animationPlayer.Play("Idle");
+            // adding some randomness to make it more appeal
+            animationPlayer.SpeedScale = randomNumberGenerator.RandfRange(0.75f, 1.25f);
+            animationPlayer.Seek(randomNumberGenerator.RandfRange(0, animationPlayer.GetAnimation("Idle").Length));
+        }
     }
 }
 
