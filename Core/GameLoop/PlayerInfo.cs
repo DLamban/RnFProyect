@@ -48,11 +48,11 @@ namespace Core.GameLoop
             battleStateManager = new BattleStateManager();
             if (playerSpot == PlayerSpotEnum.PLAYER1)
             {
-                battleStateManager.currentState = BattleStates.strategic;
+                battleStateManager.currentState = BattleState.strategic;
             }
             else
             {
-                battleStateManager.currentState = BattleStates.outofturn;
+                battleStateManager.currentState = BattleState.outofturn;
             }
         }
 

@@ -29,9 +29,9 @@ namespace Server.PlayerInfoCopy
         public void startGame()
         {
             
-            player1Info.battleStateManager.currentState = BattleStates.strategic;
+            player1Info.battleStateManager.currentState = BattleState.strategic;
             
-            player2Info.battleStateManager.currentState = BattleStates.outofturn;            
+            player2Info.battleStateManager.currentState = BattleState.outofturn;            
             
             currentTurn = TurnEnum.TURNPLAYER1;
         }
@@ -41,7 +41,7 @@ namespace Server.PlayerInfoCopy
             if (currentTurn == TurnEnum.TURNPLAYER1)
             {
                 player1Info.battleStateManager.passNextState();
-                if (player1Info.battleStateManager.currentState == BattleStates.outofturn)
+                if (player1Info.battleStateManager.currentState == BattleState.outofturn)
                 {
                     endTurn(currentTurn);
                 }
@@ -49,7 +49,7 @@ namespace Server.PlayerInfoCopy
             else
             {
                 player2Info.battleStateManager.passNextState();
-                if (player2Info.battleStateManager.currentState == BattleStates.outofturn)
+                if (player2Info.battleStateManager.currentState == BattleState.outofturn)
                 {
                     endTurn(currentTurn);
                 }
@@ -59,14 +59,14 @@ namespace Server.PlayerInfoCopy
         { 
             if(endingTurn == TurnEnum.TURNPLAYER1)
             {
-                player1Info.battleStateManager.currentState = BattleStates.outofturn;
-                player2Info.battleStateManager.currentState = BattleStates.strategic;
+                player1Info.battleStateManager.currentState = BattleState.outofturn;
+                player2Info.battleStateManager.currentState = BattleState.strategic;
                 currentTurn = TurnEnum.TURNPLAYER2;
             }
             else
             {
-                player2Info.battleStateManager.currentState = BattleStates.outofturn;
-                player1Info.battleStateManager.currentState = BattleStates.strategic;
+                player2Info.battleStateManager.currentState = BattleState.outofturn;
+                player1Info.battleStateManager.currentState = BattleState.strategic;
                 currentTurn = TurnEnum.TURNPLAYER1;
             }
         }

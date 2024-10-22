@@ -61,10 +61,10 @@ public partial class UICanvas : CanvasLayer
 		tween.TweenProperty(phaseIcon, "rotation_degrees", targetRotation, 1).SetTrans(Tween.TransitionType.Sine);
 		
 		// phaseIcon.RotationDegrees += 90;
-        if (battleManager.currentState == BattleStates.combat)
+        if (battleManager.currentState == BattleState.combat)
 		{
 			nextBattleStateBtn.Text = "End Turn";
-        } else if (battleManager.currentState == BattleStates.outofturn)
+        } else if (battleManager.currentState == BattleState.outofturn)
 		{
 			nextBattleStateBtn.Disabled = true;
         }

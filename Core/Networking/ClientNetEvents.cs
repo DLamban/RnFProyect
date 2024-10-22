@@ -45,7 +45,7 @@ namespace Core.Networking
         public delegate void Vec3NetSendDelegate(Guid unitGuid, Vector3 vector3);
         public delegate void Pos3DDistNetSendDelegate(Vector3 vector,float dist);
         public delegate void Pos2DDistNetSendDelegate(SenderMessageEnum sender,Vector3 vector, float dist);
-        public delegate void BattleStateNetSendDelegate(BattleStates battleState);
+        public delegate void BattleStateNetSendDelegate(BattleState battleState);
 
         public static event MsgNetSendDelegate OnMsgNetSend;
         public static event Vec2NetSendDelegate OnVec2NetSend;        
@@ -180,7 +180,7 @@ namespace Core.Networking
                         break;
                     case MSGType.BATTLESTATE:
                         //Console.WriteLine("Received Battle State");
-                        BattleStates battleState = (BattleStates)reader.ReadByte();
+                        BattleState battleState = (BattleState)reader.ReadByte();
                         break;
                     default:
                         Console.WriteLine($"Received unknown message type: {result.Item1}");

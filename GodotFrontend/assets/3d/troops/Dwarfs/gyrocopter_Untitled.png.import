@@ -2,14 +2,11 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ch3sgq6dacpnr"
+uid="uid://ckhhahao5nf61"
 path.s3tc="res://.godot/imported/gyrocopter_Untitled.png-a414319c65ef253ae187d57b6182d48e.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
-}
-generator_parameters={
-"md5": "458771a7095a1d7d0826ddd747c65221"
 }
 
 [deps]

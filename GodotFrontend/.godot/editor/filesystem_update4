@@ -1,14 +1,3 @@
-res://units/longbeard25X25.tscn
-res://assets/fonts/basic_theme.tres
-res://UICanvas.tscn
-res://dices_resources/dicecool.tscn
-res://Start.tscn
-res://battlefield.tscn
-res://units/orc30x30.tscn
-res://units/slayer25X25.tscn
-res://units/goblin25x25.tscn
-res://units/dwarf25x25.tscn
-res://units/dragon_unit.tscn
 res://code/FieldCameraControl.cs
 res://units/UnitRenderCreator.cs
 res://UIcode/UICanvas.cs
@@ -17,5 +6,3 @@ res://code/InputManager.cs
 res://units/Unidad.cs
 res://battlefieldManager.cs
 res://UIcode/StartMenu.cs
-res://units/knight_unit.tscn
-res://units/dragon.tscn

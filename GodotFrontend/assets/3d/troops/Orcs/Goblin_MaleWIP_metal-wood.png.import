@@ -2,14 +2,11 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bg205j812ubu2"
+uid="uid://duqm53narimk2"
 path.s3tc="res://.godot/imported/Goblin_MaleWIP_metal-wood.png-f43f7c46db1d725cdc3e8971688b9c4d.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
-}
-generator_parameters={
-"md5": "b51b71170499fe096b5dca8639f54dd1"
 }
 
 [deps]

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Core.GameLoop
 {
-    public enum BattleStates:byte
+    public enum BattleState:byte
     {
         strategic,
         //magic,
@@ -19,10 +19,10 @@ namespace Core.GameLoop
     
     public class BattleStateManager
     {
-        private List<BattleStates> states;
-        private BattleStates _currentState;
+        private List<BattleState> states;
+        private BattleState _currentState;
 
-        public BattleStates currentState
+        public BattleState currentState
         {
             get { return _currentState; }
             set { _currentState = value; }
@@ -30,7 +30,7 @@ namespace Core.GameLoop
         
         public BattleStateManager() {
 
-            states = Enum.GetValues(typeof(BattleStates)).Cast<BattleStates>().ToList();
+            states = Enum.GetValues(typeof(BattleState)).Cast<BattleState>().ToList();
         }        
         public void passNextState()
         {

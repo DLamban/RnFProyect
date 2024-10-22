@@ -31,7 +31,7 @@ namespace Core.Networking
             AffineTransformCore affineTransformCore = new AffineTransformCore(vector3);
             UnitsClientManager.Instance.networkMoveUnit(unitGuid, affineTransformCore);
         }
-        private void OnUpdateBattleState(BattleStates battleState)
+        private void OnUpdateBattleState(BattleState battleState)
         {            
             PlayerInfoSingleton.Instance.battleStateManager.currentState = battleState;
         }
@@ -44,7 +44,7 @@ namespace Core.Networking
             BinaryData binaryData = NetMappers.ConvertPositionInfoToBinary(affine, guid);
             client.SendToGroupAsync(serverRoomId, new BinaryData(binaryData), WebPubSubDataType.Binary);
         }
-        public void updateBattleState(BattleStates currentState)
+        public void updateBattleState(BattleState currentState)
         {
            // BinaryData binaryData = NetMappers.ConvertPositionInfoToBinary(affine, guid);
             //client.SendToGroupAsync(serverRoomId, new BinaryData(binaryData), WebPubSubDataType.Binary);

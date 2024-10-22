@@ -1,3 +1,4 @@
+using Core.GameLoop;
 using Core.GeometricEngine;
 using Core.Units;
 using Godot;
@@ -47,7 +48,9 @@ public partial class InputManager : Node3D
 	private TextEdit Debug1Text;
 	private TextEdit Debug2Text;
 	private TextEdit Debug3Text;
-
+	private BattleState battleState { 
+		get { return PlayerInfoSingleton.Instance.battleStateManager.currentState;} 
+	}
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -67,19 +70,31 @@ public partial class InputManager : Node3D
 
 	}
 	public void selectUnit(Unidad unitSelect)
-	{     
-		if (_inputState == InputState.empty)
+	{
+		switch (battleState)
 		{
+			case BattleState.move:
+				SelectUnitToMove(unitSelect);
+				break;
+			default:
+				throw new NotImplementedException();
+				break;
+		}
+		
+	}
+	private void SelectUnitToMove(Unidad unitSelect)
+	{
+        if (_inputState == InputState.empty)
+        {
             if (UnitsClientManager.Instance.canSelectUnit(unitSelect.coreUnit.Guid))
             {
-                
+
                 unitSelect.inputEnabled = true;
                 unitSelected = unitSelect;
                 UnitsClientManager.Instance.unitSelected = unitSelect.coreUnit;
             }
         }
-		
-	}
+    }
 	private void restartStateVars()
 	{
 		offsetDistancePicked = null;
@@ -210,67 +225,42 @@ public partial class InputManager : Node3D
 		Debug3Text.Text = unitDragged.distanceRemaining.ToString();
         unit.showDistanceRemaining(distanceMoved);
     }
-
-	// this event is useless because we are repeating the raycast to check what arrow is,  maybe change later
-	public void _on_arrow_click_event(Node viewPort, InputEvent @event, Vector3 position, Vector3 normal, long shape_idx)
+	public void onArrowClick(Node camera, InputEvent @event, Vector3 position, Vector3 normal, long shapeIdx, Node collider)
 	{
-		if (isDragging == false && @event is InputEventMouseButton mouseEvent && mouseEvent.ButtonIndex == MouseButton.Left)
-		{
-			// Posición del rayo
-			Vector3 from = mainCamera.ProjectRayOrigin(GetViewport().GetMousePosition());
-			Vector3 to = from + mainCamera.ProjectRayNormal(GetViewport().GetMousePosition()) * 1000;
-			// Raycast
-			PhysicsDirectSpaceState3D spaceState = GetWorld3D().DirectSpaceState;
-			
-			//PhysicsDirectSpaceState3D spaceState = battlefieldTerrain.GetWorld3D().DirectSpaceState;
-			PhysicsRayQueryParameters3D paramsRaycast = new PhysicsRayQueryParameters3D();
-			paramsRaycast.From = from;
-			paramsRaycast.To = to;
-			paramsRaycast.CollideWithAreas = true;
+		if (isDragging == false) { 
+			Node arrow = collider.GetParent().GetParent();
+            isDragging = true;
 
-			paramsRaycast.CollisionMask = 1;
-			//paramsRaycast.CollisionMask = 1 << 1;
-			var result = spaceState.IntersectRay(paramsRaycast);
-			// RESULT SHOULD BE OBVIUSLY TRUE, because the event only occurs on clicking the obejct
-			if (result.Count > 0)
+            unitDragged = (Unidad)arrow.GetParent().GetParent();
+
+            currentTransformMat = unitDragged.affTrans.copyMatrixTransformValues();
+            unitOriginPos = unitDragged.position2D();
+            Vector3? worldPosNullable = getBattlefieldCursorPos();
+
+            switch (arrow.Name)
 			{
-				isDragging = true;
-				CollisionObject3D collisionObject3D = (CollisionObject3D)result["collider"];
-				Node arrow = collisionObject3D.GetParent().GetParent();
-				unitDragged = (Unidad)arrow.GetParent().GetParent();
-
-				currentTransformMat = unitDragged.affTrans.copyMatrixTransformValues();
-				unitOriginPos = unitDragged.position2D();
-				Vector3? worldPosNullable = getBattlefieldCursorPos();
-			   
-				// TODO: change this magic literals for something better
-				switch (arrow.Name)
-				{
-					case "middle_movement_arrow":
-						dragMode = DragMode.move;
-						break;
-					case "left_movement_arrow":
-						dragMode = DragMode.left_pivot;
-						pivotAnchorPoint = calculatePivotAnchorPoint(unitDragged, true);
-						pivotClickPointRect = new Vector2(worldPosNullable.Value.X - pivotAnchorPoint.X,  worldPosNullable.Value.Y - pivotAnchorPoint.Y);
-						break;
-					case "right_movement_arrow":
-						dragMode = DragMode.right_pivot;
-						pivotAnchorPoint = calculatePivotAnchorPoint(unitDragged, false);
-						pivotClickPointRect = new Vector2(worldPosNullable.Value.X - pivotAnchorPoint.X, worldPosNullable.Value.Y - pivotAnchorPoint.Y);
-						break;
-					case "rotate_arrow":
-						dragMode = DragMode.rotate_center;
-						break;
-					default:
-						GD.Print("SOMETHING WENT WRONG IN ARROW SELECTION");
-						break;
-				}
-				
+				case "middle_movement_arrow":
+					dragMode = DragMode.move;
+					break;
+				case "left_movement_arrow":
+					dragMode = DragMode.left_pivot;
+					pivotAnchorPoint = calculatePivotAnchorPoint(unitDragged, true);
+					pivotClickPointRect = new Vector2(worldPosNullable.Value.X - pivotAnchorPoint.X, worldPosNullable.Value.Y - pivotAnchorPoint.Y);
+					break;
+				case "right_movement_arrow":
+					dragMode = DragMode.right_pivot;
+					pivotAnchorPoint = calculatePivotAnchorPoint(unitDragged, false);
+					pivotClickPointRect = new Vector2(worldPosNullable.Value.X - pivotAnchorPoint.X, worldPosNullable.Value.Y - pivotAnchorPoint.Y);
+					break;
+				case "rotate_arrow":
+					dragMode = DragMode.rotate_center;
+					break;
+				default:
+					GD.Print("SOMETHING WENT WRONG IN ARROW SELECTION");
+					break;
 			}
-
-		}
-	}
+        }
+    }
 	private Vector3? getBattlefieldCursorPos()
 	{
 		Vector3 from = mainCamera.ProjectRayOrigin(GetViewport().GetMousePosition());

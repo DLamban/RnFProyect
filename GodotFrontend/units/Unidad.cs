@@ -33,15 +33,15 @@ public partial class Unidad : Node3D
 		set {
 			// when change state, hide all the ui bell and whistles
 			disableInput();
-            _unitState=value;
-        }
+			_unitState=value;
+		}
 	}
 	
 	public AffineTransformCore affTrans { 
 		get => coreUnit.Transform; 
-    }
+	}
 	private Node3D inputButtonsNode = new Node3D();    
-    public bool inputEnabled {
+	public bool inputEnabled {
 		set{
 			if (value) enableInput();
 			else disableInput();
@@ -49,6 +49,9 @@ public partial class Unidad : Node3D
 		 
 	}
 	private SelectMenu selectMenu;
+	//FX
+	Node3D selectionFx;
+
     public BaseUnit coreUnit;
 	public Vector2 center;
 	public List<Node3D> troopNodes = new List<Node3D>();
@@ -56,32 +59,33 @@ public partial class Unidad : Node3D
 	Vector2 offsetTroop;
 	const float arrowHeight = 0.25f;	
 	
-    Godot.RandomNumberGenerator randomNumberGenerator = new Godot.RandomNumberGenerator();
+	Godot.RandomNumberGenerator randomNumberGenerator = new Godot.RandomNumberGenerator();
 	// EVENTS
-    public event Action unitSelection;
-    // Define the signal
-    public delegate void UnitClickEventHandler(Node camera, InputEvent @event, Vector3 position, Vector3 normal, long shapeIdx, Unidad unitSelected);
-	public UnitClickEventHandler _unitSelect;
+	public event Action unitSelection;
+	// Define the signal
+	public delegate void UnitClickEventHandler(Node camera, InputEvent @event, Vector3 position, Vector3 normal, long shapeIdx, Unidad unitSelected);
+	public UnitClickEventHandler _unitSelect;    
+	public delegate void ArrowClickedEventHandler(Node camera, InputEvent @event, Vector3 position, Vector3 normal, long shapeIdx, Node arrow);
 	// Movement vars
 	Stack<AffineTransformCore> transformsStack = new Stack<AffineTransformCore>();
 	public float distanceMoved { get; set; }
 	public float distanceRemaining { get; set; }
 	// render vars
 	private float speed = 0.5f;
-    // ****************************************************************************************************************//
-    // ROTATIN TWEEN, MAYBE should be a custom class
-    private bool isRotating = false;
+	// ****************************************************************************************************************//
+	// ROTATIN TWEEN, MAYBE should be a custom class
+	private bool isRotating = false;
 	private TaskCompletionSource<bool> rotationTween;
 	private double rotTimePassed;
 	private double rotTime;
-    private Vector2 rotPivotPoint;
+	private Vector2 rotPivotPoint;
 	private float originalAngleDeg;
 	private float targetAngleDeg;
 	Matrix originalMatAffineTrans;
 	Vector2 rotPivot;
-    
+	
 
-    public override void _Ready()
+	public override void _Ready()
 	{
 		inputEnabled = false;// disabled as default
 		this.AddChild(inputButtonsNode);	
@@ -98,20 +102,20 @@ public partial class Unidad : Node3D
 		if (isRotating)
 		{ 
 			RotateCustomTween(delta);
-        }
+		}
 	}
 	private void enableInput()
 	{
 		selectMenu.layer.Visible = true;
-        inputButtonsNode.Visible = true;
-        inputButtonsNode.SetProcessInput(false);
-    }
+		inputButtonsNode.Visible = true;
+		inputButtonsNode.SetProcessInput(true);
+	}
 	private void disableInput()
 	{
-        selectMenu.layer.Visible = false;
-        inputButtonsNode.Visible = false;
+		selectMenu.layer.Visible = false;
+		inputButtonsNode.Visible = false;
 		inputButtonsNode.SetProcessInput(false);
-    }
+	}
 	async private void ReformAfterCombat(int deaths) {
 
 		TaskCompletionSource<bool> tweenY = new TaskCompletionSource<bool>();
@@ -207,17 +211,17 @@ public partial class Unidad : Node3D
 		Node3D gizmo = GetChild<Node3D>(1);
 		gizmo.Position = gizmo.Position + new Vector3(center.X, center.Y, 0);
 		//affTrans = coreUnit.Transform;
-        createUIElements(inputManager);
-        createUnitTroopsBase(coreUnit.TroopsWidth, coreUnit.UnitCount);
+		createUIElements(inputManager);
+		createUnitTroopsBase(coreUnit.TroopsWidth, coreUnit.UnitCount);
 		createColliderForInput(inputManager);
 		
 
-    }
+	}
 	private void createColliderForInput(InputManager inputManager)
 	{
 		Area3D area = new Area3D();
-        area.SetProcessInput(true);
-        CollisionShape3D collisionShape3D = new CollisionShape3D();
+		area.SetProcessInput(true);
+		CollisionShape3D collisionShape3D = new CollisionShape3D();
 		BoxShape3D boxShape3D = new BoxShape3D();
 		boxShape3D.Size = new Vector3(coreUnit.sizeEnclosedRectangledm.X, coreUnit.sizeEnclosedRectangledm.Y, 0.5f);
 		// connect user input
@@ -226,94 +230,137 @@ public partial class Unidad : Node3D
 		area.InputRayPickable = true;
 		_unitSelect = (Node camera, InputEvent @event, Vector3 position, Vector3 normal, long shapeIdx, Unidad unitSelect) => {            
 			if (@event is InputEventMouseButton mouseEvent && mouseEvent.Pressed && mouseEvent.ButtonIndex == MouseButton.Left)
-            {
+			{
 				Vector2I mousePos = (Vector2I)mouseEvent.Position;
 				selectMenu.positionUnderMouse(mousePos.X, mousePos.Y);
 				unitSelection?.Invoke();
 				inputManager.selectUnit(this);
-            }
-        };
+			}
+		};
 		area.InputEvent += (camera, @event, position, normal, shapeIdx) => _unitSelect(camera, @event, position, normal, shapeIdx, this);
 		area.Position = new Vector3(center.X, center.Y, 0.2f);
 		this.AddChild(area);
-    }
-    
+	}
+	
 	private void createUIElements(InputManager inputManager)
 	{
-        createDragArrows(inputManager);
+		createDragArrows(inputManager);
 		createDistBillboard();
+		createSelectionFX();
 		createChargingLayer();
 		createSelectMenu(inputManager);
 		showDistanceRemaining(0);
+	}
+	private void createSelectionFX()
+	{		
+        PackedScene selectionFxAsset = GD.Load<PackedScene>("res://units/vfx/selection_fx.tscn");
+        selectionFx = (Node3D)selectionFxAsset.Instantiate();
+		selectionFx.Position= new Vector3(center.X, center.Y, 0.24f);
+		float xscale = this.coreUnit.sizeEnclosedRectangledm.X;
+		float yscale = this.coreUnit.sizeEnclosedRectangledm.Y;
+		selectionFx.Scale= new Vector3( xscale, 1.0f,yscale);
+        this.AddChild(selectionFx);
     }
-
-    private void createSelectMenu(InputManager inputManager)
-    {
-        selectMenu = new SelectMenu(this, inputManager);
+	private void createSelectMenu(InputManager inputManager)
+	{
+		selectMenu = new SelectMenu(this, inputManager);
 		//inputButtonsNode.AddChild(selectMenu.layer);
-    }
+	}
+	#region CHARGE_REGION
 	public async void charge()
 	{
 		
 		unitState = UnitState.chargeDiceRolling;
 		var dicepanel = ((UnitRenderCreator)GetParent()).UICanvas.GetNode<CenterContainer>("CanvasGroup/DicePanel");
 		dicepanel.Visible = true;
-        DiceThrower diceThrower = ((UnitRenderCreator)GetParent()).UICanvas.diceThrower;
+		DiceThrower diceThrower = ((UnitRenderCreator)GetParent()).UICanvas.diceThrower;
 
-        int result = await diceThrower.ThrowDicesCharge();
+		int result = await diceThrower.ThrowDicesCharge();
 		float resultToDm = (result * 2.54f) / 10;
-        unitState = UnitState.charging;
-        foreach (HitCollider hitCollider in this.coreUnit.checkCharge())
+		unitState = UnitState.charging;
+		foreach (HitCollider hitCollider in this.coreUnit.checkCharge())
 		{
 			if (hitCollider.distance <= distanceRemaining + resultToDm)
 			{
-                
+				
 				if (hitCollider.HitObject.unit != null && hitCollider.HitObject.owner == CollidedObject.Owner.enemy)
 				{
 
 					ChargeMovement(hitCollider);
-                    unitState = UnitState.charging;
+					unitState = UnitState.charging;
 
 				}
 				else
 				{
 					throw new NotImplementedException();
 				}
-            }
+			}
 			else// FAILED CHARGE
 			{
-                FailedChargeMovement(resultToDm);
+				FailedChargeMovement(resultToDm);
 				unitState = UnitState.idle;
-            }
+			}
 			// BREAK FOREACH FFOR NOW
 			break;
-        }
+		}
 		dicepanel.Visible = false;
 		
 		
 	}
 	private async void ChargeMovement(HitCollider hitCollider)
 	{
-        moveForward(hitCollider.distance,false);
-        Vector2 vectorForward = new Vector2(affTrans.ForwardVec.X, affTrans.ForwardVec.Y);
-        float deltaAngleDegrees = (float)CloseTheDoor(hitCollider.HitObject.unit);
-        
-        float time = (float)(hitCollider.distance / speed);
-        
+		moveForward(hitCollider.distance,false);
+		Vector2 vectorForward = new Vector2(affTrans.ForwardVec.X, affTrans.ForwardVec.Y);
+		float deltaAngleDegrees = (float)CloseTheDoor(hitCollider.HitObject.unit);
+		
+		float time = (float)(hitCollider.distance / speed);
+		
 		Tween tween = CreateTween();
-        float tweenduration = time;
+		float tweenduration = time;
 
-        Vector3 targetPos = this.Position + new Vector3((float)(vectorForward.X * hitCollider.distance), (float)(vectorForward.Y * hitCollider.distance), 0);
-        TaskCompletionSource<bool> moveFinish = new TaskCompletionSource<bool>();
-        tween.TweenProperty(this, "position", targetPos, tweenduration).SetTrans(Tween.TransitionType.Quint);
+		Vector3 targetPos = this.Position + new Vector3((float)(vectorForward.X * hitCollider.distance), (float)(vectorForward.Y * hitCollider.distance), 0);
+		TaskCompletionSource<bool> moveFinish = new TaskCompletionSource<bool>();
+		tween.TweenProperty(this, "position", targetPos, tweenduration).SetTrans(Tween.TransitionType.Quint);
 
 		tween.TweenCallback(Callable.From(() => moveFinish.SetResult(true)));
 		await moveFinish.Task;
-        // rotate to face the enemy
-        
-        System.Numerics.Vector2 vec = this.affTrans.GlobalToLocalTransforms(hitCollider.hitpoint.X, hitCollider.hitpoint.Y);
-        await startRotationCustomTween(deltaAngleDegrees, 1, new Vector2(vec.X,vec.Y));		
+		// rotate to face the enemy
+		
+		System.Numerics.Vector2 vec = this.affTrans.GlobalToLocalTransforms(hitCollider.hitpoint.X, hitCollider.hitpoint.Y);
+		await startRotationCustomTween(deltaAngleDegrees, 1, new Vector2(vec.X,vec.Y));		
+	}
+    private void FailedChargeMovement(float distance)
+    {
+        float time = (float)(distance / (speed * 2));
+
+        Tween tween = CreateTween();
+        float tweenduration = time;
+        Vector2 vector = new Vector2(affTrans.ForwardVec.X, affTrans.ForwardVec.Y);
+        Vector3 targetPos = this.Position + new Vector3((float)(vector.X * distance), (float)(vector.Y * distance), 0);
+        tween.TweenProperty(this, "position", targetPos, tweenduration).SetTrans(Tween.TransitionType.Quint);
+
     }
+    /// <summary>
+    /// rotate unit to face enemy, only in the transform, not visible so we can tween for better visuals
+    /// </summary>
+    /// <param name="collidedUnit">the collided unit</param>
+    /// <returns>Degrees needed for the rotation</returns>
+    private double CloseTheDoor(BaseUnit collidedUnit)
+    {
+        float angleEnemy = collidedUnit.Transform.currentAngleDegrees + 180 % 360;
+        float currentAngle = (float)affTrans.currentAngleDegrees;
+        currentAngle = currentAngle >= 0 ? currentAngle : 360 + currentAngle;
+        float angle = angleEnemy - currentAngle;
+        return angle;
+
+    }
+    private void createChargingLayer()
+    {
+        ChargingLayer chargingLayer = new ChargingLayer(this);
+        inputButtonsNode.AddChild(chargingLayer.sprite);
+
+    }
+    #endregion
     // Godot tween is not enough, we need our custom tween
     private async Task startRotationCustomTween(float deltaAngleDegrees, double time, Vector2 rotPivotPoint)
 	{
@@ -321,85 +368,55 @@ public partial class Unidad : Node3D
 		rotTimePassed = 0;
 		rotTime = time;
 		//originalAngleDeg = affTrans.currentAngleDegrees;
-        targetAngleDeg = deltaAngleDegrees;
-        isRotating = true;
-        originalMatAffineTrans = this.affTrans.copyMatrixTransformValues();
+		targetAngleDeg = deltaAngleDegrees;
+		isRotating = true;
+		originalMatAffineTrans = this.affTrans.copyMatrixTransformValues();
 		rotPivot = rotPivotPoint;
-        await rotationTween.Task;
-    }
+		await rotationTween.Task;
+	}
 	private void RotateCustomTween(double delta)
-    {
+	{
 		rotTimePassed += delta;
 
 		float t = (float)(rotTimePassed / rotTime);
 		float interpolatedAngle = 0;
 
-        // interpolate cuadratic t
-        bool cuadraticInter = true;
-        if (cuadraticInter)
-        { // we can remover the original angle and use the delta, so we interpolate from zero to the delta
-            //interpolatedAngle = (1-t) * (1 - t) * originalAngleDeg + 2 * (1 - t) * t * targetAngleDeg + t * t * targetAngleDeg;
-            interpolatedAngle = 2 * (1 - t) * t * targetAngleDeg + t * t * targetAngleDeg;
-        }
+		// interpolate cuadratic t
+		bool cuadraticInter = true;
+		if (cuadraticInter)
+		{ // we can remover the original angle and use the delta, so we interpolate from zero to the delta
+			//interpolatedAngle = (1-t) * (1 - t) * originalAngleDeg + 2 * (1 - t) * t * targetAngleDeg + t * t * targetAngleDeg;
+			interpolatedAngle = 2 * (1 - t) * t * targetAngleDeg + t * t * targetAngleDeg;
+		}
 		AffineTransformCore interpolatedRot = new AffineTransformCore();
 		interpolatedRot.matrixTransform = originalMatAffineTrans;
 		interpolatedRot.rotate(interpolatedAngle, rotPivot.X,rotPivot.Y);        
-        if (rotTimePassed >= rotTime)
+		if (rotTimePassed >= rotTime)
 		{
 			isRotating = false;
 			rotationTween.SetResult(true);
 		}
 		else
 		{
-            affTrans.matrixTransform = interpolatedRot.matrixTransform;
-            updateTransformToRender();
-        }		
-    }
-    private void FailedChargeMovement(float distance)
-	{
-        float time = (float)(distance / (speed*2));
-
-        Tween tween = CreateTween();
-        float tweenduration = time;
-        Vector2 vector = new Vector2(affTrans.ForwardVec.X, affTrans.ForwardVec.Y);
-		Vector3 targetPos = this.Position + new Vector3((float)(vector.X * distance), (float)(vector.Y * distance), 0);
-		tween.TweenProperty(this, "position", targetPos, tweenduration).SetTrans(Tween.TransitionType.Quint);
-
+			affTrans.matrixTransform = interpolatedRot.matrixTransform;
+			updateTransformToRender();
+		}		
 	}
-	/// <summary>
-	/// rotate unit to face enemy, only in the transform, not visible so we can tween for better visuals
-	/// </summary>
-	/// <param name="collidedUnit">the collided unit</param>
-	/// <returns>Degrees needed for the rotation</returns>
-	private double CloseTheDoor(BaseUnit collidedUnit)
-	{
-        float angleEnemy = collidedUnit.Transform.currentAngleDegrees + 180 % 360;		
-		float currentAngle = (float)affTrans.currentAngleDegrees;
-		currentAngle = currentAngle >= 0 ? currentAngle : 360 + currentAngle;
-		float angle = angleEnemy - currentAngle;
-		return angle;
 
-	}
-    private void createChargingLayer()
-	{
-        ChargingLayer chargingLayer = new ChargingLayer(this);
-		inputButtonsNode.AddChild(chargingLayer.sprite);
-
-    }
 	private void createDistBillboard()
 	{
-        PackedScene distBillboardAsset = GD.Load<PackedScene>("res://assets/UI/dist_billboard.tscn");
+		PackedScene distBillboardAsset = GD.Load<PackedScene>("res://assets/UI/dist_billboard.tscn");
 		distBillboard = (Sprite3D)distBillboardAsset.Instantiate();
-        distBillboard.NoDepthTest = true;
-        inputButtonsNode.AddChild(distBillboard);
+		distBillboard.NoDepthTest = true;
+		inputButtonsNode.AddChild(distBillboard);
 		distBillboard.Position = new Vector3(center.X, center.Y, 0.45f);
-    }
+	}
 
 	public void showDistanceRemaining(float distMovedTemp)
 	{
 		float distRemainingTemp = distanceRemaining - distMovedTemp;
-        distBillboard.GetNode<Label>("SubViewport/CanvasLayer/distance").Text = distRemainingTemp.ToString("F2");
-    }   
+		distBillboard.GetNode<Label>("SubViewport/CanvasLayer/distance").Text = distRemainingTemp.ToString("F2");
+	}   
 	public Vector2 position2D()
 	{
 		return new Vector2((float)affTrans.offsetX, (float)affTrans.offsetY);
@@ -407,34 +424,34 @@ public partial class Unidad : Node3D
 	private void createDragArrows(InputManager inputManager)
 	{
 
-        PackedScene unitAssetArrow = GD.Load<PackedScene>("res://units/arrow.tscn");
-        PackedScene unitAssetArrowTwist = GD.Load<PackedScene>("res://units/arrowtwisted.tscn");
-        // ****************************************************************************************************************
-        // MIDDLE ARROW
-        // ****************************************************************************************************************
-        Node3D middlearrowToSpawn = (Node3D)unitAssetArrow.Instantiate();
+		PackedScene unitAssetArrow = GD.Load<PackedScene>("res://units/arrow.tscn");
+		PackedScene unitAssetArrowTwist = GD.Load<PackedScene>("res://units/arrowtwisted.tscn");
+		// ****************************************************************************************************************
+		// MIDDLE ARROW
+		// ****************************************************************************************************************
+		Node3D middlearrowToSpawn = (Node3D)unitAssetArrow.Instantiate();
 
-        middlearrowToSpawn.Name = "middle_movement_arrow";
-        middlearrowToSpawn.Position = new Vector3(center.X, 0, arrowHeight);
-        // we want the middle arrow to be diferent
-        BaseMaterial3D arrowMat = middlearrowToSpawn.GetChildOrNull<MeshInstance3D>(0).GetSurfaceOverrideMaterial(0) as BaseMaterial3D;
-        BaseMaterial3D greenArrowMat = (BaseMaterial3D)arrowMat.Duplicate();
-        greenArrowMat.AlbedoColor = new Godot.Color(0, 1, 0, 0.6f);
-        middlearrowToSpawn.GetChildOrNull<MeshInstance3D>(0).SetSurfaceOverrideMaterial(0, greenArrowMat);
-        addColliderToArrow(middlearrowToSpawn, inputManager);
-        inputButtonsNode.AddChild(middlearrowToSpawn);
+		middlearrowToSpawn.Name = "middle_movement_arrow";
+		middlearrowToSpawn.Position = new Vector3(center.X, 0, arrowHeight);
+		// we want the middle arrow to be diferent
+		BaseMaterial3D arrowMat = middlearrowToSpawn.GetChildOrNull<MeshInstance3D>(0).GetSurfaceOverrideMaterial(0) as BaseMaterial3D;
+		BaseMaterial3D greenArrowMat = (BaseMaterial3D)arrowMat.Duplicate();
+		greenArrowMat.AlbedoColor = new Godot.Color(0, 1, 0, 0.6f);
+		middlearrowToSpawn.GetChildOrNull<MeshInstance3D>(0).SetSurfaceOverrideMaterial(0, greenArrowMat);
+		addColliderToArrow(middlearrowToSpawn, inputManager);
+		inputButtonsNode.AddChild(middlearrowToSpawn);
 
-        // ****************************************************************************************************************
-        // LEFT ARROW
-        // ****************************************************************************************************************
+		// ****************************************************************************************************************
+		// LEFT ARROW
+		// ****************************************************************************************************************
 
 
 		Node3D leftarrowToSpawn = (Node3D)unitAssetArrowTwist.Instantiate();
 		leftarrowToSpawn.Name = "left_movement_arrow";
 		leftarrowToSpawn.Position = new Vector3(0, 0, arrowHeight);
-        addColliderToArrow(leftarrowToSpawn, inputManager);
+		addColliderToArrow(leftarrowToSpawn, inputManager);
 
-        inputButtonsNode.AddChild(leftarrowToSpawn);
+		inputButtonsNode.AddChild(leftarrowToSpawn);
 		
 		// ****************************************************************************************************************
 		// RIGHT ARROW
@@ -456,7 +473,16 @@ public partial class Unidad : Node3D
 	private void addColliderToArrow(Node3D arrow, InputManager inputManager)
 	{
 		CollisionObject3D collider = arrow.GetNode<CollisionObject3D>("Cube/Area3D");
-		collider.Connect("input_event", new Callable(inputManager, nameof(inputManager._on_arrow_click_event)));
+		ArrowClickedEventHandler arrowClickedEventHandler;
+
+		arrowClickedEventHandler = (Node camera, InputEvent @event, Vector3 position, Vector3 normal, long shapeIdx, Node collider) => {
+			if (@event is InputEventMouseButton mouseEvent && mouseEvent.Pressed && mouseEvent.ButtonIndex == MouseButton.Left)
+			{
+				inputManager.onArrowClick(camera,@event,position,normal,shapeIdx, collider);
+			}
+		};
+		collider.InputEvent += (camera, @event, position, normal, shapeIdx) => arrowClickedEventHandler(camera, @event, position, normal, shapeIdx, collider);
+		//		collider.Connect("input_event", new Callable(inputManager, nameof(inputManager._on_arrow_click_event)));
 	}
 	/// <summary>
 	/// Update the graphic transform so we can saw the actual changes in the affine matrix
@@ -465,11 +491,11 @@ public partial class Unidad : Node3D
 	public void updateTransformToRender(bool netReceived = false)
 	{
 
-        UnitMovementManager.ApplyAffineTransformation(affTrans, this);
-        // TODO: if we're playing as hotseat, clientNetworkController is null, and sholud avoid this line....
+		UnitMovementManager.ApplyAffineTransformation(affTrans, this);
+		// TODO: if we're playing as hotseat, clientNetworkController is null, and sholud avoid this line....
 		// a bit ugly, but performant
-        if (!HotSeatManager.Instance.isHotseat && !netReceived) PlayerInfoSingleton.Instance.clientNetworkController.updateUnitTransform(affTrans, coreUnit.Guid);
-    }
+		if (!HotSeatManager.Instance.isHotseat && !netReceived) PlayerInfoSingleton.Instance.clientNetworkController.updateUnitTransform(affTrans, coreUnit.Guid);
+	}
 	public void moveForward(double distance, bool updateRender=true)
 	{
 		Vector2 vector = new Vector2(affTrans.ForwardVec.X, affTrans.ForwardVec.Y);
@@ -535,63 +561,61 @@ public partial class Unidad : Node3D
 			{
 				animationPlayer = clone.GetChild(1).GetNode<AnimationPlayer>("AnimationPlayer");
 			}catch(Exception e) {
-                animationPlayer = null;
-            }
-            if (animationPlayer != null)
+				animationPlayer = null;
+			}
+			if (animationPlayer != null)
 			{
-                addModifierSkeleton3D(clone);
-                AnimateTroop(animationPlayer);
-            }
-        }
+				addModifierSkeleton3D(clone);
+				AnimateTroop(animationPlayer);
+			}
+		}
 		original.QueueFree();
 	}
 	// Rotate, scale and translate every troop to break pattens
 	private void AddVariationToTroop(Node3D clone)
 	{
 		(clone.GetChild(1) as Node3D).RotateY(randomNumberGenerator.RandfRange(-Mathf.Tau / 60, Mathf.Tau/60));
-        
-    }
-    private void addModifierSkeleton3D(Node3D clone)
+		
+	}
+	private void addModifierSkeleton3D(Node3D clone)
 	{
-        Skeleton3D skeleton = clone.GetChild(1).GetNodeOrNull<Skeleton3D>("CharacterArmature/Skeleton3D");
+		Skeleton3D skeleton = clone.GetChild(1).GetNodeOrNull<Skeleton3D>("CharacterArmature/Skeleton3D");
 		if (skeleton == null) return;
-        skeleton.AddChild(new InfantrySkelModifier());
+		skeleton.AddChild(new InfantrySkelModifier());
 
-    }
+	}
 	/// <summary>
 	/// DEPRECATED??
 	/// </summary>
 	/// <param name="clone"></param>
-    private void ModifySkeleton(Node3D clone)
+	private void ModifySkeleton(Node3D clone)
 	{
 		Skeleton3D skeleton = clone.GetChild(1).GetNodeOrNull<Skeleton3D>("CharacterArmature/Skeleton3D");
   
 		if (skeleton == null) return;
-        int upperArmRindex = skeleton.FindBone("UpperArm.R");
+		int upperArmRindex = skeleton.FindBone("UpperArm.R");
 		
 		var t  = skeleton.GetBoneGlobalPose(upperArmRindex);
-        float randomAngle = randomNumberGenerator.RandfRange(0, Mathf.Tau / 40);
-        t = t.Rotated(new Vector3(1.0f, 0.0f, 0.0f), randomAngle);
-        randomAngle = randomNumberGenerator.RandfRange(0, Mathf.Tau / 40);
+		float randomAngle = randomNumberGenerator.RandfRange(0, Mathf.Tau / 40);
+		t = t.Rotated(new Vector3(1.0f, 0.0f, 0.0f), randomAngle);
+		randomAngle = randomNumberGenerator.RandfRange(0, Mathf.Tau / 40);
 
-        t = t.Rotated(new Vector3(0.0f, 1.0f, 0.0f), randomAngle);
-        randomAngle = randomNumberGenerator.RandfRange(0, Mathf.Tau / 40);
-        
+		t = t.Rotated(new Vector3(0.0f, 1.0f, 0.0f), randomAngle);
+		randomAngle = randomNumberGenerator.RandfRange(0, Mathf.Tau / 40);
+		
 		t = t.Rotated(new Vector3(0.0f, 0.0f, 1.0f), randomAngle);
-        skeleton.SetBoneGlobalPose(upperArmRindex, t);
-    }
+		skeleton.SetBoneGlobalPose(upperArmRindex, t);
+	}
 	private void AnimateTroop(AnimationPlayer animationPlayer)
 	{
 		if (animationPlayer.GetAnimationList().Contains("Idle"))
 		{
-            // Set idle animation        
-            animationPlayer.GetAnimation("Idle").LoopMode = Animation.LoopModeEnum.Pingpong;
-            animationPlayer.Play("Idle");
-            // adding some randomness to make it more appeal
-            animationPlayer.SpeedScale = randomNumberGenerator.RandfRange(0.75f, 1.25f);
-            animationPlayer.Seek(randomNumberGenerator.RandfRange(0, animationPlayer.GetAnimation("Idle").Length));
-        }
-    }
+			// Set idle animation        
+			animationPlayer.GetAnimation("Idle").LoopMode = Animation.LoopModeEnum.Pingpong;
+			animationPlayer.Play("Idle");
+			// adding some randomness to make it more appeal
+			animationPlayer.SpeedScale = randomNumberGenerator.RandfRange(0.75f, 1.25f);
+			animationPlayer.Seek(randomNumberGenerator.RandfRange(0, animationPlayer.GetAnimation("Idle").Length));
+		}
+	}
 }
-
-

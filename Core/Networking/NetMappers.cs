@@ -65,7 +65,7 @@ namespace Core.Networking
             }
             return binaryData;
         }
-        public static BinaryData ConvertBattleStateToBinary(SenderMessageEnum sender, BattleStates battleState)
+        public static BinaryData ConvertBattleStateToBinary(SenderMessageEnum sender, BattleState battleState)
         {
             BinaryData binaryData;
             using (var stream = new MemoryStream())

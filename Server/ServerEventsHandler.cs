@@ -60,7 +60,7 @@ namespace ServerSocket
             }
         }
 
-        private void updateBattleState(SenderMessageEnum sender, BattleStates currentState)
+        private void updateBattleState(SenderMessageEnum sender, BattleState currentState)
         {
             BinaryData binaryData = NetMappers.ConvertBattleStateToBinary(sender,currentState);
             server.SendToAllAsync(binaryData, ContentType.ApplicationOctetStream);

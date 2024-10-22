@@ -115,7 +115,7 @@ transform = Transform3D(0.14, 0, 0, 0, 0.0421036, -0.0907044, 0, 0.0907044, 0.04
 transform = Transform3D(1.3, 0, 0, 0, 1.3, 0, 0, 0, 1.3, 3.27048, 3.39905, -0.0731337)
 
 [node name="treelowpoly" parent="Battlefield/terrainbackground/Forest" instance=ExtResource("9_g0wca")]
-transform = Transform3D(0.119982, -0.00209493, 7.30895e-05, 0.000109606, 0.00209142, -0.119982, 0.00209333, 0.119963, 0.00209301, 0, 0, 0.224048)
+transform = Transform3D(0.119982, -0.00209493, 7.30895e-05, 0.000109606, 0.00209142, -0.119982, 0.00209333, 0.119963, 0.00209301, 1.21245, 0, 0.224048)
 
 [node name="treelowpoly2" parent="Battlefield/terrainbackground/Forest" instance=ExtResource("9_g0wca")]
 transform = Transform3D(0.1, 0, 0, 0, -4.37114e-09, -0.1, 0, 0.1, -4.37114e-09, 0.538532, -0.415744, 0.216582)
@@ -125,6 +125,12 @@ transform = Transform3D(0.119982, -0.00209493, 7.30895e-05, 0.000109606, 0.00209
 
 [node name="treelowpoly4" parent="Battlefield/terrainbackground/Forest" instance=ExtResource("9_g0wca")]
 transform = Transform3D(0.1, 0, 0, 0, -4.37114e-09, -0.1, 0, 0.1, -4.37114e-09, 0.83812, -0.950855, 0.216582)
+
+[node name="treelowpoly5" parent="Battlefield/terrainbackground/Forest" instance=ExtResource("9_g0wca")]
+transform = Transform3D(0.119982, -0.00209493, 7.30895e-05, 0.000109606, 0.00209142, -0.119982, 0.00209333, 0.119963, 0.00209301, -0.323223, 0, 0.224048)
+
+[node name="treelowpoly6" parent="Battlefield/terrainbackground/Forest" instance=ExtResource("9_g0wca")]
+transform = Transform3D(0.1, 0, 0, 0, -4.37114e-09, -0.1, 0, 0.1, -4.37114e-09, 0.340271, -1.61903, 0.216582)
 
 [node name="debugUI" type="Node" parent="."]
 

@@ -20,7 +20,7 @@ namespace Server
         public delegate void Vec3NetSendDelegate(SenderMessageEnum sender, Guid unitGuid, Vector3 vector3);
         public delegate void Pos3DDistNetSendDelegate(SenderMessageEnum sender, Vector3 vector, float dist);
         public delegate void Pos2DDistNetSendDelegate(SenderMessageEnum sender, Vector3 vector, float dist);
-        public delegate void BattleStateNetSendDelegate(SenderMessageEnum sender, BattleStates battleState);
+        public delegate void BattleStateNetSendDelegate(SenderMessageEnum sender, BattleState battleState);
 
         public event MsgNetSendDelegate OnMsgNetSend;
         public event Vec2NetSendDelegate OnVec2NetSend;
@@ -81,7 +81,7 @@ namespace Server
                         break;
                     case MSGType.BATTLESTATE:
                         Console.WriteLine("Received Battle State");
-                        BattleStates battleState = (BattleStates)reader.ReadByte();
+                        BattleState battleState = (BattleState)reader.ReadByte();
                         break;
                     default:
                         Console.WriteLine($"Received unknown message type: {result.Item1}");

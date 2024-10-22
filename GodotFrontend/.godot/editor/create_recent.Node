@@ -1,3 +1,5 @@
+MeshInstance3D
+Sprite3D
 Panel
 Button
 Label
@@ -11,4 +13,3 @@ SpotLight3D
 CollisionShape3D
 Camera3D
 SubViewport
-Control
