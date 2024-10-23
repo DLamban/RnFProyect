@@ -56,7 +56,7 @@ namespace Core.List
             unitManagerCore.addPlayerUnit(dragon);
 
             // PLAYER2
-            BaseUnit dwarfos = unitManagerCore.CreateNewUnit("Dwarf Warriors", 5, 13, startPosDwarfos, 230);
+            BaseUnit dwarfos = unitManagerCore.CreateNewUnit("Dwarf Warriors", 5, 13, startPosDwarfos, 130);
             unitManagerCore.addEnemyUnit(dwarfos);
 
             BaseUnit slayers = unitManagerCore.CreateNewUnit("Slayers", 5, 7, startPosSlayers, 200);

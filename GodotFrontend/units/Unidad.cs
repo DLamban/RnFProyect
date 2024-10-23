@@ -52,7 +52,7 @@ public partial class Unidad : Node3D
 	//FX
 	Node3D selectionFx;
 
-    public BaseUnit coreUnit;
+	public BaseUnit coreUnit;
 	public Vector2 center;
 	public List<Node3D> troopNodes = new List<Node3D>();
 	private Sprite3D distBillboard;
@@ -109,12 +109,14 @@ public partial class Unidad : Node3D
 		selectMenu.layer.Visible = true;
 		inputButtonsNode.Visible = true;
 		inputButtonsNode.SetProcessInput(true);
+		selectionFx.Visible = true;
 	}
 	private void disableInput()
 	{
 		selectMenu.layer.Visible = false;
 		inputButtonsNode.Visible = false;
 		inputButtonsNode.SetProcessInput(false);
+		selectionFx.Visible = false;
 	}
 	async private void ReformAfterCombat(int deaths) {
 
@@ -253,14 +255,15 @@ public partial class Unidad : Node3D
 	}
 	private void createSelectionFX()
 	{		
-        PackedScene selectionFxAsset = GD.Load<PackedScene>("res://units/vfx/selection_fx.tscn");
-        selectionFx = (Node3D)selectionFxAsset.Instantiate();
+		PackedScene selectionFxAsset = GD.Load<PackedScene>("res://units/vfx/selection_fx.tscn");
+		selectionFx = (Node3D)selectionFxAsset.Instantiate();
 		selectionFx.Position= new Vector3(center.X, center.Y, 0.24f);
 		float xscale = this.coreUnit.sizeEnclosedRectangledm.X;
 		float yscale = this.coreUnit.sizeEnclosedRectangledm.Y;
 		selectionFx.Scale= new Vector3( xscale, 1.0f,yscale);
-        this.AddChild(selectionFx);
-    }
+		this.AddChild(selectionFx);
+		selectionFx.Visible = false;
+	}
 	private void createSelectMenu(InputManager inputManager)
 	{
 		selectMenu = new SelectMenu(this, inputManager);
@@ -329,40 +332,40 @@ public partial class Unidad : Node3D
 		System.Numerics.Vector2 vec = this.affTrans.GlobalToLocalTransforms(hitCollider.hitpoint.X, hitCollider.hitpoint.Y);
 		await startRotationCustomTween(deltaAngleDegrees, 1, new Vector2(vec.X,vec.Y));		
 	}
-    private void FailedChargeMovement(float distance)
-    {
-        float time = (float)(distance / (speed * 2));
+	private void FailedChargeMovement(float distance)
+	{
+		float time = (float)(distance / (speed * 2));
 
-        Tween tween = CreateTween();
-        float tweenduration = time;
-        Vector2 vector = new Vector2(affTrans.ForwardVec.X, affTrans.ForwardVec.Y);
-        Vector3 targetPos = this.Position + new Vector3((float)(vector.X * distance), (float)(vector.Y * distance), 0);
-        tween.TweenProperty(this, "position", targetPos, tweenduration).SetTrans(Tween.TransitionType.Quint);
+		Tween tween = CreateTween();
+		float tweenduration = time;
+		Vector2 vector = new Vector2(affTrans.ForwardVec.X, affTrans.ForwardVec.Y);
+		Vector3 targetPos = this.Position + new Vector3((float)(vector.X * distance), (float)(vector.Y * distance), 0);
+		tween.TweenProperty(this, "position", targetPos, tweenduration).SetTrans(Tween.TransitionType.Quint);
 
-    }
-    /// <summary>
-    /// rotate unit to face enemy, only in the transform, not visible so we can tween for better visuals
-    /// </summary>
-    /// <param name="collidedUnit">the collided unit</param>
-    /// <returns>Degrees needed for the rotation</returns>
-    private double CloseTheDoor(BaseUnit collidedUnit)
-    {
-        float angleEnemy = collidedUnit.Transform.currentAngleDegrees + 180 % 360;
-        float currentAngle = (float)affTrans.currentAngleDegrees;
-        currentAngle = currentAngle >= 0 ? currentAngle : 360 + currentAngle;
-        float angle = angleEnemy - currentAngle;
-        return angle;
+	}
+	/// <summary>
+	/// rotate unit to face enemy, only in the transform, not visible so we can tween for better visuals
+	/// </summary>
+	/// <param name="collidedUnit">the collided unit</param>
+	/// <returns>Degrees needed for the rotation</returns>
+	private double CloseTheDoor(BaseUnit collidedUnit)
+	{
+		float angleEnemy = collidedUnit.Transform.currentAngleDegrees + 180 % 360;
+		float currentAngle = (float)affTrans.currentAngleDegrees;
+		currentAngle = currentAngle >= 0 ? currentAngle : 360 + currentAngle;
+		float angle = angleEnemy - currentAngle;
+		return angle;
 
-    }
-    private void createChargingLayer()
-    {
-        ChargingLayer chargingLayer = new ChargingLayer(this);
-        inputButtonsNode.AddChild(chargingLayer.sprite);
+	}
+	private void createChargingLayer()
+	{
+		ChargingLayer chargingLayer = new ChargingLayer(this);
+		inputButtonsNode.AddChild(chargingLayer.sprite);
 
-    }
-    #endregion
-    // Godot tween is not enough, we need our custom tween
-    private async Task startRotationCustomTween(float deltaAngleDegrees, double time, Vector2 rotPivotPoint)
+	}
+	#endregion
+	// Godot tween is not enough, we need our custom tween
+	private async Task startRotationCustomTween(float deltaAngleDegrees, double time, Vector2 rotPivotPoint)
 	{
 		rotationTween = new TaskCompletionSource<bool>();
 		rotTimePassed = 0;

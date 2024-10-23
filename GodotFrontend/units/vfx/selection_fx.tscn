@@ -1,6 +1,7 @@
-[gd_scene load_steps=10 format=3 uid="uid://c7fn63cmwo5f3"]
+[gd_scene load_steps=11 format=3 uid="uid://c7fn63cmwo5f3"]
 
-[ext_resource type="Shader" path="res://selectshader.gdshader" id="1_r2eqe"]
+[ext_resource type="Shader" path="res://units/vfx/selectshader.gdshader" id="1_r2eqe"]
+[ext_resource type="PackedScene" uid="uid://ckqhlc6w24oxm" path="res://units/vfx/selection_particles.tscn" id="2_r74dv"]
 
 [sub_resource type="Gradient" id="Gradient_ectqh"]
 offsets = PackedFloat32Array(0.775478, 0.81051, 0.83758, 0.874204)
@@ -37,3 +38,6 @@ material = SubResource("ShaderMaterial_cy8ls")
 [node name="MeshInstance3D" type="MeshInstance3D"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
 mesh = SubResource("PlaneMesh_jncg4")
+
+[node name="GPUParticles3D" parent="." instance=ExtResource("2_r74dv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)

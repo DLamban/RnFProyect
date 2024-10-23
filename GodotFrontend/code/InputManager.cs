@@ -21,6 +21,7 @@ public partial class InputManager : Node3D
 	}
 	public InputState _inputState = InputState.empty;
 	private Unidad unitSelected;
+	private Unidad lastUnitSelected;
 	private UnitsClientManager unitManagerCore;
 	private bool isDragging;
 	private Unidad unitDragged;
@@ -71,6 +72,10 @@ public partial class InputManager : Node3D
 	}
 	public void selectUnit(Unidad unitSelect)
 	{
+		if (lastUnitSelected != null) { 
+			lastUnitSelected.inputEnabled = false;
+		}
+		lastUnitSelected = unitSelect;
 		switch (battleState)
 		{
 			case BattleState.move:
@@ -84,17 +89,17 @@ public partial class InputManager : Node3D
 	}
 	private void SelectUnitToMove(Unidad unitSelect)
 	{
-        if (_inputState == InputState.empty)
-        {
-            if (UnitsClientManager.Instance.canSelectUnit(unitSelect.coreUnit.Guid))
-            {
-
-                unitSelect.inputEnabled = true;
-                unitSelected = unitSelect;
-                UnitsClientManager.Instance.unitSelected = unitSelect.coreUnit;
-            }
-        }
-    }
+		if (_inputState == InputState.empty)
+		{
+			if (UnitsClientManager.Instance.canSelectUnit(unitSelect.coreUnit.Guid))
+			{
+				
+				unitSelect.inputEnabled = true;
+				unitSelected = unitSelect;
+				UnitsClientManager.Instance.unitSelected = unitSelect.coreUnit;
+			}
+		}
+	}
 	private void restartStateVars()
 	{
 		offsetDistancePicked = null;
@@ -204,12 +209,12 @@ public partial class InputManager : Node3D
 		distanceMoved = (float)(unit.getDistanceFrontLine(worldPos) - offsetDistancePicked);		
 		// Remembar that going backwards is just half of the movement, do it better
 		distanceMoved = (float)Math.Clamp(distanceMoved, unit.distanceRemaining * -0.5, unit.distanceRemaining);
-        
-        unit.moveForward(distanceMoved);
+		
+		unit.moveForward(distanceMoved);
 		if (UnitsClientManager.Instance.checkGeneralCollision(unit.coreUnit))
 		{
-            unit.affTrans.matrixTransform = beginningTransform.matrixTransform.cloneMatrix();
-            unit.updateTransformToRender();
+			unit.affTrans.matrixTransform = beginningTransform.matrixTransform.cloneMatrix();
+			unit.updateTransformToRender();
 		
 		};
 		if (distanceMoved<0)
@@ -223,21 +228,21 @@ public partial class InputManager : Node3D
 		Debug2Text.Text = unit.distanceRemaining.ToString();
 		Debug3Label.Text = "distanceRemainglob";
 		Debug3Text.Text = unitDragged.distanceRemaining.ToString();
-        unit.showDistanceRemaining(distanceMoved);
-    }
+		unit.showDistanceRemaining(distanceMoved);
+	}
 	public void onArrowClick(Node camera, InputEvent @event, Vector3 position, Vector3 normal, long shapeIdx, Node collider)
 	{
 		if (isDragging == false) { 
 			Node arrow = collider.GetParent().GetParent();
-            isDragging = true;
+			isDragging = true;
 
-            unitDragged = (Unidad)arrow.GetParent().GetParent();
+			unitDragged = (Unidad)arrow.GetParent().GetParent();
 
-            currentTransformMat = unitDragged.affTrans.copyMatrixTransformValues();
-            unitOriginPos = unitDragged.position2D();
-            Vector3? worldPosNullable = getBattlefieldCursorPos();
+			currentTransformMat = unitDragged.affTrans.copyMatrixTransformValues();
+			unitOriginPos = unitDragged.position2D();
+			Vector3? worldPosNullable = getBattlefieldCursorPos();
 
-            switch (arrow.Name)
+			switch (arrow.Name)
 			{
 				case "middle_movement_arrow":
 					dragMode = DragMode.move;
@@ -259,8 +264,8 @@ public partial class InputManager : Node3D
 					GD.Print("SOMETHING WENT WRONG IN ARROW SELECTION");
 					break;
 			}
-        }
-    }
+		}
+	}
 	private Vector3? getBattlefieldCursorPos()
 	{
 		Vector3 from = mainCamera.ProjectRayOrigin(GetViewport().GetMousePosition());
@@ -332,7 +337,6 @@ public partial class InputManager : Node3D
 	// DEPRECATED: to remove
 	private void _on_battlefield_click_event(Node mainCamera, InputEvent @event, Vector3 position, Vector3 normal, long shape_idx)
 	{
-		
 
 	}
 	private void drawDebugLine(Vector3 origin,Vector3 end, Color color)
