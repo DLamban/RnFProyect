@@ -354,6 +354,10 @@ public partial class Unidad : Node3D
 		float currentAngle = (float)affTrans.currentAngleDegrees;
 		currentAngle = currentAngle >= 0 ? currentAngle : 360 + currentAngle;
 		float angle = angleEnemy - currentAngle;
+		if (angle > 180)
+		{
+			angle = angle - 360;
+		}
 		return angle;
 
 	}

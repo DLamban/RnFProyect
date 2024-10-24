@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://dpsexlp7rtu24"]
+[gd_scene load_steps=13 format=3 uid="uid://dpsexlp7rtu24"]
 
 [ext_resource type="Theme" uid="uid://c5l7fthgxiatx" path="res://assets/fonts/basic_theme.tres" id="1_7w5fx"]
 [ext_resource type="Script" path="res://UIcode/UICanvas.cs" id="1_uf8sf"]
@@ -28,6 +28,25 @@ corner_radius_top_right = 5
 corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
 shadow_color = Color(0, 0, 0, 0.796078)
+shadow_size = 5
+shadow_offset = Vector2(5, 5)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lfgcm"]
+bg_color = Color(0.973127, 0.868048, 0.900376, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 0.742141, 0.443248, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+expand_margin_left = 10.0
+expand_margin_top = 10.0
+expand_margin_right = 10.0
+expand_margin_bottom = 10.0
+shadow_color = Color(0, 0, 0.207843, 0.772549)
 shadow_size = 5
 shadow_offset = Vector2(5, 5)
 
@@ -438,13 +457,13 @@ light_energy = 11.109
 spot_range = 15.5776
 spot_angle = 45.3366
 
-[node name="CenterContainer" type="CenterContainer" parent="CanvasGroup"]
+[node name="GameStatusContainer" type="CenterContainer" parent="CanvasGroup"]
 custom_minimum_size = Vector2(1920, 220)
-offset_right = 3200.0
-offset_bottom = 220.0
+offset_right = 3193.0
+offset_bottom = 307.0
 scale = Vector2(0.6, 0.6)
 
-[node name="GameStateStatus" type="Panel" parent="CanvasGroup/CenterContainer"]
+[node name="GameStateStatus" type="Panel" parent="CanvasGroup/GameStatusContainer"]
 clip_contents = true
 custom_minimum_size = Vector2(600, 200)
 layout_mode = 2
@@ -453,14 +472,14 @@ tooltip_text = "Showing the state of the battle"
 theme = ExtResource("1_7w5fx")
 theme_override_styles/panel = SubResource("StyleBoxFlat_4jijp")
 
-[node name="background" type="TextureRect" parent="CanvasGroup/CenterContainer/GameStateStatus"]
+[node name="background" type="TextureRect" parent="CanvasGroup/GameStatusContainer/GameStateStatus"]
 layout_mode = 0
 offset_right = 600.0
 offset_bottom = 600.0
 theme = ExtResource("1_7w5fx")
 texture = ExtResource("5_4txjm")
 
-[node name="PhaseIcon" type="TextureRect" parent="CanvasGroup/CenterContainer/GameStateStatus"]
+[node name="PhaseIcon" type="TextureRect" parent="CanvasGroup/GameStatusContainer/GameStateStatus"]
 z_index = 1
 layout_mode = 0
 offset_right = 600.0
@@ -468,7 +487,7 @@ offset_bottom = 600.0
 pivot_offset = Vector2(300, 300)
 texture = ExtResource("6_wpu2u")
 
-[node name="overlay" type="TextureRect" parent="CanvasGroup/CenterContainer/GameStateStatus"]
+[node name="overlay" type="TextureRect" parent="CanvasGroup/GameStatusContainer/GameStateStatus"]
 z_index = 2
 clip_contents = true
 layout_mode = 0
@@ -476,7 +495,7 @@ offset_right = 600.0
 offset_bottom = 600.0
 texture = ExtResource("7_rpjy1")
 
-[node name="CurrentPhase" type="Label" parent="CanvasGroup/CenterContainer/GameStateStatus"]
+[node name="CurrentPhase" type="Label" parent="CanvasGroup/GameStatusContainer/GameStateStatus"]
 layout_mode = 0
 offset_left = 199.0
 offset_top = 169.0
@@ -486,7 +505,7 @@ theme = ExtResource("1_7w5fx")
 theme_override_font_sizes/font_size = 24
 text = "STRATEGY PHASE "
 
-[node name="NextPhase" type="Button" parent="CanvasGroup/CenterContainer/GameStateStatus"]
+[node name="NextPhase" type="Button" parent="CanvasGroup/GameStatusContainer/GameStateStatus"]
 z_index = 2
 z_as_relative = false
 layout_mode = 0
@@ -498,3 +517,95 @@ tooltip_text = "NEXT PHASE: Movement"
 theme = ExtResource("1_7w5fx")
 text = "NEXT 
 PHASE"
+
+[node name="SpellContainer" type="CenterContainer" parent="CanvasGroup"]
+custom_minimum_size = Vector2(1920, 1080)
+offset_right = 1212.0
+offset_bottom = 500.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasGroup/SpellContainer"]
+layout_mode = 2
+
+[node name="SpellCard" type="Panel" parent="CanvasGroup/SpellContainer/HBoxContainer"]
+custom_minimum_size = Vector2(300, 500)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_lfgcm")
+
+[node name="CenterContainer" type="CenterContainer" parent="CanvasGroup/SpellContainer/HBoxContainer/SpellCard"]
+clip_contents = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -154.0
+offset_top = -250.0
+offset_right = 149.0
+offset_bottom = 250.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_7w5fx")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasGroup/SpellContainer/HBoxContainer/SpellCard/CenterContainer"]
+clip_contents = true
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasGroup/SpellContainer/HBoxContainer/SpellCard/CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("1_7w5fx")
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="Label" type="Label" parent="CanvasGroup/SpellContainer/HBoxContainer/SpellCard/CenterContainer/VBoxContainer/MarginContainer"]
+layout_mode = 2
+theme = ExtResource("1_7w5fx")
+text = "Spell 1"
+horizontal_alignment = 1
+
+[node name="Description" type="Label" parent="CanvasGroup/SpellContainer/HBoxContainer/SpellCard/CenterContainer/VBoxContainer"]
+custom_minimum_size = Vector2(250, 250)
+layout_mode = 2
+theme = ExtResource("1_7w5fx")
+theme_type_variation = &"darklabel"
+text = "A spell that do things, this is an strategic spell, so you can use on strategic"
+horizontal_alignment = 3
+autowrap_mode = 2
+
+[node name="Label" type="Label" parent="CanvasGroup/SpellContainer/HBoxContainer/SpellCard/CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "Can be used at strategic phase"
+
+[node name="MarginContainer2" type="MarginContainer" parent="CanvasGroup/SpellContainer/HBoxContainer/SpellCard/CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 30
+theme_override_constants/margin_right = 30
+theme_override_constants/margin_bottom = 30
+
+[node name="Button" type="Button" parent="CanvasGroup/SpellContainer/HBoxContainer/SpellCard/CenterContainer/VBoxContainer/MarginContainer2"]
+layout_mode = 2
+theme = ExtResource("1_7w5fx")
+text = "Choose target"
+
+[node name="ActionContainer" type="CenterContainer" parent="CanvasGroup"]
+custom_minimum_size = Vector2(1920, 200)
+offset_top = 840.0
+offset_right = 1920.0
+offset_bottom = 1040.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasGroup/ActionContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasGroup/ActionContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 30
+theme_override_constants/margin_right = 30
+theme_override_constants/margin_bottom = 30
+
+[node name="Button" type="Button" parent="CanvasGroup/ActionContainer/HBoxContainer/MarginContainer"]
+layout_mode = 2
+theme = ExtResource("1_7w5fx")
+text = "SPELLS"
