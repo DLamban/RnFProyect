@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://dpsexlp7rtu24"]
+[gd_scene load_steps=19 format=3 uid="uid://dpsexlp7rtu24"]
 
 [ext_resource type="Theme" uid="uid://c5l7fthgxiatx" path="res://assets/fonts/basic_theme.tres" id="1_7w5fx"]
 [ext_resource type="Script" path="res://UIcode/UICanvas.cs" id="1_uf8sf"]
@@ -7,6 +7,8 @@
 [ext_resource type="Texture2D" uid="uid://bu1qu6rd35ub5" path="res://assets/2D/gamestatebar.png" id="5_4txjm"]
 [ext_resource type="Texture2D" uid="uid://c81elnyyc6frc" path="res://assets/2D/iconsgamebar.png" id="6_wpu2u"]
 [ext_resource type="Texture2D" uid="uid://cjkqqh1ls3d2s" path="res://assets/2D/gamestatebaroverlay.png" id="7_rpjy1"]
+[ext_resource type="Shader" path="res://Spellselectioncanvas.gdshader" id="8_u1fbv"]
+[ext_resource type="Texture2D" uid="uid://cj2yh0pgx78xa" path="res://assets/UI/Spells/arrowattr.png" id="8_xkvql"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_apgn1"]
 
@@ -31,6 +33,17 @@ shadow_color = Color(0, 0, 0, 0.796078)
 shadow_size = 5
 shadow_offset = Vector2(5, 5)
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0yc5x"]
+shader = ExtResource("8_u1fbv")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_ic1wf"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_pf72u"]
+width = 1920
+height = 1080
+seamless = true
+noise = SubResource("FastNoiseLite_ic1wf")
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lfgcm"]
 bg_color = Color(0.973127, 0.868048, 0.900376, 1)
 border_width_left = 2
@@ -50,6 +63,18 @@ shadow_color = Color(0, 0, 0.207843, 0.772549)
 shadow_size = 5
 shadow_offset = Vector2(5, 5)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ss1cb"]
+bg_color = Color(1.92523e-07, 0.646167, 0.910891, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0, 0.921569, 0.164706, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
 [node name="CanvasLayer" type="CanvasLayer"]
 follow_viewport_enabled = true
 script = ExtResource("1_uf8sf")
@@ -57,10 +82,6 @@ script = ExtResource("1_uf8sf")
 [node name="CanvasGroup" type="CanvasGroup" parent="."]
 
 [node name="CharacteristicsPanelPlayer" type="Panel" parent="CanvasGroup"]
-offset_left = 21.0
-offset_top = 25.0
-offset_right = 329.0
-offset_bottom = 345.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme = ExtResource("1_7w5fx")
@@ -518,20 +539,44 @@ theme = ExtResource("1_7w5fx")
 text = "NEXT 
 PHASE"
 
-[node name="SpellContainer" type="CenterContainer" parent="CanvasGroup"]
+[node name="SpellsContainer" type="CenterContainer" parent="CanvasGroup"]
+z_index = 4
 custom_minimum_size = Vector2(1920, 1080)
-offset_right = 1212.0
-offset_bottom = 500.0
+offset_right = 1920.0
+offset_bottom = 1080.0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasGroup/SpellContainer"]
+[node name="Panel" type="Panel" parent="CanvasGroup/SpellsContainer"]
+custom_minimum_size = Vector2(1920, 1080)
 layout_mode = 2
+theme = ExtResource("1_7w5fx")
+theme_type_variation = &"SpellsSelection"
 
-[node name="SpellCard" type="Panel" parent="CanvasGroup/SpellContainer/HBoxContainer"]
+[node name="Sprite2D" type="Sprite2D" parent="CanvasGroup/SpellsContainer/Panel"]
+material = SubResource("ShaderMaterial_0yc5x")
+texture = SubResource("NoiseTexture2D_pf72u")
+centered = false
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasGroup/SpellsContainer/Panel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -500.0
+offset_top = -250.0
+offset_right = 500.0
+offset_bottom = 250.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 50
+
+[node name="SpellCard" type="Panel" parent="CanvasGroup/SpellsContainer/Panel/HBoxContainer"]
 custom_minimum_size = Vector2(300, 500)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_lfgcm")
 
-[node name="CenterContainer" type="CenterContainer" parent="CanvasGroup/SpellContainer/HBoxContainer/SpellCard"]
+[node name="CenterContainer" type="CenterContainer" parent="CanvasGroup/SpellsContainer/Panel/HBoxContainer/SpellCard"]
 clip_contents = true
 layout_mode = 1
 anchors_preset = 8
@@ -539,73 +584,328 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -154.0
-offset_top = -250.0
-offset_right = 149.0
-offset_bottom = 250.0
+offset_left = -157.0
+offset_top = -261.0
+offset_right = 156.0
+offset_bottom = 262.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_7w5fx")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasGroup/SpellContainer/HBoxContainer/SpellCard/CenterContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasGroup/SpellsContainer/Panel/HBoxContainer/SpellCard/CenterContainer"]
 clip_contents = true
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasGroup/SpellContainer/HBoxContainer/SpellCard/CenterContainer/VBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="CanvasGroup/SpellsContainer/Panel/HBoxContainer/SpellCard/CenterContainer/VBoxContainer"]
 layout_mode = 2
 theme = ExtResource("1_7w5fx")
 theme_override_constants/margin_top = 20
 theme_override_constants/margin_bottom = 20
 
-[node name="Label" type="Label" parent="CanvasGroup/SpellContainer/HBoxContainer/SpellCard/CenterContainer/VBoxContainer/MarginContainer"]
-layout_mode = 2
-theme = ExtResource("1_7w5fx")
-text = "Spell 1"
-horizontal_alignment = 1
-
-[node name="Description" type="Label" parent="CanvasGroup/SpellContainer/HBoxContainer/SpellCard/CenterContainer/VBoxContainer"]
-custom_minimum_size = Vector2(250, 250)
+[node name="Label" type="Label" parent="CanvasGroup/SpellsContainer/Panel/HBoxContainer/SpellCard/CenterContainer/VBoxContainer/MarginContainer"]
 layout_mode = 2
 theme = ExtResource("1_7w5fx")
 theme_type_variation = &"darklabel"
-text = "A spell that do things, this is an strategic spell, so you can use on strategic"
-horizontal_alignment = 3
-autowrap_mode = 2
+text = "Curse of easy target"
+horizontal_alignment = 1
 
-[node name="Label" type="Label" parent="CanvasGroup/SpellContainer/HBoxContainer/SpellCard/CenterContainer/VBoxContainer"]
+[node name="Panel" type="Panel" parent="CanvasGroup/SpellsContainer/Panel/HBoxContainer/SpellCard/CenterContainer/VBoxContainer"]
+clip_contents = true
+custom_minimum_size = Vector2(10, 280)
 layout_mode = 2
+size_flags_vertical = 3
+theme = ExtResource("1_7w5fx")
+theme_type_variation = &"SpellImage"
+theme_override_styles/panel = SubResource("StyleBoxFlat_ss1cb")
+
+[node name="PanelContainer" type="PanelContainer" parent="CanvasGroup/SpellsContainer/Panel/HBoxContainer/SpellCard/CenterContainer/VBoxContainer/Panel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 5.0
+offset_top = 5.0
+offset_right = -5.0
+offset_bottom = -5.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="CanvasGroup/SpellsContainer/Panel/HBoxContainer/SpellCard/CenterContainer/VBoxContainer/Panel/PanelContainer"]
+layout_mode = 2
+texture = ExtResource("8_xkvql")
+expand_mode = 4
+
+[node name="Description" type="Label" parent="CanvasGroup/SpellsContainer/Panel/HBoxContainer/SpellCard/CenterContainer/VBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+theme = ExtResource("1_7w5fx")
+theme_type_variation = &"darklabel"
+text = "You can reroll dices of 1
+difficult 7+
+Range 21''"
+horizontal_alignment = 1
+autowrap_mode = 3
+justification_flags = 0
+
+[node name="Phase" type="Label" parent="CanvasGroup/SpellsContainer/Panel/HBoxContainer/SpellCard/CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("1_7w5fx")
+theme_type_variation = &"darklabel"
 text = "Can be used at strategic phase"
 
-[node name="MarginContainer2" type="MarginContainer" parent="CanvasGroup/SpellContainer/HBoxContainer/SpellCard/CenterContainer/VBoxContainer"]
+[node name="MarginContainer2" type="MarginContainer" parent="CanvasGroup/SpellsContainer/Panel/HBoxContainer/SpellCard/CenterContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 30
 theme_override_constants/margin_top = 30
 theme_override_constants/margin_right = 30
 theme_override_constants/margin_bottom = 30
 
-[node name="Button" type="Button" parent="CanvasGroup/SpellContainer/HBoxContainer/SpellCard/CenterContainer/VBoxContainer/MarginContainer2"]
+[node name="Button" type="Button" parent="CanvasGroup/SpellsContainer/Panel/HBoxContainer/SpellCard/CenterContainer/VBoxContainer/MarginContainer2"]
+layout_mode = 2
+theme = ExtResource("1_7w5fx")
+text = "Choose target"
+
+[node name="SpellCard2" type="Panel" parent="CanvasGroup/SpellsContainer/Panel/HBoxContainer"]
+custom_minimum_size = Vector2(300, 500)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_lfgcm")
+
+[node name="CenterContainer" type="CenterContainer" parent="CanvasGroup/SpellsContainer/Panel/HBoxContainer/SpellCard2"]
+clip_contents = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -157.0
+offset_top = -261.0
+offset_right = 156.0
+offset_bottom = 262.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_7w5fx")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasGroup/SpellsContainer/Panel/HBoxContainer/SpellCard2/CenterContainer"]
+clip_contents = true
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasGroup/SpellsContainer/Panel/HBoxContainer/SpellCard2/CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("1_7w5fx")
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="Label" type="Label" parent="CanvasGroup/SpellsContainer/Panel/HBoxContainer/SpellCard2/CenterContainer/VBoxContainer/MarginContainer"]
+layout_mode = 2
+theme = ExtResource("1_7w5fx")
+theme_type_variation = &"darklabel"
+text = "Curse of easy target"
+horizontal_alignment = 1
+
+[node name="Panel" type="Panel" parent="CanvasGroup/SpellsContainer/Panel/HBoxContainer/SpellCard2/CenterContainer/VBoxContainer"]
+clip_contents = true
+custom_minimum_size = Vector2(10, 280)
+layout_mode = 2
+size_flags_vertical = 3
+theme = ExtResource("1_7w5fx")
+theme_type_variation = &"SpellImage"
+theme_override_styles/panel = SubResource("StyleBoxFlat_ss1cb")
+
+[node name="PanelContainer" type="PanelContainer" parent="CanvasGroup/SpellsContainer/Panel/HBoxContainer/SpellCard2/CenterContainer/VBoxContainer/Panel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 5.0
+offset_top = 5.0
+offset_right = -5.0
+offset_bottom = -5.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="CanvasGroup/SpellsContainer/Panel/HBoxContainer/SpellCard2/CenterContainer/VBoxContainer/Panel/PanelContainer"]
+layout_mode = 2
+texture = ExtResource("8_xkvql")
+expand_mode = 4
+
+[node name="Description" type="Label" parent="CanvasGroup/SpellsContainer/Panel/HBoxContainer/SpellCard2/CenterContainer/VBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+theme = ExtResource("1_7w5fx")
+theme_type_variation = &"darklabel"
+text = "You can reroll dices of 1
+difficult 7+
+Range 21''"
+horizontal_alignment = 1
+autowrap_mode = 3
+justification_flags = 0
+
+[node name="Phase" type="Label" parent="CanvasGroup/SpellsContainer/Panel/HBoxContainer/SpellCard2/CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("1_7w5fx")
+theme_type_variation = &"darklabel"
+text = "Can be used at strategic phase"
+
+[node name="MarginContainer2" type="MarginContainer" parent="CanvasGroup/SpellsContainer/Panel/HBoxContainer/SpellCard2/CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 30
+theme_override_constants/margin_right = 30
+theme_override_constants/margin_bottom = 30
+
+[node name="Button" type="Button" parent="CanvasGroup/SpellsContainer/Panel/HBoxContainer/SpellCard2/CenterContainer/VBoxContainer/MarginContainer2"]
+layout_mode = 2
+theme = ExtResource("1_7w5fx")
+text = "Choose target"
+
+[node name="SpellCard3" type="Panel" parent="CanvasGroup/SpellsContainer/Panel/HBoxContainer"]
+custom_minimum_size = Vector2(300, 500)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_lfgcm")
+
+[node name="CenterContainer" type="CenterContainer" parent="CanvasGroup/SpellsContainer/Panel/HBoxContainer/SpellCard3"]
+clip_contents = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -157.0
+offset_top = -261.0
+offset_right = 156.0
+offset_bottom = 262.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_7w5fx")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasGroup/SpellsContainer/Panel/HBoxContainer/SpellCard3/CenterContainer"]
+clip_contents = true
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasGroup/SpellsContainer/Panel/HBoxContainer/SpellCard3/CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("1_7w5fx")
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="Label" type="Label" parent="CanvasGroup/SpellsContainer/Panel/HBoxContainer/SpellCard3/CenterContainer/VBoxContainer/MarginContainer"]
+layout_mode = 2
+theme = ExtResource("1_7w5fx")
+theme_type_variation = &"darklabel"
+text = "Curse of easy target"
+horizontal_alignment = 1
+
+[node name="Panel" type="Panel" parent="CanvasGroup/SpellsContainer/Panel/HBoxContainer/SpellCard3/CenterContainer/VBoxContainer"]
+clip_contents = true
+custom_minimum_size = Vector2(10, 280)
+layout_mode = 2
+size_flags_vertical = 3
+theme = ExtResource("1_7w5fx")
+theme_type_variation = &"SpellImage"
+theme_override_styles/panel = SubResource("StyleBoxFlat_ss1cb")
+
+[node name="PanelContainer" type="PanelContainer" parent="CanvasGroup/SpellsContainer/Panel/HBoxContainer/SpellCard3/CenterContainer/VBoxContainer/Panel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 5.0
+offset_top = 5.0
+offset_right = -5.0
+offset_bottom = -5.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="CanvasGroup/SpellsContainer/Panel/HBoxContainer/SpellCard3/CenterContainer/VBoxContainer/Panel/PanelContainer"]
+layout_mode = 2
+texture = ExtResource("8_xkvql")
+expand_mode = 4
+
+[node name="Description" type="Label" parent="CanvasGroup/SpellsContainer/Panel/HBoxContainer/SpellCard3/CenterContainer/VBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+theme = ExtResource("1_7w5fx")
+theme_type_variation = &"darklabel"
+text = "You can reroll dices of 1
+difficult 7+
+Range 21''"
+horizontal_alignment = 1
+autowrap_mode = 3
+justification_flags = 0
+
+[node name="Phase" type="Label" parent="CanvasGroup/SpellsContainer/Panel/HBoxContainer/SpellCard3/CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("1_7w5fx")
+theme_type_variation = &"darklabel"
+text = "Can be used at strategic phase"
+
+[node name="MarginContainer2" type="MarginContainer" parent="CanvasGroup/SpellsContainer/Panel/HBoxContainer/SpellCard3/CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 30
+theme_override_constants/margin_right = 30
+theme_override_constants/margin_bottom = 30
+
+[node name="Button" type="Button" parent="CanvasGroup/SpellsContainer/Panel/HBoxContainer/SpellCard3/CenterContainer/VBoxContainer/MarginContainer2"]
 layout_mode = 2
 theme = ExtResource("1_7w5fx")
 text = "Choose target"
 
 [node name="ActionContainer" type="CenterContainer" parent="CanvasGroup"]
 custom_minimum_size = Vector2(1920, 200)
-offset_top = 840.0
+offset_top = 918.0
 offset_right = 1920.0
-offset_bottom = 1040.0
+offset_bottom = 1118.0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasGroup/ActionContainer"]
+[node name="Panel" type="Panel" parent="CanvasGroup/ActionContainer"]
+clip_contents = true
+custom_minimum_size = Vector2(500, 100)
+layout_mode = 2
+theme = ExtResource("1_7w5fx")
+theme_type_variation = &"PanelActions"
+
+[node name="CenterContainer" type="CenterContainer" parent="CanvasGroup/ActionContainer/Panel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -178.0
+offset_top = -50.0
+offset_right = 178.0
+offset_bottom = 50.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasGroup/ActionContainer/Panel/CenterContainer"]
 layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasGroup/ActionContainer/HBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="CanvasGroup/ActionContainer/Panel/CenterContainer/HBoxContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 30
 theme_override_constants/margin_top = 30
 theme_override_constants/margin_right = 30
 theme_override_constants/margin_bottom = 30
 
-[node name="Button" type="Button" parent="CanvasGroup/ActionContainer/HBoxContainer/MarginContainer"]
+[node name="Button" type="Button" parent="CanvasGroup/ActionContainer/Panel/CenterContainer/HBoxContainer/MarginContainer"]
 layout_mode = 2
 theme = ExtResource("1_7w5fx")
-text = "SPELLS"
+text = "Spells"
+
+[node name="MarginContainer2" type="MarginContainer" parent="CanvasGroup/ActionContainer/Panel/CenterContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 30
+theme_override_constants/margin_right = 30
+theme_override_constants/margin_bottom = 30
+
+[node name="Button" type="Button" parent="CanvasGroup/ActionContainer/Panel/CenterContainer/HBoxContainer/MarginContainer2"]
+layout_mode = 2
+theme = ExtResource("1_7w5fx")
+text = "Rally troops"
