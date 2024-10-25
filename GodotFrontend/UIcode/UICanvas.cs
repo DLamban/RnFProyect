@@ -19,10 +19,10 @@ public partial class UICanvas : CanvasLayer
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		cursorEffect = GetNode<Sprite2D>("CanvasGroup/CursorEffect");
+		cursorEffect = GetNode<Sprite2D>("CanvasGroup/AnchorProvider/CursorEffect");
 		hBoxesValuesPlayer = new List<Node>();
-		Panel charpanelplayer = GetNode<Panel>("CanvasGroup/CharacteristicsPanelPlayer");
-		Panel charpanelenemy = GetNode<Panel>("CanvasGroup/CharacteristicsPanelEnemy");
+		Panel charpanelplayer = GetNode<Panel>("CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer");
+		Panel charpanelenemy = GetNode<Panel>("CanvasGroup/AnchorProvider/CharacteristicsPanelEnemy");
 		string pathhboxvalues = "CenterContainer/VBoxContainer";
 		hBoxesValuesPlayer = charpanelplayer.GetNode<VBoxContainer>(pathhboxvalues).GetChildren().ToList().FindAll(node => node.GetType() == typeof(HBoxContainer));
 		hBoxesValuesEnemy = charpanelenemy.GetNode<VBoxContainer>(pathhboxvalues).GetChildren().ToList().FindAll(node => node.GetType() == typeof(HBoxContainer));
@@ -38,18 +38,18 @@ public partial class UICanvas : CanvasLayer
 
 
 		// DICE TRAY
-		Node3D diceTray = GetNode<Node3D>("CanvasGroup/DicePanel/Panel/diceView/DiceViewport/DiceTray");		
+		Node3D diceTray = GetNode<Node3D>("CanvasGroup/AnchorProvider/DicePanel/Panel/diceView/DiceViewport/DiceTray");		
 		diceThrower = new DiceThrower(diceTray);
 		// BATTLESTATE MANAGER
-		gameStatePanel = GetNode<Panel>("CanvasGroup/GameStatusContainer/GameStateStatus");
+		gameStatePanel = GetNode<Panel>("CanvasGroup/AnchorProvider/GameStatusContainer/GameStateStatus");
 		
 		SetEventsGameStatePanel(gameStatePanel);
 		SetEventSpellsSelector();
 	}
 	private void SetEventSpellsSelector(){
-		Button spellsSelector = GetNode<Button>("CanvasGroup/ActionContainer/Panel/CenterContainer/HBoxContainer/MarginContainer/SpellButton");
+		Button spellsSelector = GetNode<Button>("CanvasGroup/AnchorProvider/ActionContainer/Panel/CenterContainer/HBoxContainer/MarginContainer/SpellButton");
 		spellsSelector.Pressed += ()=> {
-			PanelContainer spellPanel = GetNode<PanelContainer>("CanvasGroup/SpellsContainer");
+			PanelContainer spellPanel = GetNode<PanelContainer>("CanvasGroup/AnchorProvider/SpellsContainer");
 			spellPanel.Visible = true;
 		};
 

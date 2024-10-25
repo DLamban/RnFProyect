@@ -274,7 +274,7 @@ public partial class Unidad : Node3D
 	{
 		
 		unitState = UnitState.chargeDiceRolling;
-		var dicepanel = ((UnitRenderCreator)GetParent()).UICanvas.GetNode<CenterContainer>("CanvasGroup/DicePanel");
+		var dicepanel = ((UnitRenderCreator)GetParent()).UICanvas.GetNode<CenterContainer>("CanvasGroup/AnchorProvider/DicePanel");
 		dicepanel.Visible = true;
 		DiceThrower diceThrower = ((UnitRenderCreator)GetParent()).UICanvas.diceThrower;
 

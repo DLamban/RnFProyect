@@ -77,28 +77,41 @@ script = ExtResource("1_uf8sf")
 
 [node name="CanvasGroup" type="CanvasGroup" parent="."]
 
-[node name="CharacteristicsPanelPlayer" type="Panel" parent="CanvasGroup"]
+[node name="AnchorProvider" type="Control" parent="CanvasGroup"]
+custom_minimum_size = Vector2(1920, 1080)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 1920.0
+offset_bottom = 1080.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="CharacteristicsPanelPlayer" type="Panel" parent="CanvasGroup/AnchorProvider"]
+layout_mode = 0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme = ExtResource("1_7w5fx")
 
-[node name="CenterContainer" type="CenterContainer" parent="CanvasGroup/CharacteristicsPanelPlayer"]
+[node name="CenterContainer" type="CenterContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer"]
 layout_mode = 0
 offset_left = 32.0
 offset_top = 35.0
 offset_right = 274.0
 offset_bottom = 287.0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasGroup/CharacteristicsPanelPlayer/CenterContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CenterContainer"]
 layout_mode = 2
 
-[node name="NameBox" type="HBoxContainer" parent="CanvasGroup/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer"]
+[node name="NameBox" type="HBoxContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="Name" type="Label" parent="CanvasGroup/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/NameBox"]
+[node name="Name" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/NameBox"]
 layout_mode = 2
 
-[node name="Value" type="Label" parent="CanvasGroup/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/NameBox"]
+[node name="Value" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/NameBox"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
@@ -106,158 +119,157 @@ text = "Dwarf warrior"
 label_settings = ExtResource("2_6wcfk")
 horizontal_alignment = 2
 
-[node name="MovementBox" type="HBoxContainer" parent="CanvasGroup/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer"]
+[node name="MovementBox" type="HBoxContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="Mov" type="Label" parent="CanvasGroup/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/MovementBox"]
+[node name="Mov" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/MovementBox"]
 layout_mode = 2
 text = "Movement"
 
-[node name="Value" type="Label" parent="CanvasGroup/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/MovementBox"]
+[node name="Value" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/MovementBox"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
 text = "3"
 horizontal_alignment = 2
 
-[node name="DexterityBox" type="HBoxContainer" parent="CanvasGroup/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer"]
+[node name="DexterityBox" type="HBoxContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Dex" type="Label" parent="CanvasGroup/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/DexterityBox"]
+[node name="Dex" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/DexterityBox"]
 layout_mode = 2
 text = "Dexterity"
 
-[node name="Value" type="Label" parent="CanvasGroup/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/DexterityBox"]
+[node name="Value" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/DexterityBox"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "4"
 horizontal_alignment = 2
 
-[node name="ShootingBox" type="HBoxContainer" parent="CanvasGroup/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer"]
+[node name="ShootingBox" type="HBoxContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Shoot" type="Label" parent="CanvasGroup/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/ShootingBox"]
+[node name="Shoot" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/ShootingBox"]
 layout_mode = 2
 text = "Shooting"
 
-[node name="Value" type="Label" parent="CanvasGroup/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/ShootingBox"]
+[node name="Value" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/ShootingBox"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "3"
 horizontal_alignment = 2
 
-[node name="StrengthBox" type="HBoxContainer" parent="CanvasGroup/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer"]
+[node name="StrengthBox" type="HBoxContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Str" type="Label" parent="CanvasGroup/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/StrengthBox"]
+[node name="Str" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/StrengthBox"]
 layout_mode = 2
 text = "Strength"
 
-[node name="Value" type="Label" parent="CanvasGroup/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/StrengthBox"]
+[node name="Value" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/StrengthBox"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "4"
 horizontal_alignment = 2
 
-[node name="ResistanceBox" type="HBoxContainer" parent="CanvasGroup/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer"]
+[node name="ResistanceBox" type="HBoxContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Res" type="Label" parent="CanvasGroup/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/ResistanceBox"]
+[node name="Res" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/ResistanceBox"]
 layout_mode = 2
 text = "Resistance"
 
-[node name="Value" type="Label" parent="CanvasGroup/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/ResistanceBox"]
+[node name="Value" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/ResistanceBox"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "4"
 horizontal_alignment = 2
 
-[node name="WoundsBox" type="HBoxContainer" parent="CanvasGroup/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer"]
+[node name="WoundsBox" type="HBoxContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Wounds" type="Label" parent="CanvasGroup/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/WoundsBox"]
+[node name="Wounds" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/WoundsBox"]
 layout_mode = 2
 text = "Wounds"
 
-[node name="Value" type="Label" parent="CanvasGroup/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/WoundsBox"]
+[node name="Value" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/WoundsBox"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "1"
 horizontal_alignment = 2
 
-[node name="AttacksBox" type="HBoxContainer" parent="CanvasGroup/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer"]
+[node name="AttacksBox" type="HBoxContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Att" type="Label" parent="CanvasGroup/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/AttacksBox"]
+[node name="Att" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/AttacksBox"]
 layout_mode = 2
 text = "Attacks"
 
-[node name="Value" type="Label" parent="CanvasGroup/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/AttacksBox"]
+[node name="Value" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/AttacksBox"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "1"
 horizontal_alignment = 2
 
-[node name="InitiativeBox" type="HBoxContainer" parent="CanvasGroup/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer"]
+[node name="InitiativeBox" type="HBoxContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Ini" type="Label" parent="CanvasGroup/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/InitiativeBox"]
+[node name="Ini" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/InitiativeBox"]
 layout_mode = 2
 text = "Initiative"
 
-[node name="Value" type="Label" parent="CanvasGroup/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/InitiativeBox"]
+[node name="Value" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/InitiativeBox"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "2"
 horizontal_alignment = 2
 
-[node name="ArmourBox" type="HBoxContainer" parent="CanvasGroup/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer"]
+[node name="ArmourBox" type="HBoxContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Armour" type="Label" parent="CanvasGroup/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/ArmourBox"]
+[node name="Armour" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/ArmourBox"]
 layout_mode = 2
 text = "Armour"
 
-[node name="Value" type="Label" parent="CanvasGroup/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/ArmourBox"]
+[node name="Value" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/ArmourBox"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "2"
 horizontal_alignment = 2
 
-[node name="CharacteristicsPanelEnemy" type="Panel" parent="CanvasGroup"]
-offset_left = 1596.0
-offset_top = 25.0
-offset_right = 1904.0
-offset_bottom = 345.0
+[node name="CharacteristicsPanelEnemy" type="Panel" parent="CanvasGroup/AnchorProvider"]
+layout_mode = 0
+offset_left = 1600.0
+offset_right = 1600.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme = ExtResource("1_7w5fx")
 
-[node name="CenterContainer" type="CenterContainer" parent="CanvasGroup/CharacteristicsPanelEnemy"]
+[node name="CenterContainer" type="CenterContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelEnemy"]
 layout_mode = 0
 offset_left = 32.0
 offset_top = 35.0
 offset_right = 274.0
 offset_bottom = 287.0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasGroup/CharacteristicsPanelEnemy/CenterContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelEnemy/CenterContainer"]
 layout_mode = 2
 
-[node name="NameBox" type="HBoxContainer" parent="CanvasGroup/CharacteristicsPanelEnemy/CenterContainer/VBoxContainer"]
+[node name="NameBox" type="HBoxContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelEnemy/CenterContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="Name" type="Label" parent="CanvasGroup/CharacteristicsPanelEnemy/CenterContainer/VBoxContainer/NameBox"]
+[node name="Name" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelEnemy/CenterContainer/VBoxContainer/NameBox"]
 layout_mode = 2
 
-[node name="Value" type="Label" parent="CanvasGroup/CharacteristicsPanelEnemy/CenterContainer/VBoxContainer/NameBox"]
+[node name="Value" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelEnemy/CenterContainer/VBoxContainer/NameBox"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
@@ -265,153 +277,156 @@ text = "Dwarf warrior"
 label_settings = ExtResource("2_6wcfk")
 horizontal_alignment = 2
 
-[node name="MovementBox" type="HBoxContainer" parent="CanvasGroup/CharacteristicsPanelEnemy/CenterContainer/VBoxContainer"]
+[node name="MovementBox" type="HBoxContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelEnemy/CenterContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="Mov" type="Label" parent="CanvasGroup/CharacteristicsPanelEnemy/CenterContainer/VBoxContainer/MovementBox"]
+[node name="Mov" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelEnemy/CenterContainer/VBoxContainer/MovementBox"]
 layout_mode = 2
 text = "Movement"
 
-[node name="Value" type="Label" parent="CanvasGroup/CharacteristicsPanelEnemy/CenterContainer/VBoxContainer/MovementBox"]
+[node name="Value" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelEnemy/CenterContainer/VBoxContainer/MovementBox"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
 text = "3"
 horizontal_alignment = 2
 
-[node name="DexterityBox" type="HBoxContainer" parent="CanvasGroup/CharacteristicsPanelEnemy/CenterContainer/VBoxContainer"]
+[node name="DexterityBox" type="HBoxContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelEnemy/CenterContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Dex" type="Label" parent="CanvasGroup/CharacteristicsPanelEnemy/CenterContainer/VBoxContainer/DexterityBox"]
+[node name="Dex" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelEnemy/CenterContainer/VBoxContainer/DexterityBox"]
 layout_mode = 2
 text = "Dexterity"
 
-[node name="Value" type="Label" parent="CanvasGroup/CharacteristicsPanelEnemy/CenterContainer/VBoxContainer/DexterityBox"]
+[node name="Value" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelEnemy/CenterContainer/VBoxContainer/DexterityBox"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "4"
 horizontal_alignment = 2
 
-[node name="ShootingBox" type="HBoxContainer" parent="CanvasGroup/CharacteristicsPanelEnemy/CenterContainer/VBoxContainer"]
+[node name="ShootingBox" type="HBoxContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelEnemy/CenterContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Shoot" type="Label" parent="CanvasGroup/CharacteristicsPanelEnemy/CenterContainer/VBoxContainer/ShootingBox"]
+[node name="Shoot" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelEnemy/CenterContainer/VBoxContainer/ShootingBox"]
 layout_mode = 2
 text = "Shooting"
 
-[node name="Value" type="Label" parent="CanvasGroup/CharacteristicsPanelEnemy/CenterContainer/VBoxContainer/ShootingBox"]
+[node name="Value" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelEnemy/CenterContainer/VBoxContainer/ShootingBox"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "3"
 horizontal_alignment = 2
 
-[node name="StrengthBox" type="HBoxContainer" parent="CanvasGroup/CharacteristicsPanelEnemy/CenterContainer/VBoxContainer"]
+[node name="StrengthBox" type="HBoxContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelEnemy/CenterContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Str" type="Label" parent="CanvasGroup/CharacteristicsPanelEnemy/CenterContainer/VBoxContainer/StrengthBox"]
+[node name="Str" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelEnemy/CenterContainer/VBoxContainer/StrengthBox"]
 layout_mode = 2
 text = "Strength"
 
-[node name="Value" type="Label" parent="CanvasGroup/CharacteristicsPanelEnemy/CenterContainer/VBoxContainer/StrengthBox"]
+[node name="Value" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelEnemy/CenterContainer/VBoxContainer/StrengthBox"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "4"
 horizontal_alignment = 2
 
-[node name="ResistanceBox" type="HBoxContainer" parent="CanvasGroup/CharacteristicsPanelEnemy/CenterContainer/VBoxContainer"]
+[node name="ResistanceBox" type="HBoxContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelEnemy/CenterContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Res" type="Label" parent="CanvasGroup/CharacteristicsPanelEnemy/CenterContainer/VBoxContainer/ResistanceBox"]
+[node name="Res" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelEnemy/CenterContainer/VBoxContainer/ResistanceBox"]
 layout_mode = 2
 text = "Resistance"
 
-[node name="Value" type="Label" parent="CanvasGroup/CharacteristicsPanelEnemy/CenterContainer/VBoxContainer/ResistanceBox"]
+[node name="Value" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelEnemy/CenterContainer/VBoxContainer/ResistanceBox"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "4"
 horizontal_alignment = 2
 
-[node name="WoundsBox" type="HBoxContainer" parent="CanvasGroup/CharacteristicsPanelEnemy/CenterContainer/VBoxContainer"]
+[node name="WoundsBox" type="HBoxContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelEnemy/CenterContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Wounds" type="Label" parent="CanvasGroup/CharacteristicsPanelEnemy/CenterContainer/VBoxContainer/WoundsBox"]
+[node name="Wounds" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelEnemy/CenterContainer/VBoxContainer/WoundsBox"]
 layout_mode = 2
 text = "Wounds"
 
-[node name="Value" type="Label" parent="CanvasGroup/CharacteristicsPanelEnemy/CenterContainer/VBoxContainer/WoundsBox"]
+[node name="Value" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelEnemy/CenterContainer/VBoxContainer/WoundsBox"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "1"
 horizontal_alignment = 2
 
-[node name="AttacksBox" type="HBoxContainer" parent="CanvasGroup/CharacteristicsPanelEnemy/CenterContainer/VBoxContainer"]
+[node name="AttacksBox" type="HBoxContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelEnemy/CenterContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Att" type="Label" parent="CanvasGroup/CharacteristicsPanelEnemy/CenterContainer/VBoxContainer/AttacksBox"]
+[node name="Att" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelEnemy/CenterContainer/VBoxContainer/AttacksBox"]
 layout_mode = 2
 text = "Attacks"
 
-[node name="Value" type="Label" parent="CanvasGroup/CharacteristicsPanelEnemy/CenterContainer/VBoxContainer/AttacksBox"]
+[node name="Value" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelEnemy/CenterContainer/VBoxContainer/AttacksBox"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "1"
 horizontal_alignment = 2
 
-[node name="InitiativeBox" type="HBoxContainer" parent="CanvasGroup/CharacteristicsPanelEnemy/CenterContainer/VBoxContainer"]
+[node name="InitiativeBox" type="HBoxContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelEnemy/CenterContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Ini" type="Label" parent="CanvasGroup/CharacteristicsPanelEnemy/CenterContainer/VBoxContainer/InitiativeBox"]
+[node name="Ini" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelEnemy/CenterContainer/VBoxContainer/InitiativeBox"]
 layout_mode = 2
 text = "Initiative"
 
-[node name="Value" type="Label" parent="CanvasGroup/CharacteristicsPanelEnemy/CenterContainer/VBoxContainer/InitiativeBox"]
+[node name="Value" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelEnemy/CenterContainer/VBoxContainer/InitiativeBox"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "2"
 horizontal_alignment = 2
 
-[node name="ArmourBox" type="HBoxContainer" parent="CanvasGroup/CharacteristicsPanelEnemy/CenterContainer/VBoxContainer"]
+[node name="ArmourBox" type="HBoxContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelEnemy/CenterContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Armour" type="Label" parent="CanvasGroup/CharacteristicsPanelEnemy/CenterContainer/VBoxContainer/ArmourBox"]
+[node name="Armour" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelEnemy/CenterContainer/VBoxContainer/ArmourBox"]
 layout_mode = 2
 text = "Armour"
 
-[node name="Value" type="Label" parent="CanvasGroup/CharacteristicsPanelEnemy/CenterContainer/VBoxContainer/ArmourBox"]
+[node name="Value" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelEnemy/CenterContainer/VBoxContainer/ArmourBox"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "2"
 horizontal_alignment = 2
 
-[node name="DicePanel" type="CenterContainer" parent="CanvasGroup"]
+[node name="DicePanel" type="CenterContainer" parent="CanvasGroup/AnchorProvider"]
 visible = false
+layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_right = 1920.0
-offset_bottom = 1080.0
+offset_left = -960.0
+offset_top = -540.0
+offset_right = 960.0
+offset_bottom = 540.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme = ExtResource("1_7w5fx")
 
-[node name="Panel" type="Panel" parent="CanvasGroup/DicePanel"]
+[node name="Panel" type="Panel" parent="CanvasGroup/AnchorProvider/DicePanel"]
 custom_minimum_size = Vector2(610, 610)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_apgn1")
 
-[node name="diceView" type="SubViewportContainer" parent="CanvasGroup/DicePanel/Panel"]
+[node name="diceView" type="SubViewportContainer" parent="CanvasGroup/AnchorProvider/DicePanel/Panel"]
 custom_minimum_size = Vector2(600, 600)
 layout_mode = 1
 anchors_preset = 8
@@ -427,60 +442,61 @@ grow_horizontal = 2
 grow_vertical = 2
 stretch = true
 
-[node name="DiceViewport" type="SubViewport" parent="CanvasGroup/DicePanel/Panel/diceView"]
+[node name="DiceViewport" type="SubViewport" parent="CanvasGroup/AnchorProvider/DicePanel/Panel/diceView"]
 handle_input_locally = false
 size = Vector2i(600, 600)
 render_target_update_mode = 0
 
-[node name="DiceTray" type="Node3D" parent="CanvasGroup/DicePanel/Panel/diceView/DiceViewport"]
+[node name="DiceTray" type="Node3D" parent="CanvasGroup/AnchorProvider/DicePanel/Panel/diceView/DiceViewport"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -13.8208)
 
-[node name="Camera3D" type="Camera3D" parent="CanvasGroup/DicePanel/Panel/diceView/DiceViewport/DiceTray"]
+[node name="Camera3D" type="Camera3D" parent="CanvasGroup/AnchorProvider/DicePanel/Panel/diceView/DiceViewport/DiceTray"]
 transform = Transform3D(1, 0, 0, 0, 0.0871558, 0.996195, 0, -0.996195, 0.0871558, -1.31882, 14.809, 3.15111)
 fov = 56.3
 size = 18.142
 
-[node name="tray" type="Node3D" parent="CanvasGroup/DicePanel/Panel/diceView/DiceViewport/DiceTray"]
+[node name="tray" type="Node3D" parent="CanvasGroup/AnchorProvider/DicePanel/Panel/diceView/DiceViewport/DiceTray"]
 
-[node name="StaticBody3D" type="StaticBody3D" parent="CanvasGroup/DicePanel/Panel/diceView/DiceViewport/DiceTray/tray"]
+[node name="StaticBody3D" type="StaticBody3D" parent="CanvasGroup/AnchorProvider/DicePanel/Panel/diceView/DiceViewport/DiceTray/tray"]
 
-[node name="CollisionShape3D3" type="CollisionShape3D" parent="CanvasGroup/DicePanel/Panel/diceView/DiceViewport/DiceTray/tray/StaticBody3D"]
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="CanvasGroup/AnchorProvider/DicePanel/Panel/diceView/DiceViewport/DiceTray/tray/StaticBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.37753, 7.04634, 1.84468)
 shape = SubResource("BoxShape3D_jl446")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="CanvasGroup/DicePanel/Panel/diceView/DiceViewport/DiceTray/tray/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CanvasGroup/AnchorProvider/DicePanel/Panel/diceView/DiceViewport/DiceTray/tray/StaticBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.99212, 0, 1.77664)
 shape = SubResource("BoxShape3D_a1ojn")
 
-[node name="CollisionShape3D2" type="CollisionShape3D" parent="CanvasGroup/DicePanel/Panel/diceView/DiceViewport/DiceTray/tray/StaticBody3D"]
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="CanvasGroup/AnchorProvider/DicePanel/Panel/diceView/DiceViewport/DiceTray/tray/StaticBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.12893, 7.39134, 1.25304)
 shape = SubResource("BoxShape3D_jl446")
 
-[node name="CollisionShape3D4" type="CollisionShape3D" parent="CanvasGroup/DicePanel/Panel/diceView/DiceViewport/DiceTray/tray/StaticBody3D"]
+[node name="CollisionShape3D4" type="CollisionShape3D" parent="CanvasGroup/AnchorProvider/DicePanel/Panel/diceView/DiceViewport/DiceTray/tray/StaticBody3D"]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -2.08792, 7.06823, 7.22016)
 shape = SubResource("BoxShape3D_jl446")
 
-[node name="CollisionShape3D5" type="CollisionShape3D" parent="CanvasGroup/DicePanel/Panel/diceView/DiceViewport/DiceTray/tray/StaticBody3D"]
+[node name="CollisionShape3D5" type="CollisionShape3D" parent="CanvasGroup/AnchorProvider/DicePanel/Panel/diceView/DiceViewport/DiceTray/tray/StaticBody3D"]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -1.84798, 6.5424, -4.00775)
 shape = SubResource("BoxShape3D_jl446")
 
-[node name="velvetdicetray" parent="CanvasGroup/DicePanel/Panel/diceView/DiceViewport/DiceTray" instance=ExtResource("4_vvqy3")]
+[node name="velvetdicetray" parent="CanvasGroup/AnchorProvider/DicePanel/Panel/diceView/DiceViewport/DiceTray" instance=ExtResource("4_vvqy3")]
 transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 0, 0)
 
-[node name="SpotLight3D" type="SpotLight3D" parent="CanvasGroup/DicePanel/Panel/diceView/DiceViewport/DiceTray"]
+[node name="SpotLight3D" type="SpotLight3D" parent="CanvasGroup/AnchorProvider/DicePanel/Panel/diceView/DiceViewport/DiceTray"]
 transform = Transform3D(1, 0, 0, 0, -0.0769801, 0.997033, 0, -0.997033, -0.0769801, 0, 10.2917, 0)
 light_color = Color(1, 0.852779, 0.64635, 1)
 light_energy = 11.109
 spot_range = 15.5776
 spot_angle = 45.3366
 
-[node name="GameStatusContainer" type="CenterContainer" parent="CanvasGroup"]
+[node name="GameStatusContainer" type="CenterContainer" parent="CanvasGroup/AnchorProvider"]
 custom_minimum_size = Vector2(1920, 220)
+layout_mode = 0
 offset_right = 3193.0
 offset_bottom = 307.0
 scale = Vector2(0.6, 0.6)
 
-[node name="GameStateStatus" type="Panel" parent="CanvasGroup/GameStatusContainer"]
+[node name="GameStateStatus" type="Panel" parent="CanvasGroup/AnchorProvider/GameStatusContainer"]
 clip_contents = true
 custom_minimum_size = Vector2(600, 200)
 layout_mode = 2
@@ -489,14 +505,14 @@ tooltip_text = "Showing the state of the battle"
 theme = ExtResource("1_7w5fx")
 theme_override_styles/panel = SubResource("StyleBoxFlat_4jijp")
 
-[node name="background" type="TextureRect" parent="CanvasGroup/GameStatusContainer/GameStateStatus"]
+[node name="background" type="TextureRect" parent="CanvasGroup/AnchorProvider/GameStatusContainer/GameStateStatus"]
 layout_mode = 0
 offset_right = 600.0
 offset_bottom = 600.0
 theme = ExtResource("1_7w5fx")
 texture = ExtResource("5_4txjm")
 
-[node name="PhaseIcon" type="TextureRect" parent="CanvasGroup/GameStatusContainer/GameStateStatus"]
+[node name="PhaseIcon" type="TextureRect" parent="CanvasGroup/AnchorProvider/GameStatusContainer/GameStateStatus"]
 z_index = 1
 layout_mode = 0
 offset_right = 600.0
@@ -504,7 +520,7 @@ offset_bottom = 600.0
 pivot_offset = Vector2(300, 300)
 texture = ExtResource("6_wpu2u")
 
-[node name="overlay" type="TextureRect" parent="CanvasGroup/GameStatusContainer/GameStateStatus"]
+[node name="overlay" type="TextureRect" parent="CanvasGroup/AnchorProvider/GameStatusContainer/GameStateStatus"]
 z_index = 2
 clip_contents = true
 layout_mode = 0
@@ -512,7 +528,7 @@ offset_right = 600.0
 offset_bottom = 600.0
 texture = ExtResource("7_rpjy1")
 
-[node name="CurrentPhase" type="Label" parent="CanvasGroup/GameStatusContainer/GameStateStatus"]
+[node name="CurrentPhase" type="Label" parent="CanvasGroup/AnchorProvider/GameStatusContainer/GameStateStatus"]
 layout_mode = 0
 offset_left = 199.0
 offset_top = 169.0
@@ -522,7 +538,7 @@ theme = ExtResource("1_7w5fx")
 theme_override_font_sizes/font_size = 24
 text = "STRATEGY PHASE "
 
-[node name="NextPhase" type="Button" parent="CanvasGroup/GameStatusContainer/GameStateStatus"]
+[node name="NextPhase" type="Button" parent="CanvasGroup/AnchorProvider/GameStatusContainer/GameStateStatus"]
 z_index = 2
 z_as_relative = false
 layout_mode = 0
@@ -535,20 +551,28 @@ theme = ExtResource("1_7w5fx")
 text = "NEXT 
 PHASE"
 
-[node name="ActionContainer" type="CenterContainer" parent="CanvasGroup"]
+[node name="ActionContainer" type="CenterContainer" parent="CanvasGroup/AnchorProvider"]
 custom_minimum_size = Vector2(1920, 200)
-offset_top = 918.0
-offset_right = 1920.0
-offset_bottom = 1118.0
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -960.0
+offset_top = -200.0
+offset_right = 960.0
+grow_horizontal = 2
+grow_vertical = 0
 
-[node name="Panel" type="Panel" parent="CanvasGroup/ActionContainer"]
+[node name="Panel" type="Panel" parent="CanvasGroup/AnchorProvider/ActionContainer"]
 clip_contents = true
 custom_minimum_size = Vector2(500, 100)
 layout_mode = 2
 theme = ExtResource("1_7w5fx")
 theme_type_variation = &"PanelActions"
 
-[node name="CenterContainer" type="CenterContainer" parent="CanvasGroup/ActionContainer/Panel"]
+[node name="CenterContainer" type="CenterContainer" parent="CanvasGroup/AnchorProvider/ActionContainer/Panel"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -562,60 +586,61 @@ offset_bottom = 50.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasGroup/ActionContainer/Panel/CenterContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasGroup/AnchorProvider/ActionContainer/Panel/CenterContainer"]
 layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasGroup/ActionContainer/Panel/CenterContainer/HBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="CanvasGroup/AnchorProvider/ActionContainer/Panel/CenterContainer/HBoxContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 30
 theme_override_constants/margin_top = 30
 theme_override_constants/margin_right = 30
 theme_override_constants/margin_bottom = 30
 
-[node name="SpellButton" type="Button" parent="CanvasGroup/ActionContainer/Panel/CenterContainer/HBoxContainer/MarginContainer"]
+[node name="SpellButton" type="Button" parent="CanvasGroup/AnchorProvider/ActionContainer/Panel/CenterContainer/HBoxContainer/MarginContainer"]
 layout_mode = 2
 theme = ExtResource("1_7w5fx")
 text = "Spells"
 
-[node name="MarginContainer2" type="MarginContainer" parent="CanvasGroup/ActionContainer/Panel/CenterContainer/HBoxContainer"]
+[node name="MarginContainer2" type="MarginContainer" parent="CanvasGroup/AnchorProvider/ActionContainer/Panel/CenterContainer/HBoxContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 30
 theme_override_constants/margin_top = 30
 theme_override_constants/margin_right = 30
 theme_override_constants/margin_bottom = 30
 
-[node name="Button" type="Button" parent="CanvasGroup/ActionContainer/Panel/CenterContainer/HBoxContainer/MarginContainer2"]
+[node name="Button" type="Button" parent="CanvasGroup/AnchorProvider/ActionContainer/Panel/CenterContainer/HBoxContainer/MarginContainer2"]
 layout_mode = 2
 theme = ExtResource("1_7w5fx")
 text = "Rally troops"
 
-[node name="SpellsContainer" type="PanelContainer" parent="CanvasGroup"]
-offset_right = 40.0
-offset_bottom = 40.0
+[node name="SpellsContainer" type="PanelContainer" parent="CanvasGroup/AnchorProvider"]
+layout_mode = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
 script = ExtResource("9_xjim1")
 
-[node name="SpellsCenterContainer" type="CenterContainer" parent="CanvasGroup/SpellsContainer"]
+[node name="SpellsCenterContainer" type="CenterContainer" parent="CanvasGroup/AnchorProvider/SpellsContainer"]
 z_index = 4
 custom_minimum_size = Vector2(1920, 1080)
 layout_mode = 2
 
-[node name="Sprite2D" type="Sprite2D" parent="CanvasGroup/SpellsContainer/SpellsCenterContainer"]
+[node name="Sprite2D" type="Sprite2D" parent="CanvasGroup/AnchorProvider/SpellsContainer/SpellsCenterContainer"]
 texture_repeat = 2
 material = SubResource("ShaderMaterial_0yc5x")
 texture = SubResource("NoiseTexture2D_pf72u")
 centered = false
 
-[node name="SpellListHBox" type="HBoxContainer" parent="CanvasGroup/SpellsContainer/SpellsCenterContainer"]
+[node name="SpellListHBox" type="HBoxContainer" parent="CanvasGroup/AnchorProvider/SpellsContainer/SpellsCenterContainer"]
 layout_mode = 2
 theme_override_constants/separation = 50
 
-[node name="Panel" type="Panel" parent="CanvasGroup/SpellsContainer"]
+[node name="Panel" type="Panel" parent="CanvasGroup/AnchorProvider/SpellsContainer"]
 z_index = 3
 layout_mode = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_uiwbc")
 
-[node name="CloseBtn" type="Button" parent="CanvasGroup/SpellsContainer/Panel"]
+[node name="CloseBtn" type="Button" parent="CanvasGroup/AnchorProvider/SpellsContainer/Panel"]
 layout_mode = 2
 offset_left = 1520.0
 offset_top = 119.0
@@ -626,5 +651,6 @@ theme_override_fonts/font = SubResource("SystemFont_e0k3x")
 theme_override_font_sizes/font_size = 90
 text = "X"
 
-[node name="CursorEffect" type="Sprite2D" parent="CanvasGroup"]
+[node name="CursorEffect" type="Sprite2D" parent="CanvasGroup/AnchorProvider"]
+visible = false
 texture = SubResource("PlaceholderTexture2D_r5m2e")

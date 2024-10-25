@@ -39,8 +39,8 @@ public partial class UnitRenderCreator : Node
     // DEPRECATED, maybe can use later with other event pattern
     private void BindSignalsHUD(CanvasLayer unitHUD)
 	{
-		Panel charPanelPlayer = unitHUD.GetNode<Panel>("CanvasGroup/CharacteristicsPanelPlayer") as Panel;
-		Panel charPanelEnemy = unitHUD.GetNode<Panel>("CanvasGroup/CharacteristicsPanelEnemy") as Panel;
+		Panel charPanelPlayer = unitHUD.GetNode<Panel>("CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer") as Panel;
+		Panel charPanelEnemy = unitHUD.GetNode<Panel>("CanvasGroup/AnchorProvider/CharacteristicsPanelEnemy") as Panel;
 	}
 	/// Populate with the units, TODO: load from lists and stop the hardcoding
 	private void CreateAllUnits(){

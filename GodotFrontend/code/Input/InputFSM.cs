@@ -8,6 +8,6 @@ namespace GodotFrontend.code.Input
 {
     internal class InputFSM
     {
-        haz cosas
+       // haz cosas
     }
 }
