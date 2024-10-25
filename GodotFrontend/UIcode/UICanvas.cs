@@ -39,9 +39,17 @@ public partial class UICanvas : CanvasLayer
 		Node3D diceTray = GetNode<Node3D>("CanvasGroup/DicePanel/Panel/diceView/DiceViewport/DiceTray");		
 		diceThrower = new DiceThrower(diceTray);
 		// BATTLESTATE MANAGER
-		gameStatePanel = GetNode<Panel>("CanvasGroup/CenterContainer/GameStateStatus");
+		gameStatePanel = GetNode<Panel>("CanvasGroup/GameStatusContainer/GameStateStatus");
+		
 		SetEventsGameStatePanel(gameStatePanel);
-
+		SetEventSpellsSelector();
+	}
+	private void SetEventSpellsSelector(){
+		Button spellsSelector = GetNode<Button>("CanvasGroup/ActionContainer/Panel/CenterContainer/HBoxContainer/MarginContainer/SpellButton");
+		spellsSelector.Pressed += ()=> {
+			PanelContainer spellPanel = GetNode<PanelContainer>("CanvasGroup/SpellsContainer");
+			spellPanel.Visible = true;
+		};
 	}
 	private void SetEventsGameStatePanel(Panel _gameStatePanel)
 	{

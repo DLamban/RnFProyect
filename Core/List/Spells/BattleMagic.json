@@ -1,0 +1,31 @@
+{
+  "Name": "Battle Magic",
+  "Spells": [
+    {
+      "Name": "Curse of Easy Target",
+      "Image": "arrowattr.png",
+      "Description": "You can reroll dices with 1",
+      "Difficulty": 7,
+      "Range": 21,
+      "Type": "Hex"
+    },
+    {
+      "Name": "Magic Shield",
+      "Image": "magic_shield.jpg",
+      "Description": "Gain a 5+ special save",
+      "Difficulty": 7,
+      "Range": 0,
+      "Type": "Buff"
+    },
+    {
+      "Name": "Fireball",
+      "Image": "fireball.jpg",
+      "Description": "A giant ball of fire",
+      "Difficulty": 8,
+      "Range": 24,
+      "Type": "Throwing Magic"
+    }
+  ]
+  
+
+}

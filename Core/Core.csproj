@@ -11,6 +11,7 @@
     <None Remove="List\races\Dwarfs.json" />
     <None Remove="List\races\Orcs.json" />
     <None Remove="List\races\Ratkin.json" />
+    <None Remove="List\Spells\BattleMagic.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -21,6 +22,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="List\races\Ratkin.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="List\Spells\BattleMagic.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
