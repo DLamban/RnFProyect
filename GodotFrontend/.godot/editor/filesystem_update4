@@ -19,3 +19,4 @@ res://units/vfx/selection_particles.tscn
 res://Spells/spell_card.tscn
 res://Spells/UISpellManager.cs
 res://assets/UI/Spells/spell_card.tscn
+res://code/Input/InputManager.cs

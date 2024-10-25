@@ -1,3 +1,4 @@
+Sprite2D
 Panel
 PanelContainer
 Control
@@ -6,7 +7,6 @@ CenterContainer
 Button
 Label
 MarginContainer
-Sprite2D
 TextureRect
 HBoxContainer
 VBoxContainer

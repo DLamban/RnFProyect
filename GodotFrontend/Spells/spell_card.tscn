@@ -144,7 +144,7 @@ theme_override_constants/margin_top = 30
 theme_override_constants/margin_right = 30
 theme_override_constants/margin_bottom = 30
 
-[node name="Button" type="Button" parent="CenterContainer/MarginContainer/VBoxContainer/MarginContainer2"]
+[node name="CastBtn" type="Button" parent="CenterContainer/MarginContainer/VBoxContainer/MarginContainer2"]
 layout_mode = 2
 theme = ExtResource("2_diros")
-text = "Choose target"
+text = "Cast"

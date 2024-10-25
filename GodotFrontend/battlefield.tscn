@@ -1,7 +1,7 @@
-[gd_scene load_steps=19 format=3 uid="uid://d3f1ae03k83uv"]
+[gd_scene load_steps=16 format=3 uid="uid://d3f1ae03k83uv"]
 
-[ext_resource type="Script" path="res://code/InputManager.cs" id="1_11q0i"]
 [ext_resource type="Script" path="res://battlefieldManager.cs" id="1_wimcb"]
+[ext_resource type="Script" path="res://code/Input/InputManager.cs" id="2_ck3rs"]
 [ext_resource type="Texture2D" uid="uid://d0vwwjppvqoer" path="res://assets/tex/dirtcartoon/Dirt_01_Nrm.png" id="4_nx6cc"]
 [ext_resource type="Script" path="res://code/FieldCameraControl.cs" id="7_3lx50"]
 [ext_resource type="PackedScene" uid="uid://7avowxdh4u3l" path="res://assets/3d/rocks/objects/rock1.glb" id="7_ca4yh"]
@@ -52,25 +52,11 @@ fog_aerial_perspective = 0.456
 volumetric_fog_enabled = true
 volumetric_fog_density = 0.0
 
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_mjk52"]
-lifetime_randomness = 1.0
-emission_shape = 3
-emission_box_extents = Vector3(1, 0.1, 1)
-gravity = Vector3(0, 0, 2)
-scale_min = 0.5
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_c7ehj"]
-albedo_color = Color(0.435249, 0.55454, 0, 1)
-
-[sub_resource type="QuadMesh" id="QuadMesh_t1i5y"]
-material = SubResource("StandardMaterial3D_c7ehj")
-size = Vector2(0.1, 0.1)
-
 [node name="Main" type="Node3D"]
 script = ExtResource("1_wimcb")
 
 [node name="Battlefield" type="Node3D" parent="."]
-script = ExtResource("1_11q0i")
+script = ExtResource("2_ck3rs")
 
 [node name="Environment" type="Node" parent="Battlefield"]
 
@@ -145,17 +131,6 @@ transform = Transform3D(0.119982, -0.00209493, 7.30895e-05, 0.000109606, 0.00209
 
 [node name="treelowpoly6" parent="Battlefield/terrainbackground/Forest" instance=ExtResource("9_g0wca")]
 transform = Transform3D(0.1, 0, 0, 0, -4.37114e-09, -0.1, 0, 0.1, -4.37114e-09, 0.340271, -1.61903, 0.216582)
-
-[node name="GPUParticles3D" type="GPUParticles3D" parent="Battlefield"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, -2.64685, 1.84983)
-transparency = 0.3
-cast_shadow = 0
-gi_mode = 0
-amount = 300
-speed_scale = 1.2
-transform_align = 3
-process_material = SubResource("ParticleProcessMaterial_mjk52")
-draw_pass_1 = SubResource("QuadMesh_t1i5y")
 
 [node name="debugUI" type="Node" parent="."]
 

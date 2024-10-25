@@ -30,9 +30,19 @@ public partial class SpellCard : Panel
 		}
 		// Type
 		Label type = GetNode<Label>("CenterContainer/MarginContainer/VBoxContainer/Type");
-		type.Text = "Type: " + spell.Type;
-		
-		
-
+		type.Text = "Type: " + spell.Type;				
 	}
+	public override void _Ready()
+	{
+		Button castButton = GetNode<Button>("CenterContainer/MarginContainer/VBoxContainer/MarginContainer2/CastBtn");
+		castButton.Pressed += ()=> {
+			CastSpell();
+		};
+	}
+	private void CastSpell()
+	{
+		this.Visible= false;
+	}
+	
+
 }

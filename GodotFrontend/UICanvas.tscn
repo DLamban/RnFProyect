@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://dpsexlp7rtu24"]
+[gd_scene load_steps=23 format=3 uid="uid://dpsexlp7rtu24"]
 
 [ext_resource type="Theme" uid="uid://c5l7fthgxiatx" path="res://assets/fonts/basic_theme.tres" id="1_7w5fx"]
 [ext_resource type="Script" path="res://UIcode/UICanvas.cs" id="1_uf8sf"]
@@ -67,6 +67,9 @@ noise = SubResource("FastNoiseLite_ic1wf")
 bg_color = Color(0.6, 0.6, 0.6, 0)
 
 [sub_resource type="SystemFont" id="SystemFont_e0k3x"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_r5m2e"]
+size = Vector2(32, 32)
 
 [node name="CanvasLayer" type="CanvasLayer"]
 follow_viewport_enabled = true
@@ -622,3 +625,6 @@ theme = ExtResource("1_7w5fx")
 theme_override_fonts/font = SubResource("SystemFont_e0k3x")
 theme_override_font_sizes/font_size = 90
 text = "X"
+
+[node name="CursorEffect" type="Sprite2D" parent="CanvasGroup"]
+texture = SubResource("PlaceholderTexture2D_r5m2e")
