@@ -1,4 +1,5 @@
 ﻿using Core.GameLoop;
+using Core.Magic;
 using Core.Units;
 using Godot;
 using System;
@@ -12,6 +13,7 @@ using static GodotFrontend.code.Input.InputFSM;
 
 namespace GodotFrontend.code.Input
 {
+    
     public partial class InputManager : Node3D
     {
         private delegate void StateProcess(double delta);
@@ -19,6 +21,7 @@ namespace GodotFrontend.code.Input
         private Unidad unitSelected;
         private Unidad lastUnitSelected;
         private InputMovePhase inputMovePhase;
+        private SpellTarget? currentSpellTarget;
         public InputState inputState {
             get { return InputFSM.currentState; }
             set { 
@@ -39,9 +42,14 @@ namespace GodotFrontend.code.Input
             inputMovePhase = new InputMovePhase( viewport, spaceState);
             PlayerInfoSingleton.Instance.battleStateManager.OnBattleStateChanged += OnBattleStateChanged;
         }
-
+        public void SpellSelection(SpellTarget spellTarget)
+        {
+            currentSpellTarget = spellTarget;
+            inputState = InputState.CastingSpell;
+        }
         private void OnBattleStateChanged(object sender, BattleState currentBattleState)
         {
+            if (lastUnitSelected!=null) lastUnitSelected.inputEnabled = false;
             switch (currentBattleState)
             {
                 case BattleState.move:
@@ -63,11 +71,18 @@ namespace GodotFrontend.code.Input
             {
                 lastUnitSelected.inputEnabled = false;
             }
-            lastUnitSelected = unitSelect;
+
             switch (battleState)
             {
                 case BattleState.move:
+                    lastUnitSelected = unitSelect;
                     SelectUnitToMove(unitSelect);
+                    break;
+                case BattleState.strategic:
+                    if (inputState == InputState.CastingSpell)
+                    {
+                        SelectUnitToTargetMagic(unitSelect, currentSpellTarget.Value);
+                    }                    
                     break;
                 default:
                     throw new NotImplementedException();
@@ -84,13 +99,28 @@ namespace GodotFrontend.code.Input
         {
             inputMovePhase.onArrowClick(camera,@event,position,normal,shapeIdx,collider);
         }
+        private void SelectUnitToTargetMagic(Unidad unitSelect, SpellTarget spellTarget)
+        {
+            if (spellTarget == SpellTarget.OwnTroops)
+            {
+                if (UnitsClientManager.Instance.canSelectUnit(unitSelect.coreUnit.Guid, true))
+                {
+                    unitSelected = unitSelect;
+                }
+            } else if ( spellTarget == SpellTarget.EnemyTroops)
+            {
+                if (UnitsClientManager.Instance.canSelectUnit(unitSelect.coreUnit.Guid, false))
+                {
+                    unitSelected = unitSelect;
+                }
+            }
+        }
         private void SelectUnitToMove(Unidad unitSelect)
         {
             if (inputState == InputState.Movement)
             {
-                if (UnitsClientManager.Instance.canSelectUnit(unitSelect.coreUnit.Guid))
+                if (UnitsClientManager.Instance.canSelectUnit(unitSelect.coreUnit.Guid,true))
                 {
-
                     unitSelect.inputEnabled = true;
                     unitSelected = unitSelect;
                     UnitsClientManager.Instance.unitSelected = unitSelect.coreUnit;

@@ -35,7 +35,7 @@ public partial class InputMovePhase
 	private PhysicsDirectSpaceState3D spaceState;
 
 	private Viewport viewport;
-    private Node3D battlefieldTerrain;
+	private Node3D battlefieldTerrain;
 	//DEBUG Vars
 	// Starting pos for resetting
 	private AffineTransformCore transformOriUnit1;
@@ -74,38 +74,9 @@ public partial class InputMovePhase
 	{
 		viewport = _viewport;
 		spaceState = _spaceState;
-        mainCamera = viewport.GetCamera3D() as Camera3D;
-    }
-	public void selectUnit(Unidad unitSelect)
-	{
-		if (lastUnitSelected != null) { 
-			lastUnitSelected.inputEnabled = false;
-		}
-		lastUnitSelected = unitSelect;
-		switch (battleState)
-		{
-			case BattleState.move:
-				SelectUnitToMove(unitSelect);
-				break;
-			default:
-				throw new NotImplementedException();
-				break;
-		}
-		
+		mainCamera = viewport.GetCamera3D() as Camera3D;
 	}
-	private void SelectUnitToMove(Unidad unitSelect)
-	{
-		if (_inputState == InputState.Empty)
-		{
-			if (UnitsClientManager.Instance.canSelectUnit(unitSelect.coreUnit.Guid))
-			{
-				
-				unitSelect.inputEnabled = true;
-				unitSelected = unitSelect;
-				UnitsClientManager.Instance.unitSelected = unitSelect.coreUnit;
-			}
-		}
-	}
+	
 	private void restartStateVars()
 	{
 		offsetDistancePicked = null;

@@ -93,9 +93,9 @@ namespace Core.Units
             unitsEnemy.Remove(unitGuid.ToString());
         }
 
-        public bool canSelectUnit(Guid unitGuid, bool playerTurn = true)// maybe implement hotseat later
+        public bool canSelectUnit(Guid unitGuid, bool ownedTroops)// maybe implement hotseat later
         {
-            if(playerTurn)
+            if (ownedTroops)
             {
                 if (unitsPlayer.ContainsKey(unitGuid.ToString()))
                 {
@@ -104,8 +104,12 @@ namespace Core.Units
             }
             else
             {
-
+                if (unitsEnemy.ContainsKey(unitGuid.ToString()))
+                {
+                    return true;
+                }
             }
+            
             return false;
         }
         public List<CollidedObject> checkRectangleCollision(RectangleBB collideRectangle)

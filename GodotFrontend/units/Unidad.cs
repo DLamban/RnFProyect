@@ -249,12 +249,16 @@ public partial class Unidad : Node3D
 	{
 		createDragArrows(inputManager);
 		createDistBillboard();
-		createSelectionFX();
+		createMoveSelectionFX();
 		createChargingLayer();
 		createSelectMenu(inputManager);
 		showDistanceRemaining(0);
 	}
-	private void createSelectionFX()
+	private void createMagicSelectionFX()
+	{
+
+	}
+	private void createMoveSelectionFX()
 	{		
 		PackedScene selectionFxAsset = GD.Load<PackedScene>("res://units/vfx/selection_fx.tscn");
 		selectionFx = (Node3D)selectionFxAsset.Instantiate();

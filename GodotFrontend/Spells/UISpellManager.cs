@@ -18,12 +18,19 @@ public partial class UISpellManager : PanelContainer
 		{
 			foreach (var spell in school.Value.Spells)
 			{
-				var spell_card = spell_scn.Instantiate() as SpellCard;
+
+				SpellCard spell_card = spell_scn.Instantiate() as SpellCard;
 				spell_card.SetSpell(spell);
 				listSpellsUI.AddChild(spell_card);
+				spell_card.OnCastingSpell += CastingSpell;
+
 			}
 		}
 
+	}
+	private void CastingSpell(object sender, EventArgs e)
+	{
+		this.Visible = false;
 	}
 	private void CloseMagicSelector()
 	{

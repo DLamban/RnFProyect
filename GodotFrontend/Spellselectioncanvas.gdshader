@@ -5,9 +5,18 @@ uniform sampler2D texture2;
 uniform sampler2D colorTexture;
 uniform float radius : hint_range(0.0, 1.0) = 0.5; 
 uniform float smoothness : hint_range(0.0, 1.0) = 0.1;
+uniform float rotation_speed = 0.1;
+vec2 rotateUV(vec2 uv, float rotation){
+    float mid = 0.5;
+    return vec2(
+        cos(rotation) * (uv.x - mid) + sin(rotation) * (uv.y - mid) + mid,
+        cos(rotation) * (uv.y - mid) - sin(rotation) * (uv.x - mid) + mid
+    );
+
+}
 void fragment(){
   	// add the effect
-	float  texNoise1 = texture(TEXTURE,UV + (scroll1 * TIME)).r;
+	float  texNoise1 = texture(TEXTURE,rotateUV(UV,TIME)).r;
 	float  texNoise2 = texture(texture2, UV + scroll2*TIME).r;
 	float energy = texNoise1 * texNoise2;
 	

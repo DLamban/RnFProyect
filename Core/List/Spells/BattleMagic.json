@@ -7,7 +7,8 @@
       "Description": "You can reroll dices with 1",
       "Difficulty": 7,
       "Range": 21,
-      "Type": "Hex"
+      "Type": "Hex",
+      "Target": "EnemyTroops"
     },
     {
       "Name": "Magic Shield",
@@ -15,7 +16,8 @@
       "Description": "Gain a 5+ special save",
       "Difficulty": 7,
       "Range": 0,
-      "Type": "Buff"
+      "Type": "Buff",
+      "Target": "Self"
     },
     {
       "Name": "Fireball",
@@ -23,7 +25,8 @@
       "Description": "A giant ball of fire",
       "Difficulty": 8,
       "Range": 24,
-      "Type": "Throwing Magic"
+      "Type": "Throwing Magic",
+      "Target": "EnemyTroops"
     }
   ]
   

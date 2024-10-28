@@ -1,11 +1,15 @@
 using Core.Magic;
 using Godot;
+using GodotFrontend.code.Input;
 using System;
 
 public partial class SpellCard : Panel
 {
-	public void SetSpell(Spell spell)
+	private Spell spell;
+	public EventHandler OnCastingSpell;
+	public void SetSpell(Spell _spell)
 	{
+		spell = _spell;
 		// TITLE
 		Label title = GetNode<Label>("CenterContainer/MarginContainer/VBoxContainer/MarginContainer/Title");
 		title.Text = spell.Name;
@@ -41,7 +45,11 @@ public partial class SpellCard : Panel
 	}
 	private void CastSpell()
 	{
-		this.Visible= false;
+		this.Visible = false;
+		// getting this node the dirty way, it happens few times, so it's oki
+		InputManager inputManager = GetTree().CurrentScene.GetNode<Node3D>("Battlefield") as InputManager;
+		inputManager.SpellSelection(spell.Target);
+		OnCastingSpell.Invoke(this,null);
 	}
 	
 
