@@ -16,18 +16,26 @@ namespace Core.GameLoop
         combat,
         outofturn
     }
-    
+   
     public class BattleStateManager
     {
+        public EventHandler<BattleState> OnBattleStateChanged;
         private List<BattleState> states;
         private BattleState _currentState;
 
         public BattleState currentState
         {
             get { return _currentState; }
-            set { _currentState = value; }
+            set { 
+
+                _currentState = value;
+                stateChanged();
+            }
         }
-        
+        public void stateChanged()
+        {
+            OnBattleStateChanged?.Invoke(this, currentState);
+        }
         public BattleStateManager() {
 
             states = Enum.GetValues(typeof(BattleState)).Cast<BattleState>().ToList();

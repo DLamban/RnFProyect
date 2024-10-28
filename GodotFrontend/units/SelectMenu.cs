@@ -1,4 +1,5 @@
 ﻿using Godot;
+using GodotFrontend.code.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -49,7 +50,8 @@ namespace GodotFrontend.units
         }
         private void selectCharge()
         {
-            inputManager._inputState = InputManager.InputState.charging;
+            inputManager.inputState = InputFSM.InputState.Charging;
+            
             currentunit.charge();
         }
     }
