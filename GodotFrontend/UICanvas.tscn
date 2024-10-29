@@ -88,17 +88,13 @@ script = ExtResource("1_uf8sf")
 [node name="AnchorProvider" type="Control" parent="CanvasGroup"]
 custom_minimum_size = Vector2(1920, 1080)
 layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = 0
 offset_right = 1920.0
 offset_bottom = 1080.0
-grow_horizontal = 2
-grow_vertical = 2
 mouse_filter = 2
 
 [node name="CharacteristicsPanelPlayer" type="Panel" parent="CanvasGroup/AnchorProvider"]
-layout_mode = 0
+layout_mode = 1
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme = ExtResource("1_7w5fx")
@@ -622,6 +618,7 @@ theme = ExtResource("1_7w5fx")
 text = "Rally troops"
 
 [node name="SpellsContainer" type="PanelContainer" parent="CanvasGroup/AnchorProvider"]
+visible = false
 layout_mode = 0
 offset_right = 1920.0
 offset_bottom = 1080.0
@@ -662,3 +659,73 @@ text = "X"
 [node name="CursorEffect" type="Sprite2D" parent="CanvasGroup/AnchorProvider"]
 visible = false
 texture = SubResource("PlaceholderTexture2D_r5m2e")
+
+[node name="ConfirmPanel" type="Control" parent="CanvasGroup/AnchorProvider"]
+layout_mode = 2
+anchors_preset = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
+mouse_filter = 2
+
+[node name="Panel" type="Panel" parent="CanvasGroup/AnchorProvider/ConfirmPanel"]
+z_index = 4
+custom_minimum_size = Vector2(300, 300)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -333.0
+offset_top = 196.0
+offset_right = 285.0
+offset_bottom = 496.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = ExtResource("1_7w5fx")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasGroup/AnchorProvider/ConfirmPanel/Panel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.881
+anchor_right = 0.5
+anchor_bottom = 0.881
+offset_left = -190.0
+offset_top = -40.0
+offset_right = 190.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/separation = 80
+
+[node name="Button" type="Button" parent="CanvasGroup/AnchorProvider/ConfirmPanel/Panel/HBoxContainer"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+theme = ExtResource("1_7w5fx")
+text = "Cast"
+
+[node name="Button2" type="Button" parent="CanvasGroup/AnchorProvider/ConfirmPanel/Panel/HBoxContainer"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+theme = ExtResource("1_7w5fx")
+text = "Cancel
+"
+
+[node name="Label" type="Label" parent="CanvasGroup/AnchorProvider/ConfirmPanel/Panel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -219.0
+offset_top = -15.0
+offset_right = 219.0
+offset_bottom = 15.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_7w5fx")
+theme_type_variation = &"HeaderLarge"
+text = "Do you want to cast the spell?"
+horizontal_alignment = 1

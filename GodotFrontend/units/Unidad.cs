@@ -51,8 +51,8 @@ public partial class Unidad : Node3D
 	}
 	private SelectMenu selectMenu;
 	//FX
-	Node3D selectionFx;
-
+	public Node3D selectionFx;
+	public Node3D magicSelectionFX;
 	public BaseUnit coreUnit;
 	public Vector2 center;
 	public List<Node3D> troopNodes = new List<Node3D>();
@@ -249,14 +249,27 @@ public partial class Unidad : Node3D
 	{
 		createDragArrows(inputManager);
 		createDistBillboard();
-		createMoveSelectionFX();
 		createChargingLayer();
+		createFX();
 		createSelectMenu(inputManager);
 		showDistanceRemaining(0);
 	}
+	#region FXEFFECTS
+	private void createFX()
+	{
+		createMagicSelectionFX();
+		createMoveSelectionFX();
+	}
 	private void createMagicSelectionFX()
 	{
-
+		PackedScene selectionFxAsset = GD.Load<PackedScene>("res://units/vfx/magic_selection_fx.tscn");
+		magicSelectionFX = (Node3D)selectionFxAsset.Instantiate();
+		magicSelectionFX.Position = new Vector3(center.X, center.Y, 0.24f);
+		float xscale = this.coreUnit.sizeEnclosedRectangledm.X;
+		float yscale = this.coreUnit.sizeEnclosedRectangledm.Y;
+		magicSelectionFX.Scale = new Vector3(xscale, 1.0f, yscale);
+		this.AddChild(magicSelectionFX);
+		magicSelectionFX.Visible = false;
 	}
 	private void createMoveSelectionFX()
 	{		
@@ -269,6 +282,7 @@ public partial class Unidad : Node3D
 		this.AddChild(selectionFx);
 		selectionFx.Visible = false;
 	}
+	#endregion
 	private void createSelectMenu(InputManager inputManager)
 	{
 		selectMenu = new SelectMenu(this, inputManager);

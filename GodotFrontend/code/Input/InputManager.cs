@@ -106,12 +106,14 @@ namespace GodotFrontend.code.Input
                 if (UnitsClientManager.Instance.canSelectUnit(unitSelect.coreUnit.Guid, true))
                 {
                     unitSelected = unitSelect;
+                    unitSelected.magicSelectionFX.Visible = true;
                 }
             } else if ( spellTarget == SpellTarget.EnemyTroops)
             {
                 if (UnitsClientManager.Instance.canSelectUnit(unitSelect.coreUnit.Guid, false))
                 {
                     unitSelected = unitSelect;
+                    unitSelected.magicSelectionFX.Visible = true;
                 }
             }
         }
