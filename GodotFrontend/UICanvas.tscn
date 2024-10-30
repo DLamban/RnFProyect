@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://cjkqqh1ls3d2s" path="res://assets/2D/gamestatebaroverlay.png" id="7_rpjy1"]
 [ext_resource type="Shader" path="res://Spellselectioncanvas.gdshader" id="8_u1fbv"]
 [ext_resource type="Script" path="res://Spells/UISpellManager.cs" id="9_xjim1"]
+[ext_resource type="Script" path="res://Spells/ConfirmPanel.cs" id="10_b20x0"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_apgn1"]
 
@@ -75,9 +76,6 @@ noise = SubResource("FastNoiseLite_ic1wf")
 bg_color = Color(0.6, 0.6, 0.6, 0)
 
 [sub_resource type="SystemFont" id="SystemFont_e0k3x"]
-
-[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_r5m2e"]
-size = Vector2(32, 32)
 
 [node name="CanvasLayer" type="CanvasLayer"]
 follow_viewport_enabled = true
@@ -618,7 +616,6 @@ theme = ExtResource("1_7w5fx")
 text = "Rally troops"
 
 [node name="SpellsContainer" type="PanelContainer" parent="CanvasGroup/AnchorProvider"]
-visible = false
 layout_mode = 0
 offset_right = 1920.0
 offset_bottom = 1080.0
@@ -656,16 +653,14 @@ theme_override_fonts/font = SubResource("SystemFont_e0k3x")
 theme_override_font_sizes/font_size = 90
 text = "X"
 
-[node name="CursorEffect" type="Sprite2D" parent="CanvasGroup/AnchorProvider"]
-visible = false
-texture = SubResource("PlaceholderTexture2D_r5m2e")
-
 [node name="ConfirmPanel" type="Control" parent="CanvasGroup/AnchorProvider"]
+visible = false
 layout_mode = 2
 anchors_preset = 0
 offset_right = 1920.0
 offset_bottom = 1080.0
 mouse_filter = 2
+script = ExtResource("10_b20x0")
 
 [node name="Panel" type="Panel" parent="CanvasGroup/AnchorProvider/ConfirmPanel"]
 z_index = 4
@@ -699,13 +694,13 @@ grow_horizontal = 2
 grow_vertical = 0
 theme_override_constants/separation = 80
 
-[node name="Button" type="Button" parent="CanvasGroup/AnchorProvider/ConfirmPanel/Panel/HBoxContainer"]
+[node name="Confirm" type="Button" parent="CanvasGroup/AnchorProvider/ConfirmPanel/Panel/HBoxContainer"]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 theme = ExtResource("1_7w5fx")
 text = "Cast"
 
-[node name="Button2" type="Button" parent="CanvasGroup/AnchorProvider/ConfirmPanel/Panel/HBoxContainer"]
+[node name="Cancel" type="Button" parent="CanvasGroup/AnchorProvider/ConfirmPanel/Panel/HBoxContainer"]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 theme = ExtResource("1_7w5fx")

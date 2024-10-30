@@ -38,7 +38,7 @@ namespace Core.List
                         string json = reader.ReadToEnd();
                         // Hacer algo con el JSON
                         MagicSchool magicSchoolObj = JsonSerializer.Deserialize<MagicSchool>(json);
-                        magicSchools.Add(magicSchool, magicSchoolObj);
+                        magicSchools.Add(magicSchoolObj.Name, magicSchoolObj);
                     }
                 }
             }

@@ -15,11 +15,9 @@ public partial class UICanvas : CanvasLayer
 	Dictionary<string, Label> charValuesEnemy = new Dictionary<string, Label>();
 	public DiceThrower diceThrower { get; set; }
 	public Panel gameStatePanel;
-	private Sprite2D cursorEffect;
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
-	{
-		cursorEffect = GetNode<Sprite2D>("CanvasGroup/AnchorProvider/CursorEffect");
+	{		
 		hBoxesValuesPlayer = new List<Node>();
 		Panel charpanelplayer = GetNode<Panel>("CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer");
 		Panel charpanelenemy = GetNode<Panel>("CanvasGroup/AnchorProvider/CharacteristicsPanelEnemy");
@@ -84,7 +82,6 @@ public partial class UICanvas : CanvasLayer
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-		cursorEffect.Position = GetViewport().GetMousePosition();
 
 	}
 	

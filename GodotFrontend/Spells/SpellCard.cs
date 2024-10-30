@@ -5,7 +5,7 @@ using System;
 
 public partial class SpellCard : Panel
 {
-	private Spell spell;
+	public Spell spell;
 	public EventHandler OnCastingSpell;
 	public void SetSpell(Spell _spell)
 	{
@@ -44,11 +44,10 @@ public partial class SpellCard : Panel
 		};
 	}
 	private void CastSpell()
-	{
-		this.Visible = false;
+	{		
 		// getting this node the dirty way, it happens few times, so it's oki
 		InputManager inputManager = GetTree().CurrentScene.GetNode<Node3D>("Battlefield") as InputManager;
-		inputManager.SpellSelection(spell.Target);
+		inputManager.SpellSelection(spell.Target, spell);
 		OnCastingSpell.Invoke(this,null);
 	}
 	

@@ -1,3 +1,6 @@
+MeshInstance3D
+Sprite3D
+Node3D
 Label
 HBoxContainer
 Button
@@ -10,5 +13,3 @@ Container
 CenterContainer
 MarginContainer
 TextureRect
-VBoxContainer
-GPUParticles3D

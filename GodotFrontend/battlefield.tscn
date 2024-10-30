@@ -1,7 +1,8 @@
-[gd_scene load_steps=16 format=3 uid="uid://d3f1ae03k83uv"]
+[gd_scene load_steps=19 format=3 uid="uid://d3f1ae03k83uv"]
 
 [ext_resource type="Script" path="res://battlefieldManager.cs" id="1_wimcb"]
 [ext_resource type="Script" path="res://code/Input/InputManager.cs" id="2_o0eea"]
+[ext_resource type="Shader" path="res://units/vfx/magicselectshader.gdshader" id="3_qnal2"]
 [ext_resource type="Texture2D" uid="uid://d0vwwjppvqoer" path="res://assets/tex/dirtcartoon/Dirt_01_Nrm.png" id="4_nx6cc"]
 [ext_resource type="Script" path="res://code/FieldCameraControl.cs" id="7_3lx50"]
 [ext_resource type="PackedScene" uid="uid://7avowxdh4u3l" path="res://assets/3d/rocks/objects/rock1.glb" id="7_ca4yh"]
@@ -9,6 +10,19 @@
 [ext_resource type="PackedScene" uid="uid://ca7m5rbsas0bp" path="res://assets/3d/rocks/objects/rock2.glb" id="8_40wyv"]
 [ext_resource type="Script" path="res://units/UnitRenderCreator.cs" id="8_fpo1v"]
 [ext_resource type="PackedScene" uid="uid://bgn4q7owag65p" path="res://assets/3d/trees/treelowpoly.glb" id="9_g0wca"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5kswj"]
+render_priority = 0
+shader = ExtResource("3_qnal2")
+shader_parameter/scroll1 = Vector2(0.1, 0.1)
+shader_parameter/scroll2 = Vector2(-0.2, 0.2)
+shader_parameter/smoothness = 0.1
+shader_parameter/base_border_thickness = 0.02
+shader_parameter/thickness = 0.01
+shader_parameter/speed = 0.5
+
+[sub_resource type="QuadMesh" id="QuadMesh_o3u4t"]
+material = SubResource("ShaderMaterial_5kswj")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1f0lg"]
 albedo_color = Color(0.00766618, 0.458077, 7.70092e-07, 1)
@@ -57,6 +71,11 @@ script = ExtResource("1_wimcb")
 
 [node name="Battlefield" type="Node3D" parent="."]
 script = ExtResource("2_o0eea")
+
+[node name="CursorEffect" type="MeshInstance3D" parent="Battlefield"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.465399)
+mesh = SubResource("QuadMesh_o3u4t")
+skeleton = NodePath("")
 
 [node name="Environment" type="Node" parent="Battlefield"]
 

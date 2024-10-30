@@ -2,10 +2,12 @@ using Core.GameLoop;
 using Core.GeometricEngine;
 using Core.Units;
 using Godot;
+using GodotFrontend.code.Input;
 using System;
 using static GodotFrontend.code.Input.InputFSM;
+using static GodotFrontend.code.Input.InputManager;
 
-public partial class InputMovePhase
+public partial class InputMovePhase:ISubInputManager
 {
 	public enum DragMode
 	{
@@ -31,11 +33,7 @@ public partial class InputMovePhase
 	
 	private Vector2 pivotAnchorPoint;
 	private DragMode dragMode;
-	private Camera3D mainCamera;
-	private PhysicsDirectSpaceState3D spaceState;
-
-	private Viewport viewport;
-	private Node3D battlefieldTerrain;
+	private BattlefieldCursorPosDel battlefieldCursorPosDel;
 	//DEBUG Vars
 	// Starting pos for resetting
 	private AffineTransformCore transformOriUnit1;
@@ -70,11 +68,10 @@ public partial class InputMovePhase
 		//Debug3Text = debugVBoxContainer.GetNode<TextEdit>("UnitPos/UnitPos");
 
 	//}
-	public InputMovePhase(Viewport _viewport, PhysicsDirectSpaceState3D _spaceState)
+	public InputMovePhase(BattlefieldCursorPosDel _battlefieldCursorPosDel)
 	{
-		viewport = _viewport;
-		spaceState = _spaceState;
-		mainCamera = viewport.GetCamera3D() as Camera3D;
+		battlefieldCursorPosDel = _battlefieldCursorPosDel;
+
 	}
 	
 	private void restartStateVars()
@@ -245,24 +242,7 @@ public partial class InputMovePhase
 	}
 	private Vector3? getBattlefieldCursorPos()
 	{
-		Vector3 from = mainCamera.ProjectRayOrigin(viewport.GetMousePosition());
-		Vector3 to = from + mainCamera.ProjectRayNormal(viewport.GetMousePosition()) * 1000;
-		// Raycast
-		PhysicsRayQueryParameters3D paramsRaycast = new PhysicsRayQueryParameters3D();
-		paramsRaycast.From = from;
-		paramsRaycast.To = to;
-		paramsRaycast.CollideWithAreas = true;
-		paramsRaycast.CollisionMask = 2;
-		var result = spaceState.IntersectRay(paramsRaycast);
-		if (result.Count > 0)
-		{
-			return (Vector3)result["position"];
-		}
-		else
-		{
-			return null;
-		}
-
+		return battlefieldCursorPosDel();
 	}
 	/// <summary>
 	/// 

@@ -10,6 +10,7 @@ using System.Text.Json.Serialization;
 using Core.GeometricEngine;
 using Core.GameLoop;
 using System.Numerics;
+using Core.Magic;
 namespace Core.Units
 {
     using Hit = Tuple<Vector2, float>;
@@ -62,8 +63,9 @@ namespace Core.Units
         public BaseTroop Troop { get; set; }
         public List<BaseTroop> Troops { get; set; }
         public List<string> SpecialRules { get; set; }
-        
+
         // Combat temporal variables
+        public List<Spell> spellsAffecting = new List<Spell>();
         public CombatSide CombatSide { get; set; }
         public bool isCharging { get; set; }
         public bool isCharged { get; set; }

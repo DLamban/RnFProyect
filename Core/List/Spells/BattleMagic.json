@@ -25,7 +25,7 @@
       "Description": "A giant ball of fire",
       "Difficulty": 8,
       "Range": 24,
-      "Type": "Throwing Magic",
+      "Type": "ThrowingMagic",
       "Target": "EnemyTroops"
     }
   ]
