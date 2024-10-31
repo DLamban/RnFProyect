@@ -63,13 +63,22 @@ namespace Core.Units
         public BaseTroop Troop { get; set; }
         public List<BaseTroop> Troops { get; set; }
         public List<string> SpecialRules { get; set; }
-
-        // Combat temporal variables
+        #region EVENTS&DELEGATES
+        // EVENTS
+        public event Action<int> OnDeathTroops;
+        //delegates
+        public delegate Task<List<int>> DiceThrowerTaskDelegate(int numberdices, int dicetype=6);
+        private DiceThrowerTaskDelegate DiceThrowerTaskDel;
+        
+        #endregion
+        #region TEMPORALCOMBAT 
+        // Combat temporal variables, restart every turn
         public List<Spell> spellsAffecting = new List<Spell>();
         public CombatSide CombatSide { get; set; }
         public bool isCharging { get; set; }
         public bool isCharged { get; set; }
         public float distanceRemaining { get;set; }
+        #endregion
         // This constructor is for information purposes, creating a unit with a single troop
         // as a dummy unit to get da information
         [JsonConstructor]
@@ -107,6 +116,10 @@ namespace Core.Units
             Transform = new AffineTransformCore(1, 0, 0, 1, 0, 0);            
             restartCombatState();
         }
+        public void vinculateDiceThrower(DiceThrowerTaskDelegate _diceThrowDel)
+        {
+            DiceThrowerTaskDel = _diceThrowDel;
+        }
         public void restartCombatState()
         {
             distanceRemaining = Troop.MovementDm;
@@ -136,8 +149,26 @@ namespace Core.Units
             return hittedColliders;
         }
         
-        public void WoundUnit(int wounds, List<string> specialRules = null)
+        public int hitUnit(List<int> diceValues, int dexAttacker, List<BaseRule> specialRules)
         {
+            int hits = ResolveDiceThrow.resolveToHit(diceValues, dexAttacker, this.Troop.Dexterity, specialRules);
+            return hits;
+        }
+        public void woundUnit(List<int> diceValues, int strenght, List<BaseRule> specialRules)
+        {
+            int wounds = ResolveDiceThrow.resolveToWound(diceValues, strenght, Troop.Resistance);
+            confirmWounds(wounds,null,0);
+            
+        }
+        public async void confirmWounds(int wounds, List<BaseRule> specialRules, int ap)
+        {            
+            List<int> savingThrow = await DiceThrowerTaskDel(wounds);
+            int confirmedWounds = ResolveDiceThrow.armourSave(wounds, savingThrow, ap, Troop.Armour);
+            WoundUnit(confirmedWounds, specialRules);
+        }
+        public void WoundUnit(int wounds, List<BaseRule> specialRules = null)
+        {
+            int deathunits = 0;
             for (int i = 0; i < wounds; i++)
             {
                 // eat dat wound
@@ -145,8 +176,12 @@ namespace Core.Units
                 BaseTroop? firstTroop = Troops.FirstOrDefault(troop=>troop.Wounds>0);
                 // is is null, we finish da troops :)
                 if (firstTroop!=null) firstTroop.Wounds--;
-                
-            }            
+                if (firstTroop.Wounds == 0)
+                {
+                    deathunits++;
+                }
+            }          
+            OnDeathTroops(deathunits);
         }
     }
 }

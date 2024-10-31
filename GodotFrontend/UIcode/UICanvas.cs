@@ -36,8 +36,10 @@ public partial class UICanvas : CanvasLayer
 
 
 		// DICE TRAY
-		Node3D diceTray = GetNode<Node3D>("CanvasGroup/AnchorProvider/DicePanel/Panel/diceView/DiceViewport/DiceTray");		
-		diceThrower = new DiceThrower(diceTray);
+		CenterContainer dicePanel = GetNode<CenterContainer>("CanvasGroup/AnchorProvider/DicePanel");		
+		
+		
+		DiceThrower.Instance.initDiceThrower(dicePanel);
 		// BATTLESTATE MANAGER
 		gameStatePanel = GetNode<Panel>("CanvasGroup/AnchorProvider/GameStatusContainer/GameStateStatus");
 		

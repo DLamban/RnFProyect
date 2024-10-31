@@ -1,6 +1,7 @@
 ﻿using Core.Magic;
 using Core.Units;
 using Godot;
+using GodotFrontend.UIcode;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -63,7 +64,7 @@ namespace GodotFrontend.code.Input
             inputState = InputState.Magic;
             OnOpenConfirmMenu?.Invoke();
         }
-        public void executeSpell()
+        public async void executeSpell()
         {
             if (spellSelected == null) throw new InvalidOperationException("Spell error, not selected");
             if (spellSelected.Type == SpellType.Hex || spellSelected.Type == SpellType.Buff)
@@ -73,6 +74,11 @@ namespace GodotFrontend.code.Input
             else
             {
                 unitSelected.magicSelectionFX.Visible = false;
+                // FIREBALL STATS, JUST TESTING
+                int hits = await DiceThrower.Instance.ThrowDicesSum(2);
+                List<int> result = await DiceThrower.Instance.ThrowDices(hits);
+                unitSelected.coreUnit.woundUnit(result, 4, null);
+                
             }
             SpellManager.Instance.spellUsed(spellSelected);
             cursorEffect.Visible = false;

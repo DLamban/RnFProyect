@@ -13,22 +13,22 @@ public partial class ConfirmPanel : Control
 
 		inputManager.inputMagic.OnOpenConfirmMenu += openPanel;
 		Button confirmBtn = GetNode<Button>("Panel/HBoxContainer/Confirm");
-        Button cancelBtn = GetNode<Button>("Panel/HBoxContainer/Cancel");
+		Button cancelBtn = GetNode<Button>("Panel/HBoxContainer/Cancel");
 		cancelBtn.Pressed += cancelSpell;
 		confirmBtn.Pressed += confirmSpell;
-    }
+	}
 	private void confirmSpell()
 	{
 		inputManager.inputMagic.executeSpell();
 		this.Visible = false;
 
-    }
-    private void cancelSpell()
-    {
+	}
+	private void cancelSpell()
+	{
 		inputManager.inputMagic.cancelSpell();
-        this.Visible = false;
-    }
-    private void openPanel()
+		this.Visible = false;
+	}
+	private void openPanel()
 	{
 		this.Visible = true;
 	}

@@ -50,6 +50,7 @@ public partial class Unidad : Node3D
 		 
 	}
 	private SelectMenu selectMenu;
+	private DiceThrower diceThrower;
 	//FX
 	public Node3D selectionFx;
 	public Node3D magicSelectionFX;
@@ -63,6 +64,8 @@ public partial class Unidad : Node3D
 	Godot.RandomNumberGenerator randomNumberGenerator = new Godot.RandomNumberGenerator();
 	// EVENTS
 	public event Action unitSelection;
+	// EVENTS TO VINCULATE WITH CORE UNIT
+	
 	// Define the signal
 	public delegate void UnitClickEventHandler(Node camera, InputEvent @event, Vector3 position, Vector3 normal, long shapeIdx, Unidad unitSelected);
 	public UnitClickEventHandler _unitSelect;    
@@ -89,7 +92,29 @@ public partial class Unidad : Node3D
 	public override void _Ready()
 	{
 		inputEnabled = false;// disabled as default
-		this.AddChild(inputButtonsNode);	
+		this.AddChild(inputButtonsNode);
+		diceThrower = DiceThrower.Instance;
+		this.coreUnit.vinculateDiceThrower(diceThrower.diceThrowerTaskDel);
+	}
+	public void initGodotUnit(BaseUnit coreUnit, InputManager inputManager)
+	{
+		this.coreUnit = coreUnit;
+
+		this.Name = "UNIT:" + coreUnit.Guid;
+		distanceRemaining = coreUnit.distanceRemaining;
+		Size troopSize = coreUnit.Troop.Size;
+		center = new Vector2((float)coreUnit.sizeEnclosedRectangle.Width / 2, (float)coreUnit.sizeEnclosedRectangle.Height / 2);
+		offsetTroop = new Vector2(((float)troopSize.Width / 100), ((float)troopSize.Height / 100));
+
+		center.X = (center.X / 100);
+		center.Y = -((center.Y / 100));
+		Node3D gizmo = GetChild<Node3D>(1);
+		gizmo.Position = gizmo.Position + new Vector3(center.X, center.Y, 0);
+		//affTrans = coreUnit.Transform;
+		createUIElements(inputManager);
+		createUnitTroopsBase(coreUnit.TroopsWidth, coreUnit.UnitCount);
+		createColliderForInput(inputManager);
+		coreUnit.OnDeathTroops += OnTroopsKilled;
 	}
 	// set variables to fresh
 	public void restartUnit()
@@ -105,6 +130,18 @@ public partial class Unidad : Node3D
 			RotateCustomTween(delta);
 		}
 	}
+	/// <summary>
+	/// Update the graphic transform so we can saw the actual changes in the affine matrix
+	/// </summary>
+	/// <param name="instantiation">When we instantiate, we shouldn't send the position or we will have ciclic calls, and an infinite loop</param>
+	public void updateTransformToRender(bool netReceived = false)
+	{
+		UnitMovementManager.ApplyAffineTransformation(affTrans, this);
+		// TODO: if we're playing as hotseat, clientNetworkController is null, and sholud avoid this line....
+		// a bit ugly, but performant
+		if (!HotSeatManager.Instance.isHotseat && !netReceived) PlayerInfoSingleton.Instance.clientNetworkController.updateUnitTransform(affTrans, coreUnit.Guid);
+	}
+
 	private void enableInput()
 	{
 		selectMenu.layer.Visible = true;
@@ -119,65 +156,11 @@ public partial class Unidad : Node3D
 		inputButtonsNode.SetProcessInput(false);
 		selectionFx.Visible = false;
 	}
-	async private void ReformAfterCombat(int deaths) {
-
-		TaskCompletionSource<bool> tweenY = new TaskCompletionSource<bool>();
-		coreUnit.Troops.RemoveRange(0, deaths);
-		int partialRankDeaths = deaths % coreUnit.TroopsWidth;
-		int rankDeaths = deaths / coreUnit.TroopsWidth;
-		GD.Print("partialRankdetaghs", partialRankDeaths,"rankdeathjs ", rankDeaths);
-
-		// move to the front and reform backline
-
-		int lastFullRank = coreUnit.Troops.Count / coreUnit.TroopsWidth;
-		bool partialBackline = coreUnit.Troops.Count % coreUnit.TroopsWidth != 0;
-		
-		GD.Print("partialbackline", partialBackline);
-
-		Tween tween = CreateTween();
-		float tweenduration = 1.0f;
-				
-
-		for (int i=0; i < troopNodes.Count; i++) 
-		{
-			Node3D node = troopNodes[i];
-			int realpositioninformation = (int)Math.Floor(node.Position.Y / offsetTroop.Y) * coreUnit.TroopsWidth * -1 + (int)Math.Floor(node.Position.X / offsetTroop.X);
-			//GD.Print("realpos", realpositioninformation);
-			// MOVE TO FRONT
-			int movetoFrontPositions = 0;				
-			if (realpositioninformation % coreUnit.TroopsWidth  < partialRankDeaths)
-			{
-				movetoFrontPositions = rankDeaths + 1;
-			}
-			else
-			{
-				movetoFrontPositions = rankDeaths;
-			}				
-			float Ymove = (offsetTroop.Y) * movetoFrontPositions;
-			Vector3 targetPos = node.Position + new Vector3(0, Ymove, 0);
-			tween.SetParallel();
-			tween.TweenProperty(node, "position", targetPos, tweenduration).SetTrans(Tween.TransitionType.Quint);
-			// need the delay because we are running in paralell
-			tween.TweenCallback(Callable.From(()=>tweenY.TrySetResult(true))).SetDelay(tweenduration);
-		
-		}
-		// Await first tween
-		await tweenY.Task;
-		Tween tweenx = CreateTween();
-		// We had to reorganize the list because the troops got disordered
-		troopNodes = troopNodes.OrderByDescending(troop => troop.Position.Y).ThenBy(troop => troop.Position.X).ToList();
-		for (int i = 0; i < troopNodes.Count; i++)
-		{
-			Node3D node = troopNodes[i];		
-			float Xobj = 0;
-			Xobj = (i % coreUnit.TroopsWidth) * offsetTroop.X;
-			Vector3 targetPos = new Vector3(Xobj, node.Position.Y, node.Position.Z);
-			tweenx.SetParallel();
-			tweenx.TweenProperty(node, "position", targetPos, .6f).SetTrans(Tween.TransitionType.Quint);
-		}
-
-	}
 	
+	private void OnTroopsKilled(int deaths)
+	{
+		killTroops(deaths);
+	}
 	// we are accumulating code that may be encapsulated
 	async public void killTroops(int deaths)
 	{
@@ -200,26 +183,7 @@ public partial class Unidad : Node3D
 		}
 		ReformAfterCombat(deaths);
 	}
-	public void initGodotUnit(BaseUnit coreUnit, InputManager inputManager)
-	{
-		this.coreUnit = coreUnit;
-		this.Name = "UNIT:" + coreUnit.Guid;
-		distanceRemaining = coreUnit.distanceRemaining;
-		Size troopSize = coreUnit.Troop.Size;
-		center = new Vector2((float)coreUnit.sizeEnclosedRectangle.Width / 2, (float)coreUnit.sizeEnclosedRectangle.Height / 2);
-		offsetTroop = new Vector2(((float)troopSize.Width / 100), ((float)troopSize.Height / 100));
-		
-		center.X = (center.X / 100) ;
-		center.Y = -((center.Y / 100));
-		Node3D gizmo = GetChild<Node3D>(1);
-		gizmo.Position = gizmo.Position + new Vector3(center.X, center.Y, 0);
-		//affTrans = coreUnit.Transform;
-		createUIElements(inputManager);
-		createUnitTroopsBase(coreUnit.TroopsWidth, coreUnit.UnitCount);
-		createColliderForInput(inputManager);
-		
-
-	}
+	
 	private void createColliderForInput(InputManager inputManager)
 	{
 		Area3D area = new Area3D();
@@ -292,11 +256,7 @@ public partial class Unidad : Node3D
 	public async void charge()
 	{
 		
-		unitState = UnitState.chargeDiceRolling;
-		var dicepanel = ((UnitRenderCreator)GetParent()).UICanvas.GetNode<CenterContainer>("CanvasGroup/AnchorProvider/DicePanel");
-		dicepanel.Visible = true;
-		DiceThrower diceThrower = ((UnitRenderCreator)GetParent()).UICanvas.diceThrower;
-
+		unitState = UnitState.chargeDiceRolling;			
 		int result = await diceThrower.ThrowDicesCharge();
 		float resultToDm = (result * 2.54f) / 10;
 		unitState = UnitState.charging;
@@ -324,9 +284,7 @@ public partial class Unidad : Node3D
 			}
 			// BREAK FOREACH FFOR NOW
 			break;
-		}
-		dicepanel.Visible = false;
-		
+		}	
 		
 	}
 	private async void ChargeMovement(HitCollider hitCollider)
@@ -510,18 +468,6 @@ public partial class Unidad : Node3D
 		collider.InputEvent += (camera, @event, position, normal, shapeIdx) => arrowClickedEventHandler(camera, @event, position, normal, shapeIdx, collider);
 		//		collider.Connect("input_event", new Callable(inputManager, nameof(inputManager._on_arrow_click_event)));
 	}
-	/// <summary>
-	/// Update the graphic transform so we can saw the actual changes in the affine matrix
-	/// </summary>
-	/// <param name="instantiation">When we instantiate, we shouldn't send the position or we will have ciclic calls, and an infinite loop</param>
-	public void updateTransformToRender(bool netReceived = false)
-	{
-
-		UnitMovementManager.ApplyAffineTransformation(affTrans, this);
-		// TODO: if we're playing as hotseat, clientNetworkController is null, and sholud avoid this line....
-		// a bit ugly, but performant
-		if (!HotSeatManager.Instance.isHotseat && !netReceived) PlayerInfoSingleton.Instance.clientNetworkController.updateUnitTransform(affTrans, coreUnit.Guid);
-	}
 	public void moveForward(double distance, bool updateRender=true)
 	{
 		Vector2 vector = new Vector2(affTrans.ForwardVec.X, affTrans.ForwardVec.Y);
@@ -597,6 +543,66 @@ public partial class Unidad : Node3D
 		}
 		original.QueueFree();
 	}
+	#region ANIMATION
+	async private void ReformAfterCombat(int deaths)
+	{
+
+		TaskCompletionSource<bool> tweenY = new TaskCompletionSource<bool>();
+		coreUnit.Troops.RemoveRange(0, deaths);
+		int partialRankDeaths = deaths % coreUnit.TroopsWidth;
+		int rankDeaths = deaths / coreUnit.TroopsWidth;
+		GD.Print("partialRankdetaghs", partialRankDeaths, "rankdeathjs ", rankDeaths);
+
+		// move to the front and reform backline
+
+		int lastFullRank = coreUnit.Troops.Count / coreUnit.TroopsWidth;
+		bool partialBackline = coreUnit.Troops.Count % coreUnit.TroopsWidth != 0;
+
+		GD.Print("partialbackline", partialBackline);
+
+		Tween tween = CreateTween();
+		float tweenduration = 1.0f;
+
+
+		for (int i = 0; i < troopNodes.Count; i++)
+		{
+			Node3D node = troopNodes[i];
+			int realpositioninformation = (int)Math.Floor(node.Position.Y / offsetTroop.Y) * coreUnit.TroopsWidth * -1 + (int)Math.Floor(node.Position.X / offsetTroop.X);
+			//GD.Print("realpos", realpositioninformation);
+			// MOVE TO FRONT
+			int movetoFrontPositions = 0;
+			if (realpositioninformation % coreUnit.TroopsWidth < partialRankDeaths)
+			{
+				movetoFrontPositions = rankDeaths + 1;
+			}
+			else
+			{
+				movetoFrontPositions = rankDeaths;
+			}
+			float Ymove = (offsetTroop.Y) * movetoFrontPositions;
+			Vector3 targetPos = node.Position + new Vector3(0, Ymove, 0);
+			tween.SetParallel();
+			tween.TweenProperty(node, "position", targetPos, tweenduration).SetTrans(Tween.TransitionType.Quint);
+			// need the delay because we are running in paralell
+			tween.TweenCallback(Callable.From(() => tweenY.TrySetResult(true))).SetDelay(tweenduration);
+
+		}
+		// Await first tween
+		await tweenY.Task;
+		Tween tweenx = CreateTween();
+		// We had to reorganize the list because the troops got disordered
+		troopNodes = troopNodes.OrderByDescending(troop => troop.Position.Y).ThenBy(troop => troop.Position.X).ToList();
+		for (int i = 0; i < troopNodes.Count; i++)
+		{
+			Node3D node = troopNodes[i];
+			float Xobj = 0;
+			Xobj = (i % coreUnit.TroopsWidth) * offsetTroop.X;
+			Vector3 targetPos = new Vector3(Xobj, node.Position.Y, node.Position.Z);
+			tweenx.SetParallel();
+			tweenx.TweenProperty(node, "position", targetPos, .6f).SetTrans(Tween.TransitionType.Quint);
+		}
+
+	}
 	// Rotate, scale and translate every troop to break pattens
 	private void AddVariationToTroop(Node3D clone)
 	{
@@ -644,4 +650,5 @@ public partial class Unidad : Node3D
 			animationPlayer.Seek(randomNumberGenerator.RandfRange(0, animationPlayer.GetAnimation("Idle").Length));
 		}
 	}
+	#endregion
 }

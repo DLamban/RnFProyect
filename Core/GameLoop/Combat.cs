@@ -35,32 +35,32 @@ namespace Core.GameLoop
             }
             return tohitResult + modifier;
         }
-        private static int CoreoundResult(int strength, int Resistance, int modifier = 0)
+        private static int woundResult(int strength, int Resistance, int modifier = 0)
         {
-            int CoreoundResult = 0;
+            int woundResult = 0;
 
             // not the fastest, but easier to remember, from top to bottom
             if (Resistance > strength + 5) //impossible
             {
-                CoreoundResult = 7;
+                woundResult = 7;
             }
             else if (Resistance > strength + 1)
             {
-                CoreoundResult = 6;
+                woundResult = 6;
             }else if(Resistance > strength)
             {
-                CoreoundResult = 5;
+                woundResult = 5;
             }else if (Resistance == strength)
             {
-                CoreoundResult = 4;
+                woundResult = 4;
             }else if (Resistance < strength - 1)
             {
-                CoreoundResult = 2;
+                woundResult = 2;
             }else if ( Resistance < strength)
             {
-                CoreoundResult = 3;
+                woundResult = 3;
             }
-            return (CoreoundResult + modifier);            
+            return (woundResult + modifier);            
         }
         public static void combat(List<BaseUnit> units, List<BaseUnit> enemyUnits)
         { 
@@ -148,11 +148,11 @@ namespace Core.GameLoop
             }
             int successWounds = 0;
             // again, let's test with example troops
-            int Coreound = CoreoundResult(baseTroopsAtt.First().Strength, defenderExample.Resistance);
+            int wound = woundResult(baseTroopsAtt.First().Strength, defenderExample.Resistance);
 
             for (int i = 0;i<successAtt;i++)
             {
-                if (DiceRoller.rolld6() >= Coreound)
+                if (DiceRoller.rolld6() >= wound)
                 {
                     successWounds++;
                 }                    

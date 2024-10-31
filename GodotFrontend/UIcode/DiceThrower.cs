@@ -1,25 +1,45 @@
-﻿using Godot;
+﻿using Core.GameLoop;
+using Godot;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Core.Units.BaseUnit;
 
 namespace GodotFrontend.UIcode
 {
     public class DiceThrower
     {
+        private static readonly DiceThrower instance = new DiceThrower();
+        public static DiceThrower Instance
+        {
+            get
+            {
+                return instance;
+            }
+        }
         private List<RigidBody3D> dicePool = new List<RigidBody3D>();
         PackedScene dicePackedScene = GD.Load<PackedScene>("res://dices_resources/dice_object.tscn");
         Node3D diceTray;
+        CenterContainer dicePanel;
         RandomNumberGenerator rnd = new RandomNumberGenerator();
         private TaskCompletionSource<bool> diceThrowFinished;//= new TaskCompletionSource<bool>();
         private int diceThrowedNotFinished = 0;
         private List<int> diceResult;
-        public DiceThrower(Node3D _diceTray) {
-            diceTray = _diceTray;
+        
+        public DiceThrowerTaskDelegate diceThrowerTaskDel;
+        public DiceThrower() {
+
+            diceThrowerTaskDel = ThrowDices;
             // we will use the dicetray to change scale depending on number of dices
             // and move the zoom of the camera 
+
+        }
+        public void initDiceThrower(CenterContainer _dicePanel)
+        {
+            dicePanel = _dicePanel;
+            diceTray = dicePanel.GetNode<Node3D>("Panel/diceView/DiceViewport/DiceTray");
             
         }
         private RigidBody3D getDice()
@@ -45,6 +65,7 @@ namespace GodotFrontend.UIcode
         // TODO: pooling the dices so we avoid the instantion
         public async Task<List<int>> ThrowDices(int numberdices, int diceType = 6)
         {
+            dicePanel.Visible = true;
             // remove and return to pool used dices
             foreach(var diceIns in dicePool)
             {
@@ -79,6 +100,7 @@ namespace GodotFrontend.UIcode
                 throw new NotImplementedException();
             }
             await diceThrowFinished.Task;
+            dicePanel.Visible = false;
             return diceResult;
         }
         public async Task<int> ThrowDicesSum(int numberDices, int diceType = 6)

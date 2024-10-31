@@ -16,10 +16,10 @@ public partial class UISpellManager : PanelContainer
 		// start with the basic mock magic school		
 		HBoxContainer listSpellsUI = GetNode<HBoxContainer>("SpellsCenterContainer/SpellListHBox");
 		PackedScene spell_scn = GD.Load<PackedScene>("res://Spells/spell_card.tscn");
-        SpellManager spellManager = SpellManager.Instance;
+		SpellManager spellManager = SpellManager.Instance;
 		//instantiate
 		spellManager.OnSpellUsed += spellUsed;
-        foreach (Spell spell in spellManager.getSpellsByWizardLevelAndSchool(3, spellManager.magicSchools["Battle Magic"]))
+		foreach (Spell spell in spellManager.getSpellsByWizardLevelAndSchool(3, spellManager.magicSchools["Battle Magic"]))
 			{
 				SpellCard spell_card = spell_scn.Instantiate() as SpellCard;
 				spellCards.Add(spell_card);

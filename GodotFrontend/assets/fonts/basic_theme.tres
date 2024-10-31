@@ -1,27 +1,14 @@
-[gd_resource type="Theme" load_steps=7 format=3 uid="uid://c5l7fthgxiatx"]
+[gd_resource type="Theme" load_steps=8 format=3 uid="uid://c5l7fthgxiatx"]
 
+[ext_resource type="Texture2D" uid="uid://da3w1gk87byx3" path="res://assets/UI/boxNormal.png" id="1_kaf41"]
 [ext_resource type="FontFile" uid="uid://dcyjlcm8v5xs6" path="res://assets/fonts/alagard_by_pix3m.ttf" id="1_r08hx"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cp5g8"]
-bg_color = Color(0.372549, 0.690196, 0.117647, 0.635294)
-border_width_left = 5
-border_width_top = 5
-border_width_right = 5
-border_width_bottom = 5
-border_color = Color(0, 0.964752, 0.269963, 0.301961)
-border_blend = true
-corner_radius_top_left = 5
-corner_radius_top_right = 5
-corner_radius_bottom_right = 5
-corner_radius_bottom_left = 5
-corner_detail = 5
-expand_margin_left = 10.0
-expand_margin_top = 10.0
-expand_margin_right = 10.0
-expand_margin_bottom = 10.0
-shadow_color = Color(0.207843, 0.129412, 0.0862745, 0.6)
-shadow_size = 2
-shadow_offset = Vector2(5, 5)
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_vnuwb"]
+content_margin_left = 5.0
+content_margin_top = 5.0
+content_margin_right = 5.0
+content_margin_bottom = 5.0
+texture = ExtResource("1_kaf41")
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wjsdw"]
 bg_color = Color(0.603922, 0.462745, 0.235294, 1)
@@ -56,7 +43,7 @@ corner_radius_bottom_left = 5
 default_base_scale = 1.0
 default_font = ExtResource("1_r08hx")
 default_font_size = 32
-Button/styles/normal = SubResource("StyleBoxFlat_cp5g8")
+Button/styles/normal = SubResource("StyleBoxTexture_vnuwb")
 Label/colors/font_color = Color(0.976471, 1, 0.631373, 1)
 Label/colors/font_outline_color = Color(1, 1, 1, 1)
 Label/colors/font_shadow_color = Color(0.387721, 0.235547, 0, 0.560784)
