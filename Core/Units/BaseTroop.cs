@@ -98,15 +98,15 @@ namespace Core.Units
         public bool isDying { get; set; }
         public List<Modifiers> Mods { get; set; }
         [JsonConstructor]
-        public BaseTroop(string name,string assetFile, int movement, int Dexterity, int Shooting, int strength, int Resistance, int wounds, int initiative, int attacks, int leadership, int armour, int wardSave, int regeneration, int cost, Size size, List<Modifiers> mods)
+        public BaseTroop(string name,string assetFile, int movement, int dexterity, int shooting, int strength, int resistance, int wounds, int initiative, int attacks, int leadership, int armour, int wardSave, int regeneration, int cost, Size size, List<Modifiers> mods)
         {
             Name = name;
             AssetFile = assetFile;
             Movement = movement;
-            Dexterity = Dexterity;
-            Shooting = Shooting;
+            Dexterity = dexterity;
+            Shooting = shooting;
             Strength = strength;
-            Resistance = Resistance;
+            Resistance = resistance;
             Wounds = wounds;
             Initiative = initiative;
             Attacks = attacks;

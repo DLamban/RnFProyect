@@ -75,8 +75,8 @@ namespace GodotFrontend.code.Input
             {
                 unitSelected.magicSelectionFX.Visible = false;
                 // FIREBALL STATS, JUST TESTING
-                int hits = await DiceThrower.Instance.ThrowDicesSum(2);
-                List<int> result = await DiceThrower.Instance.ThrowDices(hits);
+                int hits = await DiceThrower.Instance.ThrowDicesSum(2, "fireball hits");
+                List<int> result = await DiceThrower.Instance.ThrowDices(hits,"wounding");
                 unitSelected.coreUnit.woundUnit(result, 4, null);
                 
             }

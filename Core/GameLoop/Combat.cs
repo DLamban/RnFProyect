@@ -104,7 +104,7 @@ namespace Core.GameLoop
                     Console.WriteLine(troopsAAttack.Count());
                     int hitsAtoB = executeAttack(troopsAAttack, troopsBFrontRank);
                     int wounds = ConfirmWoundsTroop(hitsAtoB, aptest, unitB);
-                    unitB.WoundUnit(wounds);
+                    unitB.ApplyWoundUnit(wounds);
                     Console.Write("hits from A:");
                     Console.WriteLine(hitsAtoB);
                     Console.Write("wounds form A:");
@@ -117,7 +117,7 @@ namespace Core.GameLoop
                     Console.WriteLine(troopsBAttack.Count());
                     int hitsBtoA = executeAttack(troopsBAttack, troopsAFrontRank);
                     int wounds = ConfirmWoundsTroop(hitsBtoA, aptest, unitA);
-                    unitA.WoundUnit(wounds);
+                    unitA.ApplyWoundUnit(wounds);
                     Console.Write("hits from B:");
                     Console.WriteLine(hitsBtoA);
                     Console.Write("wounds form B:");

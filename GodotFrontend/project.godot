@@ -75,6 +75,7 @@ camera_zoom_out={
 
 [rendering]
 
+limits/global_shader_variables/buffer_size=65542
 2d/snap/snap_2d_transforms_to_pixel=true
 2d/snap/snap_2d_vertices_to_pixel=true
 2d/sdf/oversize=0

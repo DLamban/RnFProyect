@@ -22,7 +22,8 @@ namespace GodotFrontend.UIcode
         private List<RigidBody3D> dicePool = new List<RigidBody3D>();
         PackedScene dicePackedScene = GD.Load<PackedScene>("res://dices_resources/dice_object.tscn");
         Node3D diceTray;
-        CenterContainer dicePanel;
+        Control dicePanel;
+        Label dicePhase;
         RandomNumberGenerator rnd = new RandomNumberGenerator();
         private TaskCompletionSource<bool> diceThrowFinished;//= new TaskCompletionSource<bool>();
         private int diceThrowedNotFinished = 0;
@@ -36,11 +37,11 @@ namespace GodotFrontend.UIcode
             // and move the zoom of the camera 
 
         }
-        public void initDiceThrower(CenterContainer _dicePanel)
+        public void initDiceThrower(Control _dicePanel)
         {
             dicePanel = _dicePanel;
             diceTray = dicePanel.GetNode<Node3D>("Panel/diceView/DiceViewport/DiceTray");
-            
+            dicePhase = dicePanel.GetNode<Label>("PanelContainer/ThrowType");
         }
         private RigidBody3D getDice()
         {
@@ -63,8 +64,9 @@ namespace GodotFrontend.UIcode
         
         // We gonna use the physics and random number, I guess should be random enough, TODO; check randommness
         // TODO: pooling the dices so we avoid the instantion
-        public async Task<List<int>> ThrowDices(int numberdices, int diceType = 6)
+        public async Task<List<int>> ThrowDices(int numberdices, string _dicePhase, int diceType = 6)
         {
+            dicePhase.Text = _dicePhase;
             dicePanel.Visible = true;
             // remove and return to pool used dices
             foreach(var diceIns in dicePool)
@@ -103,9 +105,9 @@ namespace GodotFrontend.UIcode
             dicePanel.Visible = false;
             return diceResult;
         }
-        public async Task<int> ThrowDicesSum(int numberDices, int diceType = 6)
+        public async Task<int> ThrowDicesSum(int numberDices, string dicePhase, int diceType = 6)
         {
-            List<int> resultDices = await ThrowDices(numberDices, diceType);
+            List<int> resultDices = await ThrowDices(numberDices, dicePhase, diceType);
             int resultnum = 0;
             foreach (int i in resultDices)
             {
@@ -114,14 +116,14 @@ namespace GodotFrontend.UIcode
             return resultnum;
         }
         // get the maximum value of various dices, used in charges
-        public async Task<int> ThrowDicesMaximum(int numberDices, int diceType = 6)
+        public async Task<int> ThrowDicesMaximum(int numberDices, string dicePhase, int diceType = 6)
         {
-            List<int> resultDices = await ThrowDices(numberDices, diceType);
+            List<int> resultDices = await ThrowDices(numberDices, dicePhase, diceType);
             return resultDices.Max(x => x);
         }
         public async Task<int> ThrowDicesCharge()
         {
-            return await ThrowDicesMaximum(2);
+            return await ThrowDicesMaximum(2,"charge");
         }
 
         private void OnDiceSleep(RigidBody3D dice)

@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=8 format=3 uid="uid://c5l7fthgxiatx"]
+[gd_resource type="Theme" load_steps=9 format=3 uid="uid://c5l7fthgxiatx"]
 
 [ext_resource type="Texture2D" uid="uid://da3w1gk87byx3" path="res://assets/UI/boxNormal.png" id="1_kaf41"]
 [ext_resource type="FontFile" uid="uid://dcyjlcm8v5xs6" path="res://assets/fonts/alagard_by_pix3m.ttf" id="1_r08hx"]
@@ -35,6 +35,26 @@ corner_radius_top_right = 5
 corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kkrt4"]
+content_margin_left = 10.0
+content_margin_top = 10.0
+content_margin_right = 10.0
+content_margin_bottom = 10.0
+bg_color = Color(0.0441142, 0.101255, 0.154377, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0, 0.455598, 0.828781, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+expand_margin_left = 5.0
+expand_margin_top = 5.0
+expand_margin_right = 5.0
+expand_margin_bottom = 5.0
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1uikl"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_qd2fl"]
@@ -51,6 +71,7 @@ Label/font_sizes/font_size = 18
 Panel/styles/panel = SubResource("StyleBoxFlat_wjsdw")
 PanelActions/base_type = &"Panel"
 PanelActions/styles/panel = SubResource("StyleBoxFlat_u2ar3")
+PanelContainer/styles/panel = SubResource("StyleBoxFlat_kkrt4")
 SpellImage/base_type = &"Panel"
 SpellImage/styles/panel = SubResource("StyleBoxFlat_1uikl")
 SpellsSelection/base_type = &"Panel"

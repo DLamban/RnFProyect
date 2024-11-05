@@ -405,7 +405,7 @@ size_flags_horizontal = 3
 text = "2"
 horizontal_alignment = 2
 
-[node name="DicePanel" type="CenterContainer" parent="CanvasGroup/AnchorProvider"]
+[node name="DicePanel" type="Control" parent="CanvasGroup/AnchorProvider"]
 visible = false
 layout_mode = 1
 anchors_preset = 8
@@ -426,6 +426,10 @@ theme = ExtResource("1_7w5fx")
 [node name="Panel" type="Panel" parent="CanvasGroup/AnchorProvider/DicePanel"]
 custom_minimum_size = Vector2(610, 610)
 layout_mode = 2
+offset_left = 655.0
+offset_top = 235.0
+offset_right = 1265.0
+offset_bottom = 845.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_apgn1")
 
 [node name="diceView" type="SubViewportContainer" parent="CanvasGroup/AnchorProvider/DicePanel/Panel"]
@@ -490,6 +494,28 @@ light_color = Color(1, 0.852779, 0.64635, 1)
 light_energy = 11.109
 spot_range = 15.5776
 spot_angle = 45.3366
+
+[node name="PanelContainer" type="PanelContainer" parent="CanvasGroup/AnchorProvider/DicePanel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.165
+anchor_right = 0.5
+anchor_bottom = 0.165
+offset_left = -178.0
+offset_right = 178.0
+offset_bottom = 80.0
+grow_horizontal = 2
+theme = ExtResource("1_7w5fx")
+
+[node name="ThrowType" type="Label" parent="CanvasGroup/AnchorProvider/DicePanel/PanelContainer"]
+layout_mode = 2
+theme = ExtResource("1_7w5fx")
+theme_type_variation = &"HeaderLarge"
+theme_override_font_sizes/font_size = 64
+text = "MAGIC HITS"
+horizontal_alignment = 1
+uppercase = true
 
 [node name="GameStatusContainer" type="CenterContainer" parent="CanvasGroup/AnchorProvider"]
 custom_minimum_size = Vector2(1920, 220)

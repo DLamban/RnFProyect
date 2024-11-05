@@ -36,7 +36,7 @@ public partial class UICanvas : CanvasLayer
 
 
 		// DICE TRAY
-		CenterContainer dicePanel = GetNode<CenterContainer>("CanvasGroup/AnchorProvider/DicePanel");		
+		Control dicePanel = GetNode<Control>("CanvasGroup/AnchorProvider/DicePanel");		
 		
 		
 		DiceThrower.Instance.initDiceThrower(dicePanel);

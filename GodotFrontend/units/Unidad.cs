@@ -597,6 +597,7 @@ public partial class Unidad : Node3D
 			Node3D node = troopNodes[i];
 			float Xobj = 0;
 			Xobj = (i % coreUnit.TroopsWidth) * offsetTroop.X;
+			Xobj = Xobj + ((float)coreUnit.Troop.Size.Width/100) / 2;
 			Vector3 targetPos = new Vector3(Xobj, node.Position.Y, node.Position.Z);
 			tweenx.SetParallel();
 			tweenx.TweenProperty(node, "position", targetPos, .6f).SetTrans(Tween.TransitionType.Quint);

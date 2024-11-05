@@ -42,7 +42,7 @@ namespace Core.List
             //EXAMPLE
             //BaseUnit baseunit = new BaseUnit(unitType.Name, widthRank, Formation_type.CLOSE_ORDER, new List<string> { "Reglaespecial1", "Reglaespecial2" }, troops);
             // PLAYER1
-            BaseUnit ratis = unitManagerCore.CreateNewUnit("Basicrats", 6, 26, startPosRatis, 10);
+            BaseUnit ratis = unitManagerCore.CreateNewUnit("Basicrats", 8, 26, startPosRatis, 0);
             unitManagerCore.addPlayerUnit(ratis);
 
             

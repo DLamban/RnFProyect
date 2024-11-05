@@ -67,7 +67,7 @@ namespace Core.Units
         // EVENTS
         public event Action<int> OnDeathTroops;
         //delegates
-        public delegate Task<List<int>> DiceThrowerTaskDelegate(int numberdices, int dicetype=6);
+        public delegate Task<List<int>> DiceThrowerTaskDelegate(int numberdices, string dicePhase, int dicetype=6);
         private DiceThrowerTaskDelegate DiceThrowerTaskDel;
         
         #endregion
@@ -162,11 +162,11 @@ namespace Core.Units
         }
         public async void confirmWounds(int wounds, List<BaseRule> specialRules, int ap)
         {            
-            List<int> savingThrow = await DiceThrowerTaskDel(wounds);
+            List<int> savingThrow = await DiceThrowerTaskDel(wounds, "armour save");
             int confirmedWounds = ResolveDiceThrow.armourSave(wounds, savingThrow, ap, Troop.Armour);
-            WoundUnit(confirmedWounds, specialRules);
+            ApplyWoundUnit(confirmedWounds, specialRules);
         }
-        public void WoundUnit(int wounds, List<BaseRule> specialRules = null)
+        public void ApplyWoundUnit(int wounds, List<BaseRule> specialRules = null)
         {
             int deathunits = 0;
             for (int i = 0; i < wounds; i++)
