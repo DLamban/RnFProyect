@@ -7,13 +7,17 @@ using Core.GeometricEngine;
 
 public class UnitMovementManager
 {
+	public static event Action<Unidad> OnMoveUnit;
 	// curryfying/overloadind
 	public static void ApplyAffineTransformation(Unidad unidad)
 	{
+		
 		ApplyAffineTransformation(unidad.affTrans, unidad);
-	}
+        OnMoveUnit?.Invoke(unidad);
+    }
 	public static void ApplyAffineTransformation(AffineTransformCore affTrans, Node3D node3d)
 	{
+		
 		// Definir la matriz afín 2D
 		Transform2D affine2D = new Transform2D();
 		affine2D[0] = new Vector2((float)affTrans.m11, (float)affTrans.m21);

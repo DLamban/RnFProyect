@@ -19,10 +19,11 @@ namespace Core.GeometricEngine
         linear,
         cubic
     }
+
     public class AffineTransformCore
     {
         
-        public Matrix matrixTransform { get; set; }
+        public MatrixAffine matrixTransform { get; set; }
         // forward vector is -90 degress cuz the troops are looking up, shrug 
         public Vector2 ForwardVec
         {
@@ -91,7 +92,7 @@ namespace Core.GeometricEngine
                                 double m21, double m22,
                                 double offsetX, double offsetY)
         {
-            matrixTransform = new Matrix(m11, m12, offsetX,
+            matrixTransform = new MatrixAffine(m11, m12, offsetX,
                                         m21, m22, offsetY,
                                         0, 0, 1);
         }
@@ -105,7 +106,7 @@ namespace Core.GeometricEngine
         public AffineTransformCore(Vector3 vector) { 
             float cos = (float)Math.Cos(vector.Z);
             float sin = (float)Math.Sin(vector.Z);
-            matrixTransform = new Matrix(cos, -sin, vector.X,
+            matrixTransform = new MatrixAffine(cos, -sin, vector.X,
                                         sin, cos, vector.Y,
                                         0, 0, 1);
         }
@@ -115,7 +116,7 @@ namespace Core.GeometricEngine
         /// <param name="ser"></param>
         public AffineTransformCore(SerializableAffineTrans ser)
         {
-            matrixTransform = new Matrix(ser.m11,ser.m12,ser.offsetX,
+            matrixTransform = new MatrixAffine(ser.m11,ser.m12,ser.offsetX,
                                         ser.m21, ser.m22, ser.offsetY,
                                         0, 0, 1);                                
         }
@@ -212,7 +213,7 @@ namespace Core.GeometricEngine
         public Vector2 GlobalToLocalTransforms(double X, double Y)
         {
             Vector2 result = new Vector2();
-            Matrix invert = invertAffineMatrix(matrixTransform);
+            MatrixAffine invert = invertAffineMatrix(matrixTransform);
             result.X = (float)((invert[0, 0] * X) + (invert[0, 1] * Y) + (invert[0, 2]));
             result.Y = (float)((invert[1, 0] * X) + (invert[1, 1] * Y) + (invert[1, 2]));
             return result;
@@ -221,11 +222,11 @@ namespace Core.GeometricEngine
         /// This formula only works with affine transforms, because it has 0,0,1 in the last row
         /// </summary>
         /// <returns></returns>
-        private Matrix invertAffineMatrix(Matrix matrix)
+        private MatrixAffine invertAffineMatrix(MatrixAffine matrix)
         {
-            Matrix inverted = new Matrix();
+            MatrixAffine inverted = new MatrixAffine();
             float det = 1/ (float)((matrix[0, 0] * matrix[1, 1]) - (matrix[0, 1] * matrix[1, 0]));
-            inverted = new Matrix(det * matrix[1, 1], det * -matrix[0, 1], det * (matrix[0, 1] * matrix[1, 2] - matrix[0, 2] * matrix[1, 1]),
+            inverted = new MatrixAffine(det * matrix[1, 1], det * -matrix[0, 1], det * (matrix[0, 1] * matrix[1, 2] - matrix[0, 2] * matrix[1, 1]),
                                   det * -matrix[1, 0], det * matrix[0, 0], det * (matrix[0, 2] * matrix[1, 0] - matrix[0, 0] * matrix[1, 2]),
                                   0, 0, 1);
             return inverted;
@@ -235,9 +236,9 @@ namespace Core.GeometricEngine
         /// Because sometimes we need a copy of the transform matrix
         /// </summary>
         /// <returns>a new copy of the transform matrix</returns>
-        public Matrix copyMatrixTransformValues()
+        public MatrixAffine copyMatrixTransformValues()
         {
-            return new Matrix(m11, m12, offsetX,
+            return new MatrixAffine(m11, m12, offsetX,
                               m21, m22, offsetY,
                               0, 0, 1);
         }
@@ -253,9 +254,9 @@ namespace Core.GeometricEngine
             distance = numerator / denominator;
             return distance;
         }
-        public static Matrix InterpolateMatrix(Matrix original, Matrix target, float t, InterpolateType interpolateType=InterpolateType.linear)
+        public static MatrixAffine InterpolateMatrix(MatrixAffine original, MatrixAffine target, float t, InterpolateType interpolateType=InterpolateType.linear)
         {
-            return new Matrix(t * target[0, 0] + (1 - t) * original[0, 0],
+            return new MatrixAffine(t * target[0, 0] + (1 - t) * original[0, 0],
                               t * target[0, 1] + (1 - t) * original[0, 1],
                               t * target[0, 2] + (1 - t) * original[0, 2],
                               t * target[1, 0] + (1 - t) * original[1, 0],
@@ -272,7 +273,7 @@ namespace Core.GeometricEngine
         public void rotate(double degrees, double offsetCenterX, double offsetCenterY)
         {
             // we need to take the center of the unit, and rotate around it
-            Matrix rotateTransform = rotateTransformDeg(degrees);
+            MatrixAffine rotateTransform = rotateTransformDeg(degrees);
             AffineTransformCore affineTransformoffset = new AffineTransformCore(1, 0, 0, 1, offsetCenterX, offsetCenterY);
             AffineTransformCore affineTransformoffsetinverso = new AffineTransformCore(1, 0, 0, 1, -offsetCenterX, -offsetCenterY);
 
@@ -294,7 +295,7 @@ namespace Core.GeometricEngine
             return afftransstr;
         }
         
-        private Matrix multiplyMatrix(Matrix matrixTransform, Matrix rotateTransform)
+        private MatrixAffine multiplyMatrix(MatrixAffine matrixTransform, MatrixAffine rotateTransform)
         {
             //create matrix multiplication
             double[,] result = new double[3, 3];
@@ -309,10 +310,10 @@ namespace Core.GeometricEngine
                     }
                 }
             }
-            return new Matrix(result);
+            return new MatrixAffine(result);
         }
         //public void move
-        private Matrix rotateTransformDeg(double degrees)
+        private MatrixAffine rotateTransformDeg(double degrees)
         {
             degrees = degrees % 360;
 
@@ -340,26 +341,44 @@ namespace Core.GeometricEngine
                 cos = Math.Cos(radians);
                 sin = Math.Sin(radians);
             }
-            return new Matrix(
+            return new MatrixAffine(
                                cos, -sin, 0,
                                sin, cos, 0,
                                0, 0, 1);
         }
     }
-    public class Matrix
+    public class MatrixAffine
     {
-
+        public double m11 { get { return matrix[0, 0]; } }
+        public double m12 { get { return matrix[0, 1]; } }
+        public double offsetX { get { return matrix[0, 2]; } }
+        public double m21 { get { return matrix[1, 0]; } }
+        public double m22 { get { return matrix[1, 1]; } }
+        public double offsetY { get { return matrix[1, 2]; } }
         private double[,] matrix { get; set; }
         public double this[int row, int col]
         {
             get { return matrix[row, col]; }
             set { matrix[row, col] = value; }
         }
-        public Matrix()
+        public MatrixAffine()
         {
             matrix = new double[3, 3];
         }
-        public Matrix(double[,] values)
+        public MatrixAffine(double m11, double m12, double m21,double m22, double offsetX, double offsetY)
+        {
+            matrix = new double[3, 3];
+            matrix[0, 0] = m11;
+            matrix[0, 1] = m12;
+            matrix[0, 2] = offsetX;
+            matrix[1, 0] = m21;
+            matrix[1, 1] = m22;
+            matrix[1, 2] = offsetY;
+            matrix[2, 0] = 0;
+            matrix[2, 1] = 0;
+            matrix[2, 2] = 1;
+        }
+        public MatrixAffine(double[,] values)
         {
             if (values.GetLength(0) != 3 || values.GetLength(1) != 3)
             {
@@ -368,7 +387,7 @@ namespace Core.GeometricEngine
             matrix = new double[3, 3];
             matrix = values;
         }
-        public Matrix(double m11, double m12, double m13,
+        public MatrixAffine(double m11, double m12, double m13,
                       double m21, double m22, double m23,
                       double m31, double m32, double m33)
         {
@@ -383,9 +402,9 @@ namespace Core.GeometricEngine
             matrix[2, 1] = m32;
             matrix[2, 2] = m33;
         }
-        public Matrix cloneMatrix()
+        public MatrixAffine cloneMatrix()
         {
-            return new Matrix(matrix[0, 0], matrix[0, 1], matrix[0, 2], 
+            return new MatrixAffine(matrix[0, 0], matrix[0, 1], matrix[0, 2], 
                               matrix[1, 0], matrix[1, 1], matrix[1, 2], 
                               matrix[2, 0], matrix[2, 1], matrix[2,2]
                               );

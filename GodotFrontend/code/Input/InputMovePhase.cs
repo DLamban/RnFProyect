@@ -24,7 +24,7 @@ public partial class InputMovePhase:ISubInputManager
 	private Unidad unitDragged;
 	// ORIGIN positions when clicking for dragging
 	private Vector2 unitOriginPos;
-	private Matrix currentTransformMat;
+	private MatrixAffine currentTransformMat;
 	private Vector3 dragOrigin;
 	private float? offsetDistancePicked;
 	private float distanceMoved;

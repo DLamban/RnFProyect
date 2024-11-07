@@ -64,6 +64,7 @@ public partial class Unidad : Node3D
 	Godot.RandomNumberGenerator randomNumberGenerator = new Godot.RandomNumberGenerator();
 	// EVENTS
 	public event Action unitSelection;
+	
 	// EVENTS TO VINCULATE WITH CORE UNIT
 	
 	// Define the signal
@@ -85,7 +86,7 @@ public partial class Unidad : Node3D
 	private Vector2 rotPivotPoint;
 	private float originalAngleDeg;
 	private float targetAngleDeg;
-	Matrix originalMatAffineTrans;
+	MatrixAffine originalMatAffineTrans;
 	Vector2 rotPivot;
 	
 
@@ -136,7 +137,8 @@ public partial class Unidad : Node3D
 	/// <param name="instantiation">When we instantiate, we shouldn't send the position or we will have ciclic calls, and an infinite loop</param>
 	public void updateTransformToRender(bool netReceived = false)
 	{
-		UnitMovementManager.ApplyAffineTransformation(affTrans, this);
+		UnitMovementManager.ApplyAffineTransformation( this);
+		
 		// TODO: if we're playing as hotseat, clientNetworkController is null, and sholud avoid this line....
 		// a bit ugly, but performant
 		if (!HotSeatManager.Instance.isHotseat && !netReceived) PlayerInfoSingleton.Instance.clientNetworkController.updateUnitTransform(affTrans, coreUnit.Guid);

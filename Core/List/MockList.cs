@@ -11,7 +11,7 @@ namespace Core.List
     public class MockList
     {
         public UnitsServerManager unitManagerCore { get; set; }
-        Vector2 startPosRatis = new Vector2(1f, 0);
+        Vector2 startPosRatis = new Vector2(-1f, 0);
         
         Vector2 startPosRatis2 = new Vector2(3.1f, -0.15f);
 
