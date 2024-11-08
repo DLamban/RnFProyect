@@ -18,11 +18,15 @@ public partial class GrassTerrain : Node3D
 	private float battlefieldWidthdm = Constants.battleFieldSizeWidthdm;
 	private float battlefieldHeightdm = Constants.battleFieldSizeHeightdm;
 	private ShaderMaterial ShaderMaterial;
+    DataNode2d drawNodeTexture;
 	public override void _Ready()
 	{
 		UnitMovementManager.OnMoveUnit += UnitMoved;
 
 
+        var viewport = GetNode<SubViewport>("DataTextureViewport");
+        ViewportTexture textureviewport = viewport.GetTexture();
+        drawNodeTexture = viewport.GetNode<DataNode2d>("DataNode2D");
 
         textureSize = new Vector2I(512,512);
         convertMatrix = createAffineTransform();
@@ -30,54 +34,40 @@ public partial class GrassTerrain : Node3D
         MultiMeshInstance3D multiMeshInstance = GetNode<MultiMeshInstance3D>("quarter11/Multimesh");
 		ShaderMaterial = multiMeshInstance.Multimesh.Mesh.SurfaceGetMaterial(0) as ShaderMaterial;
 
-        baseImage = new Image();
-        baseImage = Image.CreateEmpty(textureSize.X, textureSize.Y, false, Image.Format.Rgba8);
-		baseImage.Fill(new Color(1f, 1f, 1f));
-
-
-        Vector2I position1 = convertCoord(-7.62f,-5.585f);
-        Rect2I rect1 = new Rect2I(position1,new Vector2I(20,20));
-
-        Vector2I position2 = convertCoord(7f, -5.5f);
-        Rect2I rect2 = new Rect2I(position2, new Vector2I(20, 20));
-        
-        Vector2I position3 = convertCoord(7f, 5f);
-        Rect2I rect3 = new Rect2I(position3, new Vector2I(20, 20));
-
-        updateDataTexture(rect1);
-        updateDataTexture(rect2);
-        updateDataTexture(rect3);
-        updateTexture();
-	
-	   
-		
-
-	
-	}
+        ShaderMaterial.SetShaderParameter("data_texture", textureviewport);
+    }
 	private void UnitMoved(Unidad unit)
 	{
-	
-		var i = 0;
+        Vector2 pos = new Vector2((float)unit.coreUnit.Transform.offsetX, (float)unit.coreUnit.Transform.offsetY);	
+		Vector2 size = new Vector2((float)unit.coreUnit.Transform.offsetY, (float)unit.coreUnit.Transform.offsetY);
+        Rect2I rect2I = new Rect2I(convertCoord(pos.X,pos.Y),20,-20);
+
+        // create polygon
+        List<System.Numerics.Vector2> points = unit.coreUnit.polygonPointsWorld;
+
+        updateDataTexture(points);
 	}
-	private void updateTexture()
-	{
-        ImageTexture texture = new ImageTexture();
-        texture = ImageTexture.CreateFromImage(baseImage);
-        ShaderMaterial.SetShaderParameter("data_texture", texture);
-    }
 
     // rect update
     private void updateDataTexture(Rect2I rect)
     {
-        baseImage.FillRect(rect, new Color(0f, 0f, 0f));
+        drawNodeTexture.drawRectBlack(rect);
+        
     }
-    private void updateDataTexture(int x, int y, int width, int height)
-	{		
-        baseImage.FillRect(new Rect2I(x,y,width,height), new Color(0f, 0f, 0f));
+    // polygon update
+    private void updateDataTexture(List<System.Numerics.Vector2> points)
+    {
+        List<Vector2> pointsGodotFormat = new List<Vector2>();
+        foreach (System.Numerics.Vector2 point in points)
+        {
+            pointsGodotFormat.Add(convertCoord(point.X,point.Y));
+        }
+        drawNodeTexture.drawPolygon(pointsGodotFormat);
+        
     }
     private void updateDataTexture(List<System.Drawing.Point> polygonPoints)
     {
-
+        
     }
     private Vector2I convertCoord(float x, float y)
     {

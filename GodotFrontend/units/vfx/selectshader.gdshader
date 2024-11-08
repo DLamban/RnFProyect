@@ -8,7 +8,7 @@ uniform sampler2D texture2;
 uniform sampler2D colorTexture;
 
 // Grosor del borde
-uniform float base_border_thickness  = .02; 
+uniform float base_border_thickness  = .02;
 
 // calculate the border of the  rectangle so we draw an outline
 // we use the scale to get a coherente border indepent of the transform scale, maybe is not needed
@@ -25,7 +25,7 @@ float calc_is_border(vec2 uv, float scale_factor){
 void fragment() {
     // Obtener las coordenadas UV del fragmento
     vec2 uv = UV;
-	
+
 	 vec3 scale = vec3(
         length(vec3(MODEL_MATRIX[0].x, MODEL_MATRIX[0].y, MODEL_MATRIX[0].z)), // Escala en x
         length(vec3(MODEL_MATRIX[1].x, MODEL_MATRIX[1].y, MODEL_MATRIX[1].z)), // Escala en y
