@@ -1,6 +1,5 @@
-[gd_scene load_steps=11 format=3 uid="uid://d0kk1l87p5uu3"]
+[gd_scene load_steps=8 format=3 uid="uid://d0kk1l87p5uu3"]
 
-[ext_resource type="Script" path="res://units/Unidad.cs" id="1_8orsx"]
 [ext_resource type="PackedScene" uid="uid://bw6pbcycj48gv" path="res://assets/3d/troops/Bases/MiniatureBase60x100.glb" id="1_mheag"]
 [ext_resource type="ArrayMesh" uid="uid://cppkk3pc2cpc7" path="res://assets/3d/rocks/rock_02.obj" id="2_6x6xy"]
 [ext_resource type="Texture2D" uid="uid://cqheyfynf85bh" path="res://assets/3d/rocks/diffuse.tga" id="3_gussy"]
@@ -15,19 +14,10 @@ normal_texture = ExtResource("4_sfr6v")
 refraction_enabled = true
 refraction_texture = ExtResource("5_5gq1p")
 
-[sub_resource type="BoxMesh" id="BoxMesh_ctti1"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_j24cn"]
-albedo_color = Color(1, 0, 0, 1)
-
-[node name="nodounidad" type="Node3D"]
-script = ExtResource("1_8orsx")
+[node name="troop" type="Node3D"]
 
 [node name="MiniatureBase60x100" parent="." instance=ExtResource("1_mheag")]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0.25)
-
-[node name="dragon_model(1)" parent="MiniatureBase60x100" instance=ExtResource("6_07ln6")]
-transform = Transform3D(-0.1, 0, -8.74228e-09, 0, 0.1, 0, 8.74228e-09, 0, -0.1, 0, 0, 0)
 
 [node name="Rock02" type="MeshInstance3D" parent="MiniatureBase60x100"]
 transform = Transform3D(-0.000200793, -8.69811e-11, -0.0019899, 8.69811e-11, 0.002, -9.61997e-11, 0.0019899, -9.61997e-11, -0.000200793, -0.0916323, 0.0191032, 0.304862)
@@ -35,10 +25,5 @@ mesh = ExtResource("2_6x6xy")
 skeleton = NodePath("../../..")
 surface_material_override/0 = SubResource("StandardMaterial3D_3ofa8")
 
-[node name="CenterGizmo" type="Node3D" parent="."]
-visible = false
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="CenterGizmo"]
-transform = Transform3D(0.04, 0, 0, 0, 0.04, 0, 0, 0, 2.2, 0, 0, 1.15444)
-mesh = SubResource("BoxMesh_ctti1")
-surface_material_override/0 = SubResource("StandardMaterial3D_j24cn")
+[node name="dragon_model(1)" parent="." instance=ExtResource("6_07ln6")]
+transform = Transform3D(-0.1, 0, -8.74228e-09, -8.74228e-09, -4.37114e-09, 0.1, -3.82137e-16, 0.1, 4.37114e-09, 0, 0, 0.25)

@@ -532,7 +532,7 @@ public partial class Unidad : Node3D
 			int x = i % width;
 			int y = i / width;
 			troopWithBaseNode.Position = troopWithBaseNode.Position + new Vector3(x*offsetTroop.X, y*-offsetTroop.Y, 0f) + new Vector3(offsetTroop.X / 2, -offsetTroop.Y / 2, 0);
-            AddVariationToTroop(troopWithBaseNode);
+			AddVariationToTroop(troopWithBaseNode);
 
 
 			try

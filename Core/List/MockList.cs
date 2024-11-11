@@ -52,22 +52,22 @@ namespace Core.List
             BaseUnit goblins = unitManagerCore.CreateNewUnit("Goblins", listChar, 5, 17, startPosGoblins, 15);
             unitManagerCore.addPlayerUnit(goblins);
 
-            //BaseUnit dragon = unitManagerCore.CreateNewUnit("Abomination", new List<Character>(), 1, 1, startPosAbomination, 15);
-            //unitManagerCore.addPlayerUnit(dragon);
+            BaseUnit dragon = unitManagerCore.CreateNewUnit("Abomination", new List<Character>(), 1, 1, startPosAbomination, 15);
+            unitManagerCore.addPlayerUnit(dragon);
 
             //// PLAYER2
-            //BaseUnit dwarfos = unitManagerCore.CreateNewUnit("Dwarf Warriors", new List<Character>(),  5, 13, startPosDwarfos, 130);
-            //unitManagerCore.addEnemyUnit(dwarfos);
+            BaseUnit dwarfos = unitManagerCore.CreateNewUnit("Dwarf Warriors", new List<Character>(), 5, 13, startPosDwarfos, 130);
+            unitManagerCore.addEnemyUnit(dwarfos);
 
-            //BaseUnit slayers = unitManagerCore.CreateNewUnit("Slayers", new List<Character>(),  5, 7, startPosSlayers, 200);
-            //unitManagerCore.addEnemyUnit(slayers);
+            BaseUnit slayers = unitManagerCore.CreateNewUnit("Slayers", new List<Character>(), 5, 7, startPosSlayers, 200);
+            unitManagerCore.addEnemyUnit(slayers);
 
-            //BaseUnit gyros = unitManagerCore.CreateNewUnit("Gyrocopters", new List<Character>(), 1,1, startPosGyros, 190);
-            //unitManagerCore.addEnemyUnit(gyros);
+            BaseUnit gyros = unitManagerCore.CreateNewUnit("Gyrocopters", new List<Character>(), 1, 1, startPosGyros, 190);
+            unitManagerCore.addEnemyUnit(gyros);
 
 
-            //BaseUnit elders = unitManagerCore.CreateNewUnit("Elder Dwarfs", new List<Character>(),  5, 12, startPosElders, 170);
-            //unitManagerCore.addEnemyUnit(elders);
+            BaseUnit elders = unitManagerCore.CreateNewUnit("Elder Dwarfs", new List<Character>(), 5, 12, startPosElders, 170);
+            unitManagerCore.addEnemyUnit(elders);
         }
     }
 }
