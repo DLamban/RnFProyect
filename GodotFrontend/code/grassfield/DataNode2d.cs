@@ -71,17 +71,17 @@ public partial class DataNode2d : Node2D
         }
            
     }
-    public void drawPolygon(List<Vector2> points)
-    {
-        
-        commands.Enqueue(new DrawCommand(points, new Color(255,255,255)));
+    public void drawPolygon(List<Vector2> points, Color color)
+    {        
+        commands.Enqueue(new DrawCommand(points, color));
         QueueRedraw();
     }
-    public void drawRectBlack(Rect2I rect)
+    public void drawCircle(Vector2 center, float radius, Color color)
     {
-        
-        drawRectColor(rect,new Color(255,255,255));
+        commands.Enqueue(new DrawCommand(center,radius, color));
+        QueueRedraw();
     }
+
     public void drawRectColor(Rect2I rect, Color color)
     {
 

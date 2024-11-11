@@ -1,9 +1,9 @@
+Node3D
+MeshInstance3D
 Node2D
 TextureRect
 SubViewport
-Node3D
 Node
-MeshInstance3D
 MultiMeshInstance3D
 Control
 Container

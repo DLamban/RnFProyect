@@ -42,6 +42,14 @@ namespace Core.List
             }
             throw new KeyNotFoundException($"Unit '{unitname}' not found");
         }
-
+        public Character getCharCodex(string charname)
+        {
+            foreach (BaseRace race in races.Values)
+            {
+                Character? character = race.Characters.Find(character => character.Name == charname);
+                if (character != null) return character;                
+            }
+            throw new KeyNotFoundException($"Unit '{charname}' not found");
+        }
     }
 }

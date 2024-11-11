@@ -2,9 +2,13 @@
 
 shader_type spatial;
 render_mode cull_disabled;
-uniform vec3 color1:source_color;
-uniform vec3 color2:source_color;
+uniform vec3 tip_color:source_color;
+uniform vec3 base_color:source_color;
 uniform vec3 fake_ambient_oclusion:source_color;
+uniform vec3 burning_tip_color:source_color;
+uniform vec3 burning_tip_color2:source_color;
+uniform vec3 burned_color:source_color;
+
 uniform sampler2D noise;
 uniform sampler2D height_variance_tex;
 uniform vec2 mesh_size;
@@ -12,16 +16,20 @@ uniform float displacement_force : hint_range(0.0, 1.0);
 varying vec3 world_pos;
 varying vec2 tex_world_pos;
 varying vec3 data_texture_var;
-uniform sampler2D data_texture;// remember to invert the data, more useful
+uniform sampler2D data_texture;
 varying float grass_flattened;
+varying float grass_burned;
 void vertex() {
+	//MAYBE USE INSTANCE_CUSTOM or INSTANCE_ID
+	
 	world_pos = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
 	tex_world_pos = vec2(
 		(world_pos.x + mesh_size.x/2.) /mesh_size.x,
 		(world_pos.y + mesh_size.y/2.) /mesh_size.y
 	);
 	data_texture_var = texture(data_texture,vec2(tex_world_pos.x,tex_world_pos.y)).rgb;
-	grass_flattened = data_texture_var.x;
+	grass_flattened = data_texture_var.r;
+	grass_burned = data_texture_var.g;
 	float grass_not_flattened = 1.- grass_flattened;
 	vec2 tex_position = vec2(world_pos.x ,world_pos.y);
 	float displacement_factor = max(0,VERTEX.y - 0.01);
@@ -34,28 +42,58 @@ void vertex() {
 
 	// WIND NOISE
 	world_pos = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
-	float move = texture(noise, tex_position + vec2(0.07,0.07)*TIME).r;
+	float move = texture(noise, tex_position + vec2(0.12,0.07)*TIME).r;
 
 
 	world_pos.x += move * displacement_force * displacement_factor * grass_not_flattened;
 	VERTEX = (inverse(MODEL_MATRIX) * vec4(world_pos, 1.0)).xyz;
 	// Flatten da grass
 	//VERTEX.x *= -10.;//
-	VERTEX.y *= grass_not_flattened+0.1;
+	VERTEX.y *= grass_not_flattened+0.15;
 	VERTEX.x += (1. - grass_not_flattened) * displacement_factor+1.;
 
 }
 vec3 grass_color_mix(vec2 uv){
 	float t = smoothstep(0.1,1.,uv.y);
 	// improve flattened grass
-	return mix(mix(color1,color2,uv.y),fake_ambient_oclusion,t)*1.-grass_flattened;
+	return
+		mix(
+			fake_ambient_oclusion,
+			mix(
+				mix(tip_color,base_color,uv.y),
+				fake_ambient_oclusion,t
+			),1.2-grass_flattened
+		);
+}
+vec3 grass_burned_mix(vec2 uv){
+	float move = texture(noise, vec2(0.12,0.07)*TIME).r;
+	float t = smoothstep(0.01,0.15,uv.y);
+	float t2 = smoothstep(0.001,0.12,uv.y+ fract(abs(sin(move)))*0.08) ;
+	return 
+		mix ( burning_tip_color2,
+			mix(burning_tip_color,
+				mix(burned_color,fake_ambient_oclusion,uv.y),
+				t 
+			),t2
+		);
+}
+vec3 fresnel_glow(float amount, float intensity, vec3 color, vec3 normal, vec3 view)
+{
+	return pow((1.0 - dot(normalize(normal), normalize(view))), amount) * color * intensity;
 }
 void fragment() {
-
-	//ALBEDO = vec3(data_texture_var.x,0.,0.);
-	ALBEDO = grass_color_mix(UV);
-
 	if (!FRONT_FACING){
 		NORMAL = -NORMAL;
 	}
+	if (grass_burned>0.5){
+		ALBEDO = grass_burned_mix(UV);
+	}else{
+		ALBEDO = grass_color_mix(UV);
+		vec3 fresnel_color = vec3(0.5, 0.7, 0.3);
+		vec3 fresnel = fresnel_glow(7.0, 4.5, fresnel_color, NORMAL, VIEW);		
+		EMISSION = fresnel;
+	}
+
+	
+
 }

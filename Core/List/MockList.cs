@@ -41,33 +41,33 @@ namespace Core.List
 
             //EXAMPLE
             //BaseUnit baseunit = new BaseUnit(unitType.Name, widthRank, Formation_type.CLOSE_ORDER, new List<string> { "Reglaespecial1", "Reglaespecial2" }, troops);
-            // PLAYER1
-            BaseUnit ratis = unitManagerCore.CreateNewUnit("Basicrats", 8, 26, startPosRatis, 0);
-            unitManagerCore.addPlayerUnit(ratis);
 
             
-            BaseUnit orcs = unitManagerCore.CreateNewUnit("Orcs", 5, 20, startPosRatis2, 10);
+            BaseUnit orcs = unitManagerCore.CreateNewUnit("Orcs", new List<Character>(), 5, 20, startPosRatis2, 10);
             unitManagerCore.addPlayerUnit(orcs);
-            
-            BaseUnit goblins = unitManagerCore.CreateNewUnit("Goblins", 5, 17, startPosGoblins, 15);
+
+            Character goblinWizard = CodexAll.Instance.getCharCodex("Goblin Wizard");
+            List<Character> listChar = new List<Character>();
+            listChar.Add(goblinWizard);
+            BaseUnit goblins = unitManagerCore.CreateNewUnit("Goblins", listChar, 5, 17, startPosGoblins, 15);
             unitManagerCore.addPlayerUnit(goblins);
 
-            BaseUnit dragon = unitManagerCore.CreateNewUnit("Abomination", 1, 1, startPosAbomination, 15);
-            unitManagerCore.addPlayerUnit(dragon);
+            //BaseUnit dragon = unitManagerCore.CreateNewUnit("Abomination", new List<Character>(), 1, 1, startPosAbomination, 15);
+            //unitManagerCore.addPlayerUnit(dragon);
 
-            // PLAYER2
-            BaseUnit dwarfos = unitManagerCore.CreateNewUnit("Dwarf Warriors", 5, 13, startPosDwarfos, 130);
-            unitManagerCore.addEnemyUnit(dwarfos);
+            //// PLAYER2
+            //BaseUnit dwarfos = unitManagerCore.CreateNewUnit("Dwarf Warriors", new List<Character>(),  5, 13, startPosDwarfos, 130);
+            //unitManagerCore.addEnemyUnit(dwarfos);
 
-            BaseUnit slayers = unitManagerCore.CreateNewUnit("Slayers", 5, 7, startPosSlayers, 200);
-            unitManagerCore.addEnemyUnit(slayers);
-            
-            BaseUnit gyros = unitManagerCore.CreateNewUnit("Gyrocopters",1,1, startPosGyros, 190);
-            unitManagerCore.addEnemyUnit(gyros);
+            //BaseUnit slayers = unitManagerCore.CreateNewUnit("Slayers", new List<Character>(),  5, 7, startPosSlayers, 200);
+            //unitManagerCore.addEnemyUnit(slayers);
+
+            //BaseUnit gyros = unitManagerCore.CreateNewUnit("Gyrocopters", new List<Character>(), 1,1, startPosGyros, 190);
+            //unitManagerCore.addEnemyUnit(gyros);
 
 
-            BaseUnit elders = unitManagerCore.CreateNewUnit("Elder Dwarfs", 5, 12, startPosElders, 170);
-            unitManagerCore.addEnemyUnit(elders);
+            //BaseUnit elders = unitManagerCore.CreateNewUnit("Elder Dwarfs", new List<Character>(),  5, 12, startPosElders, 170);
+            //unitManagerCore.addEnemyUnit(elders);
         }
     }
 }

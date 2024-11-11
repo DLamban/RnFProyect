@@ -58,7 +58,7 @@ public partial class Unidad : Node3D
 	public Vector2 center;
 	public List<Node3D> troopNodes = new List<Node3D>();
 	private Sprite3D distBillboard;
-	Vector2 offsetTroop;
+	public Vector2 offsetTroop;
 	const float arrowHeight = 0.25f;	
 	
 	Godot.RandomNumberGenerator randomNumberGenerator = new Godot.RandomNumberGenerator();
@@ -106,10 +106,10 @@ public partial class Unidad : Node3D
 		Size troopSize = coreUnit.Troop.Size;
 		center = new Vector2((float)coreUnit.sizeEnclosedRectangle.Width / 2, (float)coreUnit.sizeEnclosedRectangle.Height / 2);
 		offsetTroop = new Vector2(((float)troopSize.Width / 100), ((float)troopSize.Height / 100));
-
+		
 		center.X = (center.X / 100);
 		center.Y = -((center.Y / 100));
-		Node3D gizmo = GetChild<Node3D>(1);
+		Node3D gizmo = GetChild<Node3D>(0);
 		gizmo.Position = gizmo.Position + new Vector3(center.X, center.Y, 0);
 		//affTrans = coreUnit.Transform;
 		createUIElements(inputManager);
@@ -513,37 +513,40 @@ public partial class Unidad : Node3D
 	}
 
 	private void createUnitTroopsBase(int width, int troopCount)
-	{        		
-		Node3D original = GetChild<Node3D>(0);
-		original.Position = original.Position + new Vector3(offsetTroop.X/2,-offsetTroop.Y/2,0);
+	{
+		
+
+		//Node3D original = GetChild<Node3D>(0);
+		//original.Position = original.Position + new Vector3(offsetTroop.X/2,-offsetTroop.Y/2,0);
 	//	original.Position = new Vector3(0, 0, width);
 		AnimationPlayer animationPlayer;
 		for (int i = 0; i < troopCount; i++)
 		{
-			Node3D clone = (Node3D)original.Duplicate();
+			var troop = this.coreUnit.Troops[i];
+			PackedScene troopAsset = GD.Load<PackedScene>("res://units/troops/" + troop.AssetFile);
+			Node3D troopWithBaseNode = (Node3D)troopAsset.Instantiate();			
 			
-			troopNodes.Add(clone);
-			AddChild(clone);
+			troopNodes.Add(troopWithBaseNode);
+			AddChild(troopWithBaseNode);
 			// position in the unit
 			int x = i % width;
 			int y = i / width;
-			clone.Position = clone.Position + new Vector3(x*offsetTroop.X, y*-offsetTroop.Y, 0f);
-			AddVariationToTroop(clone);
+			troopWithBaseNode.Position = troopWithBaseNode.Position + new Vector3(x*offsetTroop.X, y*-offsetTroop.Y, 0f) + new Vector3(offsetTroop.X / 2, -offsetTroop.Y / 2, 0);
+            AddVariationToTroop(troopWithBaseNode);
 
 
 			try
 			{
-				animationPlayer = clone.GetChild(1).GetNode<AnimationPlayer>("AnimationPlayer");
+				animationPlayer = troopWithBaseNode.GetChild(1).GetNode<AnimationPlayer>("AnimationPlayer");
 			}catch(Exception e) {
 				animationPlayer = null;
 			}
 			if (animationPlayer != null)
 			{
-				addModifierSkeleton3D(clone);
+				addModifierSkeleton3D(troopWithBaseNode);
 				AnimateTroop(animationPlayer);
 			}
 		}
-		original.QueueFree();
 	}
 	#region ANIMATION
 	async private void ReformAfterCombat(int deaths)

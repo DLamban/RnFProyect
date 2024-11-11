@@ -17,6 +17,7 @@ namespace Core.Units
     {
         public string Name { get; set; }
         public int WidthRank { get; set; }
+        public List<Character> characters { get; set; }
         public Guid guid { get; set; }
         public int UnitCount { get; set; }        
         public SerializableAffineTrans affTransSer { get; set; }
@@ -27,7 +28,8 @@ namespace Core.Units
         public MinimumUnitTransferInfo(BaseUnit unit)
         {
             Name = unit.Name;
-
+            // NOT IMPLEMENTED
+            List<Character> characters = new List<Character>();
             WidthRank = unit.TroopsWidth;
             UnitCount = unit.UnitCount;
             guid = unit.Guid;
@@ -58,25 +60,25 @@ namespace Core.Units
         }
         public BaseUnit CreateUnit(MinimumUnitTransferInfo minimumUnitTransferInfo)
         {
-            return CreateNetworkUnit(minimumUnitTransferInfo.Name, minimumUnitTransferInfo.WidthRank, minimumUnitTransferInfo.UnitCount,  minimumUnitTransferInfo.guid, minimumUnitTransferInfo.affTransSer);
+            return CreateNetworkUnit(minimumUnitTransferInfo.Name,minimumUnitTransferInfo.characters,  minimumUnitTransferInfo.WidthRank, minimumUnitTransferInfo.UnitCount,  minimumUnitTransferInfo.guid, minimumUnitTransferInfo.affTransSer);
         }        
-        public BaseUnit CreateNetworkUnit(string unitName, int widthRank, int unitCount, Guid guid, SerializableAffineTrans serializableAffineTrans)
+        public BaseUnit CreateNetworkUnit(string unitName,List<Character> characters, int widthRank, int unitCount, Guid guid, SerializableAffineTrans serializableAffineTrans)
         {
-            BaseUnit unit = instantiateUnit(unitName, widthRank, unitCount, guid);
+            BaseUnit unit = instantiateUnit(unitName, characters,widthRank, unitCount, guid);
             unit.Transform = new AffineTransformCore(serializableAffineTrans);
             return unit;
         }
-        public BaseUnit CreateNewUnit( string unitName,int widthRank, int unitCount, Vector2 startPos, float rotationDeg)
+        public BaseUnit CreateNewUnit( string unitName,List<Character> characters,int widthRank, int unitCount, Vector2 startPos, float rotationDeg)
         {
             Guid guid = Guid.NewGuid();
 
-            BaseUnit unit = instantiateUnit(unitName,widthRank,unitCount,guid);
+            BaseUnit unit = instantiateUnit(unitName, characters, widthRank,unitCount,guid);
             unit.Transform.offsetX = startPos.X;
             unit.Transform.offsetY = startPos.Y;
             unit.Transform.rotate(rotationDeg, unit.sizeEnclosedRectangledm.X / 2, -unit.sizeEnclosedRectangledm.Y / 2);            
             return unit;
         }
-        private BaseUnit instantiateUnit(string unitName, int widthRank, int unitCount, Guid guid)
+        private BaseUnit instantiateUnit(string unitName,List<Character> characters, int widthRank, int unitCount, Guid guid)
         {
             BaseUnit unitType = CodexAll.Instance.getUnitCodex(unitName);
 
@@ -90,8 +92,12 @@ namespace Core.Units
                 troops.Add(baseTroop);
             }
             BaseUnit baseunit = new BaseUnit(unitType.Name, widthRank, Formation_type.CLOSE_ORDER, new List<string> { "Reglaespecial1", "Reglaespecial2" }, troops);
-            baseunit.Guid = guid;
+            foreach (Character character in characters)
+            {
+                baseunit.AddCharacter(character);
+            }
 
+            baseunit.Guid = guid;
             return baseunit;
         }
         

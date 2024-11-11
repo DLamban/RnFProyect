@@ -41,6 +41,7 @@ namespace Core.Magic
         public SpellType Type { get; set; }
         [JsonConverter(typeof(JsonStringEnumConverter))]
         public SpellTarget Target { get; set; }
+        
         public bool used;
         
         [JsonConstructor]

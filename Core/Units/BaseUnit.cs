@@ -26,10 +26,16 @@ namespace Core.Units
         /// The width in troops count
         /// </summary>
         public int TroopsWidth { get; set; }
+        public Formation_type formationType { get; set; }
         public string Type { get; set; }
         public string Category { get; set; }
         public int Minimum { get; set; }
         public List<string> Weapons { get; set; }
+        public Vector2 centerTroop { get
+            {
+                return Transform.localToGlobalTransforms(sizeEnclosedRectangledm.X / 2, -(sizeEnclosedRectangledm.Y / 2));
+            }
+        }    
         public Size sizeEnclosedRectangle { get; set; }
         /// <summary>
         /// Rectangle but in dm size and float because of the precision
@@ -103,18 +109,29 @@ namespace Core.Units
             Troops = troops;
             // take the last because first is the characters
             Troop = troops[UnitCount-1];
-            if (formation_Type == Formation_type.CLOSE_ORDER)
+            formationType = formation_Type;
+            reformTroops();
+            restartCombatState();
+        }
+        public void reformTroops()
+        {
+            if (formationType == Formation_type.CLOSE_ORDER)
             {
                 //Build close order unit
-                CloseOrder unitForm = new CloseOrder(TroopsWidth, troops);
-                enclosedPolygonPointsdm = unitForm.calculateEnclosedPolygondm(troopsWidth,troops);
+                CloseOrder unitForm = new CloseOrder(TroopsWidth, Troops);
+                enclosedPolygonPointsdm = unitForm.calculateEnclosedPolygondm(TroopsWidth, Troops);
                 //polygonPoints = unitForm.calculateEnclosedPolygondm;
-                
+
             }
             // calculate the size of the rectangle, with characters will be more complicated
-            sizeEnclosedRectangle = new Size(TroopsWidth * Troop.Size.Width, (int)Math.Ceiling((float)troops.Count / TroopsWidth) * Troop.Size.Height);
-            Transform = new AffineTransformCore(1, 0, 0, 1, 0, 0);            
-            restartCombatState();
+            sizeEnclosedRectangle = new Size(TroopsWidth * Troop.Size.Width, (int)Math.Ceiling((float)Troops.Count / TroopsWidth) * Troop.Size.Height);
+            Transform = new AffineTransformCore(1, 0, 0, 1, 0, 0);
+        }
+        public void AddCharacter(Character character)
+        {
+            Troops.Insert(0,character);
+
+            reformTroops();
         }
         public void vinculateDiceThrower(DiceThrowerTaskDelegate _diceThrowDel)
         {

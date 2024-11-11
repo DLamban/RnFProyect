@@ -120,6 +120,27 @@ namespace Core.Units
             //Weapon = new BaseWeapon();
             Mods = new List<Modifiers>();
         }
+        public BaseTroop(BaseTroop baseTroop) { 
+            Name = baseTroop.Name;
+            AssetFile = baseTroop.AssetFile;
+            Movement = baseTroop.Movement;
+            Dexterity = baseTroop.Dexterity;
+            Shooting = baseTroop.Shooting;
+            Strength = baseTroop.Strength;
+            Resistance = baseTroop.Resistance;
+            Wounds = baseTroop.Wounds;
+            Initiative = baseTroop.Initiative;
+            Attacks = baseTroop.Attacks;
+            Leadership = baseTroop.Leadership;
+            Armour = baseTroop.Armour;
+            WardSave = baseTroop.WardSave;
+            Regeneration = baseTroop.Regeneration;
+            Cost = baseTroop.Cost;
+            Size = baseTroop.Size;
+            isDying = false;
+            //Weapon = new BaseWeapon();
+            Mods = new List<Modifiers>();
+        }
         private int applyModifiers(Attribute_Affected attr,int value)
         {
             // el foreach no me entusiasma, pero es posible tener multiples status por atributo

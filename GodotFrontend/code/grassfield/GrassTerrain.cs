@@ -1,6 +1,8 @@
 using Core.GeometricEngine;
+using Core.Magic;
 using Core.Rules;
 using Godot;
+using GodotFrontend.code.Input;
 using System;
 using System.Collections.Generic;
 
@@ -19,7 +21,8 @@ public partial class GrassTerrain : Node3D
 	private float battlefieldHeightdm = Constants.battleFieldSizeHeightdm;
 	private ShaderMaterial ShaderMaterial;
     DataNode2d drawNodeTexture;
-	public override void _Ready()
+    InputManager inputManager;
+	public override async void _Ready()
 	{
 		UnitMovementManager.OnMoveUnit += UnitMoved;
 
@@ -35,6 +38,16 @@ public partial class GrassTerrain : Node3D
 		ShaderMaterial = multiMeshInstance.Multimesh.Mesh.SurfaceGetMaterial(0) as ShaderMaterial;
 
         ShaderMaterial.SetShaderParameter("data_texture", textureviewport);
+        inputManager = GetTree().CurrentScene.GetNode<Node3D>("Battlefield") as InputManager;
+        await ToSignal(inputManager, SignalName.Ready);
+        inputManager.inputMagic.OnExecuteSpell += SpellUsed;
+    }
+    private void SpellUsed(Spell spell, Vector2 center)
+    {
+        if (spell.Type == SpellType.ThrowingMagic) // leave a mark on the grass
+        {
+            drawNodeTexture.drawCircle(convertCoord(center.X,center.Y), 25, new Color(255, 255, 0));
+        }
     }
 	private void UnitMoved(Unidad unit)
 	{
@@ -48,12 +61,6 @@ public partial class GrassTerrain : Node3D
         updateDataTexture(points);
 	}
 
-    // rect update
-    private void updateDataTexture(Rect2I rect)
-    {
-        drawNodeTexture.drawRectBlack(rect);
-        
-    }
     // polygon update
     private void updateDataTexture(List<System.Numerics.Vector2> points)
     {
@@ -62,7 +69,7 @@ public partial class GrassTerrain : Node3D
         {
             pointsGodotFormat.Add(convertCoord(point.X,point.Y));
         }
-        drawNodeTexture.drawPolygon(pointsGodotFormat);
+        drawNodeTexture.drawPolygon(pointsGodotFormat, new Color(255,0,0));
         
     }
     private void updateDataTexture(List<System.Drawing.Point> polygonPoints)

@@ -16,6 +16,7 @@ namespace GodotFrontend.code.Input
     public class InputMagic:ISubInputManager
     {
         public event Action OnOpenConfirmMenu;
+        public event Action<Spell, Vector2> OnExecuteSpell;
         private SpellTarget currentSpellTarget;
         private Spell spellSelected;
         private BattlefieldCursorPosDel battlefieldCursorPosDel;
@@ -67,6 +68,10 @@ namespace GodotFrontend.code.Input
         public async void executeSpell()
         {
             if (spellSelected == null) throw new InvalidOperationException("Spell error, not selected");
+            Vector2 worldCenterSpell = new Vector2( unitSelected.coreUnit.centerTroop.X, unitSelected.coreUnit.centerTroop.Y);
+            OnExecuteSpell?.Invoke(spellSelected, worldCenterSpell);
+
+
             if (spellSelected.Type == SpellType.Hex || spellSelected.Type == SpellType.Buff)
             {
                 unitSelected.coreUnit.spellsAffecting.Add(spellSelected);

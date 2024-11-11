@@ -1,5 +1,30 @@
 {
   "Name": "Orcs",
+  "Characters": [
+    {
+      "Name": "Goblin Wizard",
+      "AssetFile": "goblin_wizard25X25.tscn",
+      "Type": "Infantry",
+      "Category": "CHARACTER",
+      "Weapons": [ "Hand Weapon" ],
+      "SpecialRules": [],
+      "Movement": 4,
+      "Dexterity": 3,
+      "Shooting": 3,
+      "Strength": 3,
+      "Resistance": 3,
+      "Wounds": 2,
+      "Attacks": 1,
+      "Initiative": 3,
+      "Leadership": 6,
+      "Armour": 1,
+      "Cost": 60,
+      "Size": {
+        "Width": 25,
+        "Height": 25
+      }
+    }
+  ],
   "Units": [
     {
       "Name": "Orcs",
