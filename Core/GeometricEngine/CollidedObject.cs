@@ -144,8 +144,17 @@ namespace Core.GeometricEngine
         }
         private bool checkPointInsideSegment(Vector2 point, RectSegment rectSegment)
         {
-            bool xinside = Math.Min(rectSegment.Item2.X, rectSegment.Item1.X)<= point.X && point.X <= Math.Max(rectSegment.Item2.X,rectSegment.Item1.X);
-            bool yinside = Math.Min(rectSegment.Item2.Y, rectSegment.Item1.Y) <= point.Y && point.Y <= Math.Max(rectSegment.Item2.Y, rectSegment.Item1.Y);
+            // Float point error!
+            float decimalPrecision = 1f / 10000f;
+
+            float minX = Math.Min(rectSegment.Item2.X, rectSegment.Item1.X);
+            float maxX = Math.Max(rectSegment.Item2.X, rectSegment.Item1.X);
+
+            float minY = Math.Min(rectSegment.Item2.Y, rectSegment.Item1.Y);
+            float maxY = Math.Max(rectSegment.Item2.Y, rectSegment.Item1.Y);
+
+            bool xinside = (point.X > minX - decimalPrecision) && (point.X < maxX +decimalPrecision);
+            bool yinside = (point.Y > minY - decimalPrecision) && (point.Y < maxY + decimalPrecision);
 
             return xinside && yinside; 
 

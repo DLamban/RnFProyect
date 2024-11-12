@@ -257,7 +257,7 @@ public partial class Unidad : Node3D
 	#region CHARGE_REGION
 	public async void charge()
 	{
-		
+		// TODO: DECLARE charge reactions				
 		unitState = UnitState.chargeDiceRolling;			
 		int result = await diceThrower.ThrowDicesCharge();
 		float resultToDm = (result * 2.54f) / 10;
@@ -271,6 +271,9 @@ public partial class Unidad : Node3D
 				{
 
 					ChargeMovement(hitCollider);
+					
+					calcChargeResult(hitCollider);
+					
 					unitState = UnitState.charging;
 
 				}
@@ -284,10 +287,16 @@ public partial class Unidad : Node3D
 				FailedChargeMovement(resultToDm);
 				unitState = UnitState.idle;
 			}
-			// BREAK FOREACH FFOR NOW
+			// BREAK FOREACH FOR NOW
 			break;
 		}	
 		
+	}
+	// Watch out for charge reactions
+	private void calcChargeResult(HitCollider hitCollider)
+	{
+		coreUnit.isCharging = true;
+		hitCollider.HitObject.unit.isCharged = true;
 	}
 	private async void ChargeMovement(HitCollider hitCollider)
 	{
