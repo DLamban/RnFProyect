@@ -16,6 +16,13 @@ namespace Core.GameLoop
         combat,
         outofturn
     }
+    public enum SubBattleStatePhase { 
+        charge,
+        move,
+        compulsory_move,
+        shoot,
+        combat
+    }
    
     public class BattleStateManager
     {
@@ -32,6 +39,8 @@ namespace Core.GameLoop
                 stateChanged();
             }
         }
+        
+        public SubBattleStatePhase currentSubPhase {get;set;}
         public void stateChanged()
         {
             OnBattleStateChanged?.Invoke(this, currentState);

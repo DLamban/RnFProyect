@@ -46,9 +46,9 @@ public partial class Unidad : Node3D
 		set{
 			if (value) enableInput();
 			else disableInput();
-		}
-		 
+		}		 
 	}
+	
 	private SelectMenu selectMenu;
 	private DiceThrower diceThrower;
 	//FX
@@ -257,7 +257,8 @@ public partial class Unidad : Node3D
 	#region CHARGE_REGION
 	public async void charge()
 	{
-		// TODO: DECLARE charge reactions				
+		// TODO: DECLARE charge reactions		
+			
 		unitState = UnitState.chargeDiceRolling;			
 		int result = await diceThrower.ThrowDicesCharge();
 		float resultToDm = (result * 2.54f) / 10;

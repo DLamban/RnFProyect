@@ -11,10 +11,11 @@ namespace GodotFrontend.code.Input
         public enum InputState
         {
             Empty,
-            Movement,
             Magic,
+            CastingSpell,
             Charging,
-            CastingSpell
+            CompulsoryMovement,
+            Movement                           
         }
         public static InputState currentState { get; set; } = InputState.Empty;
         public static void changeState(InputState inputState)

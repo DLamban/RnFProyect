@@ -18,11 +18,15 @@ namespace GodotFrontend.code.Input
 	{
 		private delegate void StateProcess(double delta);
 		private StateProcess currentStateProccess = (delta)=> { };
-		private Unidad unitSelected;
+        private StateProcess magicStateProccess = (delta) => { };
+        private Unidad unitSelected;
 		private Unidad lastUnitSelected;
+		// SubInputManagers
 		private InputMovePhase inputMovePhase;
 		public InputMagic inputMagic;
-		private SpellTarget? currentSpellTarget;
+		public InputCharge inputCharge;
+
+        private SpellTarget? currentSpellTarget;
 		private Camera3D mainCamera;
 		private Viewport viewport;
 		private PhysicsDirectSpaceState3D spaceState;
@@ -34,11 +38,14 @@ namespace GodotFrontend.code.Input
 		}
 		private BattleState battleState
 		{
-			get { 
-				return PlayerInfoSingleton.Instance.battleStateManager.currentState; 
-			}
+			get { return PlayerInfoSingleton.Instance.battleStateManager.currentState; }
 		}
-		public delegate Vector3? BattlefieldCursorPosDel();
+        private SubBattleStatePhase currentSubPhase
+        {
+            get { return PlayerInfoSingleton.Instance.battleStateManager.currentSubPhase;}
+			set { PlayerInfoSingleton.Instance.battleStateManager.currentSubPhase = value;}
+        }
+        public delegate Vector3? BattlefieldCursorPosDel();
 		BattlefieldCursorPosDel getBattlefieldCursorPosDel;
 		public override void _Ready()
 		{
@@ -47,17 +54,21 @@ namespace GodotFrontend.code.Input
 			// we get the viewport and spacesate to pass as parameter so we can raycast the battlefield
 			viewport = GetViewport();
 			mainCamera = viewport.GetCamera3D() as Camera3D;
-			spaceState = GetWorld3D().DirectSpaceState;
-			// get the node of cursor effects
-			MeshInstance3D cursorEffect = GetNode<MeshInstance3D>("CursorEffect") as MeshInstance3D;
+			spaceState = GetWorld3D().DirectSpaceState;			
+			BuildSubManagers();
+        }
+		private void BuildSubManagers()
+		{
+            // get the node of cursor effects
+            MeshInstance3D cursorEffect = GetNode<MeshInstance3D>("CursorEffect") as MeshInstance3D;
+            // create the subinput child managers
+            inputMovePhase = new InputMovePhase(getBattlefieldCursorPosDel);
+            inputMagic = new InputMagic(getBattlefieldCursorPosDel, cursorEffect);
+			inputCharge = new InputCharge(getBattlefieldCursorPosDel);
 
-			// create the subinput child managers
-			inputMovePhase = new InputMovePhase(getBattlefieldCursorPosDel);
-			inputMagic = new InputMagic(getBattlefieldCursorPosDel, cursorEffect);     
-			
-			// because is the first time, remember to init the state
-			setUpMagicInputPhase();
-		}
+            // magic runs in all phases
+            magicStateProccess = inputMagic.CustomProcess;
+        }
 		public void SpellSelection(SpellTarget spellTarget, Spell spell)
 		{
 			inputMagic.SpellSelection(spellTarget, spell);
@@ -68,7 +79,9 @@ namespace GodotFrontend.code.Input
 			switch (currentBattleState)
 			{
 				case BattleState.move:
-					setUpMovementInputPhase();
+					// first time is the charge phase
+					currentSubPhase = SubBattleStatePhase.charge;
+                    setUpChargeInputSubPhase();
 					break;
 				case BattleState.strategic:
 					// for now is only magic, remember that are more things
@@ -81,13 +94,19 @@ namespace GodotFrontend.code.Input
 		}
 		private void setUpMagicInputPhase()
 		{         
-			currentStateProccess = inputMagic.CustomProcess;
+			magicStateProccess = inputMagic.CustomProcess;
 		}
+		private void setUpChargeInputSubPhase()
+		{
+            inputState = InputState.Empty;
+            currentStateProccess = inputCharge.CustomProcess;
+        }
 		private void setUpMovementInputPhase()
 		{
-			inputState = InputState.Movement;
+			inputState = InputState.Empty;
 			currentStateProccess = inputMovePhase.CustomProcess;
 		}
+
 		public void selectUnit(Unidad unitSelect)
 		{
 			if (lastUnitSelected != null)
@@ -95,17 +114,15 @@ namespace GodotFrontend.code.Input
 				lastUnitSelected.inputEnabled = false;
 			}
 			lastUnitSelected = unitSelect;
-			switch (battleState)
+			
+			switch (inputState)
 			{
-				case BattleState.move:
-					
+				case InputState.Empty:					
+
 					SelectUnitToMove(unitSelect);
 					break;
-				case BattleState.strategic:
-					if (inputState == InputState.CastingSpell)
-					{
-						inputMagic.SelectUnitToTargetMagic(unitSelected,unitSelect);
-					}                    
+				case InputState.CastingSpell:					
+					inputMagic.SelectUnitToTargetMagic(unitSelected,unitSelect);					
 					break;
 				default:
 					throw new NotImplementedException();
@@ -135,27 +152,50 @@ namespace GodotFrontend.code.Input
 		}
 		public  override void _Process(double delta)
 		{
+			magicStateProccess(delta); // running in parallel, watch for headaches
 			currentStateProccess(delta);
 		}
 		#region MOVEMENT
 		public void onArrowClick(Node camera, InputEvent @event, Vector3 position, Vector3 normal, long shapeIdx, Node collider)
 		{
-			inputMovePhase.onArrowClick(camera,@event,position,normal,shapeIdx,collider);
-		}
-
-		private void SelectUnitToMove(Unidad unitSelect)
-		{
-			if (inputState == InputState.Movement)
+			if (currentSubPhase == SubBattleStatePhase.charge)
 			{
-				if (UnitsClientManager.Instance.canSelectUnit(unitSelect.coreUnit.Guid,true))
-				{
-					unitSelect.inputEnabled = true;
-					unitSelected = unitSelect;
-					UnitsClientManager.Instance.unitSelected = unitSelect.coreUnit;
-				}
+			inputCharge.onArrowClick(camera, @event, position, normal, shapeIdx, collider);
+            }else
+			{
+                inputMovePhase.onArrowClick(camera, @event, position, normal, shapeIdx, collider);
+            }
+					
+		}	
+		private Unidad? SelectOwnUnit(Unidad unitToSelect)
+		{
+			if (UnitsClientManager.Instance.canSelectUnit(unitToSelect.coreUnit.Guid, true))
+			{
+				return unitToSelect;
+			}
+			return null;
+		}
+        private void SelectUnitToMove(Unidad unitSelect)
+		{
+
+			if (SelectOwnUnit!=null)
+			{
+				unitSelect.inputEnabled = true;
+				unitSelected = unitSelect;
+				UnitsClientManager.Instance.unitSelected = unitSelect.coreUnit;
 			}
 		}
-		#endregion
+        private void SelectUnitToCharge(Unidad unitSelect)
+        {
 
-	}
+            if (SelectOwnUnit != null)
+            {
+                unitSelect.inputEnabled = true;
+                unitSelected = unitSelect;
+                UnitsClientManager.Instance.unitSelected = unitSelect.coreUnit;
+            }
+        }
+        #endregion
+
+    }
 }
