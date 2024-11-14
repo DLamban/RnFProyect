@@ -1,3 +1,5 @@
+res://UIcode
+res://assets/UI
 res://
 res://units/troops
 res://code/terrainshader
@@ -8,8 +10,6 @@ res://units/vfx
 res://code/Input
 res://assets/fonts
 res://units
-res://UIcode
 res://dices_resources
-res://assets/UI
 res://assets/3d
 res://code

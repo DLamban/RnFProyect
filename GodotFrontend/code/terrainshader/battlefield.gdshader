@@ -43,6 +43,5 @@ void vertex() {
 
 void fragment() {
 	ALBEDO = color_mountain;
-	
-}
 
+}

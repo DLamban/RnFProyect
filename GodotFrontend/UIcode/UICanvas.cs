@@ -16,6 +16,7 @@ public partial class UICanvas : CanvasLayer
 	public DiceThrower diceThrower { get; set; }
 	public Panel gameStatePanel;
 	// Called when the node enters the scene tree for the first time.
+	public CenterContainer contextActionContainer;
 	public override void _Ready()
 	{		
 		hBoxesValuesPlayer = new List<Node>();
@@ -42,18 +43,11 @@ public partial class UICanvas : CanvasLayer
 		DiceThrower.Instance.initDiceThrower(dicePanel);
 		// BATTLESTATE MANAGER
 		gameStatePanel = GetNode<Panel>("CanvasGroup/AnchorProvider/GameStatusContainer/GameStateStatus");
-		
-		SetEventsGameStatePanel(gameStatePanel);
-		SetEventSpellsSelector();
-	}
-	private void SetEventSpellsSelector(){
-		Button spellsSelector = GetNode<Button>("CanvasGroup/AnchorProvider/ActionContainer/Panel/CenterContainer/HBoxContainer/MarginContainer/SpellButton");
-		spellsSelector.Pressed += ()=> {
-			PanelContainer spellPanel = GetNode<PanelContainer>("CanvasGroup/AnchorProvider/SpellsContainer");
-			spellPanel.Visible = true;
-		};
+		contextActionContainer = GetNode<CenterContainer>("CanvasGroup/AnchorProvider/ActionContainer");
 
+		SetEventsGameStatePanel(gameStatePanel);
 	}
+
 	private void SetEventsGameStatePanel(Panel _gameStatePanel)
 	{
 		Button nextBattleStateBtn = _gameStatePanel.GetNode<Button>("NextPhase");

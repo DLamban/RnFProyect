@@ -17,6 +17,7 @@ namespace Core.GameLoop
         outofturn
     }
     public enum SubBattleStatePhase { 
+        strategic,
         charge,
         move,
         compulsory_move,
@@ -27,27 +28,42 @@ namespace Core.GameLoop
     public class BattleStateManager
     {
         public EventHandler<BattleState> OnBattleStateChanged;
+        public event Action<SubBattleStatePhase> OnSubPhaseChanged;
         private List<BattleState> states;
+        private List<SubBattleStatePhase> subPhaseStates;
+        
         private BattleState _currentState;
-
         public BattleState currentState
         {
             get { return _currentState; }
             set { 
-
                 _currentState = value;
                 stateChanged();
-            }
+            }        
         }
         
-        public SubBattleStatePhase currentSubPhase {get;set;}
+        private SubBattleStatePhase _currentSubPhase;
+        public SubBattleStatePhase currentSubPhase
+        {
+            get { return _currentSubPhase; }
+            set
+            {
+                _currentSubPhase = value;
+                subStateChanged();
+            }
+        }
         public void stateChanged()
         {
             OnBattleStateChanged?.Invoke(this, currentState);
         }
+        public void subStateChanged()
+        {
+            OnSubPhaseChanged?.Invoke(currentSubPhase);
+        }
         public BattleStateManager() {
 
             states = Enum.GetValues(typeof(BattleState)).Cast<BattleState>().ToList();
+            subPhaseStates = Enum.GetValues(typeof(SubBattleStatePhase)).Cast<SubBattleStatePhase>().ToList();
         }        
         public void passNextState()
         {
@@ -57,6 +73,18 @@ namespace Core.GameLoop
                 currentState = states[0];
             } else { 
                 currentState = states[index+1];
+            }
+        }
+        public void passNextSubState()
+        {
+            int index = subPhaseStates.FindIndex(x => x == currentSubPhase);
+            if (index == subPhaseStates.Count() - 1)
+            {
+                currentSubPhase = subPhaseStates[0];
+            }
+            else
+            {
+                currentSubPhase = subPhaseStates[index + 1];
             }
         }
     }

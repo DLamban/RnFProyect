@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://dpsexlp7rtu24"]
+[gd_scene load_steps=26 format=3 uid="uid://dpsexlp7rtu24"]
 
 [ext_resource type="Theme" uid="uid://c5l7fthgxiatx" path="res://assets/fonts/basic_theme.tres" id="1_7w5fx"]
 [ext_resource type="Script" path="res://UIcode/UICanvas.cs" id="1_uf8sf"]
@@ -7,6 +7,8 @@
 [ext_resource type="Texture2D" uid="uid://bu1qu6rd35ub5" path="res://assets/2D/gamestatebar.png" id="5_4txjm"]
 [ext_resource type="Texture2D" uid="uid://c81elnyyc6frc" path="res://assets/2D/iconsgamebar.png" id="6_wpu2u"]
 [ext_resource type="Texture2D" uid="uid://cjkqqh1ls3d2s" path="res://assets/2D/gamestatebaroverlay.png" id="7_rpjy1"]
+[ext_resource type="Script" path="res://UIcode/ActionContainer.cs" id="8_ceo8v"]
+[ext_resource type="PackedScene" uid="uid://cwp4060vgqdnt" path="res://assets/UI/Actions_button.tscn" id="8_dml77"]
 [ext_resource type="Shader" path="res://Spellselectioncanvas.gdshader" id="8_u1fbv"]
 [ext_resource type="Script" path="res://Spells/UISpellManager.cs" id="9_xjim1"]
 [ext_resource type="Script" path="res://Spells/ConfirmPanel.cs" id="10_b20x0"]
@@ -579,67 +581,31 @@ theme = ExtResource("1_7w5fx")
 text = "NEXT 
 PHASE"
 
-[node name="ActionContainer" type="CenterContainer" parent="CanvasGroup/AnchorProvider"]
-custom_minimum_size = Vector2(1920, 200)
+[node name="PanelContainer" type="PanelContainer" parent="CanvasGroup/AnchorProvider"]
+custom_minimum_size = Vector2(300, 0)
 layout_mode = 1
-anchors_preset = 7
+anchors_preset = -1
 anchor_left = 0.5
-anchor_top = 1.0
+anchor_top = 0.952
 anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -960.0
-offset_top = -200.0
-offset_right = 960.0
+anchor_bottom = 0.952
+offset_left = -164.0
+offset_top = -150.0
+offset_right = 164.0
 grow_horizontal = 2
 grow_vertical = 0
+theme = ExtResource("1_7w5fx")
+script = ExtResource("8_ceo8v")
 
-[node name="Panel" type="Panel" parent="CanvasGroup/AnchorProvider/ActionContainer"]
-clip_contents = true
-custom_minimum_size = Vector2(500, 100)
+[node name="MainHBox" type="HBoxContainer" parent="CanvasGroup/AnchorProvider/PanelContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasGroup/AnchorProvider/PanelContainer/MainHBox"]
 layout_mode = 2
 theme = ExtResource("1_7w5fx")
-theme_type_variation = &"PanelActions"
 
-[node name="CenterContainer" type="CenterContainer" parent="CanvasGroup/AnchorProvider/ActionContainer/Panel"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -178.0
-offset_top = -50.0
-offset_right = 178.0
-offset_bottom = 50.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasGroup/AnchorProvider/ActionContainer/Panel/CenterContainer"]
+[node name="MarginContainer" parent="CanvasGroup/AnchorProvider/PanelContainer/MainHBox" instance=ExtResource("8_dml77")]
 layout_mode = 2
-
-[node name="MarginContainer" type="MarginContainer" parent="CanvasGroup/AnchorProvider/ActionContainer/Panel/CenterContainer/HBoxContainer"]
-layout_mode = 2
-theme_override_constants/margin_left = 30
-theme_override_constants/margin_top = 30
-theme_override_constants/margin_right = 30
-theme_override_constants/margin_bottom = 30
-
-[node name="SpellButton" type="Button" parent="CanvasGroup/AnchorProvider/ActionContainer/Panel/CenterContainer/HBoxContainer/MarginContainer"]
-layout_mode = 2
-theme = ExtResource("1_7w5fx")
-text = "Spells"
-
-[node name="MarginContainer2" type="MarginContainer" parent="CanvasGroup/AnchorProvider/ActionContainer/Panel/CenterContainer/HBoxContainer"]
-layout_mode = 2
-theme_override_constants/margin_left = 30
-theme_override_constants/margin_top = 30
-theme_override_constants/margin_right = 30
-theme_override_constants/margin_bottom = 30
-
-[node name="Button" type="Button" parent="CanvasGroup/AnchorProvider/ActionContainer/Panel/CenterContainer/HBoxContainer/MarginContainer2"]
-layout_mode = 2
-theme = ExtResource("1_7w5fx")
-text = "Rally troops"
 
 [node name="SpellsContainer" type="PanelContainer" parent="CanvasGroup/AnchorProvider"]
 layout_mode = 0

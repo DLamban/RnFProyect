@@ -21,7 +21,7 @@ varying float grass_flattened;
 varying float grass_burned;
 void vertex() {
 	//MAYBE USE INSTANCE_CUSTOM or INSTANCE_ID
-	
+
 	world_pos = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
 	tex_world_pos = vec2(
 		(world_pos.x + mesh_size.x/2.) /mesh_size.x,
@@ -69,11 +69,11 @@ vec3 grass_burned_mix(vec2 uv){
 	float move = texture(noise, vec2(0.12,0.07)*TIME).r;
 	float t = smoothstep(0.01,0.15,uv.y);
 	float t2 = smoothstep(0.001,0.12,uv.y+ fract(abs(sin(move)))*0.08) ;
-	return 
+	return
 		mix ( burning_tip_color2,
 			mix(burning_tip_color,
 				mix(burned_color,fake_ambient_oclusion,uv.y),
-				t 
+				t
 			),t2
 		);
 }
@@ -90,10 +90,10 @@ void fragment() {
 	}else{
 		ALBEDO = grass_color_mix(UV);
 		vec3 fresnel_color = vec3(0.5, 0.7, 0.3);
-		vec3 fresnel = fresnel_glow(7.0, 4.5, fresnel_color, NORMAL, VIEW);		
+		vec3 fresnel = fresnel_glow(7.0, 4.5, fresnel_color, NORMAL, VIEW);
 		EMISSION = fresnel;
 	}
 
-	
+
 
 }
