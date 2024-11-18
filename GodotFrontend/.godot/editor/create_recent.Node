@@ -1,3 +1,4 @@
+Node2D
 HBoxContainer
 Panel
 Button
@@ -6,7 +7,6 @@ Control
 Container
 Node3D
 MeshInstance3D
-Node2D
 TextureRect
 SubViewport
 Node

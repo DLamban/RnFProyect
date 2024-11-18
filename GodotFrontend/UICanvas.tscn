@@ -78,6 +78,7 @@ noise = SubResource("FastNoiseLite_ic1wf")
 bg_color = Color(0.6, 0.6, 0.6, 0)
 
 [sub_resource type="SystemFont" id="SystemFont_e0k3x"]
+subpixel_positioning = 0
 
 [node name="CanvasLayer" type="CanvasLayer"]
 follow_viewport_enabled = true

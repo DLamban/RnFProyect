@@ -21,7 +21,7 @@ namespace GodotFrontend.code.Input
         private Spell spellSelected;
         private BattlefieldCursorPosDel battlefieldCursorPosDel;
         private MeshInstance3D cursorEffect;
-        private Unidad unitSelected;
+        private UnitGodot unitSelected;
         public InputState inputState
         {
             get { return InputFSM.currentState; }
@@ -36,7 +36,7 @@ namespace GodotFrontend.code.Input
             battlefieldCursorPosDel = _battlefieldCursorPosDel;
             cursorEffect = _cursorEffect;
         }
-        public void SelectUnitToTargetMagic(Unidad _unitSelected, Unidad unitSelection)
+        public void SelectUnitToTargetMagic(UnitGodot _unitSelected, UnitGodot unitSelection)
         {
             unitSelected = _unitSelected;
             if (currentSpellTarget == SpellTarget.OwnTroops)

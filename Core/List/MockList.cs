@@ -13,7 +13,7 @@ namespace Core.List
         public UnitsServerManager unitManagerCore { get; set; }
         Vector2 startPosRatis = new Vector2(-1f, 0);
         
-        Vector2 startPosRatis2 = new Vector2(3.1f, -0.15f);
+        Vector2 startPosRatis2 = new Vector2(2.75f, -0.6f);
 
 
         Vector2 startPosAbomination = new Vector2(5, 0);
@@ -43,7 +43,7 @@ namespace Core.List
             //BaseUnit baseunit = new BaseUnit(unitType.Name, widthRank, Formation_type.CLOSE_ORDER, new List<string> { "Reglaespecial1", "Reglaespecial2" }, troops);
 
             
-            BaseUnit orcs = unitManagerCore.CreateNewUnit("Orcs", new List<Character>(), 5, 20, startPosRatis2, 10);
+            BaseUnit orcs = unitManagerCore.CreateNewUnit("Orcs", new List<Character>(), 5, 20, startPosRatis2, 20);
             unitManagerCore.addPlayerUnit(orcs);
 
             Character goblinWizard = CodexAll.Instance.getCharCodex("Goblin Wizard");

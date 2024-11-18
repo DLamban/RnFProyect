@@ -1,5 +1,6 @@
 ﻿using Core.GameLoop;
 using Core.GeometricEngine;
+using Core.Units;
 using Godot;
 using System;
 using System.Collections.Generic;
@@ -24,7 +25,7 @@ namespace GodotFrontend.code.Input
         
         protected float? offsetDistancePicked;
         protected bool isDragging;
-        protected Unidad unitDragged;
+        protected UnitGodot unitDragged;
         protected float distanceMoved;
 
         // ORIGIN positions when clicking for dragging
@@ -50,15 +51,32 @@ namespace GodotFrontend.code.Input
         {
             battlefieldCursorPosDel = _battlefieldCursorPosDel;
         }
+
         protected void restartStateVars()
         {
             offsetDistancePicked = null;
             isDragging = false;
         }
+        protected UnitGodot? SelectOwnUnit(UnitGodot unitToSelect)
+        {
+            if (UnitsClientManager.Instance.canSelectUnit(unitToSelect.coreUnit.Guid, true))
+            {
+                return unitToSelect;
+            }
+            return null;
+        }
+        protected UnitGodot? SelectEnemyUnit(UnitGodot unitToSelect)
+        {
+            if (UnitsClientManager.Instance.canSelectUnit(unitToSelect.coreUnit.Guid, false))
+            {
+                return unitToSelect;
+            }
+            return null;
+        }
         #region PIVOTING
         // We are passing global vars, but is for formatting purposes
         //TODO: add collision in pivotting
-        protected void pivotUnit(Vector3 worldPos, Unidad unit, DragMode pivotOrientation, Vector2 anchorPoint)
+        protected void pivotUnit(Vector3 worldPos, UnitGodot unit, DragMode pivotOrientation, Vector2 anchorPoint)
         {
             distanceMoved = 0;
             if (unit.distanceRemaining <= 0) return;
@@ -86,7 +104,7 @@ namespace GodotFrontend.code.Input
             distanceMoved = calculateDistancePivot(unit, angle);
             unit.showDistanceRemaining(distanceMoved);
         }
-        private float calculateDistancePivot(Unidad unit, float angle)
+        private float calculateDistancePivot(UnitGodot unit, float angle)
         {
 
             float distance = 0;
@@ -99,7 +117,7 @@ namespace GodotFrontend.code.Input
             }
             return Math.Abs(distance);
         }
-        private Vector2 calculatePivotAnchorPoint(Unidad unit, bool isLeft)
+        private Vector2 calculatePivotAnchorPoint(UnitGodot unit, bool isLeft)
         {
             //Vector2 pivotAnchorPoint = new Vector2();
             float offsetTroop = (float)unit.coreUnit.Troop.Size.Width / (2 * 100);
@@ -118,7 +136,7 @@ namespace GodotFrontend.code.Input
         }
 
         // Inverted calc, so it will be angle = dist/r
-        private float calcMaxDistancePivot(Unidad unit)
+        private float calcMaxDistancePivot(UnitGodot unit)
         {
             return unit.distanceRemaining / unit.coreUnit.sizeEnclosedRectangledm.X;
         }
@@ -130,7 +148,7 @@ namespace GodotFrontend.code.Input
                 Node arrow = collider.GetParent().GetParent();
                 isDragging = true;
 
-                unitDragged = (Unidad)arrow.GetParent().GetParent();
+                unitDragged = (UnitGodot)arrow.GetParent().GetParent();
 
                 currentTransformMat = unitDragged.affTrans.copyMatrixTransformValues();
                 unitOriginPos = unitDragged.position2D();
@@ -166,7 +184,7 @@ namespace GodotFrontend.code.Input
         /// <param name="unit"></param>
         /// <param name="pivotAnchorPoint">where is the point to rotate so we get the rect from there to the click pos</param>
         /// <returns>angle in radians</returns>
-        private float calculateAngle(Unidad unit, Vector2 pivotAnchorPoint, Vector3 clickWorldPos)
+        private float calculateAngle(UnitGodot unit, Vector2 pivotAnchorPoint, Vector3 clickWorldPos)
         {
 
             // we need the vector that form anchor point and clickpos
@@ -179,7 +197,7 @@ namespace GodotFrontend.code.Input
 
 
         }
-        private float? calculateInitialAngle(Unidad unit, Vector2 pivotAnchorPoint)
+        private float? calculateInitialAngle(UnitGodot unit, Vector2 pivotAnchorPoint)
         {
             Vector3? clickPos = battlefieldCursorPosDel();
 

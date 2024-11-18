@@ -49,7 +49,7 @@ public partial class InputMovePhase:BaseMove, ISubInputManager
 		}
 
 	}
-	private void dragUnit(Vector3 worldPos, Unidad unit)
+	private void dragUnit(Vector3 worldPos, UnitGodot unit)
 	{
 		distanceMoved = 0;
 		if (unit.distanceRemaining <= 0) return;

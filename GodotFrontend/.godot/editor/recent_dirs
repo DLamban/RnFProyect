@@ -1,4 +1,5 @@
 res://UIcode
+res://units
 res://assets/UI
 res://
 res://units/troops
@@ -9,7 +10,6 @@ res://Spells
 res://units/vfx
 res://code/Input
 res://assets/fonts
-res://units
 res://dices_resources
 res://assets/3d
 res://code

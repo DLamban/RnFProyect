@@ -17,8 +17,8 @@ namespace GodotFrontend.units
         private Button shootBtn;
         private Button moveBtn;
         private InputManager inputManager;
-        private Unidad currentunit;
-        internal SelectMenu(Unidad unit, InputManager _inputManager) {
+        private UnitGodot currentunit;
+        internal SelectMenu(UnitGodot unit, InputManager _inputManager) {
             layer = new CanvasLayer();
             unit.AddChild(layer);
             gridContainer = new GridContainer();

@@ -7,9 +7,9 @@ using Core.GeometricEngine;
 
 public class UnitMovementManager
 {
-	public static event Action<Unidad> OnMoveUnit;
+	public static event Action<UnitGodot> OnMoveUnit;
 	// curryfying/overloadind
-	public static void ApplyAffineTransformation(Unidad unidad)
+	public static void ApplyAffineTransformation(UnitGodot unidad)
 	{
 		
 		ApplyAffineTransformation(unidad.affTrans, unidad);

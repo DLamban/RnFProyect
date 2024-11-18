@@ -49,7 +49,7 @@ public partial class GrassTerrain : Node3D
             drawNodeTexture.drawCircle(convertCoord(center.X,center.Y), 25, new Color(255, 255, 0));
         }
     }
-	private void UnitMoved(Unidad unit)
+	private void UnitMoved(UnitGodot unit)
 	{
         Vector2 pos = new Vector2((float)unit.coreUnit.Transform.offsetX, (float)unit.coreUnit.Transform.offsetY);	
 		Vector2 size = new Vector2((float)unit.coreUnit.Transform.offsetY, (float)unit.coreUnit.Transform.offsetY);

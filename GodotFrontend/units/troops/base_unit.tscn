@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://fvfex0bftv3k"]
 
-[ext_resource type="Script" path="res://units/Unidad.cs" id="1_7hor1"]
+[ext_resource type="Script" path="res://units/UnitGodot.cs" id="1_7hor1"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_nmsne"]
 

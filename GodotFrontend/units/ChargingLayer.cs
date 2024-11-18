@@ -16,7 +16,7 @@ namespace GodotFrontend.units
         public Sprite3D sprite;
         private SubViewport subViewPort;
         private Label label;
-        internal ChargingLayer(Unidad unit)
+        internal ChargingLayer(UnitGodot unit)
         {
             sprite = new Sprite3D();
             subViewPort = new SubViewport();
@@ -34,7 +34,7 @@ namespace GodotFrontend.units
                        
             adjustChargingLayer(unit);
         }
-        private void adjustChargingLayer(Unidad unit)
+        private void adjustChargingLayer(UnitGodot unit)
         {
             //sprite.Scale = new Vector3(unit.coreUnit.sizeEnclosedRectangledm.X, unit.coreUnit.MaximumCharge, 1);
             sprite.Scale = new Vector3(unit.coreUnit.sizeEnclosedRectangledm.X, unit.coreUnit.MaximumChargedm, 1);

@@ -15,7 +15,7 @@ public partial class UnitRenderCreator : Node
 	InputManager inputManager;
 	public UICanvas UICanvas { get; set; }
 	/// TEST/DEBUG VARS
-	public Dictionary<Guid, Unidad> units = new Dictionary<Guid, Unidad>();
+	public Dictionary<Guid, UnitGodot> units = new Dictionary<Guid, UnitGodot>();
 	Action loadedList;
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -61,19 +61,19 @@ public partial class UnitRenderCreator : Node
 	{
 	//	throw new NotImplementedException();
 	}
-	public Unidad findUnit(Guid guid)
+	public UnitGodot findUnit(Guid guid)
 	{
 		return units[guid];
 	}
 	/// <summary>
 	/// With this we create the unit, we build it in the core and representation in godot
 	/// </summary>
-	private Unidad createUnitToRender(BaseUnit unit)
+	private UnitGodot createUnitToRender(BaseUnit unit)
 	{
 		// load troop asset 
 		PackedScene unitAsset = GD.Load<PackedScene>("res://units/troops/base_unit.tscn");
 
-		Unidad unitToSpawn  = (Unidad)unitAsset.Instantiate();
+		UnitGodot unitToSpawn  = (UnitGodot)unitAsset.Instantiate();
 
 		// Subcribe to the unit selection action so we can deselect the other units
 		unitToSpawn.unitSelection += deselectAllUnits;;

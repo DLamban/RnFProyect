@@ -19,8 +19,8 @@ namespace GodotFrontend.code.Input
 		private delegate void StateProcess(double delta);
 		private StateProcess currentStateProccess = (delta)=> { };
         private StateProcess magicStateProccess = (delta) => { };
-        private Unidad unitSelected;
-		private Unidad lastUnitSelected;
+        private UnitGodot unitSelected;
+		private UnitGodot lastUnitSelected;
 		// SubInputManagers
 		private InputMovePhase inputMovePhase;
 		public InputMagic inputMagic;
@@ -49,8 +49,9 @@ namespace GodotFrontend.code.Input
 		BattlefieldCursorPosDel getBattlefieldCursorPosDel;
 		public override void _Ready()
 		{
-			PlayerInfoSingleton.Instance.battleStateManager.OnBattleStateChanged += OnBattleStateChanged;            
-			getBattlefieldCursorPosDel = getBattlefieldCursorPos;
+        //    PlayerInfoSingleton.Instance.battleStateManager.OnBattleStateChanged += OnBattleStateChanged;
+            PlayerInfoSingleton.Instance.battleStateManager.OnSubPhaseChanged += OnSubPhaseChanged;
+            getBattlefieldCursorPosDel = getBattlefieldCursorPos;
 			// we get the viewport and spacesate to pass as parameter so we can raycast the battlefield
 			viewport = GetViewport();
 			mainCamera = viewport.GetCamera3D() as Camera3D;
@@ -73,29 +74,24 @@ namespace GodotFrontend.code.Input
 		{
 			inputMagic.SpellSelection(spellTarget, spell);
 		}
-		private void OnBattleStateChanged(object sender, BattleState currentBattleState)
+		private void OnSubPhaseChanged(SubBattleStatePhase currentSubPhase)
 		{
-			if (lastUnitSelected!=null) lastUnitSelected.inputEnabled = false;
-			switch (currentBattleState)
-			{
-				case BattleState.move:
-					// first time is the charge phase
-					currentSubPhase = SubBattleStatePhase.charge;
+            switch (currentSubPhase)
+            {
+                case SubBattleStatePhase.charge:
+                    // first time is the charge phase
+                    //currentSubPhase = SubBattleStatePhase.charge;
                     setUpChargeInputSubPhase();
+                    break;
+				case SubBattleStatePhase.move:
+					setUpMovementInputPhase();
 					break;
-				case BattleState.strategic:
-					// for now is only magic, remember that are more things
-					setUpMagicInputPhase();
-					break;
-				default:
-					Debug.WriteLine("state not implemented");
-					break;
-			}
-		}
-		private void setUpMagicInputPhase()
-		{         
-			magicStateProccess = inputMagic.CustomProcess;
-		}
+                default:
+                    Debug.WriteLine("state not implemented");
+                    break;
+            }
+        }
+
 		private void setUpChargeInputSubPhase()
 		{
             inputState = InputState.Empty;
@@ -107,29 +103,37 @@ namespace GodotFrontend.code.Input
 			currentStateProccess = inputMovePhase.CustomProcess;
 		}
 
-		public void selectUnit(Unidad unitSelect)
+		public void clickUnit(UnitGodot unitSelect)
 		{
-			if (lastUnitSelected != null)
-			{
-				lastUnitSelected.inputEnabled = false;
-			}
-			lastUnitSelected = unitSelect;
-			
-			switch (inputState)
-			{
-				case InputState.Empty:					
+            //if (lastUnitSelected != null)
+            //{
+            //    lastUnitSelected.inputEnabled = false;
+            //}
+            //lastUnitSelected = unitSelect;
 
-					SelectUnitToMove(unitSelect);
-					break;
-				case InputState.CastingSpell:					
-					inputMagic.SelectUnitToTargetMagic(unitSelected,unitSelect);					
-					break;
-				default:
-					throw new NotImplementedException();
-					break;
-			}
+            if (inputState == InputState.CastingSpell) {
+                inputMagic.SelectUnitToTargetMagic(unitSelected, unitSelect);
+            }
+			else
+			{
+                switch (currentSubPhase)
+                {
+                    case SubBattleStatePhase.charge:
+						inputCharge.selectUnit(unitSelect);
+                        break;
+                    case SubBattleStatePhase.move:
+                        SelectUnitToMove(unitSelect);
+                        break;
+                    default:
+						throw new NotImplementedException();
+						break;                        
+                }
 
-		}
+            }
+
+
+
+        }
 		private Vector3? getBattlefieldCursorPos()
 		{
 			Vector3 from = mainCamera.ProjectRayOrigin(viewport.GetMousePosition());
@@ -167,7 +171,7 @@ namespace GodotFrontend.code.Input
             }
 					
 		}	
-		private Unidad? SelectOwnUnit(Unidad unitToSelect)
+		private UnitGodot? SelectOwnUnit(UnitGodot unitToSelect)
 		{
 			if (UnitsClientManager.Instance.canSelectUnit(unitToSelect.coreUnit.Guid, true))
 			{
@@ -175,7 +179,7 @@ namespace GodotFrontend.code.Input
 			}
 			return null;
 		}
-        private void SelectUnitToMove(Unidad unitSelect)
+        private void SelectUnitToMove(UnitGodot unitSelect)
 		{
 
 			if (SelectOwnUnit!=null)
@@ -185,7 +189,7 @@ namespace GodotFrontend.code.Input
 				UnitsClientManager.Instance.unitSelected = unitSelect.coreUnit;
 			}
 		}
-        private void SelectUnitToCharge(Unidad unitSelect)
+        private void SelectUnitToCharge(UnitGodot unitSelect)
         {
 
             if (SelectOwnUnit != null)
