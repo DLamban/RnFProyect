@@ -1,6 +1,7 @@
+Label
+Panel
 Node2D
 HBoxContainer
-Panel
 Button
 PanelContainer
 Control
@@ -11,4 +12,3 @@ TextureRect
 SubViewport
 Node
 MultiMeshInstance3D
-Label

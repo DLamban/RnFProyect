@@ -25,6 +25,7 @@ namespace GodotFrontend.code.Input
 		private InputMovePhase inputMovePhase;
 		public InputMagic inputMagic;
 		public InputCharge inputCharge;
+		public ReactiveInput reactiveInput;
 
         private SpellTarget? currentSpellTarget;
 		private Camera3D mainCamera;
@@ -67,6 +68,8 @@ namespace GodotFrontend.code.Input
             inputMagic = new InputMagic(getBattlefieldCursorPosDel, cursorEffect);
 			inputCharge = new InputCharge(getBattlefieldCursorPosDel);
 
+			Panel blockPanel = GetNode<Panel>("UnitManager/HUD/CanvasGroup/AnchorProvider/BlockGamePanel");
+            reactiveInput = new ReactiveInput(blockPanel);
             // magic runs in all phases
             magicStateProccess = inputMagic.CustomProcess;
         }

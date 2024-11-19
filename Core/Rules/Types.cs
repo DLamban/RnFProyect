@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Core.Rules
 {
+    
     public enum UnitType
     {
         INFANTRY,
@@ -66,5 +67,11 @@ namespace Core.Rules
         CLOSE_ORDER,
         OPEN_ORDER,
         SKIRMISH
-    }   
+    }
+    public enum ChargeResponse
+    {
+        HOLD,
+        STANDANDSHOOT,
+        FLEE
+    }
 }

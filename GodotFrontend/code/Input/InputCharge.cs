@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using static GodotFrontend.code.Input.InputManager;
 using GodotFrontend.code.Input;
 using System.Reflection.Metadata;
+using Core.Rules;
 
 public class Charge
 {
@@ -16,6 +17,7 @@ public class Charge
     public StandardMaterial3D matGreen;
     public StandardMaterial3D matRed;
     public bool validArrow = true;
+    public ChargeResponse ChargeResponse;
     public Charge()
     {
         matRed = new StandardMaterial3D();
@@ -59,7 +61,7 @@ public class InputCharge : BaseMove, ISubInputManager
 {
     private UnitGodot chargingUnit;
     private UnitGodot chargedUnit;
-    private List<Charge> charges = new List<Charge>();
+    public List<Charge> charges = new List<Charge>();
     private Charge currentCharge = new Charge();
     private float arrowModelLenght =0.85f;
     public InputCharge(BattlefieldCursorPosDel battlefieldCursorPosDel) : base(battlefieldCursorPosDel) {
@@ -91,7 +93,8 @@ public class InputCharge : BaseMove, ISubInputManager
             
         }
     }
-    // TODO: for now is a simple euclidian distance, but should incorporate the rotation needed to face the front
+
+    // TODO: for now is a simple euclidian distance, but should incorporate the rotation needed to face the front line
     private float calcDistanceBetweenUnits(Charge charge)
     {
         return calcDistanceBetweenUnits(charge.chargingUnit, charge.chargedUnit);

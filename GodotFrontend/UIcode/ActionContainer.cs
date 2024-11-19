@@ -1,8 +1,10 @@
 using Core.GameLoop;
+using Core.Rules;
 using Godot;
 using GodotFrontend.code.Input;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 public class ActionGeneric
 {
 	public string name;
@@ -30,6 +32,7 @@ public partial class ActionContainer : PanelContainer
 	#region nodestosendsignals
 	PanelContainer spellContainer;
 	InputCharge inputCharge;
+	ReactiveInput reactiveInput;
     #endregion
     Button endSubPhaseButton;
 	public override async void _Ready()
@@ -44,14 +47,20 @@ public partial class ActionContainer : PanelContainer
 
         await ToSignal(inputManager, SignalName.Ready);
         inputCharge = inputManager.inputCharge; 
-
+		reactiveInput = inputManager.reactiveInput;
         populateActions();
 		activateStrategicActions();
 
 
 	}
-	private void endSubPhase()
+	private async void endSubPhase()
 	{
+		switch (PlayerInfoSingleton.Instance.battleStateManager.currentSubPhase) {
+			case SubBattleStatePhase.charge:
+				await reactiveInput.ResolveCharges(inputCharge.charges); 
+				break;
+		}
+
         PlayerInfoSingleton.Instance.battleStateManager.passNextSubState();
 
     }
