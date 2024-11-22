@@ -14,9 +14,10 @@ namespace GodotFrontend.code.Input
     {
         private TaskCompletionSource<bool> chargeResponseFinish;
         private Queue<Charge> chargeResponses;
-        private Panel blockGamePanel;
+        private ChargeResponseUI chargeResponseUI;
         public ReactiveInput(Panel _blockPanel) {
-            blockGamePanel = _blockPanel;
+            chargeResponseUI = _blockPanel as ChargeResponseUI;
+
         }
         public async Task<List<Charge>> ResolveCharges(List<Charge> charges)
         {
@@ -42,17 +43,17 @@ namespace GodotFrontend.code.Input
         }
         private void blockGameUntilResponseFinish()
         {
-            blockGamePanel.Visible = true;
+            chargeResponseUI.Visible = true;
         }
         private void unblockGame()
         {
-            blockGamePanel.Visible = false;
+            chargeResponseUI.Visible = false;
         }
 
         private async Task<Charge> ChargeRes(Charge charge)
         {
-            // with net code we won't be able to do this parameter modifying
-            charge.ChargeResponse = ChargeResponse.HOLD;
+            charge.chargedUnit.coreUnit.chargeResponse = ChargeResponse.HOLD;                        
+            await chargeResponseUI.ShowToast(charge.chargedUnit.coreUnit.chargeResponse.ToString() + "!");
             charge.arrow.Visible = false;
             if (chargeResponses.Count == 0) {
                 chargeResponseFinish.SetResult(true);

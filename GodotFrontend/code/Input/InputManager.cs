@@ -25,7 +25,9 @@ namespace GodotFrontend.code.Input
 		private InputMovePhase inputMovePhase;
 		public InputMagic inputMagic;
 		public InputCharge inputCharge;
-		public ReactiveInput reactiveInput;
+		public InputResolveCharge inputResolveCharge; 
+        public ReactiveInput reactiveInput;
+
 
         private SpellTarget? currentSpellTarget;
 		private Camera3D mainCamera;
@@ -67,9 +69,11 @@ namespace GodotFrontend.code.Input
             inputMovePhase = new InputMovePhase(getBattlefieldCursorPosDel);
             inputMagic = new InputMagic(getBattlefieldCursorPosDel, cursorEffect);
 			inputCharge = new InputCharge(getBattlefieldCursorPosDel);
+			
 
 			Panel blockPanel = GetNode<Panel>("UnitManager/HUD/CanvasGroup/AnchorProvider/BlockGamePanel");
             reactiveInput = new ReactiveInput(blockPanel);
+			inputResolveCharge = new InputResolveCharge();
             // magic runs in all phases
             magicStateProccess = inputMagic.CustomProcess;
         }
@@ -94,8 +98,15 @@ namespace GodotFrontend.code.Input
                     break;
             }
         }
+		// Breaking the patterns, sorry
+        public  void setUpResolveChargesInputphase()
+        {
+            inputState = InputState.ResolvingCharges;
+            currentStateProccess = inputResolveCharge.CustomProcess;
 
-		private void setUpChargeInputSubPhase()
+            inputResolveCharge.setChargesToResolve(inputCharge.charges);            
+        }
+        private void setUpChargeInputSubPhase()
 		{
             inputState = InputState.Empty;
             currentStateProccess = inputCharge.CustomProcess;
@@ -121,8 +132,16 @@ namespace GodotFrontend.code.Input
 			{
                 switch (currentSubPhase)
                 {
-                    case SubBattleStatePhase.charge:
-						inputCharge.selectUnit(unitSelect);
+                    
+                    case SubBattleStatePhase.charge:// mixing subphase and inputphase, not good
+                        if (inputState == InputState.ResolvingCharges)
+						{
+							inputResolveCharge.selectCharge(unitSelect);
+                        }
+						else
+						{
+                            inputCharge.selectUnit(unitSelect);
+                        }						
                         break;
                     case SubBattleStatePhase.move:
                         SelectUnitToMove(unitSelect);
@@ -167,7 +186,7 @@ namespace GodotFrontend.code.Input
 		{
 			if (currentSubPhase == SubBattleStatePhase.charge)
 			{
-			inputCharge.onArrowClick(camera, @event, position, normal, shapeIdx, collider);
+				inputCharge.onArrowClick(camera, @event, position, normal, shapeIdx, collider);
             }else
 			{
                 inputMovePhase.onArrowClick(camera, @event, position, normal, shapeIdx, collider);

@@ -5,6 +5,7 @@ using GodotFrontend.code.Input;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using static GodotFrontend.code.Input.InputFSM;
 public class ActionGeneric
 {
 	public string name;
@@ -17,12 +18,17 @@ public class ActionGeneric
 }
 public partial class ActionContainer : PanelContainer
 {
-	public List<ActionButton> actionButtons= new List<ActionButton>
-	{
-	};
+	public List<ActionButton> actionButtons = new List<ActionButton>();
 	private HBoxContainer actionBtnContainer;
-
-	List<ActionGeneric> strategicActions = new List<ActionGeneric>();
+    public InputState inputState
+    {
+        get { return InputFSM.currentState; }
+        set
+        {
+            InputFSM.changeState(value);
+        }
+    }
+    List<ActionGeneric> strategicActions = new List<ActionGeneric>();
     List<ActionGeneric> chargeActions = new List<ActionGeneric>();
 
     List<ActionButton> strategicActionButtons = new List<ActionButton>();
@@ -31,10 +37,13 @@ public partial class ActionContainer : PanelContainer
 
 	#region nodestosendsignals
 	PanelContainer spellContainer;
-	InputCharge inputCharge;
-	ReactiveInput reactiveInput;
+    InputManager inputManager;
+    InputCharge inputCharge;
+    InputResolveCharge inputResolveCharge;
+    ReactiveInput reactiveInput;
     #endregion
     Button endSubPhaseButton;
+
 	public override async void _Ready()
 	{        
 		actionBtnContainer = GetNode<HBoxContainer>("MainHBox/HBoxContainer");
@@ -43,28 +52,43 @@ public partial class ActionContainer : PanelContainer
         PlayerInfoSingleton.Instance.battleStateManager.OnSubPhaseChanged += OnSubPhaseChange;
 		// we need the instances that we are send messages
 		spellContainer = GetTree().CurrentScene.GetNode<PanelContainer>("Battlefield/UnitManager/HUD/CanvasGroup/AnchorProvider/SpellsContainer");
-        InputManager inputManager = GetTree().CurrentScene.GetNode<Node3D>("Battlefield") as InputManager;
+        inputManager = GetTree().CurrentScene.GetNode<Node3D>("Battlefield") as InputManager;
 
         await ToSignal(inputManager, SignalName.Ready);
         inputCharge = inputManager.inputCharge; 
 		reactiveInput = inputManager.reactiveInput;
+        inputResolveCharge = inputManager.inputResolveCharge;
+		inputResolveCharge.OnChargeSelectedToExecute += (visibility) => { toogleVisibility("Charge", visibility); };
         populateActions();
 		activateStrategicActions();
-
-
 	}
 	private async void endSubPhase()
 	{
 		switch (PlayerInfoSingleton.Instance.battleStateManager.currentSubPhase) {
 			case SubBattleStatePhase.charge:
-				await reactiveInput.ResolveCharges(inputCharge.charges); 
-				break;
-		}
-
-        PlayerInfoSingleton.Instance.battleStateManager.passNextSubState();
-
+				await reactiveInput.ResolveCharges(inputCharge.charges);
+				inputManager.setUpResolveChargesInputphase();		
+                break;
+			default:
+                PlayerInfoSingleton.Instance.battleStateManager.passNextSubState();
+                break;
+        }        
     }
-	public void OnSubPhaseChange(SubBattleStatePhase subBattleStatePhase)
+	private void toogleVisibility(string actionName, bool visibility)
+	{
+		if (visibility) showActionBtn(actionName);
+		else hideActionBtn(actionName);
+	}
+
+    private void showActionBtn(string actionName)
+    {
+		actionBtnContainer.GetNode<MarginContainer>(actionName).Visible = true;
+    }
+    private void hideActionBtn(string actionName)
+    {
+        actionBtnContainer.GetNode<MarginContainer>(actionName).Visible = false;
+    }
+    public void OnSubPhaseChange(SubBattleStatePhase subBattleStatePhase)
 	{
 		disableActions();
 		switch (subBattleStatePhase)
@@ -92,6 +116,7 @@ public partial class ActionContainer : PanelContainer
 	{
 		foreach (var action in chargeActionButtons)
 		{
+			if (action.Name == "Charge") break;
 			action.Visible = true;
 		}
 	}
@@ -130,7 +155,11 @@ public partial class ActionContainer : PanelContainer
             spellContainer.Visible = true;
         };
         chargeActions.Add(new ActionGeneric("Spells", actionSpells));
-        chargeActions.Add(new ActionGeneric("Charge", () => { }));
+		Action actionCharge = () =>
+		{
+			inputResolveCharge.executeCharge();
+		};
+        chargeActions.Add(new ActionGeneric("Charge", actionCharge));
 		return createActions(chargeActions);
 
 	}
@@ -142,7 +171,8 @@ public partial class ActionContainer : PanelContainer
         foreach (var action in actions)
         {
             ActionButton action_button = action_button_asset.Instantiate() as ActionButton;
-            actionBtnContainer.AddChild(action_button);
+            actionBtnContainer.AddChild(action_button);			
+            action_button.Name = action.name;
             action_button.GetNode<Button>("ActionButton").Text = action.name;
 			action_button.OnPressed += action.action;
             action_button.Visible = false;

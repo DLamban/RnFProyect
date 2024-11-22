@@ -83,6 +83,7 @@ namespace Core.Units
         public CombatSide CombatSide { get; set; }
         public bool isCharging { get; set; }
         public bool isCharged { get; set; }
+        public ChargeResponse chargeResponse { get; set; }
         public float distanceRemaining { get;set; }
         #endregion
         // This constructor is for information purposes, creating a unit with a single troop

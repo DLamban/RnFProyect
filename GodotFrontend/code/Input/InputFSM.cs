@@ -14,6 +14,8 @@ namespace GodotFrontend.code.Input
             Magic,
             CastingSpell,
             Charging,
+            ResolvingCharges,
+
             CompulsoryMovement,
             Movement                           
         }

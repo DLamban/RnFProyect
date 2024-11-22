@@ -1,0 +1,16 @@
+res://code/grassfield/DataNode2d.cs
+res://units/UnitGodot.cs
+res://UIcode/ActionButton.cs
+res://UIcode/StartMenu.cs
+res://code/grassfield/GrassTerrain.cs
+res://units/Animation/InfantrySkelModifier.cs
+res://battlefieldManager.cs
+res://Spells/ConfirmPanel.cs
+res://code/Input/InputManager.cs
+res://UIcode/ChargeResponseUI.cs
+res://UIcode/UICanvas.cs
+res://Spells/SpellCard.cs
+res://Spells/UISpellManager.cs
+res://UIcode/ActionContainer.cs
+res://code/FieldCameraControl.cs
+res://units/UnitRenderCreator.cs

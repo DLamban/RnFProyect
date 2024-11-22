@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://dpsexlp7rtu24"]
+[gd_scene load_steps=30 format=3 uid="uid://dpsexlp7rtu24"]
 
 [ext_resource type="Theme" uid="uid://c5l7fthgxiatx" path="res://assets/fonts/basic_theme.tres" id="1_7w5fx"]
 [ext_resource type="Script" path="res://UIcode/UICanvas.cs" id="1_uf8sf"]
@@ -12,6 +12,8 @@
 [ext_resource type="Shader" path="res://Spellselectioncanvas.gdshader" id="8_u1fbv"]
 [ext_resource type="Script" path="res://Spells/UISpellManager.cs" id="9_xjim1"]
 [ext_resource type="Script" path="res://Spells/ConfirmPanel.cs" id="10_b20x0"]
+[ext_resource type="Script" path="res://UIcode/ChargeResponseUI.cs" id="13_iahc3"]
+[ext_resource type="FontFile" uid="uid://d1abuqp2etn8q" path="res://assets/UI/fonts/fight16cleaned.png" id="14_3sye8"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_apgn1"]
 
@@ -79,6 +81,18 @@ bg_color = Color(0.6, 0.6, 0.6, 0)
 
 [sub_resource type="SystemFont" id="SystemFont_e0k3x"]
 subpixel_positioning = 0
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_yyjmg"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_8u1al"]
+font = ExtResource("14_3sye8")
+font_size = 100
+font_color = Color(0.560749, 0.100697, 0, 1)
+outline_size = 2
+outline_color = Color(1, 1, 0, 1)
+shadow_size = 10
+shadow_color = Color(1, 1, 1, 0.741176)
+shadow_offset = Vector2(4, 4)
 
 [node name="CanvasLayer" type="CanvasLayer"]
 follow_viewport_enabled = true
@@ -727,3 +741,22 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_yyjmg")
+script = ExtResource("13_iahc3")
+
+[node name="ChargeResponseLabel" type="Label" parent="CanvasGroup/AnchorProvider/BlockGamePanel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -250.0
+offset_top = -50.0
+offset_right = 250.0
+offset_bottom = 50.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "HOLD!"
+label_settings = SubResource("LabelSettings_8u1al")
+horizontal_alignment = 1
