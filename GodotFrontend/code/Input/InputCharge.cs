@@ -85,6 +85,7 @@ public class InputCharge : BaseMove, ISubInputManager
                 if (checkValidCharge(currentCharge.chargingUnit, unit, calcDistanceBetweenUnits(currentCharge.chargingUnit, unit)))
                 {
                     currentCharge.chargedUnit = unit;
+                    
                     charges.Add(currentCharge);
                     SetArrowCharge(currentCharge);
                     currentCharge = new Charge();

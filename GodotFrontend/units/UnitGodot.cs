@@ -216,10 +216,13 @@ public partial class UnitGodot : Node3D
 		createDragArrows(inputManager);
 		createDistBillboard();
 		createChargingLayer();
+		createChargingResponseBillboard();
 		createFX();
 		createSelectMenu(inputManager);
 		showDistanceRemaining(0);
 	}
+
+
 	#region FXEFFECTS
 	private void createFX()
 	{
@@ -349,6 +352,10 @@ public partial class UnitGodot : Node3D
 		}
 		return angle;
 
+	}
+	private void createChargingResponseBillboard()
+	{
+	   // throw new NotImplementedException();
 	}
 	private void createChargingLayer()
 	{

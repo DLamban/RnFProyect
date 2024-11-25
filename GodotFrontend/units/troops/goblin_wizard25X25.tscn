@@ -6,7 +6,7 @@
 [node name="troop" type="Node3D"]
 
 [node name="MiniatureBase" parent="." instance=ExtResource("2_pbgs6")]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0.25)
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0.011)
 
 [node name="Witch_WIP1" parent="." instance=ExtResource("3_bqlwl")]
-transform = Transform3D(-0.0999391, 3.25394e-09, -0.00349008, -0.00349008, -4.31306e-09, 0.0999391, 3.10143e-09, 0.1, 4.42399e-09, 0, 0, 0.25)
+transform = Transform3D(-0.0999391, 3.25394e-09, -0.00349008, -0.00349008, -4.31306e-09, 0.0999391, 3.10143e-09, 0.1, 4.42399e-09, 0, 0, 0.0257913)
