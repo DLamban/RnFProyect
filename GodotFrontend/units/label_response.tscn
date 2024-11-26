@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://4o2v0y5bwd16"]
+
+[ext_resource type="FontFile" uid="uid://d1abuqp2etn8q" path="res://assets/UI/fonts/fight16cleaned.png" id="1_tpb6i"]
+
+[node name="Label3D" type="Label3D"]
+billboard = 1
+no_depth_test = true
+modulate = Color(1, 0.0705882, 0.113725, 1)
+text = "HOLD"
+font = ExtResource("1_tpb6i")

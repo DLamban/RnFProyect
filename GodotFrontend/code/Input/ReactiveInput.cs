@@ -54,7 +54,8 @@ namespace GodotFrontend.code.Input
         {
             charge.chargedUnit.coreUnit.chargeResponse = ChargeResponse.HOLD;                        
             await chargeResponseUI.ShowToast(charge.chargedUnit.coreUnit.chargeResponse.ToString() + "!");
-            charge.arrow.Visible = false;
+            charge.chargedUnit.showChargingResponseBillboard(charge.chargedUnit.coreUnit.chargeResponse);
+            //charge.arrow.Visible = false;
             if (chargeResponses.Count == 0) {
                 chargeResponseFinish.SetResult(true);
             }

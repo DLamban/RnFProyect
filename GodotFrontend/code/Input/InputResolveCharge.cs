@@ -39,14 +39,13 @@ namespace GodotFrontend.code.Input
         public void executeCharge()
         {
             OnChargeSelectedToExecute?.Invoke(false);
-            chargeSelected.chargingUnit.charge();    
+            chargeSelected.arrow.Visible = false;
+            chargeSelected.chargingUnit.charge();
+            chargeSelected.chargedUnit.hideChargingResponseBillboard();
+
         }
         new public void CustomProcess(double delta)
-        {
-            
-
-            //var cucuc = 0;
-            //   resolveCharge();
+        {          
         }
     }
 }

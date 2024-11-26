@@ -45,9 +45,11 @@ public partial class ActionContainer : PanelContainer
     Button endSubPhaseButton;
 
 	public override async void _Ready()
-	{        
-		actionBtnContainer = GetNode<HBoxContainer>("MainHBox/HBoxContainer");
-		endSubPhaseButton = GetNode<Button>("MainHBox/MarginContainer/ActionButton");
+	{
+        
+
+        actionBtnContainer = GetNode<HBoxContainer>("VBoxContainer/MainHBox/HBoxContainer");
+		endSubPhaseButton = GetNode<Button>("VBoxContainer/MainHBox/MarginContainer/ActionButton");
 		endSubPhaseButton.Pressed += endSubPhase;
         PlayerInfoSingleton.Instance.battleStateManager.OnSubPhaseChanged += OnSubPhaseChange;
 		// we need the instances that we are send messages
@@ -66,15 +68,24 @@ public partial class ActionContainer : PanelContainer
 	{
 		switch (PlayerInfoSingleton.Instance.battleStateManager.currentSubPhase) {
 			case SubBattleStatePhase.charge:
-				await reactiveInput.ResolveCharges(inputCharge.charges);
-				inputManager.setUpResolveChargesInputphase();		
+				if (inputState == InputState.ResolvingCharges)
+				{
+                    PlayerInfoSingleton.Instance.battleStateManager.passNextSubState();
+					inputCharge.finishChargeSubphase();
+                }
+				else
+				{
+                    await reactiveInput.ResolveCharges(inputCharge.charges);
+                    inputManager.setUpResolveChargesInputphase();
+                }                    
                 break;
 			default:
                 PlayerInfoSingleton.Instance.battleStateManager.passNextSubState();
                 break;
         }        
     }
-	private void toogleVisibility(string actionName, bool visibility)
+
+    private void toogleVisibility(string actionName, bool visibility)
 	{
 		if (visibility) showActionBtn(actionName);
 		else hideActionBtn(actionName);

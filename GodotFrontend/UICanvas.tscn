@@ -596,7 +596,7 @@ theme = ExtResource("1_7w5fx")
 text = "NEXT 
 PHASE"
 
-[node name="PanelContainer" type="PanelContainer" parent="CanvasGroup/AnchorProvider"]
+[node name="ActionContextualContainer" type="PanelContainer" parent="CanvasGroup/AnchorProvider"]
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 1
 anchors_preset = -1
@@ -612,14 +612,31 @@ grow_vertical = 0
 theme = ExtResource("1_7w5fx")
 script = ExtResource("8_ceo8v")
 
-[node name="MainHBox" type="HBoxContainer" parent="CanvasGroup/AnchorProvider/PanelContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasGroup/AnchorProvider/ActionContextualContainer"]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasGroup/AnchorProvider/PanelContainer/MainHBox"]
+[node name="CenterContainer2" type="CenterContainer" parent="CanvasGroup/AnchorProvider/ActionContextualContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="InputPhaseLabel" type="Label" parent="CanvasGroup/AnchorProvider/ActionContextualContainer/VBoxContainer/CenterContainer2"]
+layout_mode = 2
+text = "Strategy phase"
+
+[node name="CenterContainer" type="CenterContainer" parent="CanvasGroup/AnchorProvider/ActionContextualContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="SubPhaseLabel" type="Label" parent="CanvasGroup/AnchorProvider/ActionContextualContainer/VBoxContainer/CenterContainer"]
+layout_mode = 2
+text = "waiting input"
+
+[node name="MainHBox" type="HBoxContainer" parent="CanvasGroup/AnchorProvider/ActionContextualContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasGroup/AnchorProvider/ActionContextualContainer/VBoxContainer/MainHBox"]
 layout_mode = 2
 theme = ExtResource("1_7w5fx")
 
-[node name="MarginContainer" parent="CanvasGroup/AnchorProvider/PanelContainer/MainHBox" instance=ExtResource("8_dml77")]
+[node name="MarginContainer" parent="CanvasGroup/AnchorProvider/ActionContextualContainer/VBoxContainer/MainHBox" instance=ExtResource("8_dml77")]
 layout_mode = 2
 
 [node name="SpellsContainer" type="PanelContainer" parent="CanvasGroup/AnchorProvider"]

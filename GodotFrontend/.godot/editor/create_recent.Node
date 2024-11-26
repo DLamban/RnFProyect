@@ -1,5 +1,8 @@
-Sprite3D
+CenterContainer
+VBoxContainer
 Label
+Label3D
+Sprite3D
 Panel
 Node2D
 HBoxContainer
@@ -10,6 +13,3 @@ Container
 Node3D
 MeshInstance3D
 TextureRect
-SubViewport
-Node
-MultiMeshInstance3D

@@ -59,8 +59,8 @@ public partial class UnitGodot : Node3D
 	public List<Node3D> troopNodes = new List<Node3D>();
 	private Sprite3D distBillboard;
 	public Vector2 offsetTroop;
-	const float arrowHeight = 0.25f;	
-	
+	const float arrowHeight = 0.25f;
+	Label3D responseLabel;
 	Godot.RandomNumberGenerator randomNumberGenerator = new Godot.RandomNumberGenerator();
 	// EVENTS
 	public event Action unitSelection;
@@ -96,6 +96,7 @@ public partial class UnitGodot : Node3D
 		this.AddChild(inputButtonsNode);
 		diceThrower = DiceThrower.Instance;
 		this.coreUnit.vinculateDiceThrower(diceThrower.diceThrowerTaskDel);
+		
 	}
 	public void initGodotUnit(BaseUnit coreUnit, InputManager inputManager)
 	{
@@ -355,7 +356,21 @@ public partial class UnitGodot : Node3D
 	}
 	private void createChargingResponseBillboard()
 	{
-	   // throw new NotImplementedException();
+		responseLabel = GD.Load<PackedScene>("res://units/label_response.tscn").Instantiate() as Label3D;
+		AddChild(responseLabel);
+		responseLabel.Position = new Vector3(center.X, center.Y, 0.1f);		
+		responseLabel.Visible = false;
+		
+	}
+	public void showChargingResponseBillboard(ChargeResponse chargeResponse)
+	{
+		responseLabel.Visible = true;		
+		responseLabel.Text = chargeResponse.ToString();
+
+	}
+	public void hideChargingResponseBillboard()
+	{
+		responseLabel.Visible = false;
 	}
 	private void createChargingLayer()
 	{

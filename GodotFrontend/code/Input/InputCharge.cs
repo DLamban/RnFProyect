@@ -66,7 +66,16 @@ public class InputCharge : BaseMove, ISubInputManager
     private float arrowModelLenght =0.85f;
     public InputCharge(BattlefieldCursorPosDel battlefieldCursorPosDel) : base(battlefieldCursorPosDel) {
     }
-
+    public void finishChargeSubphase()// finish charge subphase, clear vars and selections
+    {
+        currentCharge = null;
+        foreach (Charge charge in charges)
+        {
+            charge.arrow.QueueFree();
+            charge.chargedUnit.hideChargingResponseBillboard();
+        }
+        charges.Clear();
+    }
     public void selectUnit(UnitGodot unit)
     {
         if (currentCharge.chargingUnit == null )
@@ -76,7 +85,7 @@ public class InputCharge : BaseMove, ISubInputManager
                 
                 currentCharge.chargingUnit = unit;                
                 unit.AddChild(currentCharge.arrow);
-                currentCharge.arrow.Position = currentCharge.arrow.Position + new Vector3(unit.center.X, unit.center.Y, 0.35f);
+                currentCharge.arrow.Position = currentCharge.arrow.Position + new Vector3(unit.center.X, unit.center.Y, 0.1f);
             }            
         }
         else {
@@ -166,7 +175,7 @@ public class InputCharge : BaseMove, ISubInputManager
         // move position by offset, should be the lenght * angle
         float xoffset = (float)(scaleGrow / 10f * Math.Cos(angle));
         float yoffset = (float)(scaleGrow / 10f * Math.Sin(angle));
-        Vector3 position = new Vector3(chargingUnit.center.X - xoffset, chargingUnit.center.Y - yoffset, 0.25f);
+        Vector3 position = new Vector3(chargingUnit.center.X - xoffset, chargingUnit.center.Y - yoffset, 0.1f);
 
         // final rot, scale and pos
         DrawArrow(rotation, scale, position);
@@ -192,7 +201,7 @@ public class InputCharge : BaseMove, ISubInputManager
         // move position by offset, should be the lenght * angle
         float xoffset = (float)(scaleGrow/10f * Math.Cos(angle));
         float yoffset = (float)(scaleGrow/10f * Math.Sin(angle));
-        Vector3 position = new Vector3( originUnit.center.X - xoffset, originUnit.center.Y - yoffset, 0.25f);
+        Vector3 position = new Vector3( originUnit.center.X - xoffset, originUnit.center.Y - yoffset, 0.1f);
         
         // final rot, scale and pos
         DrawArrow(rotation, scale, position);
