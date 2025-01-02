@@ -1,0 +1,34 @@
+[gd_resource type="ShaderMaterial" load_steps=7 format=3 uid="uid://duj0gb6gya46f"]
+
+[ext_resource type="Shader" path="res://assets/3d/grass/grass_blade_normals.gdshader" id="1_lsli4"]
+[ext_resource type="Texture2D" uid="uid://xcq26wtb110h" path="res://assets/3d/grass/test_text2.png" id="2_428wh"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_ckrc5"]
+fractal_type = 0
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_ked7x"]
+seamless = true
+noise = SubResource("FastNoiseLite_ckrc5")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_mlof2"]
+noise_type = 2
+fractal_type = 0
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_lvqql"]
+seamless = true
+noise = SubResource("FastNoiseLite_mlof2")
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_lsli4")
+shader_parameter/tip_color = Color(0, 0.526792, 0, 1)
+shader_parameter/base_color = Color(1.56425e-07, 0.196067, 1.68458e-07, 1)
+shader_parameter/fake_ambient_oclusion = Color(4.88828e-08, 0.125881, 2.40654e-08, 1)
+shader_parameter/burning_tip_color = Color(0.564706, 0, 0, 1)
+shader_parameter/burning_tip_color2 = Color(0.708431, 0.691836, 1.15514e-06, 1)
+shader_parameter/burned_color = Color(0.0499541, 0.0192068, 3.00817e-09, 1)
+shader_parameter/mesh_size = Vector2(15.24, 11.76)
+shader_parameter/displacement_force = 0.18
+shader_parameter/noise = SubResource("NoiseTexture2D_lvqql")
+shader_parameter/height_variance_tex = SubResource("NoiseTexture2D_ked7x")
+shader_parameter/data_texture = ExtResource("2_428wh")

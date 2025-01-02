@@ -1,3 +1,4 @@
+MeshInstance3D
 CenterContainer
 VBoxContainer
 Label
@@ -11,5 +12,3 @@ PanelContainer
 Control
 Container
 Node3D
-MeshInstance3D
-TextureRect

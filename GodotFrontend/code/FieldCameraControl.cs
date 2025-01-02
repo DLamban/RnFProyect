@@ -10,10 +10,14 @@ public partial class FieldCameraControl : Node3D
 	float vel_Max = 4;
 	float vel_multiplier = 10;
 	float rotation = 0;
-	float rotation_speed = 1.0f;
+	float rotation_speed = 1.0f;	
+	ShaderMaterial postProcessShader;
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		MeshInstance3D postProcessMesh = GetNode<MeshInstance3D>("BattlefieldCamera/posprocessquad");
+		postProcessShader = postProcessMesh.Mesh.SurfaceGetMaterial(0) as ShaderMaterial;
+		
 	}
 	private void updateCamera(double delta)
 	{		
@@ -31,9 +35,12 @@ public partial class FieldCameraControl : Node3D
 			velocity.Z = Mathf.Clamp(velocity.Y + offset.Z, -vel_multiplier, vel_multiplier);
 			Translate(direction * (float)(acceleration * delta));
 		}
-		
-		
 
+
+		 
+		//postProcessShader.SetShaderParameter("focal_point", new Vector3(GlobalPosition.X,GlobalPosition.Y+01.1f,.00f));
+	  
+		
 		RotateZ((float)(rotation *  rotation_speed * delta));
 
 	}
