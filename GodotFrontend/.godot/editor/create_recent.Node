@@ -1,4 +1,6 @@
+GPUParticles3D
 MeshInstance3D
+OmniLight3D
 CenterContainer
 VBoxContainer
 Label
@@ -10,5 +12,3 @@ HBoxContainer
 Button
 PanelContainer
 Control
-Container
-Node3D

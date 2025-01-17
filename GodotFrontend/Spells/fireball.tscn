@@ -1,0 +1,106 @@
+[gd_scene load_steps=20 format=3 uid="uid://bvtesy2y6wqlt"]
+
+[ext_resource type="Shader" path="res://fireballSmoke.gdshader" id="1_noei5"]
+[ext_resource type="Texture2D" uid="uid://cab4taob6y7i4" path="res://assets/FX/blackSmoke00.png" id="2_pvrnp"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_4ylmn"]
+noise_type = 2
+frequency = 0.2667
+metadata/_preview_in_3d_space_ = true
+
+[sub_resource type="NoiseTexture3D" id="NoiseTexture3D_8bvj6"]
+invert = true
+seamless = true
+seamless_blend_skirt = 0.511
+noise = SubResource("FastNoiseLite_4ylmn")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_sk70b"]
+render_priority = 0
+shader = ExtResource("1_noei5")
+shader_parameter/noise_3d_tex = SubResource("NoiseTexture3D_8bvj6")
+
+[sub_resource type="BoxMesh" id="BoxMesh_qa6li"]
+material = SubResource("ShaderMaterial_sk70b")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_u3n3d"]
+frequency = 0.0645
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_4a0j6"]
+seamless = true
+noise = SubResource("FastNoiseLite_u3n3d")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_e24qv"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_cve4t"]
+noise = SubResource("FastNoiseLite_e24qv")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_guo2a"]
+shading_mode = 0
+specular_mode = 2
+disable_ambient_light = true
+disable_fog = true
+albedo_color = Color(0.852018, 0.325175, 9.62615e-07, 1)
+albedo_texture = SubResource("NoiseTexture2D_4a0j6")
+heightmap_scale = -7.958
+detail_albedo = SubResource("NoiseTexture2D_cve4t")
+disable_receive_shadows = true
+proximity_fade_distance = 0.5
+
+[sub_resource type="SphereMesh" id="SphereMesh_jxgeh"]
+material = SubResource("StandardMaterial3D_guo2a")
+
+[sub_resource type="Curve" id="Curve_ig2dk"]
+_data = [Vector2(0.00763359, 1), 0.0, 0.0, 0, 0, Vector2(0.00764359, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_64tl2"]
+curve = SubResource("Curve_ig2dk")
+
+[sub_resource type="Curve" id="Curve_28i8w"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_ebesy"]
+curve = SubResource("Curve_28i8w")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_wc5pt"]
+lifetime_randomness = 0.5
+emission_shape_scale = Vector3(0.5, 1, 1)
+emission_shape = 1
+emission_sphere_radius = 0.3
+initial_velocity_max = 0.1
+gravity = Vector3(0, 0, 0.5)
+scale_curve = SubResource("CurveTexture_ebesy")
+color = Color(1, 1, 1, 0)
+alpha_curve = SubResource("CurveTexture_64tl2")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_g0a5m"]
+transparency = 1
+no_depth_test = true
+shading_mode = 0
+albedo_color = Color(1, 0.572549, 0.113725, 1)
+albedo_texture = ExtResource("2_pvrnp")
+billboard_mode = 1
+billboard_keep_scale = true
+
+[sub_resource type="QuadMesh" id="QuadMesh_0uvqj"]
+lightmap_size_hint = Vector2i(3, 3)
+material = SubResource("StandardMaterial3D_g0a5m")
+size = Vector2(0.25, 0.25)
+
+[node name="Fireball" type="MeshInstance3D"]
+mesh = SubResource("BoxMesh_qa6li")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+light_color = Color(1, 0, 0, 1)
+
+[node name="InnerCore" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.58, 0, 0, 0, 0.58, 0, 0, 0, 0.58, 0, 0, 0)
+mesh = SubResource("SphereMesh_jxgeh")
+
+[node name="SmokeParticles" type="GPUParticles3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)
+amount = 500
+lifetime = 1.95
+process_material = SubResource("ParticleProcessMaterial_wc5pt")
+draw_pass_1 = SubResource("QuadMesh_0uvqj")

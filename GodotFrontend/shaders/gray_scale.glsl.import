@@ -1,0 +1,14 @@
+[remap]
+
+importer="glsl"
+type="RDShaderFile"
+uid="uid://7jauk8k34lc"
+path="res://.godot/imported/gray_scale.glsl-f7d967ffa19eef8755994d35813ab81a.res"
+
+[deps]
+
+source_file="res://shaders/gray_scale.glsl"
+dest_files=["res://.godot/imported/gray_scale.glsl-f7d967ffa19eef8755994d35813ab81a.res"]
+
+[params]
+
