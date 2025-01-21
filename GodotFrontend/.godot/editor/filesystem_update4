@@ -1,0 +1,14 @@
+res://battlefield.tscn
+res://assets/fonts/basic_theme.tres
+res://Spellselectioncanvas.gdshader
+res://units/vfx/magicselectshader.gdshader
+res://assets/3d/grass/grass_blade_normals.gdshader
+res://assets/3d/grass/grass_shader_material.tres
+res://assets/3d/grass/grass_blade_straightfinal.res
+res://code/terrainshader/battlefield.gdshader
+res://tilitshift.gdshader
+res://SDFObjects.gdshader
+res://fireballSmoke.gdshader
+res://units/vfx/selectshader.gdshader
+res://ObjectSDF.gdshader
+res://smokeSDF.gdshader
