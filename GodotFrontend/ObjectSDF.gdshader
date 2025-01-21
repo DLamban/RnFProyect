@@ -11,7 +11,7 @@ uniform sampler2D noise_tex;
 uniform sampler3D noise_3d_tex;
 struct sdfResult {
 	float dist;
-	float absorption;	
+	float absorption;
 };
 // Rotación en torno a X
 vec3 rotateAroundX(vec3 p, float angle) {
@@ -148,7 +148,7 @@ float fbm(vec3 p) {
 }
 float sdGyroid(vec3 p) {
     float scale = 15.;
-    vec3 p2 = p*scale;    
+    vec3 p2 = p*scale;
     return (abs(dot(sin(p2), cos(p2.zxy)))-.4)/scale;
 }
 
@@ -159,9 +159,9 @@ float sdSmokeBall(vec3 p){
 	p = rotateAroundX(p,TAU*(fract(TIME/13.)));
 	float ball = sdBall(p)+0.15;
 	//ball = opSmoothUnion(ball, sdGyroid(p),0.1);
-	
-	
-	return ball; 
+
+
+	return ball;
 }
 float sdBallShell(vec3 p){
 	return abs(sdBall(p))-.015;
@@ -169,7 +169,7 @@ float sdBallShell(vec3 p){
 float SDFOrb(vec3 p){
 	//p = rotateAroundX(p,TAU*(fract(TIME/13.)));
 	p = rotateAroundX(p,TAU*0.1);
-	float ballShell = sdBallShell(p);	
+	float ballShell = sdBallShell(p);
 	float gyroid =  sdGyroid(p);
 	float d = max(ballShell,gyroid);
 	return d;
@@ -184,7 +184,7 @@ float calculateAbsorption(){
 	return 0.0;
 }
 sdfResult RayMarcherLightAbsortion(vec3 ro, vec3 rd, float depth){
-	
+
 	float dfo = 0.;
 	float sdfDist = 0.;
 	bool insideSmoke = false;
@@ -199,10 +199,10 @@ sdfResult RayMarcherLightAbsortion(vec3 ro, vec3 rd, float depth){
 			float ds2 = SDF(p);
 			//ds = min(ds,ds2);
 			dfo +=ds2/10.;
-			sdfDist = dfo;		
+			sdfDist = dfo;
 
 			if (ds<0. && crossedSmoke ==false){
-				insideSmoke = true;				
+				insideSmoke = true;
 			}
 			if (ds2<SURFACE_DISTANCE ) {
 				absorption =1.;
@@ -219,10 +219,10 @@ sdfResult RayMarcherLightAbsortion(vec3 ro, vec3 rd, float depth){
 			absorption += 0.009;
 			//absorption =0.15;
 			absorption = clamp(absorption,0,0.98);
-			if ( dfo>MAX_DISTANCE ) break;	
-		}		
+			if ( dfo>MAX_DISTANCE ) break;
+		}
 	}
-	
+
 	return sdfResult(sdfDist, absorption);
 }
 float RayMarcher(vec3 ro, vec3 rd, float depth){
@@ -233,7 +233,7 @@ float RayMarcher(vec3 ro, vec3 rd, float depth){
 		dfo +=ds/10.0;
 		if (ds<SURFACE_DISTANCE || dfo >MAX_DISTANCE ) break;
 	}
-	
+
 	return dfo;
 }
 
@@ -242,27 +242,27 @@ vec4 raymarch_density(vec3 ro, vec3 rd, float depth){
 	float density = 0.;
 	vec4 res = vec4(0.0);
 	for (int i =0;i<MAX_STEPS;i++){
-		vec3 p =ro+rd *dfo;	
+		vec3 p =ro+rd *dfo;
 		float f = fbm(p);
 		float density = (-sdBall(p))/50.;
 		if (density > 0.0) {
 			vec4 color = vec4(mix(vec3(1.0,1.0,1.0), vec3(0.0, 0.0, 0.0), density), density );
-			color.rgb *= color.a;	
+			color.rgb *= color.a;
 			res += color * (1.0 - res.a);
 		}
 		dfo += MARCH_SMOKE_STEP;
-	
+
 	}
 	//if (dfo > MAX_DISTANCE) return res;
 	return res;
-	
+
 }
 struct Absorption_result{
 	float absortion;
 	float d_surface;
 };
 Absorption_result calculate_absorption(vec3 ro, vec3 rd, float depth){
-	
+
 	float ABSORPTIONRATE = 5.;
 	float distance_crossed =0.0;
 	float dist_surface = 0.0;
@@ -273,15 +273,15 @@ Absorption_result calculate_absorption(vec3 ro, vec3 rd, float depth){
 	vec3 cube_param = vec3(.4);
 	for (int i =0;i<MAX_STEPS;i++){
 		p = ro +rd *dfo;
-		
+
 		if (!inside_smoke){
 			float d = SDF(p);
 			dfo +=d;
 			if (d<SURFACE_DISTANCE){
 				dist_surface  = dfo;
-				inside_smoke = true;	
+				inside_smoke = true;
 			}
-		}	
+		}
 		else{
 			float d = SDF(p);
 			dfo+=MARCH_SMOKE_STEP;
@@ -289,14 +289,14 @@ Absorption_result calculate_absorption(vec3 ro, vec3 rd, float depth){
 			distance_crossed += MARCH_SMOKE_STEP*(noise-0.49);
 			if (d>SURFACE_DISTANCE ) {
 	//			exit_point = p;
-	
+
 				break;
-			}	
-			
-		}			
-	}	
+			}
+
+		}
+	}
 	float absorption = 0.0;
-	if (distance_crossed>0.0){		
+	if (distance_crossed>0.0){
 		// Exponential
 		//absorption =  1.- exp(-distance_crossed*ABSORPTIONRATE);
 		// linear
@@ -310,7 +310,7 @@ struct RayMarchResult {
 };
 RayMarchResult ray_march_absorption_color(vec3 ro, vec3 rd, float depth){
 	Absorption_result absorption_res = calculate_absorption(ro,rd,depth);
-	
+
 	float density =absorption_res.absortion*1.;
 	vec4 color = vec4(mix(vec3(1.,1.,.4),vec3(.1,.0,0.),density), density );
 	return RayMarchResult(color,absorption_res.d_surface);
@@ -327,7 +327,7 @@ vec4 RayMarchOnlySmoke(vec3 ro, vec3 rd, float depth){
 			float ds = sdSmokeBall(p);
 			dfo +=ds/10.;
 			sdf_dist = dfo;
-			if (ds<SURFACE_DISTANCE ) {inside_smoke = true;}	
+			if (ds<SURFACE_DISTANCE ) {inside_smoke = true;}
 		}else{
 			vec3 p =ro+rd *dfo;
 			float ds = MARCH_SMOKE_STEP;
@@ -335,25 +335,25 @@ vec4 RayMarchOnlySmoke(vec3 ro, vec3 rd, float depth){
 			dfo+=ds;
 			float f  = fbm(p);
 			absorption +=  0.003;
-			
+
 			if (dist_smoke>0.1 || dfo > MAX_DISTANCE || dfo >depth) {
 				inside_smoke = false;
-				break;	
+				break;
 			}
 		}
 		if ( dfo >MAX_DISTANCE ) break;
-		
-	}	
+
+	}
 	if (sdf_dist >depth || dfo > MAX_DISTANCE) return vec4(0.0);
 	vec3 p =ro+rd *dfo;
 
 	absorption = clamp(absorption,0.,0.99);
 	vec3 color = mix(vec3(1.,1.,1.),vec3(0.,0.,0.),absorption);
-	
+
 	return vec4(color.rgb,absorption);
 }
 vec4 RayMarcherLightAbsortionColorRes(vec3 ro, vec3 rd, float depth){
-	
+
 	float dfo = 0.;
 	float sdfDist = 0.;
 	bool insideSmoke = false;
@@ -368,21 +368,21 @@ vec4 RayMarcherLightAbsortionColorRes(vec3 ro, vec3 rd, float depth){
 			float ds2 = SDF(p);
 			//ds = min(ds,ds2);
 			dfo +=ds2/10.;
-	
+
 
 			if (ds<0. && crossedSmoke ==false){
-				insideSmoke = true;				
+				insideSmoke = true;
 			}
 			//if (dfo >depth) {break;}
 			if (ds2<SURFACE_DISTANCE) {
 				if (crossedSmoke == false){
 					absorption =1.;
-					break;	
+					break;
 				}else{
 					absorption =1.;
 					break;
 				}
-				sdfDist = dfo;	
+				sdfDist = dfo;
 			}
 			//if (dfo>MAX_DISTANCE){break;}
 		}else{//fixed raymarch step
@@ -396,12 +396,12 @@ vec4 RayMarcherLightAbsortionColorRes(vec3 ro, vec3 rd, float depth){
 			//absorption =0.15;
 			absorption = clamp(absorption,0,0.98);
 			if ( dfo> depth){insideSmoke=false;crossedSmoke= true;absorption = 0.; return vec4(0.0);}
-		}		
+		}
 	}
 	if (dfo >depth || dfo > MAX_DISTANCE) return vec4(0.0);
-	
+
 	if (absorption<0.99){
-		
+
 		color = vec3(0.9,0.1,0.1);
 	}
 	return vec4 (color,absorption);
@@ -456,7 +456,7 @@ void fragment() {
     //ray_origin = rotateAroundZ(ray_origin, angle);
     //ray_dir = rotateAroundZ(ray_dir, angle);
 	//float d = RayMarcher(ray_origin,ray_dir,linear_depth);
-	
+
 	//if (d >MAX_DISTANCE|| d>linear_depth ) {
 		//discard;
 		////ALBEDO = vec3(0.,0.,0.);
@@ -476,7 +476,7 @@ void fragment() {
 		//ALPHA = 1.;
 	//}
 	 //CLOUD RAYMARCH
-	
+
 	RayMarchResult res = ray_march_absorption_color(ray_origin,ray_dir,linear_depth);
 	vec4 colorfinal = res.color;
 	vec3 hit_point = ray_origin + ray_dir * res.d_surface;
@@ -490,11 +490,11 @@ void fragment() {
 	//color = pow(color, vec3(.4545));	// gamma correction
 
 
-	
+
 	ALBEDO = colorfinal.rgb;
-	
+
 	ALPHA = colorfinal.a;
-	
+
 	// oldie
 	//vec4 colorfinal = RayMarcherLightAbsortionColorRes(ray_origin,ray_dir,linear_depth)	;
 	//ALBEDO = colorfinal.rgb;
@@ -529,8 +529,8 @@ void fragment() {
 		//
 	//}
 
- 	
-	
-	
-	
+
+
+
+
 }

@@ -86,7 +86,7 @@ Absorption_result calculate_absorption(vec3 ro, vec3 rd, float depth){
 			float d = SDF(p);
 			dfo+=MARCH_SMOKE_STEP;
 			float noise = texture(noise_3d_tex,vec3(p.x+ fract(TIME/7.) ,p.y+fract(TIME/13.),p.z +fract(TIME/13.) )).r;
-			distance_crossed += MARCH_SMOKE_STEP*(noise-0.43);
+			distance_crossed += MARCH_SMOKE_STEP*(noise-0.47);
 			if (d>SURFACE_DISTANCE ) {
 
 				break;

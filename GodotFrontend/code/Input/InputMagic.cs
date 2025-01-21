@@ -22,6 +22,7 @@ namespace GodotFrontend.code.Input
         private BattlefieldCursorPosDel battlefieldCursorPosDel;
         private MeshInstance3D cursorEffect;
         private UnitGodot unitSelected;
+        private MeshInstance3D FireballFX;
         public InputState inputState
         {
             get { return InputFSM.currentState; }
@@ -31,10 +32,11 @@ namespace GodotFrontend.code.Input
             }
         }
 
-        public InputMagic(BattlefieldCursorPosDel _battlefieldCursorPosDel, MeshInstance3D _cursorEffect)
+        public InputMagic(BattlefieldCursorPosDel _battlefieldCursorPosDel, MeshInstance3D _cursorEffect, MeshInstance3D _fireballFX)
         {
             battlefieldCursorPosDel = _battlefieldCursorPosDel;
             cursorEffect = _cursorEffect;
+            FireballFX = _fireballFX;
         }
         public void SelectUnitToTargetMagic(UnitGodot _unitSelected, UnitGodot unitSelection)
         {
@@ -69,7 +71,7 @@ namespace GodotFrontend.code.Input
         {
             if (spellSelected == null) throw new InvalidOperationException("Spell error, not selected");
             Vector2 worldCenterSpell = new Vector2( unitSelected.coreUnit.centerTroop.X, unitSelected.coreUnit.centerTroop.Y);
-            OnExecuteSpell?.Invoke(spellSelected, worldCenterSpell);
+            
 
 
             if (spellSelected.Type == SpellType.Hex || spellSelected.Type == SpellType.Buff)
@@ -80,6 +82,20 @@ namespace GodotFrontend.code.Input
             {
                 unitSelected.magicSelectionFX.Visible = false;
                 // FIREBALL STATS, JUST TESTING
+                FireballFX.Visible = true;
+                FireballFX.Position = new Vector3(worldCenterSpell.X +3f, worldCenterSpell.Y+3f, 7.0f);
+                Node fireballNodeParent = FireballFX.GetParent() as Node;
+                // create a simple tween to move the fireball
+                Tween tween = fireballNodeParent.CreateTween();
+
+                tween.TweenProperty(FireballFX, "position", new Vector3(worldCenterSpell.X, worldCenterSpell.Y, 0.0f),3.0);
+                await fireballNodeParent.ToSignal(tween, "finished");
+                OnExecuteSpell?.Invoke(spellSelected, worldCenterSpell);
+                FireballFX.Visible = false;
+                await Task.Delay(500);
+
+
+
                 int hits = await DiceThrower.Instance.ThrowDicesSum(2, "fireball hits");
                 List<int> result = await DiceThrower.Instance.ThrowDices(hits,"wounding");
                 unitSelected.coreUnit.woundUnit(result, 4, null);

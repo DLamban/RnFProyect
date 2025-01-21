@@ -65,9 +65,14 @@ namespace GodotFrontend.code.Input
 		{
             // get the node of cursor effects
             MeshInstance3D cursorEffect = GetNode<MeshInstance3D>("CursorEffect") as MeshInstance3D;
+            // load scene fireball fx
+            MeshInstance3D FireballFX = GD.Load<PackedScene>("res://Spells/fireball.tscn").Instantiate() as MeshInstance3D;
+            AddChild(FireballFX);
+			FireballFX.Position = new Vector3(0, 0, 0);
+			FireballFX.Visible = false;
             // create the subinput child managers
             inputMovePhase = new InputMovePhase(getBattlefieldCursorPosDel);
-            inputMagic = new InputMagic(getBattlefieldCursorPosDel, cursorEffect);
+            inputMagic = new InputMagic(getBattlefieldCursorPosDel, cursorEffect, FireballFX);
 			inputCharge = new InputCharge(getBattlefieldCursorPosDel);
 			
 

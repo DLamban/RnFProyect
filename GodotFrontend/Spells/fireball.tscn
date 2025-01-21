@@ -49,12 +49,12 @@ proximity_fade_distance = 0.5
 [sub_resource type="SphereMesh" id="SphereMesh_jxgeh"]
 material = SubResource("StandardMaterial3D_guo2a")
 
-[sub_resource type="Curve" id="Curve_ig2dk"]
-_data = [Vector2(0.00763359, 1), 0.0, 0.0, 0, 0, Vector2(0.00764359, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
-point_count = 3
+[sub_resource type="Gradient" id="Gradient_uswxw"]
+offsets = PackedFloat32Array(0.391129, 0.655242, 0.770161, 1)
+colors = PackedColorArray(0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0)
 
-[sub_resource type="CurveTexture" id="CurveTexture_64tl2"]
-curve = SubResource("Curve_ig2dk")
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_sb0r1"]
+gradient = SubResource("Gradient_uswxw")
 
 [sub_resource type="Curve" id="Curve_28i8w"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
@@ -65,18 +65,15 @@ curve = SubResource("Curve_28i8w")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_wc5pt"]
 lifetime_randomness = 0.5
-emission_shape_scale = Vector3(0.5, 1, 1)
 emission_shape = 1
 emission_sphere_radius = 0.3
 initial_velocity_max = 0.1
 gravity = Vector3(0, 0, 0.5)
 scale_curve = SubResource("CurveTexture_ebesy")
-color = Color(1, 1, 1, 0)
-alpha_curve = SubResource("CurveTexture_64tl2")
+color_ramp = SubResource("GradientTexture1D_sb0r1")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_g0a5m"]
 transparency = 1
-no_depth_test = true
 shading_mode = 0
 albedo_color = Color(1, 0.572549, 0.113725, 1)
 albedo_texture = ExtResource("2_pvrnp")
