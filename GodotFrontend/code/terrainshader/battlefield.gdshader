@@ -1,7 +1,9 @@
 shader_type spatial;
-uniform float height_scale;
+uniform float height_scale:hint_range(0.0, 10.0, 0.1);
 uniform vec2 battlefield_size;
 uniform vec3 color_mountain:source_color;
+uniform sampler2D height_map;
+
 float hash(vec2 p) {
   return fract(sin(dot(p * 17.17, vec2(14.91, 67.31))) * 4791.9511);
 }
@@ -27,15 +29,18 @@ float fbm(vec2 x) {
 void vertex() {
 	vec3 world_pos = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
   	float height = fbm(VERTEX.xz * 4.0);
+	float height_from_map = texture(height_map,world_pos.xy).r;
 	vec2 half_battlefield = vec2(battlefield_size.x/2.,battlefield_size.y/2.);
+	// CENTER OF BATTLFIELD, heightmap custom
 	if(
 		world_pos.x <half_battlefield.x && world_pos.x >-half_battlefield.x &&
 		world_pos.y < half_battlefield.y && world_pos.y >-half_battlefield.y
 		){
 		height =0.;
 	}
+
 	VERTEX.y += height * height_scale;
-	vec2 e = vec2(0.01, 0.0);
+	vec2 e = vec2(0.1, 0.0);
 	vec3 normal = normalize(vec3(fbm(VERTEX.xz - e) - fbm(VERTEX.xz + e), 2.0 * e.x, fbm(VERTEX.xz - e.yx) - fbm(VERTEX.xz + e.yx)));
 	NORMAL = normal;
 	COLOR.xyz = vec3(height);

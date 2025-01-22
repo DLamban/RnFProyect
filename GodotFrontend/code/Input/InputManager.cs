@@ -66,7 +66,7 @@ namespace GodotFrontend.code.Input
             // get the node of cursor effects
             MeshInstance3D cursorEffect = GetNode<MeshInstance3D>("CursorEffect") as MeshInstance3D;
             // load scene fireball fx
-            MeshInstance3D FireballFX = GD.Load<PackedScene>("res://Spells/fireball.tscn").Instantiate() as MeshInstance3D;
+            Node3D FireballFX = GD.Load<PackedScene>("res://Spells/fireball.tscn").Instantiate() as Node3D;
             AddChild(FireballFX);
 			FireballFX.Position = new Vector3(0, 0, 0);
 			FireballFX.Visible = false;

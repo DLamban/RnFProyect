@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://dpsexlp7rtu24"]
+[gd_scene load_steps=31 format=3 uid="uid://dpsexlp7rtu24"]
 
 [ext_resource type="Theme" uid="uid://c5l7fthgxiatx" path="res://assets/fonts/basic_theme.tres" id="1_7w5fx"]
 [ext_resource type="Script" path="res://UIcode/UICanvas.cs" id="1_uf8sf"]
@@ -16,6 +16,16 @@
 [ext_resource type="FontFile" uid="uid://d1abuqp2etn8q" path="res://assets/UI/fonts/fight16cleaned.png" id="14_3sye8"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_apgn1"]
+
+[sub_resource type="Environment" id="Environment_11ys5"]
+ambient_light_color = Color(0.820067, 0.80163, 0.38106, 1)
+ambient_light_energy = 2.5
+tonemap_mode = 3
+fog_enabled = true
+fog_light_color = Color(0, 0.143872, 0.309742, 1)
+fog_density = 0.0239
+volumetric_fog_density = 0.1473
+volumetric_fog_albedo = Color(0, 0.530222, 0.534151, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_jl446"]
 size = Vector3(1, 15.7183, 11.6635)
@@ -475,6 +485,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -13.8208)
 
 [node name="Camera3D" type="Camera3D" parent="CanvasGroup/AnchorProvider/DicePanel/Panel/diceView/DiceViewport/DiceTray"]
 transform = Transform3D(1, 0, 0, 0, 0.0871558, 0.996195, 0, -0.996195, 0.0871558, -1.31882, 14.809, 3.15111)
+environment = SubResource("Environment_11ys5")
 fov = 56.3
 size = 18.142
 

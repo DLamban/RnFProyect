@@ -1,7 +1,11 @@
-[gd_resource type="ShaderMaterial" load_steps=7 format=3 uid="uid://duj0gb6gya46f"]
+[gd_resource type="ShaderMaterial" load_steps=8 format=3 uid="uid://duj0gb6gya46f"]
 
 [ext_resource type="Shader" path="res://assets/3d/grass/grass_blade_normals.gdshader" id="1_lsli4"]
-[ext_resource type="Texture2D" uid="uid://xcq26wtb110h" path="res://assets/3d/grass/test_text2.png" id="2_428wh"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_w1xsp"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_3cvfu"]
+noise = SubResource("FastNoiseLite_w1xsp")
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_ckrc5"]
 fractal_type = 0
@@ -11,7 +15,7 @@ seamless = true
 noise = SubResource("FastNoiseLite_ckrc5")
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_mlof2"]
-noise_type = 2
+frequency = 0.0068
 fractal_type = 0
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_lvqql"]
@@ -31,4 +35,4 @@ shader_parameter/mesh_size = Vector2(15.24, 11.76)
 shader_parameter/displacement_force = 0.18
 shader_parameter/noise = SubResource("NoiseTexture2D_lvqql")
 shader_parameter/height_variance_tex = SubResource("NoiseTexture2D_ked7x")
-shader_parameter/data_texture = ExtResource("2_428wh")
+shader_parameter/data_texture = SubResource("NoiseTexture2D_3cvfu")

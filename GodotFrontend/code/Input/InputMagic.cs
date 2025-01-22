@@ -22,7 +22,7 @@ namespace GodotFrontend.code.Input
         private BattlefieldCursorPosDel battlefieldCursorPosDel;
         private MeshInstance3D cursorEffect;
         private UnitGodot unitSelected;
-        private MeshInstance3D FireballFX;
+        private Node3D FireballFX;
         public InputState inputState
         {
             get { return InputFSM.currentState; }
@@ -32,7 +32,7 @@ namespace GodotFrontend.code.Input
             }
         }
 
-        public InputMagic(BattlefieldCursorPosDel _battlefieldCursorPosDel, MeshInstance3D _cursorEffect, MeshInstance3D _fireballFX)
+        public InputMagic(BattlefieldCursorPosDel _battlefieldCursorPosDel, MeshInstance3D _cursorEffect, Node3D _fireballFX)
         {
             battlefieldCursorPosDel = _battlefieldCursorPosDel;
             cursorEffect = _cursorEffect;
@@ -83,17 +83,19 @@ namespace GodotFrontend.code.Input
                 unitSelected.magicSelectionFX.Visible = false;
                 // FIREBALL STATS, JUST TESTING
                 FireballFX.Visible = true;
-                FireballFX.Position = new Vector3(worldCenterSpell.X +3f, worldCenterSpell.Y+3f, 7.0f);
+                FireballFX.Position = new Vector3(worldCenterSpell.X +3f, worldCenterSpell.Y+3f, 3.0f);
                 Node fireballNodeParent = FireballFX.GetParent() as Node;
                 // create a simple tween to move the fireball
                 Tween tween = fireballNodeParent.CreateTween();
 
-                tween.TweenProperty(FireballFX, "position", new Vector3(worldCenterSpell.X, worldCenterSpell.Y, 0.0f),3.0);
+                tween.TweenProperty(FireballFX, "position", new Vector3(worldCenterSpell.X, worldCenterSpell.Y, 0.5f),4.0);
+  
                 await fireballNodeParent.ToSignal(tween, "finished");
+                AnimationPlayer fireballAnim = FireballFX.GetNode<AnimationPlayer>("AnimationPlayer");
+                fireballAnim.Play("explosion_floor");
+                
                 OnExecuteSpell?.Invoke(spellSelected, worldCenterSpell);
-                FireballFX.Visible = false;
-                await Task.Delay(500);
-
+                await fireballNodeParent.ToSignal(fireballAnim, "animation_finished");
 
 
                 int hits = await DiceThrower.Instance.ThrowDicesSum(2, "fireball hits");
