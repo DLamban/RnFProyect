@@ -555,7 +555,7 @@ public partial class UnitGodot : Node3D
 		for (int i = 0; i < troopCount; i++)
 		{
 			var troop = this.coreUnit.Troops[i];
-			PackedScene troopAsset = GD.Load<PackedScene>("res://units/troops/" + troop.AssetFile);
+			PackedScene troopAsset = GD.Load<PackedScene>("res://units/troops/"+coreUnit.Race +"/"+ troop.AssetFile);
 			Node3D troopWithBaseNode = (Node3D)troopAsset.Instantiate();			
 			
 			troopNodes.Add(troopWithBaseNode);

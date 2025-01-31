@@ -11,6 +11,7 @@ using Core.GeometricEngine;
 using Core.GameLoop;
 using System.Numerics;
 using Core.Magic;
+using Core.List;
 namespace Core.Units
 {
     using Hit = Tuple<Vector2, float>;
@@ -18,6 +19,7 @@ namespace Core.Units
     {
         
         // Characteristics of the unit
+        public string Race { get; set; }
         public string Name { get; set; }
         public Guid Guid { get; set; }
         public int UnitCount { get; set; }
@@ -89,7 +91,8 @@ namespace Core.Units
         // This constructor is for information purposes, creating a unit with a single troop
         // as a dummy unit to get da information
         [JsonConstructor]
-        public BaseUnit(string name, string type, string category, List<string> weapons, int minimum,List<string> specialRules, BaseTroop troop) { 
+        public BaseUnit(string race, string name, string type, string category, List<string> weapons, int minimum,List<string> specialRules, BaseTroop troop) {
+            Race = race;
             Name = name;
             Type = type;
             Category = category;
@@ -100,8 +103,9 @@ namespace Core.Units
         }
 
         // Unit constructor
-        public BaseUnit(string name,int troopsWidth, Formation_type formation_Type, List<string> specialRules, List<BaseTroop> troops)
+        public BaseUnit(string race, string name,int troopsWidth, Formation_type formation_Type, List<string> specialRules, List<BaseTroop> troops)
         {
+            Race = race;
             UnitCount = troops.Count;
             Name = name;
             TroopsWidth = troopsWidth;
@@ -114,6 +118,7 @@ namespace Core.Units
             reformTroops();
             restartCombatState();
         }
+        
         public void reformTroops()
         {
             if (formationType == Formation_type.CLOSE_ORDER)

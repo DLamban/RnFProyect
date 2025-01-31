@@ -1,10 +1,11 @@
-res://Spells
+res://units/troops/Orcs
+res://units/troops
 res://
 res://assets/3d/grass
+res://Spells
 res://units
 res://UIcode
 res://assets/UI
-res://units/troops
 res://code/terrainshader
 res://code/grassfield
 res://units/vfx

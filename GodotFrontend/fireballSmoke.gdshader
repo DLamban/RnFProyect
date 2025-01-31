@@ -48,9 +48,9 @@ float sdSmokeBall(vec3 p){
 	p = rotateAroundX(p,TAU*(fract(TIME/13.)));
 	float ball = sdBall(p)+0.15;
 	//ball = opSmoothUnion(ball, sdGyroid(p),0.1);
-	
-	
-	return ball; 
+
+
+	return ball;
 }
 
 float SDF(vec3 p){
@@ -62,7 +62,7 @@ struct Absorption_result{
 	float d_surface;
 };
 Absorption_result calculate_absorption(vec3 ro, vec3 rd, float depth){
-	
+
 	float ABSORPTIONRATE = 5.;
 	float distance_crossed =0.0;
 	float dist_surface = 0.0;
@@ -73,15 +73,15 @@ Absorption_result calculate_absorption(vec3 ro, vec3 rd, float depth){
 	vec3 cube_param = vec3(.4);
 	for (int i =0;i<MAX_STEPS;i++){
 		p = ro +rd *dfo;
-		
+
 		if (!inside_smoke){
 			float d = SDF(p);
 			dfo +=d;
 			if (d<SURFACE_DISTANCE){
 				dist_surface  = dfo;
-				inside_smoke = true;	
+				inside_smoke = true;
 			}
-		}	
+		}
 		else{
 			float d = SDF(p);
 			dfo+=MARCH_SMOKE_STEP;
@@ -90,11 +90,11 @@ Absorption_result calculate_absorption(vec3 ro, vec3 rd, float depth){
 			if (d>SURFACE_DISTANCE ) {
 
 				break;
-			}				
-		}			
-	}	
+			}
+		}
+	}
 	float absorption = 0.0;
-	if (distance_crossed>0.0){		
+	if (distance_crossed>0.0){
 		// Exponential
 		//absorption =  1.- exp(-distance_crossed*ABSORPTIONRATE);
 		// linear
@@ -108,7 +108,7 @@ struct RayMarchResult {
 };
 RayMarchResult ray_march_absorption_color(vec3 ro, vec3 rd, float depth){
 	Absorption_result absorption_res = calculate_absorption(ro,rd,depth);
-	
+
 	float density =absorption_res.absortion*1.;
 	vec4 color = vec4(mix(vec3(.05,.01,.01),vec3(.01,.0,0.),density), density );
 	return RayMarchResult(color,absorption_res.d_surface);
@@ -131,9 +131,9 @@ void fragment() {
 
 	RayMarchResult res = ray_march_absorption_color(ray_origin,ray_dir,linear_depth);
 	vec4 colorfinal = res.color;
-	
+
 	ALBEDO = colorfinal.rgb;
 	ALPHA = colorfinal.a;
 
-	
+
 }

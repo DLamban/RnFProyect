@@ -18,8 +18,11 @@ namespace Core.List
 
         Vector2 startPosAbomination = new Vector2(5, 0);
         Vector2 startPosGoblins = new Vector2(6f, 0.14f);
+        Vector2 startBoarRiders = new Vector2(-.5f, -0.94f);
+        
         Vector2 startPosDwarfos = new Vector2(0.5f, 1.15f);
         Vector2 startPosSlayers = new Vector2(2.8f, 0.65f);
+        Vector2 startPosCannon = new Vector2(2.8f, 1.65f);
         Vector2 startPosGyros = new Vector2(4.5f, 1.35f);
         Vector2 startPosElders = new Vector2(5.8f, 1.25f);
 
@@ -52,7 +55,9 @@ namespace Core.List
             BaseUnit goblins = unitManagerCore.CreateNewUnit("Goblins", listChar, 5, 17, startPosGoblins, 15);
             unitManagerCore.addPlayerUnit(goblins);
 
-            BaseUnit dragon = unitManagerCore.CreateNewUnit("Abomination", new List<Character>(), 1, 1, startPosAbomination, 15);
+            BaseUnit boarRiders = unitManagerCore.CreateNewUnit("Boar Riders", new List<Character>(), 5, 10, startBoarRiders, -20);
+            unitManagerCore.addPlayerUnit(boarRiders);
+            BaseUnit dragon = unitManagerCore.CreateNewUnit("Wyvern", new List<Character>(), 1, 1, startPosAbomination, 15);
             unitManagerCore.addPlayerUnit(dragon);
 
             //// PLAYER2
@@ -61,6 +66,8 @@ namespace Core.List
 
             BaseUnit slayers = unitManagerCore.CreateNewUnit("Slayers", new List<Character>(), 5, 7, startPosSlayers, 200);
             unitManagerCore.addEnemyUnit(slayers);
+            BaseUnit cannon = unitManagerCore.CreateNewUnit("Cannon", new List<Character>(), 1, 1, startPosCannon, 190);
+            unitManagerCore.addEnemyUnit(cannon);
 
             BaseUnit gyros = unitManagerCore.CreateNewUnit("Gyrocopters", new List<Character>(), 1, 1, startPosGyros, 190);
             unitManagerCore.addEnemyUnit(gyros);

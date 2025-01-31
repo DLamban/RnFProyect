@@ -2,6 +2,7 @@
   "Name": "Orcs",
   "Characters": [
     {
+      "Race": "Orcs",
       "Name": "Goblin Wizard",
       "AssetFile": "goblin_wizard25X25.tscn",
       "Type": "Infantry",
@@ -27,6 +28,7 @@
   ],
   "Units": [
     {
+      "Race": "Orcs",
       "Name": "Orcs",
       "Type": "Infantry",
       "Category": "CORE",
@@ -56,6 +58,7 @@
       }
     },
     {
+      "Race": "Orcs",
       "Name": "Goblins",
       "Type": "Infantry",
       "Category": "CORE",
@@ -81,6 +84,66 @@
         "Size": {
           "Width": 25,
           "Height": 25
+        }
+      }
+    },
+    {
+      "Race": "Orcs",
+      "Name": "Wyvern",
+      "Type": "Monster",
+      "Category": "RARE",
+      "Weapons": [ "claws" ],
+      "Minimum": 1,
+      "SpecialRules": [
+        "Close Order"
+      ],
+      "Troop": {
+        "Name": "Wyvern",
+        "AssetFile": "dragon_unit.tscn",
+        "Movement": 10,
+        "Dexterity": 3,
+        "Shooting": 3,
+        "Strength": 3,
+        "Resistance": 3,
+        "Wounds": 1,
+        "Attacks": 0,
+        "Initiative": 4,
+        "Leadership": 4,
+        "Armour": 1,
+        "Cost": 4,
+        "Size": {
+          "Width": 60,
+          "Height": 100
+        }
+      }
+    },
+    {
+      "Race": "Orcs",
+      "Name": "Boar Riders",
+      "Type": "Cavalry",
+      "Category": "SPECIAL",
+      "Weapons": [ "Hand Weapon"],
+      "Minimum": 4,
+      "SpecialRules": [
+        "Close Order"
+      ],
+      "Troop": {
+        "Name": "Boar rider",
+        "AssetFile": "boar_rider25x50.tscn",
+        "Movement": 7,
+        "Dexterity": 3,
+        "Shooting": 3,
+        "Strength": 3,
+        "Resistance": 4,
+        "Wounds": 1,
+        "Attacks": 1,
+        "Initiative": 3,
+        "Leadership": 6,
+        "Armour": 1,
+        "Cost": 15,
+        "Size": {
+          "Width": 25,
+          "Height": 50
         }
       }
     }

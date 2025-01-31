@@ -2,6 +2,7 @@
   "Name": "Dwarfs",
   "Units": [
     {
+      "Race": "Dwarfs",
       "Name": "Dwarf Warriors",
       "Type": "Infantry",
       "Category": "Core",
@@ -31,6 +32,7 @@
       }
     },
     {
+      "Race": "Dwarfs",
       "Name": "Slayers",
       "Type": "Infantry",
       "Category": "Special",
@@ -60,6 +62,7 @@
       }
     },
     {
+      "Race": "Dwarfs",
       "Name": "Elder Dwarfs",
       "Type": "Infantry",
       "Category": "Core",
@@ -89,6 +92,7 @@
       }
     },
     {
+      "Race": "Dwarfs",
       "Name": "Gyrocopters",
       "Type": "Cavalry",
       "Category": "Special",
@@ -112,6 +116,36 @@
         "Leadership": 9,
         "Armour": 3,
         "Cost": 60,
+        "Size": {
+          "Width": 50,
+          "Height": 50
+        }
+      }
+    },
+    {
+      "Race": "Dwarfs",
+      "Name": "Cannon",
+      "Type": "War machine",
+      "Category": "Special",
+      "Weapons": [ "Hand Weapon", "Cannon" ],
+      "Minimum": 1,
+      "SpecialRules": [
+        "Skirmishers"
+      ],
+      "Troop": {
+        "Name": "Cannon",
+        "AssetFile": "cannon50x50.tscn",
+        "Movement": 3,
+        "Dexterity": 3,
+        "Shooting": 3,
+        "Strength": 3,
+        "Resistance": 7,
+        "Wounds": 3,
+        "Attacks": 1,
+        "Initiative": 2,
+        "Leadership": 9,
+        "Armour": 1,
+        "Cost": 100,
         "Size": {
           "Width": 50,
           "Height": 50

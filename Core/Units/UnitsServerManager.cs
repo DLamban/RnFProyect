@@ -91,7 +91,7 @@ namespace Core.Units
                 //BaseTroop baseTroop = Basicrat
                 troops.Add(baseTroop);
             }
-            BaseUnit baseunit = new BaseUnit(unitType.Name, widthRank, Formation_type.CLOSE_ORDER, new List<string> { "Reglaespecial1", "Reglaespecial2" }, troops);
+            BaseUnit baseunit = new BaseUnit(unitType.Race, unitType.Name, widthRank, Formation_type.CLOSE_ORDER, new List<string> { "Reglaespecial1", "Reglaespecial2" }, troops);
             foreach (Character character in characters)
             {
                 baseunit.AddCharacter(character);
