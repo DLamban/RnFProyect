@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://2gnddn1o74ej"]
+
+[ext_resource type="PackedScene" uid="uid://dgm22hc4qpq1i" path="res://assets/3d/troops/Bases/MiniatureBase25x50.glb" id="1_1jjss"]
+[ext_resource type="PackedScene" uid="uid://b0daok2tm4e4" path="res://assets/3d/troops/Orcs/boarBoyz.glb" id="2_1yg2x"]
+
+[node name="troop" type="Node3D"]
+
+[node name="MiniatureBase25x50" parent="." instance=ExtResource("1_1jjss")]
+transform = Transform3D(1.91069e-15, 4.37114e-08, 1, 1, -4.37114e-08, 0, 4.37114e-08, 1, -4.37114e-08, 0, 0, 0.011)
+
+[node name="boarBoyz" parent="." instance=ExtResource("2_1yg2x")]
+transform = Transform3D(-0.1, 8.74228e-09, 3.82137e-16, 0, -4.37114e-09, 0.1, 8.74228e-09, 0.1, 4.37114e-09, 0, 0, 0.0164696)

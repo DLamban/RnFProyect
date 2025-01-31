@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://cqheyfynf85bh" path="res://assets/3d/rocks/diffuse.tga" id="3_gussy"]
 [ext_resource type="Texture2D" uid="uid://csvlb4r6swly1" path="res://assets/3d/rocks/normal.tga" id="4_sfr6v"]
 [ext_resource type="Texture2D" uid="uid://c0lg0mak26gj2" path="res://assets/3d/rocks/specular.tga" id="5_5gq1p"]
-[ext_resource type="PackedScene" uid="uid://ckusx353835ca" path="res://units/troops/dragon.tscn" id="6_07ln6"]
+[ext_resource type="PackedScene" uid="uid://ckusx353835ca" path="res://units/troops/Orcs/dragon.tscn" id="6_07ln6"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3ofa8"]
 albedo_texture = ExtResource("3_gussy")

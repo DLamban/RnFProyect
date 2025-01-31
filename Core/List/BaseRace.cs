@@ -14,7 +14,7 @@ namespace Core.List
         public BaseRace(string name, List<Character> characters, List<BaseUnit> units)
         {
             Name = name;            
-            Units = units;
+            Units = units;            
             if (characters == null)  characters = new List<Character>();
             Characters = characters;
         }        
