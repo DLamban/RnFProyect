@@ -119,6 +119,7 @@ offset_bottom = 1080.0
 mouse_filter = 2
 
 [node name="CharacteristicsPanelPlayer" type="Panel" parent="CanvasGroup/AnchorProvider"]
+visible = false
 layout_mode = 1
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -275,6 +276,7 @@ text = "2"
 horizontal_alignment = 2
 
 [node name="CharacteristicsPanelEnemy" type="Panel" parent="CanvasGroup/AnchorProvider"]
+visible = false
 layout_mode = 0
 offset_left = 1600.0
 offset_right = 1600.0
@@ -546,6 +548,7 @@ horizontal_alignment = 1
 uppercase = true
 
 [node name="GameStatusContainer" type="CenterContainer" parent="CanvasGroup/AnchorProvider"]
+visible = false
 custom_minimum_size = Vector2(1920, 220)
 layout_mode = 0
 offset_right = 3193.0

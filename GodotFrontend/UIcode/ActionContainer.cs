@@ -30,10 +30,15 @@ public partial class ActionContainer : PanelContainer
     }
     List<ActionGeneric> strategicActions = new List<ActionGeneric>();
     List<ActionGeneric> chargeActions = new List<ActionGeneric>();
+    List<ActionGeneric> moveActions = new List<ActionGeneric>();
+    List<ActionGeneric> shootingActions = new List<ActionGeneric>();
 
     List<ActionButton> strategicActionButtons = new List<ActionButton>();
     List<ActionButton> chargeActionButtons = new List<ActionButton>();
-	List<List<ActionButton>> allActions = new List<List<ActionButton>>();
+    List<ActionButton> moveActionButtons = new List<ActionButton>();
+    List<ActionButton> shootingActionButtons = new List<ActionButton>();
+
+    List<List<ActionButton>> allActions = new List<List<ActionButton>>();
 
 	#region nodestosendsignals
 	PanelContainer spellContainer;
@@ -43,11 +48,13 @@ public partial class ActionContainer : PanelContainer
     ReactiveInput reactiveInput;
     #endregion
     Button endSubPhaseButton;
-
-	public override async void _Ready()
-	{
-        
-
+	// FEEDBACK vars
+	Label inputPhaseLabel;
+    Label subPhaseLabel;
+    public override async void _Ready()
+	{        
+        inputPhaseLabel = GetNode<Label>("VBoxContainer/CenterContainer2/InputPhaseLabel");
+        subPhaseLabel = GetNode<Label>("VBoxContainer/CenterContainer/SubPhaseLabel");
         actionBtnContainer = GetNode<HBoxContainer>("VBoxContainer/MainHBox/HBoxContainer");
 		endSubPhaseButton = GetNode<Button>("VBoxContainer/MainHBox/MarginContainer/ActionButton");
 		endSubPhaseButton.Pressed += endSubPhase;
@@ -57,9 +64,11 @@ public partial class ActionContainer : PanelContainer
         inputManager = GetTree().CurrentScene.GetNode<Node3D>("Battlefield") as InputManager;
 
         await ToSignal(inputManager, SignalName.Ready);
-        inputCharge = inputManager.inputCharge; 
+		
+		inputCharge = inputManager.inputCharge; 
 		reactiveInput = inputManager.reactiveInput;
-        inputResolveCharge = inputManager.inputResolveCharge;
+        
+		inputResolveCharge = inputManager.inputResolveCharge;
 		inputResolveCharge.OnChargeSelectedToExecute += (visibility) => { toogleVisibility("Charge", visibility); };
         populateActions();
 		activateStrategicActions();
@@ -76,7 +85,12 @@ public partial class ActionContainer : PanelContainer
 				else
 				{
                     await reactiveInput.ResolveCharges(inputCharge.charges);
-                    inputManager.setUpResolveChargesInputphase();
+                    // After the await we have all the charge reactions
+					endSubPhaseButton.Disabled = true;
+					endSubPhaseButton.TooltipText = "Resolve declared charges first";
+                    Action action = () => { endSubPhaseButton.Disabled = false; };
+                    inputManager.setUpResolveChargesInputphase(action);
+
                 }                    
                 break;
 			default:
@@ -105,14 +119,45 @@ public partial class ActionContainer : PanelContainer
 		switch (subBattleStatePhase)
 		{
 			case SubBattleStatePhase.strategic:
-				activateStrategicActions();
+				enterStrategicPhase();				
 				break;
 			case SubBattleStatePhase.charge:
-				activateChargeActions();
+				enterChargePhase();                
 				break;
-		}
+            case SubBattleStatePhase.move:
+                enterMovePhase();
+                break;
+
+            case SubBattleStatePhase.shoot:
+                enterShootingPhase();
+                break;
+        }
 	}
-	private void disableActions()
+    private void enterStrategicPhase()
+    {
+        inputPhaseLabel.Text = "Strategic Phase";
+        subPhaseLabel.Text = "Strategic";
+        activateStrategicActions();
+    }
+    private void enterChargePhase()
+    {
+        inputPhaseLabel.Text = "Move Phase";
+        subPhaseLabel.Text = "charge";
+		activateChargeActions();
+    }
+    private void enterMovePhase()
+    {
+        inputPhaseLabel.Text = "Move Phase";
+        subPhaseLabel.Text = "Move";
+        activateChargeActions();
+    }
+	private void enterShootingPhase()
+	{
+        inputPhaseLabel.Text = "Shooting Phase";
+        subPhaseLabel.Text = "charge";
+		activateShootingActions();
+    }
+    private void disableActions()
 	{
 		foreach ( var actionList in allActions)
 		{
@@ -137,14 +182,35 @@ public partial class ActionContainer : PanelContainer
 			action.Visible = true;
 		}
 	}
-	#region populateActions
-	public void populateActions()
+    private void activateShootingActions()
+    {
+        foreach (var action in shootingActionButtons)
+        {
+            action.Visible = true;
+        }
+    }
+    #region populateActions
+    public void populateActions()
 	{		
 		strategicActionButtons =  createStrategicActions();
 		allActions.Add(strategicActionButtons);
+		
 		chargeActionButtons = createChargeActions();
 		allActions.Add(chargeActionButtons);
-	}
+
+        shootingActionButtons = createShootingActions();
+        allActions.Add(shootingActionButtons);
+    }
+    private List<ActionButton> createShootingActions()
+    {
+        Action actionSpells = () =>
+        {
+            spellContainer.Visible = true;
+        };
+        strategicActions.Add(new ActionGeneric("Spells", actionSpells));
+        shootingActions.Add(new ActionGeneric("Shoot", () => { }));
+        return createActions(shootingActions);
+    }
 
 	private List<ActionButton> createStrategicActions()
 	{

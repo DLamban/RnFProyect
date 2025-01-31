@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://djsgsppvwyqar"]
+[gd_scene load_steps=4 format=3 uid="uid://djsgsppvwyqar"]
 
 [ext_resource type="PackedScene" uid="uid://gyh0c8ideubq" path="res://assets/3d/troops/Bases/MiniatureBase25x25.glb" id="2_2lw2y"]
+[ext_resource type="PackedScene" uid="uid://br22g15ify7wp" path="res://assets/3d/weapons/simple_bow.glb" id="3_ha5n8"]
 [ext_resource type="PackedScene" uid="uid://ch4xi27ub31fo" path="res://assets/3d/troops/Orcs/Goblin_MaleWIP.glb" id="3_lkkny"]
 
 [node name="troop" type="Node3D"]
@@ -10,3 +11,52 @@ transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 
 
 [node name="Goblin_MaleWIP2" parent="." instance=ExtResource("3_lkkny")]
 transform = Transform3D(-0.129921, 0, -0.00453692, -0.00453692, -5.68248e-09, 0.129921, -1.98315e-10, 0.13, 5.67903e-09, 0, 0, 0.0254849)
+
+[node name="Skeleton3D" parent="Goblin_MaleWIP2/CharacterArmature" index="0"]
+bones/1/position = Vector3(0.265425, 0.0246629, -0.0450554)
+bones/1/rotation = Quaternion(5.19753e-06, 0.702952, 0.711237, 5.33237e-06)
+bones/2/position = Vector3(0.00345641, 0.965299, 0.0988149)
+bones/2/rotation = Quaternion(-0.000513423, 0.00269969, 2.46359e-05, 0.999996)
+bones/3/position = Vector3(-0.00147993, -0.0667749, -0.0462423)
+bones/3/rotation = Quaternion(-0.0507688, -2.6743e-07, -2.27757e-08, 0.99871)
+bones/4/rotation = Quaternion(0.0746338, 4.36664e-07, 4.61374e-08, 0.997211)
+bones/5/rotation = Quaternion(-0.00683997, -8.32433e-07, -1.53071e-09, 0.999977)
+bones/6/rotation = Quaternion(-0.0319862, 2.41971e-05, 0.000139822, 0.999488)
+bones/7/rotation = Quaternion(-4.19095e-09, -0.000275475, 8.93387e-13, 1)
+bones/8/position = Vector3(0.133215, 0.141585, 0.0134717)
+bones/9/rotation = Quaternion(-0.445584, -0.20921, -0.749066, 0.443381)
+bones/10/rotation = Quaternion(-0.0403609, 0.224593, -0.141876, 0.963224)
+bones/11/rotation = Quaternion(0.0163235, 0.156287, -0.0113359, 0.987512)
+bones/12/position = Vector3(-0.143345, 0.142546, 0.0134565)
+bones/13/rotation = Quaternion(-0.448714, 0.202352, 0.755786, 0.431852)
+bones/14/rotation = Quaternion(-0.0403528, -0.224593, 0.141827, 0.963232)
+bones/15/rotation = Quaternion(0.0163062, -0.156286, 0.0113298, 0.987512)
+bones/17/position = Vector3(0.216307, -0.0167022, -0.0559238)
+bones/17/rotation = Quaternion(0.991242, 0.0296403, 0.00172455, 0.128678)
+bones/17/scale = Vector3(1, 1.00001, 1.00008)
+bones/18/rotation = Quaternion(0.316104, 0.00339975, 0.00922338, 0.948674)
+bones/18/scale = Vector3(0.999999, 0.99998, 0.999984)
+bones/19/position = Vector3(-0.213369, -0.0167022, -0.0559241)
+bones/19/rotation = Quaternion(0.99142, -0.0336044, 0.00172613, 0.126312)
+bones/19/scale = Vector3(1, 1, 1.00008)
+bones/20/rotation = Quaternion(0.314462, -0.00338377, -0.00922928, 0.949219)
+bones/20/scale = Vector3(0.999999, 0.99998, 0.999984)
+bones/21/position = Vector3(0.239757, 0.724533, 0.963147)
+bones/21/rotation = Quaternion(7.38591e-09, 1.82096e-07, -0.0405272, 0.999179)
+bones/22/position = Vector3(-0.262802, 0.0246629, -0.0450557)
+bones/22/rotation = Quaternion(-5.64915e-06, 0.702952, 0.711237, -4.99718e-06)
+bones/23/position = Vector3(-0.229226, 0.724533, 0.963147)
+bones/23/rotation = Quaternion(-3.55273e-15, -5.96046e-07, 3.38813e-21, 1)
+
+[node name="Club" parent="Goblin_MaleWIP2/CharacterArmature/Skeleton3D" index="0"]
+transform = Transform3D(-0.969454, 0.051587, -0.935591, -0.907354, 0.284337, 0.955873, 0.23388, 1.31694, -0.169731, -0.441559, 0.973601, 0.11276)
+
+[node name="BoneAttachment3D" type="BoneAttachment3D" parent="Goblin_MaleWIP2/CharacterArmature/Skeleton3D" index="2"]
+transform = Transform3D(-0.966228, 0.0194631, 0.256954, 0.0170474, -0.990131, 0.139101, 0.257126, 0.138784, 0.956361, 0.438916, 1.17799, 0.0550996)
+bone_name = "Fist.L"
+bone_idx = 11
+
+[node name="simple_bow" parent="Goblin_MaleWIP2/CharacterArmature/Skeleton3D/BoneAttachment3D" instance=ExtResource("3_ha5n8")]
+transform = Transform3D(-0.682107, 0.560015, -1.79475, -1.87767, -0.106054, 0.68053, 0.0953836, 1.91706, 0.561931, -0.0289721, -0.23563, 0.416601)
+
+[editable path="Goblin_MaleWIP2"]

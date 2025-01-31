@@ -19,8 +19,8 @@ namespace Core.GameLoop
     public enum SubBattleStatePhase { 
         strategic,
         charge,
+        //compulsory_move,
         move,
-        compulsory_move,
         shoot,
         combat
     }

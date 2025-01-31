@@ -25,7 +25,8 @@ namespace GodotFrontend.code.Input
 		private InputMovePhase inputMovePhase;
 		public InputMagic inputMagic;
 		public InputCharge inputCharge;
-		public InputResolveCharge inputResolveCharge; 
+        public InputShootPhase inputShootPhase;
+        public InputResolveCharge inputResolveCharge; 
         public ReactiveInput reactiveInput;
 
 
@@ -73,7 +74,8 @@ namespace GodotFrontend.code.Input
             // create the subinput child managers
             inputMovePhase = new InputMovePhase(getBattlefieldCursorPosDel);
             inputMagic = new InputMagic(getBattlefieldCursorPosDel, cursorEffect, FireballFX);
-			inputCharge = new InputCharge(getBattlefieldCursorPosDel);
+            inputShootPhase = new InputShootPhase(getBattlefieldCursorPosDel);
+            inputCharge = new InputCharge(getBattlefieldCursorPosDel);
 			
 
 			Panel blockPanel = GetNode<Panel>("UnitManager/HUD/CanvasGroup/AnchorProvider/BlockGamePanel");
@@ -98,18 +100,26 @@ namespace GodotFrontend.code.Input
 				case SubBattleStatePhase.move:
 					setUpMovementInputPhase();
 					break;
+				case SubBattleStatePhase.shoot:
+					setUpShootInputSubPhase();
+					break;
                 default:
                     Debug.WriteLine("state not implemented");
                     break;
             }
         }
 		// Breaking the patterns, sorry
-        public  void setUpResolveChargesInputphase()
+        public void setUpResolveChargesInputphase(Action OnfinishResolvingCharges)
         {
             inputState = InputState.ResolvingCharges;
             currentStateProccess = inputResolveCharge.CustomProcess;
 
-            inputResolveCharge.setChargesToResolve(inputCharge.charges);            
+            inputResolveCharge.setChargesToResolve(inputCharge.charges,OnfinishResolvingCharges);            
+        }
+		private void setUpShootInputSubPhase()
+		{
+            inputState = InputState.Empty;
+            currentStateProccess = inputShootPhase.CustomProcess;
         }
         private void setUpChargeInputSubPhase()
 		{
@@ -151,6 +161,9 @@ namespace GodotFrontend.code.Input
                     case SubBattleStatePhase.move:
                         SelectUnitToMove(unitSelect);
                         break;
+					case SubBattleStatePhase.shoot:
+                        inputShootPhase.clickUnit(unitSelect);
+						break;
                     default:
 						throw new NotImplementedException();
 						break;                        

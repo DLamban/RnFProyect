@@ -42,7 +42,7 @@ namespace Core.List
             //EXAMPLE
             //BaseUnit baseunit = new BaseUnit(unitType.Name, widthRank, Formation_type.CLOSE_ORDER, new List<string> { "Reglaespecial1", "Reglaespecial2" }, troops);
 
-            
+            // ORCSSSSSSSSS
             BaseUnit orcs = unitManagerCore.CreateNewUnit("Orcs", new List<Character>(), 5, 20, startPosRatis2, 20);
             unitManagerCore.addPlayerUnit(orcs);
 
@@ -56,6 +56,7 @@ namespace Core.List
             unitManagerCore.addPlayerUnit(dragon);
 
             //// PLAYER2
+            ///DWARSSSSSSSSSSS
             BaseUnit dwarfos = unitManagerCore.CreateNewUnit("Dwarf Warriors", new List<Character>(), 5, 13, startPosDwarfos, 130);
             unitManagerCore.addEnemyUnit(dwarfos);
 

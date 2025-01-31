@@ -1,3 +1,5 @@
+res://assets/3d
+res://shaders
 res://assets/3d/trees/Meshes
 res://Spells
 res://
@@ -12,5 +14,4 @@ res://units/vfx
 res://code/Input
 res://assets/fonts
 res://dices_resources
-res://assets/3d
 res://code

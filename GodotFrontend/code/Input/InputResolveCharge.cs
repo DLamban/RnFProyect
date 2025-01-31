@@ -12,15 +12,18 @@ namespace GodotFrontend.code.Input
         private List<Charge> chargesToResolve;
         private Charge chargeSelected;
         private CanvasLayer canvasLayer;
+        private Action OnResolvedAllCharges;
         // EVENTS
         public event Action<bool> OnChargeSelectedToExecute;
+        
         public  InputResolveCharge()
         {
 
         }
-        public void setChargesToResolve(List<Charge> charges)
+        public void setChargesToResolve(List<Charge> charges,Action _OnfinishResolvingCharges)
         {
             chargesToResolve = charges;
+            OnResolvedAllCharges = _OnfinishResolvingCharges;
         }
         public void selectCharge(UnitGodot unit)
         {
@@ -36,12 +39,18 @@ namespace GodotFrontend.code.Input
                 OnChargeSelectedToExecute?.Invoke(false);
             }
         }
-        public void executeCharge()
+        public async void executeCharge()
         {
             OnChargeSelectedToExecute?.Invoke(false);
             chargeSelected.arrow.Visible = false;
-            chargeSelected.chargingUnit.charge();
+            await chargeSelected.chargingUnit.charge();
             chargeSelected.chargedUnit.hideChargingResponseBillboard();
+            chargesToResolve.Remove(chargeSelected);
+            if (chargesToResolve.Count == 0)
+            {
+                chargeSelected = null;
+                OnResolvedAllCharges?.Invoke();
+            }
 
         }
         new public void CustomProcess(double delta)

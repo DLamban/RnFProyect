@@ -1,5 +1,4 @@
-res://assets/3d/trees/Meshes/birch1.res
-res://battlefield.tscn
+res://UICanvas.tscn
 res://assets/fonts/basic_theme.tres
 res://Spellselectioncanvas.gdshader
 res://units/vfx/magicselectshader.gdshader
@@ -8,12 +7,17 @@ res://assets/3d/grass/grass_shader_material.tres
 res://assets/3d/grass/grass_blade_straightfinal.res
 res://code/terrainshader/battlefield.gdshader
 res://fireballSmoke.gdshader
+res://shaders/terrain.gdshader
 res://units/vfx/selectshader.gdshader
 res://tilitshift.gdshader
 res://SDFObjects.gdshader
 res://ObjectSDF.gdshader
 res://smokeSDF.gdshader
-res://UICanvas.tscn
+res://battlefield.tscn
 res://assets/UI/Actions_button.tscn
 res://units/troops/base_unit.tscn
 res://Spells/fireball.tscn
+res://units/troops/goblin_club25X25.tscn
+res://units/troops/orc30x30.tscn
+res://units/troops/dwarf25x25.tscn
+res://units/troops/longbeard25X25.tscn

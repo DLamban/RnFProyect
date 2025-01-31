@@ -259,7 +259,7 @@ public partial class UnitGodot : Node3D
 		//inputButtonsNode.AddChild(selectMenu.layer);
 	}
 	#region CHARGE_REGION
-	public async void charge()
+	public async Task charge()
 	{
 		// TODO: DECLARE charge reactions		
 			
@@ -295,8 +295,8 @@ public partial class UnitGodot : Node3D
 			// BREAK FOREACH FOR NOW
 			break;
 		}	
-		
-	}
+		return;
+    }
 	// Watch out for charge reactions
 	private void calcChargeResult(HitCollider hitCollider)
 	{
