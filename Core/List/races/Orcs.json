@@ -24,6 +24,30 @@
         "Width": 25,
         "Height": 25
       }
+    },
+    {
+      "Race": "Orcs",
+      "Name": "Warlord Black Orc",
+      "AssetFile": "WarlordBlack.tscn",
+      "Type": "Infantry",
+      "Category": "CHARACTER",
+      "Weapons": [ "Hand Weapon" ],
+      "SpecialRules": [],
+      "Movement": 4,
+      "Dexterity": 7,
+      "Shooting": 3,
+      "Strength": 5,
+      "Resistance": 5,
+      "Wounds": 3,
+      "Attacks": 4,
+      "Initiative": 6,
+      "Leadership": 9,
+      "Armour": 3,
+      "Cost": 135,
+      "Size": {
+        "Width": 30,
+        "Height": 30
+      }
     }
   ],
   "Units": [
@@ -122,7 +146,7 @@
       "Name": "Boar Riders",
       "Type": "Cavalry",
       "Category": "SPECIAL",
-      "Weapons": [ "Hand Weapon"],
+      "Weapons": [ "Hand Weapon" ],
       "Minimum": 4,
       "SpecialRules": [
         "Close Order"
@@ -144,6 +168,36 @@
         "Size": {
           "Width": 25,
           "Height": 50
+        }
+      }
+    },
+    {
+      "Race": "Orcs",
+      "Name": "Heavy Orcs",
+      "Type": "Infantry",
+      "Category": "SPECIAL",
+      "Weapons": [ "Hand Weapon" ],
+      "Minimum": 5,
+      "SpecialRules": [
+        "Close Order"
+      ],
+      "Troop": {
+        "Name": "Heavy Orc",
+        "AssetFile": "Blackorc30x30.tscn",
+        "Movement": 4,
+        "Dexterity": 3,
+        "Shooting": 3,
+        "Strength": 4,
+        "Resistance": 4,
+        "Wounds": 1,
+        "Attacks": 1,
+        "Initiative": 3,
+        "Leadership": 8,
+        "Armour": 3,
+        "Cost": 12,
+        "Size": {
+          "Width": 30,
+          "Height": 30
         }
       }
     }

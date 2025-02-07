@@ -1,5 +1,31 @@
 {
   "Name": "Dwarfs",
+  "Characters": [
+    {
+      "Race": "Dwarfs",
+      "Name": "King Dwarf",
+      "AssetFile": "kingDwarf25x25.tscn",
+      "Type": "Infantry",
+      "Category": "CHARACTER",
+      "Weapons": [ "Hand Weapon" ],
+      "SpecialRules": [],
+      "Movement": 3,
+      "Dexterity": 7,
+      "Shooting": 4,
+      "Strength": 4,
+      "Resistance": 5,
+      "Wounds": 3,
+      "Attacks": 4,
+      "Initiative": 4,
+      "Leadership": 10,
+      "Armour": 3,
+      "Cost": 125,
+      "Size": {
+        "Width": 25,
+        "Height": 25
+      }
+    }
+  ],
   "Units": [
     {
       "Race": "Dwarfs",
@@ -55,6 +81,36 @@
         "Leadership": 10,
         "Armour": 0,
         "Cost": 12,
+        "Size": {
+          "Width": 25,
+          "Height": 25
+        }
+      }
+    },
+    {
+      "Race": "Dwarfs",
+      "Name": "Crossbowmen",
+      "Type": "Infantry",
+      "Category": "Core",
+      "Weapons": [ "Hand Weapon", "Crossbow" ],
+      "Minimum": 5,
+      "SpecialRules": [
+        "Close Order"
+      ],
+      "Troop": {
+        "Name": "Crossbowman",
+        "AssetFile": "crossbow25x25.tscn",
+        "Movement": 3,
+        "Dexterity": 3,
+        "Shooting": 3,
+        "Strength": 3,
+        "Resistance": 4,
+        "Wounds": 1,
+        "Attacks": 1,
+        "Initiative": 2,
+        "Leadership": 9,
+        "Armour": 2,
+        "Cost": 9,
         "Size": {
           "Width": 25,
           "Height": 25
@@ -153,5 +209,5 @@
       }
     }
   ]
-  
+
 }

@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://6qs2rl4c7dp0"]
+
+[ext_resource type="PackedScene" uid="uid://gyh0c8ideubq" path="res://assets/3d/troops/Bases/MiniatureBase25x25.glb" id="1_dc4to"]
+[ext_resource type="PackedScene" uid="uid://bg4kdsmwsl300" path="res://assets/3d/troops/Dwarfs/KINGdwarf.glb" id="2_u3rld"]
+
+[node name="troop" type="Node3D"]
+
+[node name="MiniatureBase" parent="." instance=ExtResource("1_dc4to")]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0.0113711)
+
+[node name="KINGdwarf" parent="." instance=ExtResource("2_u3rld")]
+transform = Transform3D(-0.12, 1.81195e-08, 7.92028e-16, 0, -5.24537e-09, 0.12, 1.81195e-08, 0.12, 5.24537e-09, 0, 0, 0.0206559)

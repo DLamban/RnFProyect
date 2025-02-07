@@ -4,6 +4,7 @@ using Core.Networking;
 using Core.Rules;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Numerics;
 using System.Text;
@@ -80,25 +81,34 @@ namespace Core.Units
         }
         private BaseUnit instantiateUnit(string unitName,List<Character> characters, int widthRank, int unitCount, Guid guid)
         {
-            BaseUnit unitType = CodexAll.Instance.getUnitCodex(unitName);
-
-            string jsonString = JsonSerializer.Serialize(unitType.Troop);
-            List<BaseTroop> troops = new List<BaseTroop>();
-
-            for (int i = 0; i < unitCount; i++)
+            
+            try
             {
-                BaseTroop baseTroop = JsonSerializer.Deserialize<BaseTroop>(jsonString);
-                //BaseTroop baseTroop = Basicrat
-                troops.Add(baseTroop);
-            }
-            BaseUnit baseunit = new BaseUnit(unitType.Race, unitType.Name, widthRank, Formation_type.CLOSE_ORDER, new List<string> { "Reglaespecial1", "Reglaespecial2" }, troops);
-            foreach (Character character in characters)
-            {
-                baseunit.AddCharacter(character);
-            }
+                BaseUnit unitType = CodexAll.Instance.getUnitCodex(unitName);
+                       
+                string jsonString = JsonSerializer.Serialize(unitType.Troop);
+                List<BaseTroop> troops = new List<BaseTroop>();
 
-            baseunit.Guid = guid;
-            return baseunit;
+                for (int i = 0; i < unitCount; i++)
+                {
+                    BaseTroop baseTroop = JsonSerializer.Deserialize<BaseTroop>(jsonString);
+                    //BaseTroop baseTroop = Basicrat
+                    troops.Add(baseTroop);
+                }
+                BaseUnit baseunit = new BaseUnit(unitType.Race, unitType.Name, widthRank, Formation_type.CLOSE_ORDER, new List<string> { "Reglaespecial1", "Reglaespecial2" }, troops);
+                foreach (Character character in characters)
+                {
+                    baseunit.AddCharacter(character);
+                }
+
+                baseunit.Guid = guid;
+                return baseunit;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Cannot find unit" + unitName);
+                throw;
+            }
         }
         
         public void addPlayerUnit(BaseUnit unit)

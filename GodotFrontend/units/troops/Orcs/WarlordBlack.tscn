@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://cvbmqnrm5d8yr"]
+
+[ext_resource type="PackedScene" uid="uid://bvpgxloy37mtl" path="res://assets/3d/troops/Bases/MiniatureBase30x30.glb" id="1_q41as"]
+[ext_resource type="PackedScene" uid="uid://47r2f7u5v3j4" path="res://assets/3d/troops/Orcs/BlackOrkBoss1.glb" id="2_osi0n"]
+
+[node name="troop" type="Node3D"]
+
+[node name="MiniatureBase30x30" parent="." instance=ExtResource("1_q41as")]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0.011)
+
+[node name="BlackOrkBoss1" parent="." instance=ExtResource("2_osi0n")]
+transform = Transform3D(-0.16, 2.41593e-08, 1.05604e-15, 0, -6.99382e-09, 0.16, 2.41593e-08, 0.16, 6.99382e-09, 0, 0, 0.0204218)

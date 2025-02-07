@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://cwyq86j3gcgrn"]
+
+[ext_resource type="PackedScene" uid="uid://gyh0c8ideubq" path="res://assets/3d/troops/Bases/MiniatureBase25x25.glb" id="1_khwbk"]
+[ext_resource type="PackedScene" uid="uid://dw50gb28yv1bo" path="res://assets/3d/troops/Dwarfs/quarreler_WIP.glb" id="2_baad6"]
+[ext_resource type="PackedScene" uid="uid://b3n7psnlrehm0" path="res://assets/3d/weapons/crossbow.glb" id="3_jan7c"]
+
+[node name="troop" type="Node3D"]
+
+[node name="MiniatureBase" parent="." instance=ExtResource("1_khwbk")]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0.0113711)
+
+[node name="quarreler_WIP" parent="." instance=ExtResource("2_baad6")]
+transform = Transform3D(-0.1, 8.74228e-09, 3.82137e-16, 0, -4.37114e-09, 0.1, 8.74228e-09, 0.1, 4.37114e-09, 0, 0, 0.023)
+
+[node name="BoneAttachment3D" type="BoneAttachment3D" parent="quarreler_WIP/CharacterArmature/Skeleton3D" index="1"]
+transform = Transform3D(-0.0450779, -0.998873, -0.0148321, 0.0383696, -0.0165674, 0.999126, -0.998246, 0.0444695, 0.0390732, -0.79727, 1.27582, -0.0161771)
+bone_name = "Fist.R"
+bone_idx = 15
+
+[node name="crossbow" parent="quarreler_WIP/CharacterArmature/Skeleton3D/BoneAttachment3D" instance=ExtResource("3_jan7c")]
+transform = Transform3D(0.643039, 0.764441, 0.0461646, -0.758981, 0.628082, 0.171635, 0.102209, -0.145406, 0.984078, 0.00744903, 0.19647, 0.381233)
+
+[editable path="quarreler_WIP"]

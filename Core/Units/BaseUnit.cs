@@ -22,7 +22,7 @@ namespace Core.Units
         public string Race { get; set; }
         public string Name { get; set; }
         public Guid Guid { get; set; }
-        public int UnitCount { get; set; }
+        public int UnitCount { get { return  Troops.Count; } }
         public int Points { get; set; }
         /// <summary>
         /// The width in troops count
@@ -106,7 +106,7 @@ namespace Core.Units
         public BaseUnit(string race, string name,int troopsWidth, Formation_type formation_Type, List<string> specialRules, List<BaseTroop> troops)
         {
             Race = race;
-            UnitCount = troops.Count;
+            
             Name = name;
             TroopsWidth = troopsWidth;
             Formation_Type = formation_Type;

@@ -1,9 +1,9 @@
+BoneAttachment3D
 VBoxContainer
 Label
 CanvasLayer
 MeshInstance3D
 Node3D
-BoneAttachment3D
 TextEdit
 HBoxContainer
 MultiMeshInstance3D

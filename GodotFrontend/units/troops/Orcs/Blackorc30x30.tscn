@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://dkw8is5a17ysc"]
 
 [ext_resource type="PackedScene" uid="uid://bvpgxloy37mtl" path="res://assets/3d/troops/Bases/MiniatureBase30x30.glb" id="1_gm2lk"]
-[ext_resource type="PackedScene" uid="uid://becrchjlwqvdt" path="res://assets/3d/troops/Orcs/BlackorkWIP.glb" id="2_gk0d5"]
+[ext_resource type="PackedScene" uid="uid://uo1lejs2yndr" path="res://assets/3d/troops/Orcs/BlackorkWIP.glb" id="2_gk0d5"]
 
 [node name="troop" type="Node3D"]
 
@@ -9,4 +9,4 @@
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0.011)
 
 [node name="BlackorkWIP" parent="." instance=ExtResource("2_gk0d5")]
-transform = Transform3D(-0.11, 1.66095e-08, 7.26026e-16, 0, -4.80825e-09, 0.11, 1.66095e-08, 0.11, 4.80825e-09, 0, 0, 0.0220509)
+transform = Transform3D(-0.135, 1.18021e-08, 5.15885e-16, 0, -5.90104e-09, 0.135, 1.18021e-08, 0.135, 5.90104e-09, 0, 0, 0)
