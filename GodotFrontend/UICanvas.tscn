@@ -499,6 +499,10 @@ size = 18.142
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.37753, 7.04634, 1.84468)
 shape = SubResource("BoxShape3D_jl446")
 
+[node name="CollisionShape3D6" type="CollisionShape3D" parent="CanvasGroup/AnchorProvider/DicePanel/Panel/diceView/DiceViewport/DiceTray/tray/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.741277, 14.9625, 1.79853)
+shape = SubResource("BoxShape3D_a1ojn")
+
 [node name="CollisionShape3D" type="CollisionShape3D" parent="CanvasGroup/AnchorProvider/DicePanel/Panel/diceView/DiceViewport/DiceTray/tray/StaticBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.99212, 0, 1.77664)
 shape = SubResource("BoxShape3D_a1ojn")

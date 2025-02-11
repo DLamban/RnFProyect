@@ -97,11 +97,19 @@ namespace GodotFrontend.code.Input
                 OnExecuteSpell?.Invoke(spellSelected, worldCenterSpell);
                 await fireballNodeParent.ToSignal(fireballAnim, "animation_finished");
 
+                bool DEBUGGING = true; 
+                if (DEBUGGING)
+                {
+                    unitSelected.coreUnit.woundUnit(new List<int> { 6, 6, 6, 6, 6,6,6,6,6,6,6,6 }, 4, null);
+                }
+                else
+                {
+                    int hits = await DiceThrower.Instance.ThrowDicesSum(2, "fireball hits");
+                    List<int> result = await DiceThrower.Instance.ThrowDices(hits, "wounding");
+                    unitSelected.coreUnit.woundUnit(result, 4, null);
+                }
 
-                int hits = await DiceThrower.Instance.ThrowDicesSum(2, "fireball hits");
-                List<int> result = await DiceThrower.Instance.ThrowDices(hits,"wounding");
-                unitSelected.coreUnit.woundUnit(result, 4, null);
-                
+
             }
             SpellManager.Instance.spellUsed(spellSelected);
             cursorEffect.Visible = false;

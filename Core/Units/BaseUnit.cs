@@ -12,6 +12,7 @@ using Core.GameLoop;
 using System.Numerics;
 using Core.Magic;
 using Core.List;
+using System.Diagnostics;
 namespace Core.Units
 {
     using Hit = Tuple<Vector2, float>;
@@ -73,7 +74,7 @@ namespace Core.Units
         public List<string> SpecialRules { get; set; }
         #region EVENTS&DELEGATES
         // EVENTS
-        public event Action<int> OnDeathTroops;
+        public event Action<BaseUnit,int> OnDeathTroops;
         //delegates
         public delegate Task<List<int>> DiceThrowerTaskDelegate(int numberdices, string dicePhase, int dicetype=6);
         private DiceThrowerTaskDelegate DiceThrowerTaskDel;
@@ -184,10 +185,15 @@ namespace Core.Units
             
         }
         public async void confirmWounds(int wounds, List<BaseRule> specialRules, int ap)
-        {            
-            List<int> savingThrow = await DiceThrowerTaskDel(wounds, "armour save");
-            int confirmedWounds = ResolveDiceThrow.armourSave(wounds, savingThrow, ap, Troop.Armour);
-            ApplyWoundUnit(confirmedWounds, specialRules);
+        {
+            //List<int> savingThrow = await DiceThrowerTaskDel(wounds, "armour save");
+            //int confirmedWounds = ResolveDiceThrow.armourSave(wounds, savingThrow, ap, Troop.Armour);
+            //ApplyWoundUnit(confirmedWounds, specialRules);
+            ApplyWoundUnit(4, specialRules);
+        }
+        public void DeleteDeathUnits()
+        {
+            Troops.RemoveAll(troop => troop.Wounds == 0);
         }
         public void ApplyWoundUnit(int wounds, List<BaseRule> specialRules = null)
         {
@@ -196,15 +202,34 @@ namespace Core.Units
             {
                 // eat dat wound
                 // wound the first rank
-                BaseTroop? firstTroop = Troops.FirstOrDefault(troop=>troop.Wounds>0);
-                // is is null, we finish da troops :)
-                if (firstTroop!=null) firstTroop.Wounds--;
-                if (firstTroop.Wounds == 0)
+                // avoid characters
+                Func<BaseTroop, bool> hasWounds = troop => troop.Wounds > 0;
+                Func<BaseTroop, bool> isNotCharacter = troop => troop.GetType() != typeof(Character);
+
+
+                Func<BaseTroop, bool> condition = troop => hasWounds(troop);
+                
+                if (Troops.Count > 1)
+                {
+                    condition = troop => hasWounds(troop) && isNotCharacter(troop);
+                }                
+                BaseTroop? troopToWound = Troops.FirstOrDefault(condition);
+
+                if (troopToWound == null)
+                {
+                    // probably we should destroy the unit!
+                    Debug.WriteLine("ERROR getting troop from unit");
+                    throw new Exception("ERROR getting troop from unit");
+                }
+
+
+                troopToWound.Wounds--;
+                if (troopToWound.Wounds == 0)
                 {
                     deathunits++;
                 }
             }          
-            OnDeathTroops(deathunits);
+            OnDeathTroops(this,deathunits);
         }
     }
 }
