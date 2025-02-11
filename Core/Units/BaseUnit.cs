@@ -186,10 +186,9 @@ namespace Core.Units
         }
         public async void confirmWounds(int wounds, List<BaseRule> specialRules, int ap)
         {
-            //List<int> savingThrow = await DiceThrowerTaskDel(wounds, "armour save");
-            //int confirmedWounds = ResolveDiceThrow.armourSave(wounds, savingThrow, ap, Troop.Armour);
-            //ApplyWoundUnit(confirmedWounds, specialRules);
-            ApplyWoundUnit(4, specialRules);
+            List<int> savingThrow = await DiceThrowerTaskDel(wounds, "armour save");
+            int confirmedWounds = ResolveDiceThrow.armourSave(wounds, savingThrow, ap, Troop.Armour);
+            ApplyWoundUnit(confirmedWounds, specialRules);
         }
         public void DeleteDeathUnits()
         {
