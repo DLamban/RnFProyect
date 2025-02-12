@@ -1,8 +1,8 @@
 
 shader_type spatial;
 // color property
-uniform vec3 color_low :source_color = vec3(0.0, 0.3, 0.8);  
-uniform vec3 color_mid :source_color = vec3(0.0, 0.8, 0.0);  
+uniform vec3 color_low :source_color = vec3(0.0, 0.3, 0.8);
+uniform vec3 color_mid :source_color = vec3(0.0, 0.8, 0.0);
 uniform vec3 color_high :source_color  = vec3(0.8, 0.6, 0.0);
 uniform float step_size : hint_range(0.1, 2.0) = 0.5; // Tamaño de los escalones
 varying float v_height;

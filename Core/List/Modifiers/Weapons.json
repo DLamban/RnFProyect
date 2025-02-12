@@ -1,0 +1,18 @@
+{
+  "Hand weapon": {
+    "name": "Hand weapon",
+    "range": 0,
+    "Strength": 0,
+    "isStrengthFlat": false,
+    "AP": 0,
+    "Special rules": []
+  },
+  "Short bow": {
+    "name": "Short bow",
+    "range": 18,
+    "Strength": 3,
+    "isStrengthFlat": true,
+    "AP": 0,
+    "Special rules": ["Quick Shot","Volley fire"]
+  }
+}

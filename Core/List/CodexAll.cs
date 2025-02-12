@@ -21,7 +21,7 @@ namespace Core.List
         }
         public CodexAll()
         {
-            races = JSONLoader.LoadJSON();
+            races = JSONLoader.LoadRacesJSON();
         }
         public BaseRace getRaceCodex(string race)
         {

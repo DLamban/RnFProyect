@@ -4,7 +4,7 @@
     {
       "Race": "Orcs",
       "Name": "Goblin Wizard",
-      "AssetFile": "goblin_wizard25X25.tscn",
+      "AssetFile": "goblin_wizard25x25.tscn",
       "Type": "Infantry",
       "Category": "CHARACTER",
       "Weapons": [ "Hand Weapon" ],

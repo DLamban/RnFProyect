@@ -43,7 +43,7 @@ namespace Core.List
                 }
             }
         }
-        public static Dictionary<string, BaseRace> LoadJSON()
+        public static Dictionary<string, BaseRace> LoadRacesJSON()
         {
             // REMEMBER, WE ARE LOADING FROM EMBEDDED RESOURCES
             // SO REMEMBER TO EMBED THE JSON FILES
