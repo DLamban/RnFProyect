@@ -1,7 +1,10 @@
-﻿using Core.GeometricEngine;
+﻿using Core.DB.Data;
+using Core.DB.Models;
+using Core.GeometricEngine;
 using Core.List;
 using Core.Networking;
 using Core.Rules;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -81,33 +84,62 @@ namespace Core.Units
         }
         private BaseUnit instantiateUnit(string unitName,List<Character> characters, int widthRank, int unitCount, Guid guid)
         {
-            
-            try
-            {
-                BaseUnit unitType = CodexAll.Instance.getUnitCodex(unitName);
-                       
-                string jsonString = JsonSerializer.Serialize(unitType.Troop);
-                List<BaseTroop> troops = new List<BaseTroop>();
+            // MIgrating to db, test first
+            if (unitName == "Dwarf Warriors") {
+                Unit? unitDetail = DBSingleton.Instance.Units
+                    .Include(u=>u.Formation)
+                    .Include(u=> u.TroopProfiles)
+                        .ThenInclude(tp => tp.TroopType)
+                    .Include(u => u.TroopProfiles)
+                        .ThenInclude(tp => tp.BaseSize)
+                    .Include(u => u.TroopProfiles)
+                        .ThenInclude(tp => tp.Category)
+                    .Include(u => u.TroopProfiles)
+                        .ThenInclude(tp => tp.WeaponsTroops)
+                        .ThenInclude(wt => wt.Weapon)
 
+                    .FirstOrDefault(u => u.Name == unitName);
+                
+                
+                List<BaseTroop> troops = new List<BaseTroop>();
                 for (int i = 0; i < unitCount; i++)
                 {
-                    BaseTroop baseTroop = JsonSerializer.Deserialize<BaseTroop>(jsonString);
-                    //BaseTroop baseTroop = Basicrat
-                    troops.Add(baseTroop);
-                }
-                BaseUnit baseunit = new BaseUnit(unitType.Race, unitType.Name, widthRank, Formation_type.CLOSE_ORDER, new List<string> { "Reglaespecial1", "Reglaespecial2" }, troops);
-                foreach (Character character in characters)
-                {
-                    baseunit.AddCharacter(character);
+                 //   BaseTroop baseTroop = JsonSerializer.Deserialize<BaseTroop>(jsonString);
+                  //  //BaseTroop baseTroop = Basicrat
+                   // troops.Add(baseTroop);
                 }
 
-                baseunit.Guid = guid;
-                return baseunit;
+
+                return null;
             }
-            catch (Exception ex)
-            {
-                Debug.WriteLine("Cannot find unit" + unitName);
-                throw;
+            else {
+                try
+                {
+                    BaseUnit unitType = CodexAll.Instance.getUnitCodex(unitName);
+                       
+                    string jsonString = JsonSerializer.Serialize(unitType.Troop);
+                    List<BaseTroop> troops = new List<BaseTroop>();
+
+                    for (int i = 0; i < unitCount; i++)
+                    {
+                        BaseTroop baseTroop = JsonSerializer.Deserialize<BaseTroop>(jsonString);
+                        //BaseTroop baseTroop = Basicrat
+                        troops.Add(baseTroop);
+                    }
+                    BaseUnit baseunit = new BaseUnit(unitType.Race, unitType.Name, widthRank, Formation_type.CLOSE_ORDER, new List<string> { "Reglaespecial1", "Reglaespecial2" }, troops);
+                    foreach (Character character in characters)
+                    {
+                        baseunit.AddCharacter(character);
+                    }
+
+                    baseunit.Guid = guid;
+                    return baseunit;
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine("Cannot find unit" + unitName);
+                    throw;
+                }
             }
         }
         

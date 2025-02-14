@@ -16,7 +16,7 @@ using ServerSocket;
 class Program
 {
     // server string
-    private static string connectionStringServer = AppSettings.endpointAzureWebPubSub;
+    private static string connectionStringServer = AppSettingsExample.endpointAzureWebPubSub;
 
 
     // client string, does not matter if it's in the github, it's temporal

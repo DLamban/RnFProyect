@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using Core.DB.Models;
 using Core.Rules;
 using Core.Units.Weapons;
 
@@ -93,6 +94,8 @@ namespace Core.Units
             set { _regeneration = value; }
         }
         public BaseWeapon Weapon { get; set; }
+
+        public List<Weapon> Weapons { get; set; }
         public int Cost { get; set; }
         public Size Size { get; set; }
         public bool isDying { get; set; }
@@ -140,6 +143,26 @@ namespace Core.Units
             isDying = false;
             //Weapon = new BaseWeapon();
             Mods = new List<Modifiers>();
+        }
+        public BaseTroop(TroopProfile troopProfile)
+        {
+            Name = troopProfile.Name;
+            AssetFile = troopProfile.AssetFile;
+            Movement = troopProfile.Movement;
+            Dexterity = troopProfile.Dexterity;
+            Shooting = troopProfile.Shooting;
+            Strength = troopProfile.Strength;
+            Resistance = troopProfile.Resistance;
+            Wounds = troopProfile.Wounds;
+            Initiative = troopProfile.Initiative;
+            Attacks = troopProfile.Attacks;
+            Leadership = troopProfile.Leadership;
+            Armour = troopProfile.Armour;
+            Cost = troopProfile.Cost;            
+            
+
+
+
         }
         private int applyModifiers(Attribute_Affected attr,int value)
         {
