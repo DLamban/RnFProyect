@@ -54,13 +54,21 @@ public partial class GameDbContext : DbContext
     {
         modelBuilder.Entity<Character>(entity =>
         {
-            entity.HasOne(d => d.BaseSize).WithMany(p => p.Characters).HasForeignKey(d => d.BaseSizeId);
+            entity.HasOne(d => d.BaseSize).WithMany(p => p.Characters)
+                .HasForeignKey(d => d.BaseSizeId)
+                .OnDelete(DeleteBehavior.ClientSetNull);
 
-            entity.HasOne(d => d.Category).WithMany(p => p.Characters).HasForeignKey(d => d.CategoryId);
+            entity.HasOne(d => d.Category).WithMany(p => p.Characters)
+                .HasForeignKey(d => d.CategoryId)
+                .OnDelete(DeleteBehavior.ClientSetNull);
 
-            entity.HasOne(d => d.Race).WithMany(p => p.Characters).HasForeignKey(d => d.RaceId);
+            entity.HasOne(d => d.Race).WithMany(p => p.Characters)
+                .HasForeignKey(d => d.RaceId)
+                .OnDelete(DeleteBehavior.ClientSetNull);
 
-            entity.HasOne(d => d.TroopType).WithMany(p => p.Characters).HasForeignKey(d => d.TroopTypeId);
+            entity.HasOne(d => d.TroopType).WithMany(p => p.Characters)
+                .HasForeignKey(d => d.TroopTypeId)
+                .OnDelete(DeleteBehavior.ClientSetNull);
         });
 
         modelBuilder.Entity<CharacterDetail>(entity =>

@@ -1,5 +1,5 @@
 ea4bc82a6ad023ab7ee23ee620429895
-::res://::1739513803
+::res://::1739534403
 battlefield.tscn::PackedScene::9136450453526833173::1739366515::0::1::::<><>::res://battlefieldManager.cs<>res://code/Input/InputManager.cs<>res://units/vfx/magicselectshader.gdshader<>uid://b0ggvmax3iiyl::::res://environment.tscn<>uid://7avowxdh4u3l::::res://assets/3d/rocks/objects/rock1.glb<>uid://dpsexlp7rtu24::::res://UICanvas.tscn<>uid://ca7m5rbsas0bp::::res://assets/3d/rocks/objects/rock2.glb<>res://units/UnitRenderCreator.cs<>uid://bgn4q7owag65p::::res://assets/3d/trees/treelowpoly.glb<>uid://dqmoion08yfij::::res://assets/3d/arrow.glb<>uid://bvtesy2y6wqlt::::res://Spells/fireball.tscn<>uid://dhhkngbd2mljs::::res://assets/3d/trees/BirchTree_1.fbx<>uid://b6wehlgas5l6y::::res://assets/3d/terrainmesh.res<>res://shaders/terrain.gdshader
 battlefieldManager.cs::CSharpScript::-1::1730723302::0::1::::<>Node3D<>::
 environment.tscn::PackedScene::4153930476159829307::1739366519::0::1::::<><>::res://code/grassfield/GrassTerrain.cs<>uid://cckj4aesvurjj::::res://assets/3d/grass/grass_blade_straightfinal.res<>res://code/grassfield/DataNode2d.cs<>uid://d0vwwjppvqoer::::res://assets/tex/dirtcartoon/Dirt_01_Nrm.png<>res://code/FieldCameraControl.cs
@@ -56,13 +56,16 @@ treelowpoly.glb::PackedScene::2836181725191096695::1729243300::1738307671::1::::
 birch1.res::ArrayMesh::5556062679488755139::1738307671::0::1::::<><>::
 ::res://assets/3d/troops/::1738846435
 Knight_Male.glb::PackedScene::8549142722571041143::1729243300::1738307673::1::::<><>::
-::res://assets/3d/troops/Bases/::1738307674
+::res://assets/3d/troops/Bases/::1739534489
 MiniatureBase25x25.glb::PackedScene::471147948115535378::1729243300::1738307671::1::::<><>::uid://cbg5vcs4eyys5::::res://assets/3d/troops/Bases/MiniatureBase25x25_MiniatureBase_atlas.jpg
 MiniatureBase25x25_MiniatureBase_atlas.jpg::CompressedTexture2D::4857275623180713986::1729243300::1738307670::1::::<><>::
 MiniatureBase25x50.glb::PackedScene::7606855593289018964::1729243300::1738307674::1::::<><>::uid://cmfbj8ujxe2u7::::res://assets/3d/troops/Bases/MiniatureBase25x50_MiniatureBase_atlas.jpg
 MiniatureBase25x50_MiniatureBase_atlas.jpg::CompressedTexture2D::5625507933557286884::1729243300::1738307670::1::::<><>::
 MiniatureBase30x30.glb::PackedScene::3891758042132342401::1729243300::1738307673::1::::<><>::uid://dfw3h3qm117jd::::res://assets/3d/troops/Bases/MiniatureBase30x30_MiniatureBase_atlas.jpg
 MiniatureBase30x30_MiniatureBase_atlas.jpg::CompressedTexture2D::7557336652165279141::1729243300::1738307670::1::::<><>::
+MiniatureBase30x60.glb::PackedScene::2233804096129035913::1739534520::1739534522::1::::<><>::uid://gl10d5eojakj::::res://assets/3d/troops/Bases/MiniatureBase30x60_atlas.jpg
+MiniatureBase30x60_atlas.jpg::CompressedTexture2D::445464707897389701::1739534380::1739534522::1::::<><>::
+MiniatureBase30x60_MiniatureBase_atlas.jpg::CompressedTexture2D::1350225790498019327::1739534379::1739534522::1::::<><>::
 MiniatureBase50x50.glb::PackedScene::5969686274981335372::1729243300::1738307674::1::::<><>::uid://dpj4cbjpmftf5::::res://assets/3d/troops/Bases/MiniatureBase50x50_MiniatureBase_atlas.jpg
 MiniatureBase50x50_MiniatureBase_atlas.jpg::CompressedTexture2D::8232438536938740124::1729243300::1738307670::1::::<><>::
 MiniatureBase60x100.glb::PackedScene::3995483637017150749::1729243300::1738307672::1::::<><>::uid://dj4rw4fd41yko::::res://assets/3d/troops/Bases/MiniatureBase60x100_MiniatureBase_atlas.jpg
@@ -233,10 +236,10 @@ knight_unit25x25.tscn::PackedScene::2587381571693557360::1738306946::0::1::::<><
 knight_unit.tscn::PackedScene::1069135276256279345::1738306946::0::1::::<><>::res://units/UnitGodot.cs<>uid://bpooqvtmbhoys::::res://assets/3d/troops/Bases/MiniatureBase.glb<>uid://dt2jeqehvbr48::::res://assets/3d/troops/Knight_Male.glb
 longbeard25x25.tscn::PackedScene::8204417114249968646::1739366520::0::1::::<><>::uid://gyh0c8ideubq::::res://assets/3d/troops/Bases/MiniatureBase25x25.glb<>uid://j05veig6d1w2::::res://assets/3d/troops/Dwarfs/longbeardanim.glb
 slayer25x25.tscn::PackedScene::5261385315630744894::1738306946::0::1::::<><>::uid://gyh0c8ideubq::::res://assets/3d/troops/Bases/MiniatureBase25x25.glb<>uid://chcj8ya0gar6p::::res://assets/3d/troops/Dwarfs/Slayer.glb
-::res://units/troops/Orcs/::1739366521
+::res://units/troops/Orcs/::1739534403
 Blackorc30x30.tscn::PackedScene::7908585736961940454::1738842088::0::1::::<><>::uid://bvpgxloy37mtl::::res://assets/3d/troops/Bases/MiniatureBase30x30.glb<>uid://uo1lejs2yndr::::res://assets/3d/troops/Orcs/BlackorkWIP.glb
 BlackorkWIP.glb::PackedScene::6869761567611872471::1738842104::1738842104::1::::<><>::
-boar_rider25x50.tscn::PackedScene::1908279901892740709::1738918273::0::1::::<><>::uid://dgm22hc4qpq1i::::res://assets/3d/troops/Bases/MiniatureBase25x50.glb<>uid://b0daok2tm4e4::::res://assets/3d/troops/Orcs/boarBoyz.glb
+boar_rider30x60.tscn::PackedScene::1908279901892740709::1738918273::0::1::::<><>::uid://dgm22hc4qpq1i::::res://assets/3d/troops/Bases/MiniatureBase25x50.glb<>uid://b0daok2tm4e4::::res://assets/3d/troops/Orcs/boarBoyz.glb
 dragon_unit.tscn::PackedScene::8935281150350481332::1739366521::0::1::::<><>::uid://bw6pbcycj48gv::::res://assets/3d/troops/Bases/MiniatureBase60x100.glb<>uid://cy3pabdoe2xh3::::res://assets/3d/troops/Orcs/dragon_model.glb
 goblin_club25x25.tscn::PackedScene::7828517701648381009::1738306946::0::1::::<><>::uid://gyh0c8ideubq::::res://assets/3d/troops/Bases/MiniatureBase25x25.glb<>uid://br22g15ify7wp::::res://assets/3d/weapons/simple_bow.glb<>uid://ch4xi27ub31fo::::res://assets/3d/troops/Orcs/Goblin_MaleWIP.glb
 goblin_wizard25x25.tscn::PackedScene::1729154776584798021::1738306946::0::1::::<><>::uid://gyh0c8ideubq::::res://assets/3d/troops/Bases/MiniatureBase25x25.glb<>uid://4qvvl7757453::::res://assets/3d/troops/Orcs/Witch_WIP1.glb

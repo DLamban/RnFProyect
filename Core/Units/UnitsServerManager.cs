@@ -85,7 +85,7 @@ namespace Core.Units
         private BaseUnit instantiateUnit(string unitName,List<Character> characters, int widthRank, int unitCount, Guid guid)
         {
             // MIgrating to db, test first
-            if (unitName == "Dwarf Warriors") {
+            if (unitName == "Dwarf Warriors" || unitName == "Elder Dwarfs") {
                 var unitDetail = DBSingleton.Instance.Units
                     .Include(u => u.Formation) // Carga la formación
                     .Include(u=>u.Race)
@@ -109,6 +109,13 @@ namespace Core.Units
                 }
                 BaseUnit baseUnit = new BaseUnit(unitDetail.Race.Code, unitDetail.Name, widthRank, Formation_type.CLOSE_ORDER, new List<string> { "Reglaespecial1", "Reglaespecial2" }, troops);
 
+                foreach (Character character in characters)
+                {
+                    DB.Models.Character character1 = DBSingleton.Instance.Characters.FirstOrDefault(c => c.Name == character.Name);
+                    Character cahracterfromdb = new Character(character1);
+                    baseUnit.AddCharacter(cahracterfromdb);
+                }
+               
                 baseUnit.Guid = guid;
                 return baseUnit;
             }

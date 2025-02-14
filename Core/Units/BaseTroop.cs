@@ -167,6 +167,29 @@ namespace Core.Units
 
 
         }
+
+        public BaseTroop(DB.Models.Character character)
+        {
+            Mods = new List<Modifiers>();
+            Name = character.Name;
+            AssetFile = character.AssetFile;
+            Movement = character.Movement;
+            Dexterity = character.Dexterity;
+            Shooting = character.Shooting;
+            Strength = character.Strength;
+            Resistance = character.Resistance;
+            Wounds = character.Wounds;
+            Initiative = character.Initiative;
+            Attacks = character.Attacks;
+            Leadership = character.Leadership;
+            Armour = character.Armour;
+            Cost = character.Cost;
+            Size = new Size(character.BaseSize.Width, character.BaseSize.Height);
+            var weapons = character.WeaponsCharacters.Select(wt => wt.Weapon).ToList();
+            Weapons = weapons;
+
+        }
+
         private int applyModifiers(Attribute_Affected attr,int value)
         {
             // el foreach no me entusiasma, pero es posible tener multiples status por atributo

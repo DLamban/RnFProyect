@@ -14,3 +14,17 @@ res://Spells/UISpellManager.cs
 res://UIcode/ActionContainer.cs
 res://code/FieldCameraControl.cs
 res://units/UnitRenderCreator.cs
+res://units/troops/Orcs/boar_rider30x60.tscn
+res://units/vfx/magicselectshader.gdshader
+res://assets/3d/grass/grass_blade_normals.gdshader
+res://assets/3d/grass/grass_blade_straightfinal.res
+res://assets/fonts/basic_theme.tres
+res://Spellselectioncanvas.gdshader
+res://fireballSmoke.gdshader
+res://shaders/terrain.gdshader
+res://units/vfx/selectshader.gdshader
+res://code/terrainshader/battlefield.gdshader
+res://tilitshift.gdshader
+res://SDFObjects.gdshader
+res://ObjectSDF.gdshader
+res://smokeSDF.gdshader
