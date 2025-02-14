@@ -7,9 +7,9 @@ public partial class BaseSize
 {
     public int Id { get; set; }
 
-    public int? Width { get; set; }
+    public int Width { get; set; }
 
-    public int? Height { get; set; }
+    public int Height { get; set; }
 
     public virtual ICollection<Character> Characters { get; set; } = new List<Character>();
 

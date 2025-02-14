@@ -86,31 +86,31 @@ namespace Core.Units
         {
             // MIgrating to db, test first
             if (unitName == "Dwarf Warriors") {
-                Unit? unitDetail = DBSingleton.Instance.Units
-                    .Include(u=>u.Formation)
-                    .Include(u=> u.TroopProfiles)
-                        .ThenInclude(tp => tp.TroopType)
+                var unitDetail = DBSingleton.Instance.Units
+                    .Include(u => u.Formation) // Carga la formación
+                    .Include(u=>u.Race)
                     .Include(u => u.TroopProfiles)
-                        .ThenInclude(tp => tp.BaseSize)
+                        .ThenInclude(tp => tp.TroopType)  // Incluye el tipo de tropa
                     .Include(u => u.TroopProfiles)
-                        .ThenInclude(tp => tp.Category)
+                        .ThenInclude(tp => tp.BaseSize)  // Incluye el tamaño base
                     .Include(u => u.TroopProfiles)
-                        .ThenInclude(tp => tp.WeaponsTroops)
-                        .ThenInclude(wt => wt.Weapon)
+                        .ThenInclude(tp => tp.Category)  // Incluye la categoría de la tropa
+                    .Include(u => u.TroopProfiles)
+                        .ThenInclude(tp => tp.WeaponsTroops) // Incluye las relaciones WeaponTroops
+                            .ThenInclude(wt => wt.Weapon)  // Incluye las armas asociadas        
+                    .FirstOrDefault(u=>u.Name==unitName);
 
-                    .FirstOrDefault(u => u.Name == unitName);
-                
-                
                 List<BaseTroop> troops = new List<BaseTroop>();
                 for (int i = 0; i < unitCount; i++)
                 {
-                 //   BaseTroop baseTroop = JsonSerializer.Deserialize<BaseTroop>(jsonString);
-                  //  //BaseTroop baseTroop = Basicrat
-                   // troops.Add(baseTroop);
+                    BaseTroop baseTroop = new BaseTroop(unitDetail.TroopProfiles.FirstOrDefault(t=>t.IsMainProfile!=0));
+
+                    troops.Add(baseTroop);
                 }
+                BaseUnit baseUnit = new BaseUnit(unitDetail.Race.Code, unitDetail.Name, widthRank, Formation_type.CLOSE_ORDER, new List<string> { "Reglaespecial1", "Reglaespecial2" }, troops);
 
-
-                return null;
+                baseUnit.Guid = guid;
+                return baseUnit;
             }
             else {
                 try

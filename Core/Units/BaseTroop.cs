@@ -94,7 +94,7 @@ namespace Core.Units
             set { _regeneration = value; }
         }
         public BaseWeapon Weapon { get; set; }
-
+        [JsonIgnore]
         public List<Weapon> Weapons { get; set; }
         public int Cost { get; set; }
         public Size Size { get; set; }
@@ -146,6 +146,7 @@ namespace Core.Units
         }
         public BaseTroop(TroopProfile troopProfile)
         {
+            Mods = new List<Modifiers>();
             Name = troopProfile.Name;
             AssetFile = troopProfile.AssetFile;
             Movement = troopProfile.Movement;
@@ -158,8 +159,10 @@ namespace Core.Units
             Attacks = troopProfile.Attacks;
             Leadership = troopProfile.Leadership;
             Armour = troopProfile.Armour;
-            Cost = troopProfile.Cost;            
-            
+            Cost = troopProfile.Cost;
+            Size = new Size(troopProfile.BaseSize.Width, troopProfile.BaseSize.Height);
+            var weapons = troopProfile.WeaponsTroops.Select(wt => wt.Weapon).ToList();
+            Weapons = weapons;
 
 
 
