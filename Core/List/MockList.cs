@@ -1,4 +1,5 @@
-﻿using Core.Units;
+﻿using Core.DB.Data;
+using Core.Units;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -84,10 +85,11 @@ namespace Core.List
 
             BaseUnit gyros = unitManagerCore.CreateNewUnit("Gyrocopters", new List<Character>(), 1, 1, startPosGyros, 190);
             unitManagerCore.addEnemyUnit(gyros);
-
+  
             Character character = CodexAll.Instance.getCharCodex("King Dwarf");
             List<Character> listChar3 = new List<Character>();
             listChar3.Add(character);
+
             BaseUnit elders = unitManagerCore.CreateNewUnit("Elder Dwarfs", listChar3, 5, 12, startPosElders, 170);
             unitManagerCore.addEnemyUnit(elders);
         }

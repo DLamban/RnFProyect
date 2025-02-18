@@ -1,19 +1,25 @@
 ea4bc82a6ad023ab7ee23ee620429895
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 ::res://::1739273118
 battlefield.tscn::PackedScene::9136450453526833173::1739272930::0::1::::<><>::res://battlefieldManager.cs<>res://code/Input/InputManager.cs<>res://units/vfx/magicselectshader.gdshader<>uid://b0ggvmax3iiyl::::res://environment.tscn<>uid://7avowxdh4u3l::::res://assets/3d/rocks/objects/rock1.glb<>uid://dpsexlp7rtu24::::res://UICanvas.tscn<>uid://ca7m5rbsas0bp::::res://assets/3d/rocks/objects/rock2.glb<>res://units/UnitRenderCreator.cs<>uid://bgn4q7owag65p::::res://assets/3d/trees/treelowpoly.glb<>uid://dqmoion08yfij::::res://assets/3d/arrow.glb<>uid://bvtesy2y6wqlt::::res://Spells/fireball.tscn<>uid://dhhkngbd2mljs::::res://assets/3d/trees/BirchTree_1.fbx<>uid://b6wehlgas5l6y::::res://assets/3d/terrainmesh.res<>res://shaders/terrain.gdshader
+=======
+::res://::1739534403
+battlefield.tscn::PackedScene::9136450453526833173::1739366515::0::1::::<><>::res://battlefieldManager.cs<>res://code/Input/InputManager.cs<>res://units/vfx/magicselectshader.gdshader<>uid://b0ggvmax3iiyl::::res://environment.tscn<>uid://7avowxdh4u3l::::res://assets/3d/rocks/objects/rock1.glb<>uid://dpsexlp7rtu24::::res://UICanvas.tscn<>uid://ca7m5rbsas0bp::::res://assets/3d/rocks/objects/rock2.glb<>res://units/UnitRenderCreator.cs<>uid://bgn4q7owag65p::::res://assets/3d/trees/treelowpoly.glb<>uid://dqmoion08yfij::::res://assets/3d/arrow.glb<>uid://bvtesy2y6wqlt::::res://Spells/fireball.tscn<>uid://dhhkngbd2mljs::::res://assets/3d/trees/BirchTree_1.fbx<>uid://b6wehlgas5l6y::::res://assets/3d/terrainmesh.res<>res://shaders/terrain.gdshader
+>>>>>>> sqlite-integration
 battlefieldManager.cs::CSharpScript::-1::1730723302::0::1::::<>Node3D<>::
-environment.tscn::PackedScene::4153930476159829307::1739272933::0::1::::<><>::res://code/grassfield/GrassTerrain.cs<>uid://cckj4aesvurjj::::res://assets/3d/grass/grass_blade_straightfinal.res<>res://code/grassfield/DataNode2d.cs<>uid://d0vwwjppvqoer::::res://assets/tex/dirtcartoon/Dirt_01_Nrm.png<>res://code/FieldCameraControl.cs
-export_presets.cfg::TextFile::-1::1739272954::0::1::::<><>::
-fireballSmoke.gdshader::Shader::-1::1739272935::0::1::::<><>::
+environment.tscn::PackedScene::4153930476159829307::1739366519::0::1::::<><>::res://code/grassfield/GrassTerrain.cs<>uid://cckj4aesvurjj::::res://assets/3d/grass/grass_blade_straightfinal.res<>res://code/grassfield/DataNode2d.cs<>uid://d0vwwjppvqoer::::res://assets/tex/dirtcartoon/Dirt_01_Nrm.png<>res://code/FieldCameraControl.cs
+export_presets.cfg::TextFile::-1::1739273439::0::1::::<><>::
+fireballSmoke.gdshader::Shader::-1::1739366521::0::1::::<><>::
 icon.svg::CompressedTexture2D::716794632260173647::1729243300::1738307670::1::::<><>::
-ObjectSDF.gdshader::Shader::-1::1739272935::0::1::::<><>::
-SDFObjects.gdshader::Shader::-1::1739272935::0::1::::<><>::
-smokeSDF.gdshader::Shader::-1::1739272935::0::1::::<><>::
-Spellselectioncanvas.gdshader::Shader::-1::1739272935::0::1::::<><>::
+ObjectSDF.gdshader::Shader::-1::1739366521::0::1::::<><>::
+SDFObjects.gdshader::Shader::-1::1739366521::0::1::::<><>::
+smokeSDF.gdshader::Shader::-1::1739366521::0::1::::<><>::
+Spellselectioncanvas.gdshader::Shader::-1::1739366521::0::1::::<><>::
 Start.tscn::PackedScene::1289542985367393776::1729841554::0::1::::<><>::uid://c5l7fthgxiatx::::res://assets/fonts/basic_theme.tres<>res://UIcode/StartMenu.cs
-tilitshift.gdshader::Shader::-1::1739272935::0::1::::<><>::
+tilitshift.gdshader::Shader::-1::1739366521::0::1::::<><>::
 TODO.md::TextFile::-1::1729243299::0::1::::<><>::
+<<<<<<< HEAD
 UICanvas.tscn::PackedScene::8249538048860083307::1739272934::0::1::::<><>::uid://c5l7fthgxiatx::::res://assets/fonts/basic_theme.tres<>res://UIcode/UICanvas.cs<>uid://drh30e3fryfv3::::res://assets/fonts/BasicFont.tres<>uid://bty8onggmax8r::::res://dices_resources/velvetdicetray.glb<>uid://bu1qu6rd35ub5::::res://assets/2D/gamestatebar.png<>uid://c81elnyyc6frc::::res://assets/2D/iconsgamebar.png<>uid://cjkqqh1ls3d2s::::res://assets/2D/gamestatebaroverlay.png<>res://UIcode/ActionContainer.cs<>uid://cwp4060vgqdnt::::res://assets/UI/Actions_button.tscn<>res://Spellselectioncanvas.gdshader<>res://Spells/UISpellManager.cs<>res://Spells/ConfirmPanel.cs<>res://UIcode/ChargeResponseUI.cs<>uid://d1abuqp2etn8q::::res://assets/UI/fonts/fight16cleaned.png
 ::res://assets/::1737822453
 =======
@@ -34,6 +40,10 @@ TODO.md::TextFile::-1::1729243299::0::1::::<><>::
 UICanvas.tscn::PackedScene::8249538048860083307::1739873394::0::1::::<><>::uid://c5l7fthgxiatx::::res://assets/fonts/basic_theme.tres<>res://UIcode/UICanvas.cs<>uid://drh30e3fryfv3::::res://assets/fonts/BasicFont.tres<>uid://bty8onggmax8r::::res://dices_resources/velvetdicetray.glb<>uid://bu1qu6rd35ub5::::res://assets/2D/gamestatebar.png<>uid://c81elnyyc6frc::::res://assets/2D/iconsgamebar.png<>uid://cjkqqh1ls3d2s::::res://assets/2D/gamestatebaroverlay.png<>res://UIcode/ActionContainer.cs<>uid://cwp4060vgqdnt::::res://assets/UI/Actions_button.tscn<>res://Spellselectioncanvas.gdshader<>uid://bit4lhdtx8hl1::::res://assets/UI/actionbar.png<>res://Spells/UISpellManager.cs<>res://Spells/ConfirmPanel.cs<>uid://cu08mqj5emn2s::::res://assets/UI/buttonShooting.png<>res://UIcode/ChargeResponseUI.cs<>uid://d1abuqp2etn8q::::res://assets/UI/fonts/fight16cleaned.png
 ::res://assets/::1739273265
 >>>>>>> Stashed changes
+=======
+UICanvas.tscn::PackedScene::8249538048860083307::1739366520::0::1::::<><>::uid://c5l7fthgxiatx::::res://assets/fonts/basic_theme.tres<>res://UIcode/UICanvas.cs<>uid://drh30e3fryfv3::::res://assets/fonts/BasicFont.tres<>uid://bty8onggmax8r::::res://dices_resources/velvetdicetray.glb<>uid://bu1qu6rd35ub5::::res://assets/2D/gamestatebar.png<>uid://c81elnyyc6frc::::res://assets/2D/iconsgamebar.png<>uid://cjkqqh1ls3d2s::::res://assets/2D/gamestatebaroverlay.png<>res://UIcode/ActionContainer.cs<>uid://cwp4060vgqdnt::::res://assets/UI/Actions_button.tscn<>res://Spellselectioncanvas.gdshader<>res://Spells/UISpellManager.cs<>res://Spells/ConfirmPanel.cs<>res://UIcode/ChargeResponseUI.cs<>uid://d1abuqp2etn8q::::res://assets/UI/fonts/fight16cleaned.png
+::res://assets/::1739273265
+>>>>>>> sqlite-integration
 ::res://assets/2D/::1738307670
 gamestatebar.png::CompressedTexture2D::3844880220482119776::1729243299::1738307670::1::::<><>::
 gamestatebaroverlay.png::CompressedTexture2D::5426185190609147540::1729243299::1738307670::1::::<><>::
@@ -46,14 +56,19 @@ Dice.glb::PackedScene::3047949500194204142::1729243299::1738307673::1::::<><>::
 dicecool.glb::PackedScene::4092859989230137453::1729243299::1738307673::1::::<><>::
 terrain.glb::PackedScene::233110628470812710::1738306570::1738307673::1::::<><>::uid://b6wehlgas5l6y::::res://assets/3d/terrainmesh.res
 terrainmesh.res::ArrayMesh::4607947102640745202::1738307673::0::1::::<><>::
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 ::res://assets/3d/grass/::1739272935
+=======
+::res://assets/3d/grass/::1739366521
+>>>>>>> sqlite-integration
 grass_bladenormalsup.glb::PackedScene::1633739232595957975::1730806679::1738307672::1::::<><>::uid://ujwm2ln00tpk::::res://assets/3d/grass/grass_blade_normlasYUP.res
 grass_blade_flat.glb::PackedScene::2600287571544313825::1738918626::1738918627::1::::<><>::uid://c87xgr7jt0a8y::::res://assets/3d/grass/grass_blade_flat.res
 grass_blade_flat.res::ArrayMesh::7156541443934228370::1738918718::0::1::::<><>::
-grass_blade_normals.gdshader::Shader::-1::1739272935::0::1::::<><>::
+grass_blade_normals.gdshader::Shader::-1::1739366521::0::1::::<><>::
 grass_blade_normalsup_straight2.glb::PackedScene::5296043029532379008::1730878438::1738307672::1::::<><>::uid://cckj4aesvurjj::::res://assets/3d/grass/grass_blade_straightfinal.res
 grass_blade_normlasYUP.res::ArrayMesh::1423714911663283084::1738307672::0::1::::<><>::
+<<<<<<< HEAD
 grass_blade_straightfinal.res::ArrayMesh::4934461080186929199::1739272085::0::1::::<><>::res://assets/3d/grass/grass_blade_normals.gdshader
 =======
 ::res://assets/3d/grass/::1739873395
@@ -65,6 +80,9 @@ grass_blade_normalsup_straight2.glb::PackedScene::5296043029532379008::173087843
 grass_blade_normlasYUP.res::ArrayMesh::1423714911663283084::1738307672::0::1::::<><>::
 grass_blade_straightfinal.res::ArrayMesh::4934461080186929199::1739866251::0::1::::<><>::res://assets/3d/grass/grass_blade_normals.gdshader
 >>>>>>> Stashed changes
+=======
+grass_blade_straightfinal.res::ArrayMesh::4934461080186929199::1739366516::0::1::::<><>::res://assets/3d/grass/grass_blade_normals.gdshader
+>>>>>>> sqlite-integration
 grass_shader_material.tres::ShaderMaterial::8583147063926086039::1738918718::0::1::::<><>::res://assets/3d/grass/grass_blade_normals.gdshader
 plane1x1.glb::PackedScene::8639898991283099361::1730879209::1738307672::1::::<><>::uid://c1eoym4iaiblo::::res://assets/3d/grass/plane.res
 plane.res::ArrayMesh::6606902385387060360::1738307672::0::1::::<><>::
@@ -86,17 +104,24 @@ treelowpoly.glb::PackedScene::2836181725191096695::1729243300::1738307671::1::::
 birch1.res::ArrayMesh::5556062679488755139::1738307671::0::1::::<><>::
 ::res://assets/3d/troops/::1738846435
 Knight_Male.glb::PackedScene::8549142722571041143::1729243300::1738307673::1::::<><>::
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 ::res://assets/3d/troops/Bases/::1738307674
 =======
 ::res://assets/3d/troops/Bases/::1739866147
 >>>>>>> Stashed changes
+=======
+::res://assets/3d/troops/Bases/::1739534489
+>>>>>>> sqlite-integration
 MiniatureBase25x25.glb::PackedScene::471147948115535378::1729243300::1738307671::1::::<><>::uid://cbg5vcs4eyys5::::res://assets/3d/troops/Bases/MiniatureBase25x25_MiniatureBase_atlas.jpg
 MiniatureBase25x25_MiniatureBase_atlas.jpg::CompressedTexture2D::4857275623180713986::1729243300::1738307670::1::::<><>::
 MiniatureBase25x50.glb::PackedScene::7606855593289018964::1729243300::1738307674::1::::<><>::uid://cmfbj8ujxe2u7::::res://assets/3d/troops/Bases/MiniatureBase25x50_MiniatureBase_atlas.jpg
 MiniatureBase25x50_MiniatureBase_atlas.jpg::CompressedTexture2D::5625507933557286884::1729243300::1738307670::1::::<><>::
 MiniatureBase30x30.glb::PackedScene::3891758042132342401::1729243300::1738307673::1::::<><>::uid://dfw3h3qm117jd::::res://assets/3d/troops/Bases/MiniatureBase30x30_MiniatureBase_atlas.jpg
 MiniatureBase30x30_MiniatureBase_atlas.jpg::CompressedTexture2D::7557336652165279141::1729243300::1738307670::1::::<><>::
+MiniatureBase30x60.glb::PackedScene::2233804096129035913::1739534520::1739534522::1::::<><>::uid://gl10d5eojakj::::res://assets/3d/troops/Bases/MiniatureBase30x60_atlas.jpg
+MiniatureBase30x60_atlas.jpg::CompressedTexture2D::445464707897389701::1739534380::1739534522::1::::<><>::
+MiniatureBase30x60_MiniatureBase_atlas.jpg::CompressedTexture2D::1350225790498019327::1739534379::1739534522::1::::<><>::
 MiniatureBase50x50.glb::PackedScene::5969686274981335372::1729243300::1738307674::1::::<><>::uid://dpj4cbjpmftf5::::res://assets/3d/troops/Bases/MiniatureBase50x50_MiniatureBase_atlas.jpg
 MiniatureBase50x50_MiniatureBase_atlas.jpg::CompressedTexture2D::8232438536938740124::1729243300::1738307670::1::::<><>::
 MiniatureBase60x100.glb::PackedScene::3995483637017150749::1729243300::1738307672::1::::<><>::uid://dj4rw4fd41yko::::res://assets/3d/troops/Bases/MiniatureBase60x100_MiniatureBase_atlas.jpg
@@ -117,14 +142,12 @@ longbeard_hammer1UV.png::CompressedTexture2D::5512233753271661287::1729243300::1
 quarreler_WIP.glb::PackedScene::8766876679085765792::1738318612::1738318616::1::::<><>::
 Slayer.glb::PackedScene::5268898674198635889::1729243300::1738307674::1::::<><>::uid://r75riwo64rcr::::res://assets/3d/troops/Dwarfs/Slayer_hammer1UV.png
 Slayer_hammer1UV.png::CompressedTexture2D::1261122753107020721::1729243300::1738307670::1::::<><>::
-::res://assets/3d/troops/Orcs/::1739273152
+::res://assets/3d/troops/Orcs/::1739273237
 BlackOrkBoss1.glb::PackedScene::2102617271945462727::1738917398::1738917399::1::::<><>::uid://k78u5oxvlymx::::res://assets/3d/troops/Orcs/BlackOrkBoss1_Ucupaint grimgoraxe Color.png<>uid://5knp0rxt307::::res://assets/3d/troops/Orcs/BlackOrkBoss1_Ucupaint grimgoraxe Metallic-Ucupaint grimgoraxe Roughness.png
 BlackOrkBoss1_Ucupaint grimgoraxe Color.png::CompressedTexture2D::769989499550932375::1738916735::1738917398::1::::<><>::
 BlackOrkBoss1_Ucupaint grimgoraxe Metallic-Ucupaint grimgoraxe Roughness.png::CompressedTexture2D::62562545144502090::1738916735::1738917398::1::::<><>::
 BlackorkWIP.glb::PackedScene::1434276671713883931::1738328143::1738328143::1::::<><>::
 boarBoyz.glb::PackedScene::121981190495424521::1738313563::1738313563::1::::<><>::
-dragon_model(1).glb::PackedScene::4862445211820086377::1729243300::1739272872::1::::<><>::uid://c74esohekms12::::res://assets/3d/troops/Orcs/dragon_model(1)_dragon_texture.png
-dragon_model(1)_dragon_texture.png::CompressedTexture2D::7079027077268457239::1729243300::1738307670::1::::<><>::
 dragon_model.glb::PackedScene::6516087004504442750::1739273152::1739273152::1::::<><>::uid://bqatqd50jrfdk::::res://assets/3d/troops/Orcs/dragon_model_dragon_texture.png
 dragon_model_dragon_texture.png::CompressedTexture2D::3510624582529429948::1739273112::1739273152::1::::<><>::
 Goblin_Male.glb::PackedScene::2068228031650780884::1729243300::1738307672::1::::<><>::
@@ -138,6 +161,7 @@ Witch_WIP1.glb::PackedScene::2069819696773902956::1731313840::1738307673::1::::<
 ::res://assets/3d/weapons/::1738324460
 crossbow.glb::PackedScene::4380515913063318301::1738318852::1738318883::1::::<><>::
 simple_bow.glb::PackedScene::3637020710789771787::1738306570::1738307673::1::::<><>::
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 ::res://assets/fonts/::1739272085
 alagard_by_pix3m.ttf::FontFile::7349751026233646271::1729243300::1738307670::1::::<><>::
@@ -151,6 +175,13 @@ attributionpix3m.txt::TextFile::-1::1729243300::0::1::::<><>::
 BasicFont.tres::LabelSettings::8368668011448124394::1729243300::0::1::::<><>::uid://dcyjlcm8v5xs6::::res://assets/fonts/alagard_by_pix3m.ttf
 basic_theme.tres::Theme::6903167713620829517::1739870181::0::1::::<><>::uid://da3w1gk87byx3::::res://assets/UI/boxNormal.png<>uid://vtcjtdfu4eef::::res://assets/UI/fonts/Tintagel.otf<>uid://dcyjlcm8v5xs6::::res://assets/fonts/alagard_by_pix3m.ttf<>uid://dfih135iui8im::::res://assets/UI/boxHover.png<>uid://drsovetfrwe4g::::res://assets/UI/boxSelect.png
 >>>>>>> Stashed changes
+=======
+::res://assets/fonts/::1739366516
+alagard_by_pix3m.ttf::FontFile::7349751026233646271::1729243300::1738307670::1::::<><>::
+attributionpix3m.txt::TextFile::-1::1729243300::0::1::::<><>::
+BasicFont.tres::LabelSettings::8368668011448124394::1729243300::0::1::::<><>::uid://dcyjlcm8v5xs6::::res://assets/fonts/alagard_by_pix3m.ttf
+basic_theme.tres::Theme::6903167713620829517::1739366516::0::1::::<><>::uid://da3w1gk87byx3::::res://assets/UI/boxNormal.png<>uid://dcyjlcm8v5xs6::::res://assets/fonts/alagard_by_pix3m.ttf<>uid://dfih135iui8im::::res://assets/UI/boxHover.png<>uid://drsovetfrwe4g::::res://assets/UI/boxSelect.png
+>>>>>>> sqlite-integration
 ::res://assets/FX/::1738307670
 blackSmoke00.png::CompressedTexture2D::4776700489729786621::1737111396::1738307670::1::::<><>::
 blackSmoke01.png::CompressedTexture2D::1908697676507072864::1737111396::1738307670::1::::<><>::
@@ -215,8 +246,8 @@ magic_shield.jpg::CompressedTexture2D::6165874088509282516::1729833705::17383067
 ::res://code/::1738306570
 FieldCameraControl.cs::CSharpScript::-1::1738306570::0::1::::<>Node3D<>::
 UnitMovementManager.cs::CSharpScript::-1::1731574928::0::1::::<><>::
-::res://code/grassfield/::1731574928
-DataNode2d.cs::CSharpScript::-1::1731065126::0::1::::<>Node2D<>::
+::res://code/grassfield/::1739363611
+DataNode2d.cs::CSharpScript::-1::1739363611::0::1::::<>Node2D<>::
 GrassTerrain.cs::CSharpScript::-1::1731574928::0::1::::<>Node3D<>::
 ::res://code/Input/::1739270061
 BaseMove.cs::CSharpScript::-1::1731654136::0::1::::<><>::
@@ -229,6 +260,7 @@ InputResolveCharge.cs::CSharpScript::-1::1738306570::0::1::::<><>::
 InputShootPhase.cs::CSharpScript::-1::1738306570::0::1::::<><>::
 ISubInputManager.cs::CSharpScript::-1::1731396633::0::1::::<><>::
 ReactiveInput.cs::CSharpScript::-1::1732604531::0::1::::<><>::
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 ::res://code/terrainshader/::1739272935
 battlefield.gdshader::Shader::-1::1739272935::0::1::::<><>::
@@ -236,6 +268,10 @@ battlefield.gdshader::Shader::-1::1739272935::0::1::::<><>::
 ::res://code/terrainshader/::1739873395
 battlefield.gdshader::Shader::-1::1739873395::0::1::::<><>::
 >>>>>>> Stashed changes
+=======
+::res://code/terrainshader/::1739366521
+battlefield.gdshader::Shader::-1::1739366521::0::1::::<><>::
+>>>>>>> sqlite-integration
 ::res://dices_resources/::1738306786
 dicecool.tscn::PackedScene::7579511201060269026::1730186441::0::1::::<><>::uid://byku2n16l6ox6::::res://assets/3d/dicecool.glb
 dice_object.tscn::PackedScene::6117232945972997693::1729243300::0::1::::<><>::uid://df8tpbclrf24e::::res://dices_resources/dicecool.tscn
@@ -244,20 +280,28 @@ velvetdicetray_Velvet_N.jpg::CompressedTexture2D::5837581238750712525::172924330
 velvetdicetray_Velvet_S.jpg::CompressedTexture2D::3263565142497653110::1729243300::1738306782::1::::<><>::
 ::res://Properties/::1729243299
 launchSettings.json::JSON::-1::1729493442::0::1::::<><>::
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 ::res://shaders/::1739272935
 =======
 ::res://shaders/::1739873395
 >>>>>>> Stashed changes
+=======
+::res://shaders/::1739366521
+>>>>>>> sqlite-integration
 depth_test.glsl::RDShaderFile::3525266214510536282::1736416864::1738306782::1::::<><>::
 gaussian_blur.glsl::RDShaderFile::6938948075293606491::1736414051::1738306782::1::::<><>::
 gray_scale.glsl::RDShaderFile::66607608493724812::1735901467::1738306782::1::::<><>::
 post_process.gd::GDScript::-1::1736416901::0::1::::TiltShiftEffect<>CompositorEffect<>::
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 terrain.gdshader::Shader::-1::1739272935::0::1::::<><>::
 =======
 terrain.gdshader::Shader::-1::1739873395::0::1::::<><>::
 >>>>>>> Stashed changes
+=======
+terrain.gdshader::Shader::-1::1739366521::0::1::::<><>::
+>>>>>>> sqlite-integration
 ::res://Spells/::1738306858
 ConfirmPanel.cs::CSharpScript::-1::1730721038::0::1::::<>Control<>::
 fireball.tscn::PackedScene::3899885893083153705::1738306858::0::1::::<><>::res://fireballSmoke.gdshader<>uid://cab4taob6y7i4::::res://assets/FX/blackSmoke00.png<>uid://2gt8bqj8467m::::res://assets/FX/blackSmoke01.png
@@ -285,29 +329,33 @@ InfantrySkelModifier.cs::CSharpScript::-1::1729243300::0::1::::<>SkeletonModifie
 ::res://units/troops/::1738318615
 base_unit.tscn::PackedScene::394608125874921950::1738306797::0::1::::<><>::res://units/UnitGodot.cs
 unidad_base.tscn::PackedScene::4133406526430518452::1731309321::0::1::::<><>::res://units/Unidad.cs<>uid://bpooqvtmbhoys::::res://assets/3d/troops/Bases/MiniatureBase.glb<>uid://4p4ocatqrwxg::::res://assets/3d/troops/Orcs/Goblin_Male.glb
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 ::res://units/troops/Dwarfs/::1739272934
+=======
+::res://units/troops/Dwarfs/::1739366520
+>>>>>>> sqlite-integration
 cannon50x50.tscn::PackedScene::5955486053506114847::1738918273::0::1::::<><>::uid://crb04jbt0mjeq::::res://assets/3d/troops/Bases/MiniatureBase50x50.glb<>uid://dyaalx4ufbtya::::res://assets/3d/troops/Dwarfs/cannon_WIP.glb
 crossbow25x25.tscn::PackedScene::6367573040010864407::1738329542::0::1::::<><>::uid://gyh0c8ideubq::::res://assets/3d/troops/Bases/MiniatureBase25x25.glb<>uid://dw50gb28yv1bo::::res://assets/3d/troops/Dwarfs/quarreler_WIP.glb<>uid://b3n7psnlrehm0::::res://assets/3d/weapons/crossbow.glb
 dwarf25x25.tscn::PackedScene::4867040304917919171::1738317443::0::1::::<><>::uid://gyh0c8ideubq::::res://assets/3d/troops/Bases/MiniatureBase25x25.glb<>uid://dey84n28rnmm4::::res://assets/3d/troops/Dwarfs/dwarf2.glb
-gyrocopter50x50.tscn::PackedScene::842545193899338153::1739272934::0::1::::<><>::uid://crb04jbt0mjeq::::res://assets/3d/troops/Bases/MiniatureBase50x50.glb<>uid://p7wfxw1qvxbs::::res://assets/3d/troops/Dwarfs/gyrocopter.glb
-kingDwarf25x25.tscn::PackedScene::2210026230360551587::1739272930::0::1::::<><>::uid://gyh0c8ideubq::::res://assets/3d/troops/Bases/MiniatureBase25x25.glb<>uid://bg4kdsmwsl300::::res://assets/3d/troops/Dwarfs/KINGdwarf.glb
+gyrocopter50x50.tscn::PackedScene::842545193899338153::1739366520::0::1::::<><>::uid://crb04jbt0mjeq::::res://assets/3d/troops/Bases/MiniatureBase50x50.glb<>uid://p7wfxw1qvxbs::::res://assets/3d/troops/Dwarfs/gyrocopter.glb
+kingDwarf25x25.tscn::PackedScene::2210026230360551587::1739366516::0::1::::<><>::uid://gyh0c8ideubq::::res://assets/3d/troops/Bases/MiniatureBase25x25.glb<>uid://bg4kdsmwsl300::::res://assets/3d/troops/Dwarfs/KINGdwarf.glb
 knight_unit25x25.tscn::PackedScene::2587381571693557360::1738306946::0::1::::<><>::res://units/UnitGodot.cs<>uid://gyh0c8ideubq::::res://assets/3d/troops/Bases/MiniatureBase25x25.glb<>uid://dt2jeqehvbr48::::res://assets/3d/troops/Knight_Male.glb
 knight_unit.tscn::PackedScene::1069135276256279345::1738306946::0::1::::<><>::res://units/UnitGodot.cs<>uid://bpooqvtmbhoys::::res://assets/3d/troops/Bases/MiniatureBase.glb<>uid://dt2jeqehvbr48::::res://assets/3d/troops/Knight_Male.glb
-longbeard25x25.tscn::PackedScene::8204417114249968646::1739272934::0::1::::<><>::uid://gyh0c8ideubq::::res://assets/3d/troops/Bases/MiniatureBase25x25.glb<>uid://j05veig6d1w2::::res://assets/3d/troops/Dwarfs/longbeardanim.glb
+longbeard25x25.tscn::PackedScene::8204417114249968646::1739366520::0::1::::<><>::uid://gyh0c8ideubq::::res://assets/3d/troops/Bases/MiniatureBase25x25.glb<>uid://j05veig6d1w2::::res://assets/3d/troops/Dwarfs/longbeardanim.glb
 slayer25x25.tscn::PackedScene::5261385315630744894::1738306946::0::1::::<><>::uid://gyh0c8ideubq::::res://assets/3d/troops/Bases/MiniatureBase25x25.glb<>uid://chcj8ya0gar6p::::res://assets/3d/troops/Dwarfs/Slayer.glb
-::res://units/troops/Orcs/::1739273118
+::res://units/troops/Orcs/::1739534403
 Blackorc30x30.tscn::PackedScene::7908585736961940454::1738842088::0::1::::<><>::uid://bvpgxloy37mtl::::res://assets/3d/troops/Bases/MiniatureBase30x30.glb<>uid://uo1lejs2yndr::::res://assets/3d/troops/Orcs/BlackorkWIP.glb
 BlackorkWIP.glb::PackedScene::6869761567611872471::1738842104::1738842104::1::::<><>::
-boar_rider25x50.tscn::PackedScene::1908279901892740709::1738918273::0::1::::<><>::uid://dgm22hc4qpq1i::::res://assets/3d/troops/Bases/MiniatureBase25x50.glb<>uid://b0daok2tm4e4::::res://assets/3d/troops/Orcs/boarBoyz.glb
-dragon.tscn::PackedScene::6773842021753858520::1739272935::0::1::::<><>::uid://cbjn06es1b4ef::::res://assets/3d/troops/Orcs/dragon_model(1).glb<>uid://c74esohekms12::::res://assets/3d/troops/Orcs/dragon_model(1)_dragon_texture.png
-dragon_unit.tscn::PackedScene::8935281150350481332::1739272934::0::1::::<><>::uid://bw6pbcycj48gv::::res://assets/3d/troops/Bases/MiniatureBase60x100.glb<>uid://cppkk3pc2cpc7::::res://assets/3d/rocks/rock_02.obj<>uid://cqheyfynf85bh::::res://assets/3d/rocks/diffuse.tga<>uid://csvlb4r6swly1::::res://assets/3d/rocks/normal.tga<>uid://c0lg0mak26gj2::::res://assets/3d/rocks/specular.tga<>uid://cbjn06es1b4ef::::res://assets/3d/troops/Orcs/dragon_model(1).glb
+boar_rider30x60.tscn::PackedScene::1908279901892740709::1738918273::0::1::::<><>::uid://dgm22hc4qpq1i::::res://assets/3d/troops/Bases/MiniatureBase25x50.glb<>uid://b0daok2tm4e4::::res://assets/3d/troops/Orcs/boarBoyz.glb
+dragon_unit.tscn::PackedScene::8935281150350481332::1739366521::0::1::::<><>::uid://bw6pbcycj48gv::::res://assets/3d/troops/Bases/MiniatureBase60x100.glb<>uid://cy3pabdoe2xh3::::res://assets/3d/troops/Orcs/dragon_model.glb
 goblin_club25x25.tscn::PackedScene::7828517701648381009::1738306946::0::1::::<><>::uid://gyh0c8ideubq::::res://assets/3d/troops/Bases/MiniatureBase25x25.glb<>uid://br22g15ify7wp::::res://assets/3d/weapons/simple_bow.glb<>uid://ch4xi27ub31fo::::res://assets/3d/troops/Orcs/Goblin_MaleWIP.glb
 goblin_wizard25x25.tscn::PackedScene::1729154776584798021::1738306946::0::1::::<><>::uid://gyh0c8ideubq::::res://assets/3d/troops/Bases/MiniatureBase25x25.glb<>uid://4qvvl7757453::::res://assets/3d/troops/Orcs/Witch_WIP1.glb
-orc30x30.tscn::PackedScene::4246017188697449204::1739272934::0::1::::<><>::uid://bvpgxloy37mtl::::res://assets/3d/troops/Bases/MiniatureBase30x30.glb<>uid://i13dyknuudj2::::res://assets/3d/troops/Orcs/orc_male_with_axe.glb
+orc30x30.tscn::PackedScene::4246017188697449204::1739366520::0::1::::<><>::uid://bvpgxloy37mtl::::res://assets/3d/troops/Bases/MiniatureBase30x30.glb<>uid://i13dyknuudj2::::res://assets/3d/troops/Orcs/orc_male_with_axe.glb
 WarlordBlack.tscn::PackedScene::6249629347805316861::1738918274::0::1::::<><>::uid://bvpgxloy37mtl::::res://assets/3d/troops/Bases/MiniatureBase30x30.glb<>uid://47r2f7u5v3j4::::res://assets/3d/troops/Orcs/BlackOrkBoss1.glb
-::res://units/vfx/::1739272935
+::res://units/vfx/::1739366521
 arrow.png::CompressedTexture2D::1235261647724081735::1729664029::1738307670::1::::<><>::
+<<<<<<< HEAD
 magicselectshader.gdshader::Shader::-1::1739272935::0::1::::<><>::
 =======
 ::res://units/troops/Dwarfs/::1739873394
@@ -333,12 +381,19 @@ WarlordBlack.tscn::PackedScene::6249629347805316861::1738918274::0::1::::<><>::u
 arrow.png::CompressedTexture2D::1235261647724081735::1729664029::1738307670::1::::<><>::
 magicselectshader.gdshader::Shader::-1::1739873395::0::1::::<><>::
 >>>>>>> Stashed changes
+=======
+magicselectshader.gdshader::Shader::-1::1739366521::0::1::::<><>::
+>>>>>>> sqlite-integration
 magic_selectionparticles.tscn::PackedScene::2144753043672307136::1730721437::0::1::::<><>::res://units/vfx/magicselectshader.gdshader<>uid://ckqhlc6w24oxm::::res://units/vfx/selection_particles.tscn<>uid://rumtxfw3whfr::::res://units/vfx/arrow.png
 magic_selection_fx.tscn::PackedScene::4780997241011127384::1730721437::0::1::::<><>::res://units/vfx/magicselectshader.gdshader<>uid://ckqhlc6w24oxm::::res://units/vfx/selection_particles.tscn
 selection_fx.tscn::PackedScene::7030052407409175566::1730721437::0::1::::<><>::res://units/vfx/selectshader.gdshader<>uid://ckqhlc6w24oxm::::res://units/vfx/selection_particles.tscn
 selection_particles.tscn::PackedScene::5508204664486255850::1730721437::0::1::::<><>::uid://rumtxfw3whfr::::res://units/vfx/arrow.png
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 selectshader.gdshader::Shader::-1::1739272935::0::1::::<><>::
 =======
 selectshader.gdshader::Shader::-1::1739873395::0::1::::<><>::
 >>>>>>> Stashed changes
+=======
+selectshader.gdshader::Shader::-1::1739366521::0::1::::<><>::
+>>>>>>> sqlite-integration

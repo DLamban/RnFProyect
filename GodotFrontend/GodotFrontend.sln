@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "..\Core\Core.csproj
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Server", "..\Server\Server.csproj", "{E826329F-8AEC-4B34-B632-129E88ACC40D}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests", "..\Tests\Tests.csproj", "{59B7C30F-723C-4FDA-8AB5-74372B528631}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +43,14 @@ Global
 		{E826329F-8AEC-4B34-B632-129E88ACC40D}.ExportRelease|Any CPU.Build.0 = Release|Any CPU
 		{E826329F-8AEC-4B34-B632-129E88ACC40D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E826329F-8AEC-4B34-B632-129E88ACC40D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59B7C30F-723C-4FDA-8AB5-74372B528631}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59B7C30F-723C-4FDA-8AB5-74372B528631}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59B7C30F-723C-4FDA-8AB5-74372B528631}.ExportDebug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59B7C30F-723C-4FDA-8AB5-74372B528631}.ExportDebug|Any CPU.Build.0 = Debug|Any CPU
+		{59B7C30F-723C-4FDA-8AB5-74372B528631}.ExportRelease|Any CPU.ActiveCfg = Release|Any CPU
+		{59B7C30F-723C-4FDA-8AB5-74372B528631}.ExportRelease|Any CPU.Build.0 = Release|Any CPU
+		{59B7C30F-723C-4FDA-8AB5-74372B528631}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59B7C30F-723C-4FDA-8AB5-74372B528631}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,7 +1,10 @@
-﻿using Core.GeometricEngine;
+﻿using Core.DB.Data;
+using Core.DB.Models;
+using Core.GeometricEngine;
 using Core.List;
 using Core.Networking;
 using Core.Rules;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -81,17 +84,8 @@ namespace Core.Units
         }
         private BaseUnit instantiateUnit(string unitName,List<Character> characters, int widthRank, int unitCount, Guid guid)
         {
-<<<<<<< Updated upstream
-            
-            try
-            {
-                BaseUnit unitType = CodexAll.Instance.getUnitCodex(unitName);
-                       
-                string jsonString = JsonSerializer.Serialize(unitType.Troop);
-=======
             // MIgrating to db, test first
-            if (DBSingleton.Instance.Units.FirstOrDefault(u=>u.Name == unitName) != null)
-            {            
+            if (unitName == "Dwarf Warriors" || unitName == "Elder Dwarfs") {
                 var unitDetail = DBSingleton.Instance.Units
                     .Include(u => u.Formation) // Carga la formación
                     .Include(u=>u.Race)
@@ -106,28 +100,53 @@ namespace Core.Units
                             .ThenInclude(wt => wt.Weapon)  // Incluye las armas asociadas        
                     .FirstOrDefault(u=>u.Name==unitName);
 
->>>>>>> Stashed changes
                 List<BaseTroop> troops = new List<BaseTroop>();
-
                 for (int i = 0; i < unitCount; i++)
                 {
-                    BaseTroop baseTroop = JsonSerializer.Deserialize<BaseTroop>(jsonString);
-                    //BaseTroop baseTroop = Basicrat
+                    BaseTroop baseTroop = new BaseTroop(unitDetail.TroopProfiles.FirstOrDefault(t=>t.IsMainProfile!=0));
+
                     troops.Add(baseTroop);
                 }
-                BaseUnit baseunit = new BaseUnit(unitType.Race, unitType.Name, widthRank, Formation_type.CLOSE_ORDER, new List<string> { "Reglaespecial1", "Reglaespecial2" }, troops);
+                BaseUnit baseUnit = new BaseUnit(unitDetail.Race.Code, unitDetail.Name, widthRank, Formation_type.CLOSE_ORDER, new List<string> { "Reglaespecial1", "Reglaespecial2" }, troops);
+
                 foreach (Character character in characters)
                 {
-                    baseunit.AddCharacter(character);
+                    DB.Models.Character character1 = DBSingleton.Instance.Characters.FirstOrDefault(c => c.Name == character.Name);
+                    Character cahracterfromdb = new Character(character1);
+                    baseUnit.AddCharacter(cahracterfromdb);
                 }
-
-                baseunit.Guid = guid;
-                return baseunit;
+               
+                baseUnit.Guid = guid;
+                return baseUnit;
             }
-            catch (Exception ex)
-            {
-                Debug.WriteLine("Cannot find unit" + unitName);
-                throw;
+            else {
+                try
+                {
+                    BaseUnit unitType = CodexAll.Instance.getUnitCodex(unitName);
+                       
+                    string jsonString = JsonSerializer.Serialize(unitType.Troop);
+                    List<BaseTroop> troops = new List<BaseTroop>();
+
+                    for (int i = 0; i < unitCount; i++)
+                    {
+                        BaseTroop baseTroop = JsonSerializer.Deserialize<BaseTroop>(jsonString);
+                        //BaseTroop baseTroop = Basicrat
+                        troops.Add(baseTroop);
+                    }
+                    BaseUnit baseunit = new BaseUnit(unitType.Race, unitType.Name, widthRank, Formation_type.CLOSE_ORDER, new List<string> { "Reglaespecial1", "Reglaespecial2" }, troops);
+                    foreach (Character character in characters)
+                    {
+                        baseunit.AddCharacter(character);
+                    }
+
+                    baseunit.Guid = guid;
+                    return baseunit;
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine("Cannot find unit" + unitName);
+                    throw;
+                }
             }
         }
         
