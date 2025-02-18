@@ -1,9 +1,14 @@
-[gd_resource type="Theme" load_steps=13 format=3 uid="uid://c5l7fthgxiatx"]
+[gd_resource type="Theme" load_steps=15 format=3 uid="uid://c5l7fthgxiatx"]
 
 [ext_resource type="Texture2D" uid="uid://da3w1gk87byx3" path="res://assets/UI/boxNormal.png" id="1_kaf41"]
+[ext_resource type="FontFile" uid="uid://vtcjtdfu4eef" path="res://assets/UI/fonts/Tintagel.otf" id="1_opuxe"]
 [ext_resource type="FontFile" uid="uid://dcyjlcm8v5xs6" path="res://assets/fonts/alagard_by_pix3m.ttf" id="1_r08hx"]
 [ext_resource type="Texture2D" uid="uid://dfih135iui8im" path="res://assets/UI/boxHover.png" id="1_tb3tk"]
 [ext_resource type="Texture2D" uid="uid://drsovetfrwe4g" path="res://assets/UI/boxSelect.png" id="3_2pr3p"]
+
+[sub_resource type="FontVariation" id="FontVariation_pytsh"]
+base_font = ExtResource("1_opuxe")
+spacing_glyph = -1
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_j10lk"]
 texture = ExtResource("1_tb3tk")
@@ -11,13 +16,11 @@ texture_margin_left = 25.0
 texture_margin_right = 25.0
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_vnuwb"]
-content_margin_left = 20.0
-content_margin_top = 20.0
-content_margin_right = 20.0
-content_margin_bottom = 20.0
+content_margin_left = 10.0
+content_margin_top = 10.0
+content_margin_right = 10.0
+content_margin_bottom = 10.0
 texture = ExtResource("1_kaf41")
-texture_margin_left = 25.0
-texture_margin_right = 25.0
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_clogu"]
 texture = ExtResource("3_2pr3p")
@@ -77,11 +80,13 @@ expand_margin_bottom = 5.0
 default_base_scale = 1.0
 default_font = ExtResource("1_r08hx")
 default_font_size = 32
+Button/font_sizes/font_size = 24
+Button/fonts/font = SubResource("FontVariation_pytsh")
 Button/styles/focus = null
 Button/styles/hover = SubResource("StyleBoxTexture_j10lk")
 Button/styles/normal = SubResource("StyleBoxTexture_vnuwb")
 Button/styles/pressed = SubResource("StyleBoxTexture_clogu")
-HBoxContainer/constants/separation = 4
+HBoxContainer/constants/separation = 2
 Label/colors/font_color = Color(0.976471, 1, 0.631373, 1)
 Label/colors/font_outline_color = Color(1, 1, 1, 1)
 Label/colors/font_shadow_color = Color(0.387721, 0.235547, 0, 0.560784)

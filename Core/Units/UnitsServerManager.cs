@@ -81,12 +81,32 @@ namespace Core.Units
         }
         private BaseUnit instantiateUnit(string unitName,List<Character> characters, int widthRank, int unitCount, Guid guid)
         {
+<<<<<<< Updated upstream
             
             try
             {
                 BaseUnit unitType = CodexAll.Instance.getUnitCodex(unitName);
                        
                 string jsonString = JsonSerializer.Serialize(unitType.Troop);
+=======
+            // MIgrating to db, test first
+            if (DBSingleton.Instance.Units.FirstOrDefault(u=>u.Name == unitName) != null)
+            {            
+                var unitDetail = DBSingleton.Instance.Units
+                    .Include(u => u.Formation) // Carga la formación
+                    .Include(u=>u.Race)
+                    .Include(u => u.TroopProfiles)
+                        .ThenInclude(tp => tp.TroopType)  // Incluye el tipo de tropa
+                    .Include(u => u.TroopProfiles)
+                        .ThenInclude(tp => tp.BaseSize)  // Incluye el tamaño base
+                    .Include(u => u.TroopProfiles)
+                        .ThenInclude(tp => tp.Category)  // Incluye la categoría de la tropa
+                    .Include(u => u.TroopProfiles)
+                        .ThenInclude(tp => tp.WeaponsTroops) // Incluye las relaciones WeaponTroops
+                            .ThenInclude(wt => wt.Weapon)  // Incluye las armas asociadas        
+                    .FirstOrDefault(u=>u.Name==unitName);
+
+>>>>>>> Stashed changes
                 List<BaseTroop> troops = new List<BaseTroop>();
 
                 for (int i = 0; i < unitCount; i++)

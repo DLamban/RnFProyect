@@ -1,3 +1,8 @@
+TextureButton
+Panel
+Button
+HBoxContainer
+MarginContainer
 BoneAttachment3D
 VBoxContainer
 Label
@@ -5,10 +10,5 @@ CanvasLayer
 MeshInstance3D
 Node3D
 TextEdit
-HBoxContainer
 MultiMeshInstance3D
 Node
-GPUParticles3D
-AnimationPlayer
-OmniLight3D
-CenterContainer

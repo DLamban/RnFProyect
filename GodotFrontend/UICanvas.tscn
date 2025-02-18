@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://dpsexlp7rtu24"]
+[gd_scene load_steps=36 format=3 uid="uid://dpsexlp7rtu24"]
 
 [ext_resource type="Theme" uid="uid://c5l7fthgxiatx" path="res://assets/fonts/basic_theme.tres" id="1_7w5fx"]
 [ext_resource type="Script" path="res://UIcode/UICanvas.cs" id="1_uf8sf"]
@@ -10,8 +10,11 @@
 [ext_resource type="Script" path="res://UIcode/ActionContainer.cs" id="8_ceo8v"]
 [ext_resource type="PackedScene" uid="uid://cwp4060vgqdnt" path="res://assets/UI/Actions_button.tscn" id="8_dml77"]
 [ext_resource type="Shader" path="res://Spellselectioncanvas.gdshader" id="8_u1fbv"]
+[ext_resource type="Texture2D" uid="uid://bit4lhdtx8hl1" path="res://assets/UI/actionbar.png" id="8_y51aj"]
 [ext_resource type="Script" path="res://Spells/UISpellManager.cs" id="9_xjim1"]
 [ext_resource type="Script" path="res://Spells/ConfirmPanel.cs" id="10_b20x0"]
+[ext_resource type="Texture2D" uid="uid://cu08mqj5emn2s" path="res://assets/UI/buttonShooting.png" id="11_qgwlh"]
+[ext_resource type="Texture2D" uid="uid://bj5pv55hpi5yq" path="res://assets/UI/buttonShootingHover.png" id="12_ikew2"]
 [ext_resource type="Script" path="res://UIcode/ChargeResponseUI.cs" id="13_iahc3"]
 [ext_resource type="FontFile" uid="uid://d1abuqp2etn8q" path="res://assets/UI/fonts/fight16cleaned.png" id="14_3sye8"]
 
@@ -47,6 +50,12 @@ corner_radius_bottom_left = 5
 shadow_color = Color(0, 0, 0, 0.796078)
 shadow_size = 5
 shadow_offset = Vector2(5, 5)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ad38n"]
+texture = ExtResource("8_y51aj")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_2d4eb"]
+texture = ExtResource("8_y51aj")
 
 [sub_resource type="Gradient" id="Gradient_3mh4p"]
 offsets = PackedFloat32Array(0.21875, 0.495924, 0.913043, 1)
@@ -615,46 +624,137 @@ text = "NEXT
 PHASE"
 
 [node name="ActionContextualContainer" type="PanelContainer" parent="CanvasGroup/AnchorProvider"]
+visible = false
+clip_contents = true
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 1
-anchors_preset = -1
+anchors_preset = 7
 anchor_left = 0.5
-anchor_top = 0.952
+anchor_top = 1.0
 anchor_right = 0.5
-anchor_bottom = 0.952
-offset_left = -164.0
-offset_top = -150.0
-offset_right = 164.0
+anchor_bottom = 1.0
+offset_left = -300.0
+offset_top = -275.0
+offset_right = 300.0
 grow_horizontal = 2
 grow_vertical = 0
 theme = ExtResource("1_7w5fx")
-script = ExtResource("8_ceo8v")
+theme_override_styles/panel = SubResource("StyleBoxTexture_ad38n")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasGroup/AnchorProvider/ActionContextualContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="CanvasGroup/AnchorProvider/ActionContextualContainer"]
 layout_mode = 2
+theme_override_constants/margin_left = 70
+theme_override_constants/margin_top = 40
+theme_override_constants/margin_right = 70
+theme_override_constants/margin_bottom = 20
 
-[node name="CenterContainer2" type="CenterContainer" parent="CanvasGroup/AnchorProvider/ActionContextualContainer/VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasGroup/AnchorProvider/ActionContextualContainer/MarginContainer"]
 layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 25
 
-[node name="InputPhaseLabel" type="Label" parent="CanvasGroup/AnchorProvider/ActionContextualContainer/VBoxContainer/CenterContainer2"]
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasGroup/AnchorProvider/ActionContextualContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
-text = "Strategy phase"
+size_flags_vertical = 0
 
-[node name="CenterContainer" type="CenterContainer" parent="CanvasGroup/AnchorProvider/ActionContextualContainer/VBoxContainer"]
+[node name="SubPhaseLabel" type="Label" parent="CanvasGroup/AnchorProvider/ActionContextualContainer/MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
-
-[node name="SubPhaseLabel" type="Label" parent="CanvasGroup/AnchorProvider/ActionContextualContainer/VBoxContainer/CenterContainer"]
-layout_mode = 2
+size_flags_horizontal = 0
 text = "waiting input"
 
-[node name="MainHBox" type="HBoxContainer" parent="CanvasGroup/AnchorProvider/ActionContextualContainer/VBoxContainer"]
+[node name="InputPhaseLabel" type="Label" parent="CanvasGroup/AnchorProvider/ActionContextualContainer/MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
+size_flags_horizontal = 10
+text = "Strategy phase"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasGroup/AnchorProvider/ActionContextualContainer/VBoxContainer/MainHBox"]
+[node name="MainHBox" type="HBoxContainer" parent="CanvasGroup/AnchorProvider/ActionContextualContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasGroup/AnchorProvider/ActionContextualContainer/MarginContainer/VBoxContainer/MainHBox"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_stretch_ratio = 0.57
 theme = ExtResource("1_7w5fx")
+theme_override_constants/separation = 0
 
-[node name="MarginContainer" parent="CanvasGroup/AnchorProvider/ActionContextualContainer/VBoxContainer/MainHBox" instance=ExtResource("8_dml77")]
+[node name="MarginContainer" parent="CanvasGroup/AnchorProvider/ActionContextualContainer/MarginContainer/VBoxContainer/MainHBox" instance=ExtResource("8_dml77")]
+layout_mode = 2
+
+[node name="Panel" type="Panel" parent="CanvasGroup/AnchorProvider"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -300.0
+offset_top = -275.0
+offset_right = 300.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxTexture_2d4eb")
+script = ExtResource("8_ceo8v")
+
+[node name="TextureButton" type="TextureButton" parent="CanvasGroup/AnchorProvider/Panel"]
+layout_mode = 2
+offset_left = 248.0
+offset_top = 18.0
+offset_right = 357.0
+offset_bottom = 110.0
+tooltip_text = "End phase"
+texture_normal = ExtResource("11_qgwlh")
+texture_hover = ExtResource("12_ikew2")
+stretch_mode = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasGroup/AnchorProvider/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 57.0
+offset_top = 90.0
+offset_right = -58.0
+offset_bottom = -35.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasGroup/AnchorProvider/Panel/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 35
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasGroup/AnchorProvider/Panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="SubPhaseLabel" type="Label" parent="CanvasGroup/AnchorProvider/Panel/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "waiting input"
+
+[node name="InputPhaseLabel" type="Label" parent="CanvasGroup/AnchorProvider/Panel/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 10
+text = "Strategy phase"
+
+[node name="MainHBox" type="HBoxContainer" parent="CanvasGroup/AnchorProvider/Panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasGroup/AnchorProvider/Panel/MarginContainer/VBoxContainer/MainHBox"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_stretch_ratio = 0.57
+theme = ExtResource("1_7w5fx")
+theme_override_constants/separation = 0
+
+[node name="MarginContainer" parent="CanvasGroup/AnchorProvider/Panel/MarginContainer/VBoxContainer/MainHBox" instance=ExtResource("8_dml77")]
 layout_mode = 2
 
 [node name="SpellsContainer" type="PanelContainer" parent="CanvasGroup/AnchorProvider"]
