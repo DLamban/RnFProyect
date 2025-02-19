@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bj5pv55hpi5yq"
-path="res://.godot/imported/buttonShootingHover.png-1db9f8228fceb2f12f390e48ae014258.ctex"
+uid="uid://ch81blc1r68ki"
+path="res://.godot/imported/button_strategic_hover.png-992443998e7dcf478daa81897ed73643.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/UI/buttonShootingHover.png"
-dest_files=["res://.godot/imported/buttonShootingHover.png-1db9f8228fceb2f12f390e48ae014258.ctex"]
+source_file="res://assets/UI/BubbleStatusButton/button_strategic_hover.png"
+dest_files=["res://.godot/imported/button_strategic_hover.png-992443998e7dcf478daa81897ed73643.ctex"]
 
 [params]
 

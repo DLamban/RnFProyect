@@ -86,6 +86,24 @@ namespace Core.GameLoop
             {
                 currentSubPhase = subPhaseStates[index + 1];
             }
+            switch(currentSubPhase)
+            {
+                case SubBattleStatePhase.strategic:
+                    currentState = BattleState.strategic;
+                    break;
+                case SubBattleStatePhase.charge:
+                    currentState = BattleState.move;
+                    break;
+                case SubBattleStatePhase.move:
+                    currentState = BattleState.move;
+                    break;
+                case SubBattleStatePhase.shoot:
+                    currentState = BattleState.shoot;
+                    break;
+                case SubBattleStatePhase.combat:
+                    currentState = BattleState.combat;
+                    break;
+            }
         }
     }
 }

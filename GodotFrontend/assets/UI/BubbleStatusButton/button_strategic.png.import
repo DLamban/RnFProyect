@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cu08mqj5emn2s"
-path="res://.godot/imported/buttonShooting.png-929068e2848bec2ff68e67d35748c153.ctex"
+uid="uid://dnxq5ax7u30ca"
+path="res://.godot/imported/button_strategic.png-8306bd265b89382ae56428854ef98d85.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/UI/buttonShooting.png"
-dest_files=["res://.godot/imported/buttonShooting.png-929068e2848bec2ff68e67d35748c153.ctex"]
+source_file="res://assets/UI/BubbleStatusButton/button_strategic.png"
+dest_files=["res://.godot/imported/button_strategic.png-8306bd265b89382ae56428854ef98d85.ctex"]
 
 [params]
 

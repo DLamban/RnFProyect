@@ -2,6 +2,7 @@ using Core.GameLoop;
 using Core.Rules;
 using Godot;
 using GodotFrontend.code.Input;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -47,17 +48,20 @@ public partial class ActionContainer : Panel
 	InputResolveCharge inputResolveCharge;
 	ReactiveInput reactiveInput;
 	#endregion
-	Button endSubPhaseButton;
+	TextureButton endSubPhaseButton;
 	// FEEDBACK vars
 	Label inputPhaseLabel;
 	Label subPhaseLabel;
 	public override async void _Ready()
 	{
 
-		inputPhaseLabel = GetNode<Label>("MarginContainer/VBoxContainer/CenterContainer2/InputPhaseLabel");
-		subPhaseLabel = GetNode<Label>("MarginContainer/VBoxContainer/CenterContainer/SubPhaseLabel");
+
+        inputPhaseLabel = GetNode<Label>("MarginContainer/VBoxContainer/HBoxContainer/InputPhaseLabel");
+		subPhaseLabel = GetNode<Label>("MarginContainer/VBoxContainer/HBoxContainer/SubPhaseLabel");
 		actionBtnContainer = GetNode<HBoxContainer>("MarginContainer/VBoxContainer/MainHBox/HBoxContainer");
-		endSubPhaseButton = GetNode<Button>("MarginContainer/VBoxContainer/MainHBox/MarginContainer/ActionButton");
+        
+
+        endSubPhaseButton = GetNode<TextureButton>("EndPhaseButton");
 		
 
 		endSubPhaseButton.Pressed += endSubPhase;
@@ -76,8 +80,21 @@ public partial class ActionContainer : Panel
 		populateActions();
 		activateStrategicActions();
 	}
-	private async void endSubPhase()
+	private void changeIcon()
 	{
+        string phaseString = PlayerInfoSingleton.Instance.battleStateManager.currentState.ToString();
+        string pathNormal = $"res://assets/UI/BubbleStatusButton/button_{phaseString}.png";
+		string pathHover = $"res://assets/UI/BubbleStatusButton/button_{phaseString}_hover.png";
+		string pathPressed = $"res://assets/UI/BubbleStatusButton/button_{phaseString}_pressed.png";
+        endSubPhaseButton.TextureNormal = (Texture2D)GD.Load<Texture>(pathNormal);
+		endSubPhaseButton.TextureHover = (Texture2D)GD.Load<Texture>(pathHover);
+        endSubPhaseButton.TexturePressed = (Texture2D)GD.Load<Texture>(pathPressed);
+
+
+    }
+    private async void endSubPhase()
+	{
+
 		switch (PlayerInfoSingleton.Instance.battleStateManager.currentSubPhase) {
 			case SubBattleStatePhase.charge:
 				if (inputState == InputState.ResolvingCharges)
@@ -98,7 +115,8 @@ public partial class ActionContainer : Panel
 				break;
 			default:
 				PlayerInfoSingleton.Instance.battleStateManager.passNextSubState();
-				break;
+				changeIcon();
+                break;
 		}        
 	}
 
@@ -144,20 +162,20 @@ public partial class ActionContainer : Panel
 	}
 	private void enterChargePhase()
 	{
-		inputPhaseLabel.Text = "Move Phase";
-		subPhaseLabel.Text = "charge";
+        inputPhaseLabel.Text = "Charge subphase";
+		subPhaseLabel.Text = "declare charges";
 		activateChargeActions();
 	}
 	private void enterMovePhase()
 	{
 		inputPhaseLabel.Text = "Move Phase";
-		subPhaseLabel.Text = "Move";
+		subPhaseLabel.Text = "Move troops";
 		activateChargeActions();
 	}
 	private void enterShootingPhase()
 	{
 		inputPhaseLabel.Text = "Shooting Phase";
-		subPhaseLabel.Text = "charge";
+		subPhaseLabel.Text = "select shooter";
 		activateShootingActions();
 	}
 	private void disableActions()

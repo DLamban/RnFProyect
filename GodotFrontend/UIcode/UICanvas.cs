@@ -43,39 +43,9 @@ public partial class UICanvas : CanvasLayer
 		DiceThrower.Instance.initDiceThrower(dicePanel);
 		// BATTLESTATE MANAGER
 		gameStatePanel = GetNode<Panel>("CanvasGroup/AnchorProvider/GameStatusContainer/GameStateStatus");
-		
-
-
-		SetEventsGameStatePanel(gameStatePanel);
 	}
 
-	private void SetEventsGameStatePanel(Panel _gameStatePanel)
-	{
-		Button nextBattleStateBtn = _gameStatePanel.GetNode<Button>("NextPhase");
-		nextBattleStateBtn.Pressed += ()=> {
-				NextBattleState(_gameStatePanel, nextBattleStateBtn);
-			};
-	}
-	private void NextBattleState(Panel _gameStatePanel, Button nextBattleStateBtn)
-	{
-		BattleStateManager battleManager = PlayerInfoSingleton.Instance.battleStateManager;        
-		battleManager.passNextState();
-		_gameStatePanel.GetNode<Label>("CurrentPhase").Text = battleManager.currentState.ToString();
-		TextureRect phaseIcon = _gameStatePanel.GetNode<TextureRect>("PhaseIcon");
-		Tween tween = CreateTween();
-		float targetRotation = phaseIcon.RotationDegrees + 90;
-		tween.TweenProperty(phaseIcon, "rotation_degrees", targetRotation, 1).SetTrans(Tween.TransitionType.Sine);
-		
-		// phaseIcon.RotationDegrees += 90;
-		if (battleManager.currentState == BattleState.combat)
-		{
-			nextBattleStateBtn.Text = "End Turn";
-		} else if (battleManager.currentState == BattleState.outofturn)
-		{
-			nextBattleStateBtn.Disabled = true;
-		}
-
-	}
+	
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{

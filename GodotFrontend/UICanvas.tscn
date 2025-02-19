@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=3 uid="uid://dpsexlp7rtu24"]
+[gd_scene load_steps=37 format=3 uid="uid://dpsexlp7rtu24"]
 
 [ext_resource type="Theme" uid="uid://c5l7fthgxiatx" path="res://assets/fonts/basic_theme.tres" id="1_7w5fx"]
 [ext_resource type="Script" path="res://UIcode/UICanvas.cs" id="1_uf8sf"]
@@ -13,8 +13,9 @@
 [ext_resource type="Texture2D" uid="uid://bit4lhdtx8hl1" path="res://assets/UI/actionbar.png" id="8_y51aj"]
 [ext_resource type="Script" path="res://Spells/UISpellManager.cs" id="9_xjim1"]
 [ext_resource type="Script" path="res://Spells/ConfirmPanel.cs" id="10_b20x0"]
-[ext_resource type="Texture2D" uid="uid://cu08mqj5emn2s" path="res://assets/UI/buttonShooting.png" id="11_qgwlh"]
-[ext_resource type="Texture2D" uid="uid://bj5pv55hpi5yq" path="res://assets/UI/buttonShootingHover.png" id="12_ikew2"]
+[ext_resource type="Texture2D" uid="uid://dnxq5ax7u30ca" path="res://assets/UI/BubbleStatusButton/button_strategic.png" id="11_6hgaq"]
+[ext_resource type="Texture2D" uid="uid://ch81blc1r68ki" path="res://assets/UI/BubbleStatusButton/button_strategic_hover.png" id="12_3o4ep"]
+[ext_resource type="Texture2D" uid="uid://cyrh1cdt8wynl" path="res://assets/UI/BubbleStatusButton/button_strategic_pressed.png" id="12_6rqb7"]
 [ext_resource type="Script" path="res://UIcode/ChargeResponseUI.cs" id="13_iahc3"]
 [ext_resource type="FontFile" uid="uid://d1abuqp2etn8q" path="res://assets/UI/fonts/fight16cleaned.png" id="14_3sye8"]
 
@@ -682,7 +683,7 @@ theme_override_constants/separation = 0
 [node name="MarginContainer" parent="CanvasGroup/AnchorProvider/ActionContextualContainer/MarginContainer/VBoxContainer/MainHBox" instance=ExtResource("8_dml77")]
 layout_mode = 2
 
-[node name="Panel" type="Panel" parent="CanvasGroup/AnchorProvider"]
+[node name="ActionPanel" type="Panel" parent="CanvasGroup/AnchorProvider"]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -697,18 +698,19 @@ grow_vertical = 0
 theme_override_styles/panel = SubResource("StyleBoxTexture_2d4eb")
 script = ExtResource("8_ceo8v")
 
-[node name="TextureButton" type="TextureButton" parent="CanvasGroup/AnchorProvider/Panel"]
+[node name="EndPhaseButton" type="TextureButton" parent="CanvasGroup/AnchorProvider/ActionPanel"]
 layout_mode = 2
 offset_left = 248.0
 offset_top = 18.0
 offset_right = 357.0
 offset_bottom = 110.0
 tooltip_text = "End phase"
-texture_normal = ExtResource("11_qgwlh")
-texture_hover = ExtResource("12_ikew2")
+texture_normal = ExtResource("11_6hgaq")
+texture_pressed = ExtResource("12_6rqb7")
+texture_hover = ExtResource("12_3o4ep")
 stretch_mode = 0
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasGroup/AnchorProvider/Panel"]
+[node name="MarginContainer" type="MarginContainer" parent="CanvasGroup/AnchorProvider/ActionPanel"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -724,37 +726,38 @@ theme_override_constants/margin_top = 0
 theme_override_constants/margin_right = 0
 theme_override_constants/margin_bottom = 0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasGroup/AnchorProvider/Panel/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasGroup/AnchorProvider/ActionPanel/MarginContainer"]
 layout_mode = 2
 theme_override_constants/separation = 35
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasGroup/AnchorProvider/Panel/MarginContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasGroup/AnchorProvider/ActionPanel/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 0
 
-[node name="SubPhaseLabel" type="Label" parent="CanvasGroup/AnchorProvider/Panel/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="InputPhaseLabel" type="Label" parent="CanvasGroup/AnchorProvider/ActionPanel/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 2
+text = "Strategy phase"
+
+[node name="SubPhaseLabel" type="Label" parent="CanvasGroup/AnchorProvider/ActionPanel/MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
 text = "waiting input"
 
-[node name="InputPhaseLabel" type="Label" parent="CanvasGroup/AnchorProvider/Panel/MarginContainer/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 10
-text = "Strategy phase"
-
-[node name="MainHBox" type="HBoxContainer" parent="CanvasGroup/AnchorProvider/Panel/MarginContainer/VBoxContainer"]
+[node name="MainHBox" type="HBoxContainer" parent="CanvasGroup/AnchorProvider/ActionPanel/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 8
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasGroup/AnchorProvider/Panel/MarginContainer/VBoxContainer/MainHBox"]
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasGroup/AnchorProvider/ActionPanel/MarginContainer/VBoxContainer/MainHBox"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_stretch_ratio = 0.57
 theme = ExtResource("1_7w5fx")
 theme_override_constants/separation = 0
 
-[node name="MarginContainer" parent="CanvasGroup/AnchorProvider/Panel/MarginContainer/VBoxContainer/MainHBox" instance=ExtResource("8_dml77")]
+[node name="MarginContainer" parent="CanvasGroup/AnchorProvider/ActionPanel/MarginContainer/VBoxContainer/MainHBox" instance=ExtResource("8_dml77")]
+visible = false
 layout_mode = 2
 
 [node name="SpellsContainer" type="PanelContainer" parent="CanvasGroup/AnchorProvider"]
