@@ -40,4 +40,23 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="DB\DatabaseEnums.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>DatabaseEnums.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="DB\DatabaseEnums.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>DatabaseEnums.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
 </Project>

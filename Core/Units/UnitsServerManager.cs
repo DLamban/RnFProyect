@@ -20,8 +20,9 @@ namespace Core.Units
     public class MinimumUnitTransferInfo
     {
         public string Name { get; set; }
+        public UnitEnum UnitEnum { get; set; }
         public int WidthRank { get; set; }
-        public List<Character> characters { get; set; }
+        public List<CharacterEnum> characters { get; set; }
         public Guid guid { get; set; }
         public int UnitCount { get; set; }        
         public SerializableAffineTrans affTransSer { get; set; }
@@ -64,90 +65,63 @@ namespace Core.Units
         }
         public BaseUnit CreateUnit(MinimumUnitTransferInfo minimumUnitTransferInfo)
         {
-            return CreateNetworkUnit(minimumUnitTransferInfo.Name,minimumUnitTransferInfo.characters,  minimumUnitTransferInfo.WidthRank, minimumUnitTransferInfo.UnitCount,  minimumUnitTransferInfo.guid, minimumUnitTransferInfo.affTransSer);
+            return CreateNetworkUnit(minimumUnitTransferInfo.UnitEnum,minimumUnitTransferInfo.characters,  minimumUnitTransferInfo.WidthRank, minimumUnitTransferInfo.UnitCount,  minimumUnitTransferInfo.guid, minimumUnitTransferInfo.affTransSer);
         }        
-        public BaseUnit CreateNetworkUnit(string unitName,List<Character> characters, int widthRank, int unitCount, Guid guid, SerializableAffineTrans serializableAffineTrans)
-        {
-            BaseUnit unit = instantiateUnit(unitName, characters,widthRank, unitCount, guid);
+        public BaseUnit CreateNetworkUnit(UnitEnum unitEnum, List<CharacterEnum> characters, int widthRank, int unitCount, Guid guid, SerializableAffineTrans serializableAffineTrans)
+        {            
+            BaseUnit unit = instantiateUnit(unitEnum, characters,widthRank, unitCount, guid);
             unit.Transform = new AffineTransformCore(serializableAffineTrans);
             return unit;
         }
-        public BaseUnit CreateNewUnit( string unitName,List<Character> characters,int widthRank, int unitCount, Vector2 startPos, float rotationDeg)
+        public BaseUnit CreateNewUnit(UnitEnum unitEnum, List<CharacterEnum> characters,int widthRank, int unitCount, Vector2 startPos, float rotationDeg)
         {
             Guid guid = Guid.NewGuid();
 
-            BaseUnit unit = instantiateUnit(unitName, characters, widthRank,unitCount,guid);
+            BaseUnit unit = instantiateUnit(unitEnum, characters, widthRank,unitCount,guid);
             unit.Transform.offsetX = startPos.X;
             unit.Transform.offsetY = startPos.Y;
             unit.Transform.rotate(rotationDeg, unit.sizeEnclosedRectangledm.X / 2, -unit.sizeEnclosedRectangledm.Y / 2);            
             return unit;
         }
-        private BaseUnit instantiateUnit(string unitName,List<Character> characters, int widthRank, int unitCount, Guid guid)
+        private BaseUnit instantiateUnit(UnitEnum unitEnum,List<CharacterEnum> characters, int widthRank, int unitCount, Guid guid)
         {
-            // MIgrating to db, test first
-            if (unitName == "Dwarf Warriors" || unitName == "Elder Dwarfs") {
-                var unitDetail = DBSingleton.Instance.Units
-                    .Include(u => u.Formation) // Carga la formación
-                    .Include(u=>u.Race)
-                    .Include(u => u.TroopProfiles)
-                        .ThenInclude(tp => tp.TroopType)  // Incluye el tipo de tropa
-                    .Include(u => u.TroopProfiles)
-                        .ThenInclude(tp => tp.BaseSize)  // Incluye el tamaño base
-                    .Include(u => u.TroopProfiles)
-                        .ThenInclude(tp => tp.Category)  // Incluye la categoría de la tropa
-                    .Include(u => u.TroopProfiles)
-                        .ThenInclude(tp => tp.WeaponsTroops) // Incluye las relaciones WeaponTroops
-                            .ThenInclude(wt => wt.Weapon)  // Incluye las armas asociadas        
-                    .FirstOrDefault(u=>u.Name==unitName);
 
+            // MIgrating to db, test first
+            
+            var unitDetail = DBSingleton.GetUnit(unitEnum);
+            BaseUnit baseUnit;
+            if (unitCount != 0)
+            {
                 List<BaseTroop> troops = new List<BaseTroop>();
                 for (int i = 0; i < unitCount; i++)
                 {
-                    BaseTroop baseTroop = new BaseTroop(unitDetail.TroopProfiles.FirstOrDefault(t=>t.IsMainProfile!=0));
+                    BaseTroop baseTroop = new BaseTroop(unitDetail.TroopProfiles.FirstOrDefault(t => t.IsMainProfile != 0));
 
                     troops.Add(baseTroop);
                 }
-                BaseUnit baseUnit = new BaseUnit(unitDetail.Race.Code, unitDetail.Name, widthRank, Formation_type.CLOSE_ORDER, new List<string> { "Reglaespecial1", "Reglaespecial2" }, troops);
-
-                foreach (Character character in characters)
+                baseUnit = new BaseUnit(unitDetail.Race.Code, unitDetail.Name, widthRank, Formation_type.CLOSE_ORDER, new List<string> { "Reglaespecial1", "Reglaespecial2" }, troops);
+                foreach (CharacterEnum character in characters)
                 {
-                    DB.Models.Character character1 = DBSingleton.Instance.Characters.FirstOrDefault(c => c.Name == character.Name);
+                    DB.Models.Character character1 = DBSingleton.GetCharacter(character);
                     Character cahracterfromdb = new Character(character1);
                     baseUnit.AddCharacter(cahracterfromdb);
                 }
+            }
+            else// it's single char unit
+            {
+                DB.Models.Character characterDb = DBSingleton.GetCharacter(characters[0]);
+                Character cahracterfromdb = new Character(characterDb);
+                    
+                baseUnit = new BaseUnit(characterDb.Race.Code, characterDb.Name, cahracterfromdb);
+            }
+
+
                
-                baseUnit.Guid = guid;
-                return baseUnit;
-            }
-            else {
-                try
-                {
-                    BaseUnit unitType = CodexAll.Instance.getUnitCodex(unitName);
-                       
-                    string jsonString = JsonSerializer.Serialize(unitType.Troop);
-                    List<BaseTroop> troops = new List<BaseTroop>();
-
-                    for (int i = 0; i < unitCount; i++)
-                    {
-                        BaseTroop baseTroop = JsonSerializer.Deserialize<BaseTroop>(jsonString);
-                        //BaseTroop baseTroop = Basicrat
-                        troops.Add(baseTroop);
-                    }
-                    BaseUnit baseunit = new BaseUnit(unitType.Race, unitType.Name, widthRank, Formation_type.CLOSE_ORDER, new List<string> { "Reglaespecial1", "Reglaespecial2" }, troops);
-                    foreach (Character character in characters)
-                    {
-                        baseunit.AddCharacter(character);
-                    }
-
-                    baseunit.Guid = guid;
-                    return baseunit;
-                }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine("Cannot find unit" + unitName);
-                    throw;
-                }
-            }
+            baseUnit.Guid = guid;
+            return baseUnit;
+            
+           
+            
         }
         
         public void addPlayerUnit(BaseUnit unit)

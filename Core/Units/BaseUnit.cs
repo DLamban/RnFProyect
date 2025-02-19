@@ -119,7 +119,17 @@ namespace Core.Units
             reformTroops();
             restartCombatState();
         }
-        
+        // Single Char unit
+        public BaseUnit(string race, string name, Character character) { 
+            Race = race;
+            Name = name;
+            TroopsWidth = 1;
+            Troop = character;
+            Troops = new List<BaseTroop>();
+            Troops.Add(character);
+            reformTroops();
+            restartCombatState();
+        }
         public void reformTroops()
         {
             if (formationType == Formation_type.CLOSE_ORDER)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://d3f1ae03k83uv"]
+[gd_scene load_steps=19 format=3 uid="uid://d3f1ae03k83uv"]
 
 [ext_resource type="Script" path="res://battlefieldManager.cs" id="1_wimcb"]
 [ext_resource type="Script" path="res://code/Input/InputManager.cs" id="2_o0eea"]
@@ -10,6 +10,7 @@
 [ext_resource type="Script" path="res://units/UnitRenderCreator.cs" id="8_fpo1v"]
 [ext_resource type="PackedScene" uid="uid://bgn4q7owag65p" path="res://assets/3d/trees/treelowpoly.glb" id="9_g0wca"]
 [ext_resource type="PackedScene" uid="uid://dqmoion08yfij" path="res://assets/3d/arrow.glb" id="15_7mx0t"]
+[ext_resource type="PackedScene" uid="uid://cn3vkqwaj0ma3" path="res://units/troops/Dwarfs/kingdwarfshield50x50.tscn" id="15_c34gx"]
 [ext_resource type="PackedScene" uid="uid://bvtesy2y6wqlt" path="res://Spells/fireball.tscn" id="18_i8e5x"]
 [ext_resource type="PackedScene" uid="uid://dhhkngbd2mljs" path="res://assets/3d/trees/BirchTree_1.fbx" id="18_onctb"]
 [ext_resource type="ArrayMesh" uid="uid://b6wehlgas5l6y" path="res://assets/3d/terrainmesh.res" id="20_00gma"]
@@ -224,5 +225,8 @@ offset_bottom = 302.0
 [node name="Label" type="Label" parent="CREDITS/VBoxContainer"]
 layout_mode = 2
 text = "Boar: https://opengameart.org/content/boar-enemies"
+
+[node name="troop" parent="." instance=ExtResource("15_c34gx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.757542, 0, 0.114933)
 
 [connection signal="pressed" from="debugUI/CanvasGroup/Panel/Button" to="Battlefield/UnitManager" method="_on_reset_positions_pressed"]

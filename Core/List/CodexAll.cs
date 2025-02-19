@@ -1,4 +1,5 @@
-﻿using Core.Units;
+﻿using Core.DB.Data;
+using Core.Units;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -44,6 +45,7 @@ namespace Core.List
         }
         public Character getCharCodex(string charname)
         {
+            
             foreach (BaseRace race in races.Values)
             {
                 Character? character = race.Characters.Find(character => character.Name == charname);

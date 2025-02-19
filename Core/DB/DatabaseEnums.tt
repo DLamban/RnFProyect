@@ -1,0 +1,47 @@
+
+
+
+<#@ template language="C#" hostspecific="true" #>
+<#@ assembly name="System.Data" #>
+<#@ assembly name="System.Data.SQLite" #>
+<#@ import namespace="System" #>
+<#@ import namespace="System.Data" #>
+<#@ import namespace="System.Data.SQLite" #>
+<#@ import namespace="System.Text" #>
+
+<#
+    string dbPath = @"C:\dev\games\RnFProyect\Core\DB\RnFDBSqlite.db"; // Ruta de tu BD
+    string connString = $"Data Source={dbPath};Version=3;";
+    
+    using (var conn = new SQLiteConnection(connString))
+    {
+        conn.Open();
+        // CharacterEnum
+        var cmd = new SQLiteCommand("SELECT Id, Name FROM Characters", conn); // Ajusta la consulta según tu DB
+        var reader = cmd.ExecuteReader();
+
+        WriteLine("// Código autogenerado - No editar manualmente");
+        WriteLine("public enum CharacterEnum {");
+
+        while (reader.Read())
+        {
+            string Name = reader["Name"].ToString().Replace(" ", "_"); // Evita espacios en nombres
+            int CharId = Convert.ToInt32(reader["Id"]);
+            WriteLine($"\t{Name} = {CharId},");
+        }
+        WriteLine("}");
+        // UnitEnum
+        var cmdUnit = new SQLiteCommand("SELECT Id, Name FROM Units", conn); // Ajusta la consulta según tu DB
+        reader = cmdUnit.ExecuteReader();
+        WriteLine("public enum UnitEnum {");
+
+        while (reader.Read())
+        {
+            string Name = reader["Name"].ToString().Replace(" ", "_"); // Evita espacios en nombres
+            int UnitId = Convert.ToInt32(reader["Id"]);
+            WriteLine($"\t{Name} = {UnitId},");
+        }
+
+        WriteLine("}");
+    }
+#>

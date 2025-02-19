@@ -1,41 +1,3 @@
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-res://battlefield.tscn
-=======
-res://UICanvas.tscn
->>>>>>> Stashed changes
-res://units/vfx/magicselectshader.gdshader
-res://assets/3d/grass/grass_blade_normals.gdshader
-res://assets/3d/grass/grass_blade_straightfinal.res
-res://assets/fonts/basic_theme.tres
-res://Spellselectioncanvas.gdshader
-res://fireballSmoke.gdshader
-res://shaders/terrain.gdshader
-res://units/vfx/selectshader.gdshader
-res://code/terrainshader/battlefield.gdshader
-res://tilitshift.gdshader
-res://SDFObjects.gdshader
-res://ObjectSDF.gdshader
-res://smokeSDF.gdshader
-<<<<<<< Updated upstream
-res://units/troops/Dwarfs/kingDwarf25x25.tscn
-res://environment.tscn
-res://units/troops/Dwarfs/gyrocopter50x50.tscn
-res://units/troops/Dwarfs/longbeard25X25.tscn
-res://units/troops/Orcs/orc30x30.tscn
-res://UICanvas.tscn
-=======
-res://battlefield.tscn
-res://units/troops/Dwarfs/kingDwarf25x25.tscn
-res://environment.tscn
-res://units/troops/Dwarfs/gyrocopter50x50.tscn
-res://units/troops/Dwarfs/longbeard25x25.tscn
-res://units/troops/Orcs/orc30x30.tscn
-res://units/troops/Orcs/dragon_unit.tscn
-res://units/troops/Orcs/boar_rider30x60.tscn
->>>>>>> Stashed changes
-=======
->>>>>>> sqlite-integration
 res://code/grassfield/DataNode2d.cs
 res://units/UnitGodot.cs
 res://UIcode/ActionButton.cs
@@ -52,27 +14,3 @@ res://Spells/UISpellManager.cs
 res://UIcode/ActionContainer.cs
 res://code/FieldCameraControl.cs
 res://units/UnitRenderCreator.cs
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-res://units/troops/Dwarfs/longbeard25x25.tscn
-res://units/troops/Orcs/dragon_unit.tscn
-res://units/troops/Orcs/dragon.tscn
-=======
-res://assets/UI/Actions_button.tscn
->>>>>>> Stashed changes
-=======
-res://units/troops/Orcs/boar_rider30x60.tscn
-res://units/vfx/magicselectshader.gdshader
-res://assets/3d/grass/grass_blade_normals.gdshader
-res://assets/3d/grass/grass_blade_straightfinal.res
-res://assets/fonts/basic_theme.tres
-res://Spellselectioncanvas.gdshader
-res://fireballSmoke.gdshader
-res://shaders/terrain.gdshader
-res://units/vfx/selectshader.gdshader
-res://code/terrainshader/battlefield.gdshader
-res://tilitshift.gdshader
-res://SDFObjects.gdshader
-res://ObjectSDF.gdshader
-res://smokeSDF.gdshader
->>>>>>> sqlite-integration
