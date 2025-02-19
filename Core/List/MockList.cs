@@ -46,53 +46,52 @@ namespace Core.List
         private void MockList1()
         {
 
-            //EXAMPLE
-            //BaseUnit baseunit = new BaseUnit(unitType.Name, widthRank, Formation_type.CLOSE_ORDER, new List<string> { "Reglaespecial1", "Reglaespecial2" }, troops);
-
-            // ORCSSSSSSSSS
-            //CharacterEnum goblinWizard = CodexAll.Instance.getCharCodex("Goblin Wizard");
-            //List<CharacterEnum> listChar = new List<CharacterEnum>();
-            //listChar.Add(goblinWizard);
-
-
-            //BaseUnit goblins = unitManagerCore.CreateNewUnit("Goblins",new List<CharacterEnum>(), 5, 17, startPosGoblins, 15);
-            //unitManagerCore.addPlayerUnit(goblins);
-            //BaseUnit orcs = unitManagerCore.CreateNewUnit("Orcs", new List<CharacterEnum>(), 5, 20, startPosRatis2, 20);
-            //unitManagerCore.addPlayerUnit(orcs);
-
             
 
-            //BaseUnit boarRiders = unitManagerCore.CreateNewUnit("Boar Riders", new List<CharacterEnum>(), 5, 10, startBoarRiders, -20);
-            //unitManagerCore.addPlayerUnit(boarRiders);
+            BaseUnit goblins = unitManagerCore.CreateNewUnit(UnitEnum.Goblins,new List<CharacterEnum>() { CharacterEnum.Goblin_Wizard}, 5, 17, startPosGoblins, 15);
+            unitManagerCore.addPlayerUnit(goblins);
+
+
+            BaseUnit orcs = unitManagerCore.CreateNewUnit(UnitEnum.Orcs, new List<CharacterEnum>(), 5, 20, startPosRatis2, 20);
+            unitManagerCore.addPlayerUnit(orcs);
+
+
+
+            BaseUnit boarRiders = unitManagerCore.CreateNewUnit(UnitEnum.Boar_Riders, new List<CharacterEnum>(), 5, 10, startBoarRiders, -20);
+            unitManagerCore.addPlayerUnit(boarRiders);
+
             //BaseUnit dragon = unitManagerCore.CreateNewUnit("Wyvern", new List<CharacterEnum>(), 1, 1, startPosAbomination, 15);
             //unitManagerCore.addPlayerUnit(dragon);
 
-            //CharacterEnum WArlordBalck = CodexAll.Instance.getCharCodex("Warlord Black Orc");
-            //List<CharacterEnum> listChar2 = new List<CharacterEnum>();
-            //listChar2.Add(WArlordBalck);
-            
+
+
             BaseUnit HeavyOrcs = unitManagerCore.CreateNewUnit(UnitEnum.Heavy_Orcs, new List<CharacterEnum>() { CharacterEnum.Warlord_Black_Orc}, 5, 18, startHeavyOrcs, 20);
             unitManagerCore.addPlayerUnit(HeavyOrcs);
+
+
+
             //// PLAYER2
             ///DWARSSSSSSSSSSS
-            //BaseUnit dwarfos = unitManagerCore.CreateNewUnit("Dwarf Warriors", new List<CharacterEnum>(), 5, 13, startPosDwarfos, 130);
-            //unitManagerCore.addEnemyUnit(dwarfos);
-            
-            //BaseUnit crossbow = unitManagerCore.CreateNewUnit("Crossbowmen", new List<CharacterEnum>(), 5, 11, startPosCrossbow, 175);
-            //unitManagerCore.addEnemyUnit(crossbow);
+            BaseUnit dwarfos = unitManagerCore.CreateNewUnit(UnitEnum.Dwarf_Warriors, new List<CharacterEnum>(), 5, 13, startPosDwarfos, 130);
+            unitManagerCore.addEnemyUnit(dwarfos);
 
-            //BaseUnit slayers = unitManagerCore.CreateNewUnit("Slayers", new List<CharacterEnum>(), 5, 7, startPosSlayers, 200);
-            //unitManagerCore.addEnemyUnit(slayers);
-            //BaseUnit cannon = unitManagerCore.CreateNewUnit("Cannon", new List<CharacterEnum>(), 1, 1, startPosCannon, 190);
-            //unitManagerCore.addEnemyUnit(cannon);
+            BaseUnit crossbow = unitManagerCore.CreateNewUnit(UnitEnum.Crossbowmen, new List<CharacterEnum>(), 5, 11, startPosCrossbow, 175);
+            unitManagerCore.addEnemyUnit(crossbow);
 
-            //BaseUnit gyros = unitManagerCore.CreateNewUnit("Gyrocopters", new List<CharacterEnum>(), 1, 1, startPosGyros, 190);
-            //unitManagerCore.addEnemyUnit(gyros);
-  
-            
-   
-            
-            
+            BaseUnit cannon = unitManagerCore.CreateNewUnit(UnitEnum.Cannon, new List<CharacterEnum>(), 1, 1, startPosCannon, 190);
+            unitManagerCore.addEnemyUnit(cannon);
+
+            BaseUnit slayers = unitManagerCore.CreateNewUnit(UnitEnum.Slayers, new List<CharacterEnum>(), 5, 7, startPosSlayers, 200);
+            unitManagerCore.addEnemyUnit(slayers);
+
+
+            BaseUnit gyros = unitManagerCore.CreateNewUnit(UnitEnum.Gyrocopter, new List<CharacterEnum>(), 1, 1, startPosGyros, 190);
+            unitManagerCore.addEnemyUnit(gyros);
+
+
+
+
+
             BaseUnit kingDwarfOnShield = unitManagerCore.CreateNewUnit(UnitEnum.Character_Unit, 
                 new List<CharacterEnum>() { CharacterEnum.King_Dwarf_on_shield }, 
                 0, 0, startPosKing, 200);

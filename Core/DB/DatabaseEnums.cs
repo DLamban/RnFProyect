@@ -14,4 +14,11 @@ public enum UnitEnum {
 	Elder_Dwarfs = 2,
 	Heavy_Orcs = 3,
 	Character_Unit = 4,
+	Goblins = 5,
+	Orcs = 6,
+	Boar_Riders = 7,
+	Crossbowmen = 8,
+	Cannon = 9,
+	Gyrocopter = 10,
+	Slayers = 11,
 }
