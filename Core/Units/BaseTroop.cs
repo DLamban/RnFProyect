@@ -96,9 +96,11 @@ namespace Core.Units
         public BaseWeapon Weapon { get; set; }
         [JsonIgnore]
         public List<Weapon> Weapons { get; set; }
+        public bool canShoot { get; set;}
         public int Cost { get; set; }
         public Size Size { get; set; }
         public bool isDying { get; set; }
+        
         public List<Modifiers> Mods { get; set; }
         [JsonConstructor]
         public BaseTroop(string name,string assetFile, int movement, int dexterity, int shooting, int strength, int resistance, int wounds, int initiative, int attacks, int leadership, int armour, int wardSave, int regeneration, int cost, Size size, List<Modifiers> mods)
@@ -163,7 +165,13 @@ namespace Core.Units
             Size = new Size(troopProfile.BaseSize.Width, troopProfile.BaseSize.Height);
             var weapons = troopProfile.WeaponsTroops.Select(wt => wt.Weapon).ToList();
             Weapons = weapons;
-
+            foreach (var weapon in weapons)
+            {
+                if (weapon.Range > 0)
+                {
+                    canShoot = true;
+                }
+            }
 
 
         }

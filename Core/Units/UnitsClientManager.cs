@@ -92,8 +92,19 @@ namespace Core.Units
         {
             unitsEnemy.Remove(unitGuid.ToString());
         }
-
-        public bool canSelectUnit(Guid unitGuid, bool ownedTroops)// maybe implement hotseat later
+        /// <summary>
+        /// Beware of hotseat
+        /// </summary>
+        /// <returns></returns>
+        public bool isPlayerUnit(Guid unitGuid)
+        {
+            if (unitsPlayer.ContainsKey(unitGuid.ToString()))
+            {
+                return true;
+            }
+            return false;
+        }
+        public bool canSelectUnit(Guid unitGuid, bool ownedTroops)
         {
             if (ownedTroops)
             {

@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://cq348q5caaww2"]
 
 [ext_resource type="PackedScene" uid="uid://crb04jbt0mjeq" path="res://assets/3d/troops/Bases/MiniatureBase50x50.glb" id="1_wp5q5"]
-[ext_resource type="PackedScene" uid="uid://dyaalx4ufbtya" path="res://assets/3d/troops/Dwarfs/cannon_WIP.glb" id="2_inb5h"]
+[ext_resource type="PackedScene" uid="uid://s2lkg0pg67s7" path="res://assets/3d/troops/Dwarfs/cannon_WIP.glb" id="2_inb5h"]
 
 [node name="troop" type="Node3D"]
 
@@ -10,3 +10,63 @@ transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 
 
 [node name="cannon_WIP" parent="." instance=ExtResource("2_inb5h")]
 transform = Transform3D(-1, -8.74228e-08, 4.37114e-08, 4.37114e-08, 1.91069e-15, 1, -8.74228e-08, 1, 1.91069e-15, 0.000160694, 0, 0.0148077)
+
+[node name="Skeleton3D" parent="cannon_WIP/CharacterArmature" index="0"]
+bones/1/rotation = Quaternion(5.18145e-06, 0.702952, 0.711237, 5.36038e-06)
+bones/3/scale = Vector3(1, 1, 1)
+bones/4/rotation = Quaternion(0.090893, 4.09744e-07, 5.63149e-08, 0.995861)
+bones/5/rotation = Quaternion(-0.00683997, -8.21715e-07, -9.23143e-10, 0.999977)
+bones/6/rotation = Quaternion(-0.0333817, 6.85835e-07, -2.15088e-09, 0.999443)
+bones/7/rotation = Quaternion(-3.72529e-09, -0.000275448, 1.558e-11, 1)
+bones/7/scale = Vector3(1, 1, 1)
+bones/8/rotation = Quaternion(-0.0304479, -0.0136819, -0.40968, 0.911618)
+bones/8/scale = Vector3(1, 1, 1)
+bones/9/rotation = Quaternion(-0.272488, -0.675926, -0.228487, 0.645498)
+bones/9/scale = Vector3(1, 1, 1)
+bones/10/rotation = Quaternion(-0.0134982, 0.0323297, -0.0358932, 0.998741)
+bones/10/scale = Vector3(1, 1, 1)
+bones/11/rotation = Quaternion(0.0125379, 0.0181952, -0.00654307, 0.999734)
+bones/12/rotation = Quaternion(-0.0304476, 0.0136824, 0.40968, 0.911618)
+bones/12/scale = Vector3(1, 1, 1)
+bones/13/rotation = Quaternion(-0.272488, 0.675926, 0.228487, 0.645498)
+bones/14/rotation = Quaternion(-0.0134981, -0.0323297, 0.0358932, 0.998741)
+bones/14/scale = Vector3(1, 1, 1)
+bones/15/rotation = Quaternion(0.0125379, -0.0181952, 0.00654307, 0.999734)
+bones/16/rotation = Quaternion(0.998635, 0.00979642, -0.000811444, 0.0512991)
+bones/16/scale = Vector3(0.999999, 1, 0.999983)
+bones/17/rotation = Quaternion(0.103332, 0.00132336, 0.00974056, 0.994598)
+bones/18/rotation = Quaternion(0.998635, -0.00979645, 0.000812145, 0.0512991)
+bones/18/scale = Vector3(0.999999, 1, 0.999983)
+bones/19/rotation = Quaternion(0.103332, -0.00132332, -0.00974056, 0.994598)
+bones/21/rotation = Quaternion(-5.67118e-06, 0.702952, 0.711237, -4.99694e-06)
+
+[node name="Skeleton3D" parent="cannon_WIP/CharacterArmature_002" index="0"]
+bones/1/rotation = Quaternion(5.19753e-06, 0.702952, 0.711237, 5.33237e-06)
+bones/3/rotation = Quaternion(-0.0507688, -2.6733e-07, -2.27517e-08, 0.99871)
+bones/3/scale = Vector3(1, 1, 1)
+bones/4/rotation = Quaternion(0.0908929, 4.36223e-07, 5.61949e-08, 0.995861)
+bones/4/scale = Vector3(1, 1, 1)
+bones/5/rotation = Quaternion(-0.00683997, -8.32313e-07, -1.52971e-09, 0.999977)
+bones/6/rotation = Quaternion(-0.0333817, 6.77639e-07, -2.31425e-09, 0.999443)
+bones/6/scale = Vector3(1, 1, 1)
+bones/7/rotation = Quaternion(-3.72529e-09, -0.000275475, 1.02167e-12, 1)
+bones/7/scale = Vector3(1, 1, 1)
+bones/8/rotation = Quaternion(-0.0304479, -0.0136819, -0.40968, 0.911619)
+bones/8/scale = Vector3(1, 1, 1)
+bones/9/scale = Vector3(1, 1, 1)
+bones/10/rotation = Quaternion(-0.0134981, 0.0323297, -0.0358932, 0.998741)
+bones/11/rotation = Quaternion(0.0125379, 0.0181952, -0.00654308, 0.999734)
+bones/12/rotation = Quaternion(-0.0304476, 0.0136824, 0.40968, 0.911618)
+bones/12/scale = Vector3(1, 1, 1)
+bones/13/rotation = Quaternion(-0.272488, 0.675926, 0.228487, 0.645498)
+bones/13/scale = Vector3(1, 1, 1)
+bones/14/rotation = Quaternion(-0.0134981, -0.0323297, 0.0358932, 0.998741)
+bones/14/scale = Vector3(1, 1, 1)
+bones/15/rotation = Quaternion(0.0125379, -0.0181952, 0.00654308, 0.999734)
+bones/16/rotation = Quaternion(0.998635, 0.00979621, -0.000815845, 0.0512978)
+bones/16/scale = Vector3(1, 1, 1.00003)
+bones/18/rotation = Quaternion(0.998635, -0.00979624, 0.000816546, 0.0512978)
+bones/18/scale = Vector3(1, 1, 1.00003)
+bones/19/rotation = Quaternion(0.103327, -0.00132328, -0.00974054, 0.994599)
+
+[editable path="cannon_WIP"]

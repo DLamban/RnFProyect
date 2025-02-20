@@ -51,7 +51,9 @@ namespace GodotFrontend.code.Input
         }
         public delegate Vector3? BattlefieldCursorPosDel();
 		BattlefieldCursorPosDel getBattlefieldCursorPosDel;
-		public override void _Ready()
+		UnitRenderCreator unitRenderCreator;
+
+        public override void _Ready()
 		{
         //    PlayerInfoSingleton.Instance.battleStateManager.OnBattleStateChanged += OnBattleStateChanged;
             PlayerInfoSingleton.Instance.battleStateManager.OnSubPhaseChanged += OnSubPhaseChanged;
@@ -64,6 +66,9 @@ namespace GodotFrontend.code.Input
         }
 		private void BuildSubManagers()
 		{
+			// needed for effects on the units
+			unitRenderCreator= GetNode<UnitRenderCreator>("UnitManager");
+
             // get the node of cursor effects
             MeshInstance3D cursorEffect = GetNode<MeshInstance3D>("CursorEffect") as MeshInstance3D;
             // load scene fireball fx
@@ -119,6 +124,7 @@ namespace GodotFrontend.code.Input
 		private void setUpShootInputSubPhase()
 		{
             inputState = InputState.Empty;
+			unitRenderCreator.disableNoShootingTroops();
             currentStateProccess = inputShootPhase.CustomProcess;
         }
         private void setUpChargeInputSubPhase()

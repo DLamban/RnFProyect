@@ -21,7 +21,7 @@ namespace GodotFrontend.code.Input
         {
             
             
-            if (selectedTarget == null)
+            if (selectedTarget == null && unitClicked.coreUnit.canShoot)
             {
                 selectedShooter = SelectOwnUnit(unitClicked);
 
@@ -31,7 +31,10 @@ namespace GodotFrontend.code.Input
                 
             }
         }
-        
+        private void drawShootLine(UnitGodot selectedUnit)
+        {
+            
+        }
         private UnitGodot? SelectOwnUnit(UnitGodot unitToSelect)
         {
             //bool isShooter = unitToSelect.coreUnit.

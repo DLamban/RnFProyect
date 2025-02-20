@@ -72,6 +72,17 @@ namespace Core.Units
         public BaseTroop Troop { get; set; }
         public List<BaseTroop> Troops { get; set; }
         public List<string> SpecialRules { get; set; }
+        public bool canShoot
+        {
+            get
+            {
+                foreach (BaseTroop baseTroop in Troops)
+                {
+                    if (baseTroop.canShoot) { return true; }
+                }
+                return false;
+            }
+        }
         #region EVENTS&DELEGATES
         // EVENTS
         public event Action<BaseUnit,int> OnDeathTroops;

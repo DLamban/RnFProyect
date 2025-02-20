@@ -1,5 +1,6 @@
 using Core.GameLoop;
 using Godot;
+using GodotFrontend.code.UIOverlay;
 using System;
 
 public partial class battlefieldManager : Node3D
@@ -20,6 +21,7 @@ public partial class battlefieldManager : Node3D
 			gimballCamera.RotateZ(Mathf.Pi);// 180 degrees
 			
 		}
+		BattlefieldOverlay.Instance.vinculateBattlefield(this);
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.

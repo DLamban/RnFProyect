@@ -9,6 +9,7 @@ using Core.Rules;
 using Core.Units;
 using Core.GeometricEngine;
 using GodotFrontend.code.Input;
+using Core.DB.Models;
 
 public partial class UnitRenderCreator : Node
 {
@@ -43,16 +44,15 @@ public partial class UnitRenderCreator : Node
 		Panel charPanelPlayer = unitHUD.GetNode<Panel>("CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer") as Panel;
 		Panel charPanelEnemy = unitHUD.GetNode<Panel>("CanvasGroup/AnchorProvider/CharacteristicsPanelEnemy") as Panel;
 	}
-	/// Populate with the units, TODO: load from lists and stop the hardcoding
 	private void CreateAllUnits(){
 		foreach(BaseUnit unit in UnitsClientManager.Instance.unitsPlayer.Values)
 		{
-			var tempunit = createUnitToRender(unit);
+			UnitGodot tempunit = createUnitToRender(unit);
 			units.Add(unit.Guid, tempunit);
 		}
 		foreach (BaseUnit unit in UnitsClientManager.Instance.unitsEnemy.Values)
 		{
-			var tempunit = createUnitToRender(unit);
+			UnitGodot tempunit = createUnitToRender(unit);
 			units.Add(unit.Guid, tempunit);
 		}
 
@@ -79,14 +79,88 @@ public partial class UnitRenderCreator : Node
 		unitToSpawn.unitSelection += deselectAllUnits;;
 		
 		unitToSpawn.initGodotUnit(unit, inputManager);
-        CallDeferred("add_child", unitToSpawn);
+		CallDeferred("add_child", unitToSpawn);
 
 		unitToSpawn.updateTransformToRender(true);
 
 		return unitToSpawn;
 
 	}
+	//gray out the units that can't shoot
+	public void disableNoShootingTroops()	
+	{
+		foreach(KeyValuePair<Guid, UnitGodot> unitTuple in units)
+		{
+			if (!unitTuple.Value.coreUnit.canShoot && UnitsClientManager.Instance.isPlayerUnit(unitTuple.Key))
+			{
+			grayscaleUnit(unitTuple.Value);
+			}
+		}
+	}
+	public void enableNoShootingTroops()
+	{
+		foreach (KeyValuePair<Guid, UnitGodot> unitTuple in units)
+		{
+			if (!unitTuple.Value.coreUnit.canShoot && UnitsClientManager.Instance.isPlayerUnit(unitTuple.Key))
+			{
+				removeGrayscale(unitTuple.Value);
+			}
+		}
+	}
+	private void grayscaleUnit(UnitGodot unit)
+	{
+		ShaderMaterial grayscaleShader = new ShaderMaterial();
 
+		grayscaleShader.Shader = GD.Load<Shader>("res://shaders/grayscale.gdshader");
+		grayscaleMesh(unit, grayscaleShader);
+	}
+	private void removeGrayscale(Node3D node) 
+	{
+
+		foreach (Node child in node.GetChildren())
+		{
+			if (child is Node3D childNode3D)
+			{
+				removeGrayscale(childNode3D);
+			}
+		}
+		// Luego aplicarlo al nodo actual si es un MeshInstance3D
+		if (node is MeshInstance3D mesh)
+		{
+
+			for (int i = 0; i < mesh.GetSurfaceOverrideMaterialCount(); i++)
+			{
+				if (mesh.GetSurfaceOverrideMaterial(i) != null)
+				{
+					mesh.SetSurfaceOverrideMaterial(i, null);
+				}
+			}
+		}
+	}
+	private void grayscaleMesh(Node3D node, ShaderMaterial shaderMaterial)
+	{
+		foreach (Node child in node.GetChildren())
+		{
+			if (child is Node3D childNode3D)
+			{
+				grayscaleMesh(childNode3D, shaderMaterial);
+			}
+		}
+		// Luego aplicarlo al nodo actual si es un MeshInstance3D
+		if (node is MeshInstance3D mesh)
+		{
+			// very sloppy
+			for (int i = 0; i < mesh.GetSurfaceOverrideMaterialCount(); i++)
+			{
+				if (mesh.GetActiveMaterial(i) != null)
+				{
+					Material copy = mesh.GetActiveMaterial(i).Duplicate() as Material;
+					copy.NextPass = shaderMaterial;
+					mesh.SetSurfaceOverrideMaterial(i, copy);
+				}
+			}
+		}
+	}
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{

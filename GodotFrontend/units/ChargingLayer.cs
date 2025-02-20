@@ -23,7 +23,7 @@ namespace GodotFrontend.units
             sprite.Position = new Vector3(0, 0, 0.6f);
             sprite.AddChild(subViewPort);
             sprite.Texture = subViewPort.GetTexture();            
-            subViewPort.Size = new Vector2I(100, 100);
+            subViewPort.Size = new Vector2I(100, 500);
 
             canvas = new CanvasLayer();
             subViewPort.AddChild(canvas);

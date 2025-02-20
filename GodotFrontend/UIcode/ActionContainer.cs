@@ -104,14 +104,21 @@ public partial class ActionContainer : Panel
 				}
 				else
 				{
-					await reactiveInput.ResolveCharges(inputCharge.charges);
-					// After the await we have all the charge reactions
-					endSubPhaseButton.Disabled = true;
-					endSubPhaseButton.TooltipText = "Resolve declared charges first";
-					Action action = () => { endSubPhaseButton.Disabled = false; };
-					inputManager.setUpResolveChargesInputphase(action);
+					if (inputCharge.charges.Count > 0) { 
+                        await reactiveInput.ResolveCharges(inputCharge.charges);
+                    
+						// After the await we have all the charge reactions
+						endSubPhaseButton.Disabled = true;
+						endSubPhaseButton.TooltipText = "Resolve declared charges first";
+						Action action = () => { endSubPhaseButton.Disabled = false; };
+						inputManager.setUpResolveChargesInputphase(action);
+                    }
+					else
+					{
+                        PlayerInfoSingleton.Instance.battleStateManager.passNextSubState();
+                    }
 
-				}                    
+                }                    
 				break;
 			default:
 				PlayerInfoSingleton.Instance.battleStateManager.passNextSubState();

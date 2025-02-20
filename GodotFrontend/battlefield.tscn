@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://d3f1ae03k83uv"]
+[gd_scene load_steps=23 format=3 uid="uid://d3f1ae03k83uv"]
 
 [ext_resource type="Script" path="res://battlefieldManager.cs" id="1_wimcb"]
 [ext_resource type="Script" path="res://code/Input/InputManager.cs" id="2_o0eea"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://ca7m5rbsas0bp" path="res://assets/3d/rocks/objects/rock2.glb" id="8_40wyv"]
 [ext_resource type="Script" path="res://units/UnitRenderCreator.cs" id="8_fpo1v"]
 [ext_resource type="PackedScene" uid="uid://bgn4q7owag65p" path="res://assets/3d/trees/treelowpoly.glb" id="9_g0wca"]
+[ext_resource type="Shader" path="res://shaders/shoot_range.gdshader" id="14_kkdqg"]
 [ext_resource type="PackedScene" uid="uid://dqmoion08yfij" path="res://assets/3d/arrow.glb" id="15_7mx0t"]
 [ext_resource type="PackedScene" uid="uid://bvtesy2y6wqlt" path="res://Spells/fireball.tscn" id="18_i8e5x"]
 [ext_resource type="PackedScene" uid="uid://dhhkngbd2mljs" path="res://assets/3d/trees/BirchTree_1.fbx" id="18_onctb"]
@@ -35,6 +36,31 @@ shader_parameter/color_low = Color(9.02452e-07, 0.39246, 0.132378, 1)
 shader_parameter/color_mid = Color(0.438732, 0.381188, 0.214604, 1)
 shader_parameter/color_high = Color(0.714733, 0.939203, 0.998105, 1)
 shader_parameter/step_size = 0.5
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_pqwdp"]
+render_priority = 0
+shader = ExtResource("14_kkdqg")
+shader_parameter/long_range_color = null
+shader_parameter/short_range_color = null
+shader_parameter/range = 30.0
+shader_parameter/unit_width = 0.25
+shader_parameter/plane_size = 20.0
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_icvha"]
+size = Vector2(512, 512)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_dlsnw"]
+render_priority = 0
+shader = ExtResource("14_kkdqg")
+shader_parameter/long_range_color = Color(0.687036, 0.5962, 0.129988, 0.980392)
+shader_parameter/short_range_color = Color(0.603948, 0.926376, 0.5045, 1)
+shader_parameter/range = 18.0
+shader_parameter/unit_width = 2.37
+shader_parameter/plane_size = 20.0
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_g3jdh"]
+material = SubResource("ShaderMaterial_dlsnw")
+size = Vector2(20, 20)
 
 [node name="Main" type="Node3D"]
 script = ExtResource("1_wimcb")
@@ -107,6 +133,20 @@ transform = Transform3D(0.137819, -1.58314e-08, -0.480631, -0.480631, -2.1009e-0
 transform = Transform3D(20, 0, 0, 0, -0.425762, -19.7976, 0, 2.96963, -2.83841, 0, 1.06053, 7.62808)
 mesh = ExtResource("20_00gma")
 surface_material_override/0 = SubResource("ShaderMaterial_f6ra0")
+
+[node name="Sprite3D" type="Sprite3D" parent="Battlefield"]
+transform = Transform3D(3.57746e-08, 3, 0, -3, 3.57746e-08, 0, 0, 0, 3, 0.043361, 1.75472, 0.220626)
+visible = false
+material_override = SubResource("ShaderMaterial_pqwdp")
+cast_shadow = 0
+gi_mode = 0
+texture = SubResource("PlaceholderTexture2D_icvha")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Battlefield"]
+transform = Transform3D(1, 0.000109611, -0.000617133, -0.000617137, 4.31269e-05, -1, -0.000109587, 1, 4.31882e-05, 2.18984, 4.08937, 0.309929)
+cast_shadow = 0
+gi_mode = 0
+mesh = SubResource("PlaneMesh_g3jdh")
 
 [node name="debugUI" type="Node" parent="."]
 
