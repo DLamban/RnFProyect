@@ -632,12 +632,13 @@ public partial class UnitGodot : Node3D
         {
 			for (int i = 0; i < troopNodes.Count; i++)
 			{
-				int tempIndex = i;
-                if (i + deathtroops/ coreUnit.TroopsWidth > 0)
+				int tempIndex = i+deathtroops;
+                if ((i + deathtroops + startColumnDeath)/ coreUnit.TroopsWidth == 0)
 				{
-					tempIndex = i + baseTroopsTodieIndexes.Count;// Offset with the character in front
-				}				
-                if ((tempIndex % coreUnit.TroopsWidth)  == kvp.Key 
+					// do nothing, first rank
+					//tempIndex = i + baseTroopsTodieIndexes.Count;// Offset by deaths
+				}
+				else if ((tempIndex % coreUnit.TroopsWidth)  == kvp.Key 
 					&& i >= startColumnDeath)// ignore troops before => i > columnsAdvance[0].column
                 {
                     
@@ -739,6 +740,8 @@ public partial class UnitGodot : Node3D
             }
 
         }
+        //reorder the troopnodes array
+        troopNodes = troopNodes.OrderByDescending(troop => troop.Position.Y).ThenBy(troop => troop.Position.X).ToList();
 
 
     }

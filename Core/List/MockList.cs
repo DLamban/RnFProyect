@@ -24,7 +24,7 @@ namespace Core.List
         // Start positions Dwarfs
         Vector2 startPosDwarfos = new Vector2(0.5f, 1.15f);
         Vector2 startPosSlayers = new Vector2(2.8f, 0.65f);
-        Vector2 startPosCannon = new Vector2(2.8f, 1.65f);
+        Vector2 startPosCannon = new Vector2(1.25f, 1.35f);
         Vector2 startPosGyros = new Vector2(4.5f, 1.35f);
         Vector2 startPosKing = new Vector2(5.8f, 0.65f);
         Vector2 startPosElders = new Vector2(5.8f, 1.25f);
@@ -81,7 +81,7 @@ namespace Core.List
             BaseUnit cannon = unitManagerCore.CreateNewUnit(UnitEnum.Cannon, new List<CharacterEnum>(), 1, 1, startPosCannon, 190);
             unitManagerCore.addEnemyUnit(cannon);
 
-            BaseUnit slayers = unitManagerCore.CreateNewUnit(UnitEnum.Slayers, new List<CharacterEnum>(), 5, 7, startPosSlayers, 200);
+            BaseUnit slayers = unitManagerCore.CreateNewUnit(UnitEnum.Slayers, new List<CharacterEnum>() { CharacterEnum.King_Dwarf }, 5, 9, startPosSlayers, 200);
             unitManagerCore.addEnemyUnit(slayers);
 
 
@@ -98,7 +98,7 @@ namespace Core.List
 
 
             unitManagerCore.addEnemyUnit(kingDwarfOnShield);
-            BaseUnit elders = unitManagerCore.CreateNewUnit(UnitEnum.Elder_Dwarfs, new List<CharacterEnum>(), 5, 12, startPosElders, 170);
+            BaseUnit elders = unitManagerCore.CreateNewUnit(UnitEnum.Elder_Dwarfs, new List<CharacterEnum>() { CharacterEnum.King_Dwarf}, 5, 12, startPosElders, 170);
             unitManagerCore.addEnemyUnit(elders);
         }
     }

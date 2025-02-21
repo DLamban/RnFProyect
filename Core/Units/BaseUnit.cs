@@ -202,7 +202,10 @@ namespace Core.Units
         public void woundUnit(List<int> diceValues, int strenght, List<BaseRule> specialRules)
         {
             int wounds = ResolveDiceThrow.resolveToWound(diceValues, strenght, Troop.Resistance);
-            confirmWounds(wounds,null,0);
+            if (wounds > 0) {
+                confirmWounds(wounds, null, 0);
+            }
+            
             
         }
         public async void confirmWounds(int wounds, List<BaseRule> specialRules, int ap)

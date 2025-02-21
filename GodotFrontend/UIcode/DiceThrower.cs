@@ -46,7 +46,7 @@ namespace GodotFrontend.UIcode
         private RigidBody3D getDice()
         {
             RigidBody3D? dice = dicePool.Find(x => !x.Visible);
-            if (dice == null)
+            if (dice == null || true)
             {
                 dice = (RigidBody3D)dicePackedScene.Instantiate();
                 diceTray.AddChild(dice);
@@ -61,7 +61,12 @@ namespace GodotFrontend.UIcode
             }
             return dice;
         }
-        
+        public async Task<List<int>> ThrowDicesThreshold(int numberdices, string _dicePhase, int threshold, int diceType = 6)
+        {
+            List<int> result = await ThrowDices(numberdices, _dicePhase, diceType);
+            return result.FindAll(x => x >= threshold);
+            
+        }
         // We gonna use the physics and random number, I guess should be random enough, TODO; check randommness
         // TODO: pooling the dices so we avoid the instantion
         public async Task<List<int>> ThrowDices(int numberdices, string _dicePhase, int diceType = 6)
@@ -83,16 +88,18 @@ namespace GodotFrontend.UIcode
             {
                 for (int i = 0; i < numberdices; i++)
                 {
+                    await Task.Delay(50);
                     RigidBody3D dice = getDice();
+                    
                     float xRand = 0.5f - rnd.Randf();
-                    float yRand = rnd.Randf() + 0.5f;
-                    dice.Position = dice.Position + new Vector3(0, 4f + i / 10f, i);
+                    float yRand = rnd.Randf() - 0.5f;
+                    dice.Position = dice.Position + new Vector3(0, 4f + i / 10f, 0);
 
 
-                    Vector3 impulse = new Vector3(yRand * 15f, 0, -15f);
+                    Vector3 impulse = new Vector3(yRand * 15f, 0, xRand * 15f);
                     //Vector3 impulseOrigin = new Vector3(0, yRand, xRand);
                     dice.ApplyImpulse(impulse);
-                    dice.ApplyTorqueImpulse(new Vector3(yRand * 500, yRand * 500, -yRand * 500));
+                    dice.ApplyTorqueImpulse(new Vector3( 500, 500, 500));
                     dice.SleepingStateChanged += () => { OnDiceSleep(dice); };
 
                 }
@@ -103,7 +110,7 @@ namespace GodotFrontend.UIcode
             }
             await diceThrowFinished.Task;
             dicePanel.Visible = false;
-            return diceResult;
+             return diceResult;
         }
         public async Task<int> ThrowDicesSum(int numberDices, string dicePhase, int diceType = 6)
         {

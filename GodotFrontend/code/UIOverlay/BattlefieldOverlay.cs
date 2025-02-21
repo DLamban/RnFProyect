@@ -26,6 +26,8 @@ namespace GodotFrontend.code.UIOverlay
             }
         }
         private Node3D battlefield;
+        public Node3D shootingRangeOverlay { get; set; }
+        private float zPosOverlay = 0.025f;
         
         // init the battlefield overlay
         public void vinculateBattlefield(Node3D _battlefield)
@@ -35,26 +37,30 @@ namespace GodotFrontend.code.UIOverlay
         }
         private void createOverlaySprite()
         {
-            var sprite = new Sprite3D();
-            var subViewPort = new SubViewport();
-            sprite.Position = new Vector3(0, 0, 0.6f);
-            sprite.AddChild(subViewPort);
-            sprite.Texture = subViewPort.GetTexture();
-            subViewPort.Size = new Vector2I(100, 500);
+            shootingRangeOverlay = new Node3D();
+            MeshInstance3D shootingRangeOverlayMesh = new MeshInstance3D();
+            var mesh = new PlaneMesh();
+            mesh.Size = new Vector2(20, 20);
+            shootingRangeOverlayMesh.Mesh = mesh;
+            //load shader from file
+            
+            ShaderMaterial overlayShader = new ShaderMaterial();           
+            overlayShader.Shader = GD.Load<Shader>("res://shaders/shoot_range.gdshader");
+            shootingRangeOverlayMesh.MaterialOverride = overlayShader;
 
-            //var canvas = new CanvasLayer();
-            //subViewPort.AddChild(canvas);
-            //var label = new Godot.Label();
-            //label.Text = "Charge";
-
-            //canvas.AddChild(label);
-            battlefield.AddChild(sprite);
-
+            shootingRangeOverlayMesh.Position = new Vector3(0, mesh.Size.Y/2, zPosOverlay); // offset by half plane size
+            shootingRangeOverlayMesh.RotationDegrees = new Vector3(90, 0, 0); // Girar para que quede plano
+            shootingRangeOverlay.AddChild(shootingRangeOverlayMesh);
+            battlefield.CallDeferred("add_child", shootingRangeOverlay);
+            shootingRangeOverlay.Visible = false;
 
         }
         public void drawShootLine(UnitGodot selectedUnit)
         {
-            //TODO
+            shootingRangeOverlay.Visible = true;
+           
+            shootingRangeOverlay.Rotation = selectedUnit.Rotation;
+            shootingRangeOverlay.Position = new Vector3(selectedUnit.coreUnit.centerTroop.X, selectedUnit.Position.Y + selectedUnit.offsetTroop.Y/2f + selectedUnit.offsetTroop.Y / 4f, zPosOverlay);
 
 
         }

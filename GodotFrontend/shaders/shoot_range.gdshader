@@ -1,11 +1,11 @@
 shader_type spatial;
+render_mode unshaded, depth_draw_always;
 
 
-
-uniform vec4 long_range_color:source_color ; 
-uniform vec4 short_range_color:source_color ; 
-uniform float range=1;
-uniform float unit_width=0.25;//dm
+uniform vec3 long_range_color:source_color = vec3(0.68,0.59,0.12); 
+uniform vec3 short_range_color:source_color = vec3(0.6,0.9,0.5); 
+uniform float range:hint_range(0.0, 44.0, 1.)=18;
+uniform float unit_width=1.25;//dm
 varying vec3 world_position;
 uniform float plane_size=20.;
 void vertex()
@@ -43,5 +43,5 @@ void fragment() {
 	else {
         discard; // Fuera de la elipse, no dibujar
     }
-	ALPHA = 0.55;
+	ALPHA = 0.25;
 }

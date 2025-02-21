@@ -46,6 +46,7 @@ public partial class ActionContainer : Panel
 	InputManager inputManager;
 	InputCharge inputCharge;
 	InputResolveCharge inputResolveCharge;
+	InputShootPhase inputShootPhase;
 	ReactiveInput reactiveInput;
 	#endregion
 	TextureButton endSubPhaseButton;
@@ -77,7 +78,9 @@ public partial class ActionContainer : Panel
 		
 		inputResolveCharge = inputManager.inputResolveCharge;
 		inputResolveCharge.OnChargeSelectedToExecute += (visibility) => { toogleVisibility("Charge", visibility); };
-		populateActions();
+        inputShootPhase = inputManager.inputShootPhase;
+        inputShootPhase.OnShootSelectedToExecute += (enabled) => { toogleDisabled("Shoot", !enabled); };// disable to true to enable the button
+        populateActions();
 		activateStrategicActions();
 	}
 	private void changeIcon()
@@ -132,8 +135,12 @@ public partial class ActionContainer : Panel
 		if (visibility) showActionBtn(actionName);
 		else hideActionBtn(actionName);
 	}
+	private void toogleDisabled(string actionName, bool disabled)
+    {
+        actionBtnContainer.GetNode<MarginContainer>(actionName).GetNode<Button>("ActionButton").Disabled = disabled;
+    }
 
-	private void showActionBtn(string actionName)
+    private void showActionBtn(string actionName)
 	{
 		actionBtnContainer.GetNode<MarginContainer>(actionName).Visible = true;
 	}
@@ -215,7 +222,8 @@ public partial class ActionContainer : Panel
 		foreach (var action in shootingActionButtons)
 		{
 			action.Visible = true;
-		}
+			action.GetNode<Button>("ActionButton").Disabled = true;
+        }
 	}
 	#region populateActions
 	public void populateActions()
@@ -236,7 +244,11 @@ public partial class ActionContainer : Panel
 			spellContainer.Visible = true;
 		};
 		strategicActions.Add(new ActionGeneric("Spells", actionSpells));
-		shootingActions.Add(new ActionGeneric("Shoot", () => { }));
+		Action actionShooting = () =>
+        {
+			inputShootPhase.executeShooting();
+        };
+        shootingActions.Add(new ActionGeneric("Shoot", actionShooting));
 		return createActions(shootingActions);
 	}
 
