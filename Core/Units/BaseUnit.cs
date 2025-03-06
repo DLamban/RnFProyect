@@ -62,6 +62,20 @@ namespace Core.Units
                 return _polygonpointsworld;
             }
         }
+        public Tuple<Vector2, Vector2> frontLinePoints { 
+            get { 
+                Vector2 left = new Vector2(0,0);
+                Vector2 right = new Vector2(sizeEnclosedRectangle.Width/100f, 0);
+                return new Tuple<Vector2, Vector2>(left,right);
+            } 
+        }
+        public Tuple<Vector2, Vector2> worldFrontLinePoints
+        {
+            get
+            {
+                return new Tuple<Vector2, Vector2>(Transform.localToGlobalTransforms(frontLinePoints.Item1.X,frontLinePoints.Item1.Y), Transform.localToGlobalTransforms(frontLinePoints.Item2.X,frontLinePoints.Item2.Y));
+            }
+        }
         public AffineTransformCore Transform { get; set; }
         public Formation_type Formation_Type { get; set; }
         public float MaximumChargedm {// TODO:implement swiftstride 
@@ -97,6 +111,7 @@ namespace Core.Units
         public CombatSide CombatSide { get; set; }
         public bool isCharging { get; set; }
         public bool isCharged { get; set; }
+        public bool isInCombatRange { get; set; } = false;
         public ChargeResponse chargeResponse { get; set; }
         public float distanceRemaining { get;set; }
         #endregion

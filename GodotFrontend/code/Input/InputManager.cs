@@ -225,14 +225,24 @@ namespace GodotFrontend.code.Input
 			}
 			return null;
 		}
+        private void deselectLastUnit()
+        {
+            if (unitSelected != null)
+            {
+                unitSelected.inputEnabled = false;
+				unitSelected = null;
+            }
+        }
         private void SelectUnitToMove(UnitGodot unitSelect)
 		{
-
-			if (SelectOwnUnit!=null)
+			deselectLastUnit();
+			// can be selected, and can be moved(not charging this turn, not in combat )
+			if (SelectOwnUnit(unitSelect)!=null && !unitSelect.coreUnit.isCharging && !unitSelect.coreUnit.isInCombatRange)
 			{
 				unitSelect.inputEnabled = true;
 				unitSelected = unitSelect;
 				UnitsClientManager.Instance.unitSelected = unitSelect.coreUnit;
+				
 			}
 		}
         private void SelectUnitToCharge(UnitGodot unitSelect)

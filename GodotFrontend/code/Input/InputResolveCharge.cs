@@ -28,6 +28,7 @@ namespace GodotFrontend.code.Input
         public void selectCharge(UnitGodot unit)
         {
             Charge charge = chargesToResolve.Find(x => x.chargingUnit == unit);
+
             if (charge != null)
             {
                 chargeSelected = charge;
@@ -44,6 +45,7 @@ namespace GodotFrontend.code.Input
             OnChargeSelectedToExecute?.Invoke(false);
             chargeSelected.arrow.Visible = false;
             await chargeSelected.chargingUnit.charge();
+
             chargeSelected.chargedUnit.hideChargingResponseBillboard();
             chargesToResolve.Remove(chargeSelected);
             if (chargesToResolve.Count == 0)

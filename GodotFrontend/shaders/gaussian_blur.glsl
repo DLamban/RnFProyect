@@ -64,10 +64,20 @@ float get_dist_depth(vec2 uv){
 
     vec2 centerCoords = vec2(0.5, 0.5); 
 
-    // Leer el valor de profundidad del píxel central
-    float central_depth = texture(depth_tex, centerCoords).r;
+    
+	// we need to read more pixels, too jiggly
+    
+	float central_depth = texture(depth_tex, centerCoords).r;
     float central_depth_linear = 1.0 / (central_depth * params.inv_proj_2w + params.inv_proj_3w);
-    float distance_center_depth = clamp(abs((linear_depth - central_depth_linear)/2.),0.,2.);
+    
+	// Dynamic bias based on the distance to the center
+	// closer means more bias and more blur, 
+	// meanwhile if we are far from the center we want less blur
+	// because the DOF is less if the objects are relative close
+		float bias = central_depth_linear/2.;
+	
+	float distance_center_depth = clamp(abs((linear_depth - central_depth_linear)/2.),0.,2.);
+	distance_center_depth = distance_center_depth / bias;
 	return distance_center_depth;
 }
 // The code we want to execute in each invocation

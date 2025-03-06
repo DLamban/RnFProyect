@@ -74,10 +74,16 @@ namespace GodotFrontend.code.Input
             return null;
         }
         #region PIVOTING
+        private float intentPivotUnit(float angle, UnitGodot unit, bool isAnchorPointLeft)
+        {
+            UnitsClientManager.Instance.getCloseUnitInRotation(unit.coreUnit, isAnchorPointLeft);
+            return angle;
+        }
         // We are passing global vars, but is for formatting purposes
         //TODO: add collision in pivotting
         protected void pivotUnit(Vector3 worldPos, UnitGodot unit, DragMode pivotOrientation, Vector2 anchorPoint)
         {
+            intentPivotUnit(0, unit, pivotOrientation == DragMode.left_pivot);
             distanceMoved = 0;
             if (unit.distanceRemaining <= 0) return;
             // remember to copy values and not references
@@ -210,13 +216,6 @@ namespace GodotFrontend.code.Input
 
         public void CustomProcess(double delta)
         {
-            if (isDragging)
-            {
-                unitDragged.distanceRemaining -= distanceMoved;
-                GD.Print(unitDragged.distanceRemaining);
-                restartStateVars();
-                GD.Print("REleased");
-            }
         }
     }
 }

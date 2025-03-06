@@ -49,8 +49,17 @@ public partial class InputMovePhase:BaseMove, ISubInputManager
 		}
 
 	}
-	private void dragUnit(Vector3 worldPos, UnitGodot unit)
+
+	private float intentMoveUnit(float distance, UnitGodot unit)
 	{
+		return distance;
+
+    }
+    // We're gonna divide in 2 phases, intent to move and real move so we can check collisions
+    private void dragUnit(Vector3 worldPos, UnitGodot unit)
+	{
+		// We need to move th unit only when posible!!!
+
 		distanceMoved = 0;
 		if (unit.distanceRemaining <= 0) return;
 		// remember to copy values and not references
@@ -65,7 +74,8 @@ public partial class InputMovePhase:BaseMove, ISubInputManager
 		{
 			offsetDistancePicked = (float)unit.getDistanceFrontLine(worldPos);
 		}
-		distanceMoved = (float)(unit.getDistanceFrontLine(worldPos) - offsetDistancePicked);		
+		distanceMoved = intentMoveUnit((float)(unit.getDistanceFrontLine(worldPos) - offsetDistancePicked), unit);
+        	
 		// Remembar that going backwards is just half of the movement, do it better
 		distanceMoved = (float)Math.Clamp(distanceMoved, unit.distanceRemaining * -0.5, unit.distanceRemaining);
 		

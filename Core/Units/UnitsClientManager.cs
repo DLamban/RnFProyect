@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -146,12 +148,13 @@ namespace Core.Units
             }
             return unitsCollided;
         }
+
         // We start as a very basic collision test and improve performance as needed
         public bool checkGeneralCollision(BaseUnit unit)
         {
             bool result = false;
             if (checkCollisionWorld(unit.rectangleBB)) return true;// probably return collision hit and object collided or something
-            foreach (var unitToCheck in unitsPlayer.Concat(unitsEnemy))
+            foreach (KeyValuePair<string, BaseUnit> unitToCheck in unitsPlayer.Concat(unitsEnemy))
             {
                 if (unitToCheck.Value.Equals(unit)) continue;
 
@@ -168,6 +171,44 @@ namespace Core.Units
         private bool checkCollisionBetweenUnits(RectangleBB first, RectangleBB second)
         {
             return CollisionCheck.checkOverlap(first,second);            
+        }
+        // When pivot, we need to check whats units are in the bounding circle
+        // bounded by the rotating unit, defined by the pivot point and the rotating point
+        private List<BaseUnit> findUnitsBoundingCircle(BaseUnit unit, Vector2 pivotPoint, Vector2 rotatingPoint)
+        {
+            float radius = Vector2.Distance(pivotPoint, rotatingPoint);
+            List<BaseUnit> units = new List<BaseUnit>();
+            foreach (KeyValuePair<string, BaseUnit> unitToCheck in unitsPlayer.Concat(unitsEnemy))
+            {
+                if (unitToCheck.Value.Equals(unit)) continue;
+                if (CollisionCheck.checkCirclePolygonCollision(pivotPoint,radius,unitToCheck.Value.polygonPointsWorld)) units.Add(unitToCheck.Value);
+            }
+            return units;
+        }
+        
+        public BaseUnit getCloseUnitInRotation(BaseUnit unit, bool isAnchorPointLeft)
+        {
+            Vector2 pivotPoint;
+            Vector2 rotatingPoint;
+            // WATCH OUT FOR THE NORMAL OF THE SEGMENT, WE CAN'T CHANGE THE ORDER OF THE POINTS
+            if (isAnchorPointLeft)
+            {
+                pivotPoint = unit.worldFrontLinePoints.Item1;
+                rotatingPoint = unit.worldFrontLinePoints.Item2;
+            }
+            else
+            {
+                rotatingPoint = unit.worldFrontLinePoints.Item1;
+                pivotPoint = unit.worldFrontLinePoints.Item2;                
+            }
+
+            List<BaseUnit> units = findUnitsBoundingCircle(unit, pivotPoint, rotatingPoint);
+            foreach (BaseUnit unitToCheck in units)
+            {
+                CollisionCheck.getAngleRotatingCollision(pivotPoint, rotatingPoint, unitToCheck.polygonPointsWorld);
+            }
+            throw new NotImplementedException();
+            return null;
         }
     }
 }

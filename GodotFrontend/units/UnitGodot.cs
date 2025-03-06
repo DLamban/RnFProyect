@@ -152,14 +152,14 @@ public partial class UnitGodot : Node3D
 
 	private void enableInput()
 	{
-		selectMenu.layer.Visible = true;
+		//selectMenu.layer.Visible = true;
 		inputButtonsNode.Visible = true;
 		inputButtonsNode.SetProcessInput(true);
 		selectionFx.Visible = true;
 	}
 	private void disableInput()
 	{
-		selectMenu.layer.Visible = false;
+		//selectMenu.layer.Visible = false;
 		inputButtonsNode.Visible = false;
 		inputButtonsNode.SetProcessInput(false);
 		selectionFx.Visible = false;
@@ -218,7 +218,7 @@ public partial class UnitGodot : Node3D
 			if (@event is InputEventMouseButton mouseEvent && mouseEvent.Pressed && mouseEvent.ButtonIndex == MouseButton.Left)
 			{
 				Vector2I mousePos = (Vector2I)mouseEvent.Position;
-				selectMenu.positionUnderMouse(mousePos.X, mousePos.Y);
+				//selectMenu.positionUnderMouse(mousePos.X, mousePos.Y);
 				unitSelection?.Invoke();
 				inputManager.clickUnit(this);
 			}
@@ -232,10 +232,10 @@ public partial class UnitGodot : Node3D
 	{
 		createDragArrows(inputManager);
 		createDistBillboard();
-		createChargingLayer();
+		//createChargingLayer();
 		createChargingResponseBillboard();
 		createFX();
-		createSelectMenu(inputManager);
+		//createSelectMenu(inputManager);
 		showDistanceRemaining(0);
 	}
 
@@ -277,13 +277,12 @@ public partial class UnitGodot : Node3D
 	#region CHARGE_REGION
 	public async Task charge()
 	{
-		// TODO: DECLARE charge reactions		
-			
 		unitState = UnitState.chargeDiceRolling;			
 		int result = await diceThrower.ThrowDicesCharge();
 		float resultToDm = (result * 2.54f) / 10;
 		unitState = UnitState.charging;
-		foreach (HitCollider hitCollider in this.coreUnit.checkCharge())
+        coreUnit.isCharging = true;
+        foreach (HitCollider hitCollider in this.coreUnit.checkCharge())
 		{
 			if (hitCollider.distance <= distanceRemaining + resultToDm)
 			{
@@ -296,8 +295,9 @@ public partial class UnitGodot : Node3D
 					calcChargeResult(hitCollider);
 					
 					unitState = UnitState.charging;
-
-				}
+					// CHECK IF CHARGED UNIT FLEES
+					coreUnit.isInCombatRange = true;
+                }
 				else
 				{
 					throw new NotImplementedException();

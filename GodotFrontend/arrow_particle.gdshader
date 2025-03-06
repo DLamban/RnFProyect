@@ -318,7 +318,7 @@ void process() {
 	base_angle += CUSTOM.y * LIFETIME * dynamic_params.angular_velocity;
 	CUSTOM.x = base_angle * degree_to_rad;
 	COLOR = params.color;
-	
+
 	//ROTACION LOCA
 	float angle_x = radians(5.0);
 
@@ -332,7 +332,7 @@ void process() {
 
 	// Aplicar la rotación al objeto
 	TRANSFORM = rotation_x * TRANSFORM;
-		
+
 
 
 	TRANSFORM[0].xyz = normalize(TRANSFORM[0].xyz);
