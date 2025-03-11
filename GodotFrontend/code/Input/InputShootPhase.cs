@@ -155,5 +155,10 @@ namespace GodotFrontend.code.Input
             //  TEMPORAL ERASED
             parent.AddChild(meshInstance);
         }
+
+        internal void finishShootSubphase(UnitRenderCreator unitRenderCreator)
+        {
+            unitRenderCreator.enableTroops();
+        }
     }
 }

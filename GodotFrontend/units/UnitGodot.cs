@@ -108,7 +108,7 @@ public partial class UnitGodot : Node3D
 		this.coreUnit = coreUnit;
 
 		this.Name = "UNIT:" + coreUnit.Guid;
-		distanceRemaining = coreUnit.distanceRemaining;
+		distanceRemaining = coreUnit.temporalCombatVars.distanceRemaining;
 		Size troopSize = coreUnit.Troop.Size;
 		center = new Vector2((float)coreUnit.sizeEnclosedRectangle.Width / 2, (float)coreUnit.sizeEnclosedRectangle.Height / 2);
 		offsetTroop = new Vector2(((float)troopSize.Width / 100), ((float)troopSize.Height / 100));
@@ -126,7 +126,7 @@ public partial class UnitGodot : Node3D
 	// set variables to fresh
 	public void restartUnit()
 	{
-		distanceRemaining = coreUnit.distanceRemaining;
+		distanceRemaining = coreUnit.temporalCombatVars.distanceRemaining;
 		affTrans.resetTransform();
 		updateTransformToRender();
 	}
@@ -281,7 +281,7 @@ public partial class UnitGodot : Node3D
 		int result = await diceThrower.ThrowDicesCharge();
 		float resultToDm = (result * 2.54f) / 10;
 		unitState = UnitState.charging;
-        coreUnit.isCharging = true;
+        coreUnit.temporalCombatVars.isCharging = true;
         foreach (HitCollider hitCollider in this.coreUnit.checkCharge())
 		{
 			if (hitCollider.distance <= distanceRemaining + resultToDm)
@@ -296,7 +296,8 @@ public partial class UnitGodot : Node3D
 					
 					unitState = UnitState.charging;
 					// CHECK IF CHARGED UNIT FLEES
-					coreUnit.isInCombatRange = true;
+					coreUnit.temporalCombatVars.isInCombatRange = true;
+					coreUnit.temporalCombatVars.inCombatUnits.Add(hitCollider.HitObject.unit);
                 }
 				else
 				{
@@ -316,8 +317,8 @@ public partial class UnitGodot : Node3D
 	// Watch out for charge reactions
 	private void calcChargeResult(HitCollider hitCollider)
 	{
-		coreUnit.isCharging = true;
-		hitCollider.HitObject.unit.isCharged = true;
+		coreUnit.temporalCombatVars.isCharging = true;
+		hitCollider.HitObject.unit.temporalCombatVars.isCharged = true;
 	}
 	private async void ChargeMovement(HitCollider hitCollider)
 	{

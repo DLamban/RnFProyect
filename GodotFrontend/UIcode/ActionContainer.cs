@@ -33,13 +33,15 @@ public partial class ActionContainer : Panel
 	List<ActionGeneric> chargeActions = new List<ActionGeneric>();
 	List<ActionGeneric> moveActions = new List<ActionGeneric>();
 	List<ActionGeneric> shootingActions = new List<ActionGeneric>();
+    List<ActionGeneric> combatActions = new List<ActionGeneric>();
 
-	List<ActionButton> strategicActionButtons = new List<ActionButton>();
+    List<ActionButton> strategicActionButtons = new List<ActionButton>();
 	List<ActionButton> chargeActionButtons = new List<ActionButton>();
 	List<ActionButton> moveActionButtons = new List<ActionButton>();
 	List<ActionButton> shootingActionButtons = new List<ActionButton>();
+	List<ActionButton> combatActionsButtons = new List<ActionButton>();
 
-	List<List<ActionButton>> allActions = new List<List<ActionButton>>();
+    List<List<ActionButton>> allActions = new List<List<ActionButton>>();
 
 	#region nodestosendsignals
 	PanelContainer spellContainer;
@@ -48,8 +50,9 @@ public partial class ActionContainer : Panel
 	InputResolveCharge inputResolveCharge;
 	InputShootPhase inputShootPhase;
 	ReactiveInput reactiveInput;
-	#endregion
-	TextureButton endSubPhaseButton;
+	InputCombatPhase inputCombatPhase;
+    #endregion
+    TextureButton endSubPhaseButton;
 	// FEEDBACK vars
 	Label inputPhaseLabel;
 	Label subPhaseLabel;
@@ -76,10 +79,16 @@ public partial class ActionContainer : Panel
 		inputCharge = inputManager.inputCharge; 
 		reactiveInput = inputManager.reactiveInput;
 		
-		inputResolveCharge = inputManager.inputResolveCharge;
+
+        inputResolveCharge = inputManager.inputResolveCharge;
 		inputResolveCharge.OnChargeSelectedToExecute += (visibility) => { toogleVisibility("Charge", visibility); };
-        inputShootPhase = inputManager.inputShootPhase;
+        
+		inputShootPhase = inputManager.inputShootPhase;
         inputShootPhase.OnShootSelectedToExecute += (enabled) => { toogleDisabled("Shoot", !enabled); };// disable to true to enable the button
+        
+		inputCombatPhase = inputManager.inputCombatPhase;
+        inputCombatPhase.OnSelectUnitToCombat += (enabled) => { toogleDisabled("Combat", !enabled); };// disable to true to enable the button
+
         populateActions();
 		activateStrategicActions();
 	}
@@ -166,8 +175,11 @@ public partial class ActionContainer : Panel
 			case SubBattleStatePhase.shoot:
 				enterShootingPhase();
 				break;
-		}
-	}
+			case SubBattleStatePhase.combat:
+                enterCombatPhase();
+                break;
+        }
+    }
 	private void enterStrategicPhase()
 	{
 		inputPhaseLabel.Text = "Strategic Phase";
@@ -191,8 +203,14 @@ public partial class ActionContainer : Panel
 		inputPhaseLabel.Text = "Shooting Phase";
 		subPhaseLabel.Text = "select shooter";
 		activateShootingActions();
-	}
-	private void disableActions()
+    }
+    private void enterCombatPhase()
+    {
+        inputPhaseLabel.Text = "Combat Phase";
+        subPhaseLabel.Text = "select unit";
+        activateCombatActions();
+    }
+    private void disableActions()
 	{
 		foreach ( var actionList in allActions)
 		{
@@ -225,8 +243,16 @@ public partial class ActionContainer : Panel
 			action.GetNode<Button>("ActionButton").Disabled = true;
         }
 	}
-	#region populateActions
-	public void populateActions()
+    private void activateCombatActions()
+    {
+        foreach (var action in combatActionsButtons)
+        {
+            action.Visible = true;
+            action.GetNode<Button>("ActionButton").Disabled = true;
+        }
+    }
+    #region populateActions
+    public void populateActions()
 	{		
 		strategicActionButtons =  createStrategicActions();
 		allActions.Add(strategicActionButtons);
@@ -236,7 +262,11 @@ public partial class ActionContainer : Panel
 
 		shootingActionButtons = createShootingActions();
 		allActions.Add(shootingActionButtons);
-	}
+        
+		combatActionsButtons = createCombatActions();
+        allActions.Add(combatActionsButtons);
+
+    }
 	private List<ActionButton> createShootingActions()
 	{
 		Action actionSpells = () =>
@@ -278,9 +308,22 @@ public partial class ActionContainer : Panel
 		};
 		chargeActions.Add(new ActionGeneric("Charge", actionCharge));
 		return createActions(chargeActions);
-
 	}
-	private List<ActionButton> createActions(List<ActionGeneric> actions)
+    private List<ActionButton> createCombatActions()
+    {
+        Action actionSpells = () =>
+        {
+            spellContainer.Visible = true;
+        };
+        combatActions.Add(new ActionGeneric("Spells", actionSpells));
+        Action executeCombatAction = () =>
+        {
+            inputCombatPhase.executeCombat();
+        };
+        combatActions.Add(new ActionGeneric("Combat", executeCombatAction));
+        return createActions(combatActions);
+    }
+    private List<ActionButton> createActions(List<ActionGeneric> actions)
 	{
 		var list = new List<ActionButton>();
 

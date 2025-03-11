@@ -86,8 +86,26 @@ public partial class UnitRenderCreator : Node
 		return unitToSpawn;
 
 	}
-	//gray out the units that can't shoot
-	public void disableNoShootingTroops()	
+	public void disableMoveInputAllTroops()
+	{
+        foreach (KeyValuePair<Guid, UnitGodot> unitTuple in units)
+		{
+			unitTuple.Value.inputEnabled = false;
+        }
+
+    }
+    public void disableOutOfCombatTroops()
+    {
+        foreach (KeyValuePair<Guid, UnitGodot> unitTuple in units)
+        {
+            if (!unitTuple.Value.coreUnit.temporalCombatVars.isInCombatRange && UnitsClientManager.Instance.isPlayerUnit(unitTuple.Key))
+            {
+                grayscaleUnit(unitTuple.Value);
+            }
+        }
+    }
+    //gray out the units that can't shoot
+    public void disableNoShootingTroops()	
 	{
 		foreach(KeyValuePair<Guid, UnitGodot> unitTuple in units)
 		{
@@ -97,11 +115,11 @@ public partial class UnitRenderCreator : Node
 			}
 		}
 	}
-	public void enableNoShootingTroops()
+	public void enableTroops()
 	{
 		foreach (KeyValuePair<Guid, UnitGodot> unitTuple in units)
 		{
-			if (!unitTuple.Value.coreUnit.canShoot && UnitsClientManager.Instance.isPlayerUnit(unitTuple.Key))
+			if (UnitsClientManager.Instance.isPlayerUnit(unitTuple.Key))
 			{
 				removeGrayscale(unitTuple.Value);
 			}

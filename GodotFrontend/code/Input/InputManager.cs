@@ -28,12 +28,14 @@ namespace GodotFrontend.code.Input
         public InputShootPhase inputShootPhase;
         public InputResolveCharge inputResolveCharge; 
         public ReactiveInput reactiveInput;
+		public InputCombatPhase inputCombatPhase;
 
 
         private SpellTarget? currentSpellTarget;
 		private Camera3D mainCamera;
 		private Viewport viewport;
 		private PhysicsDirectSpaceState3D spaceState;
+		private SubBattleStatePhase prevSubState;
 		public InputState inputState {
 			get { return InputFSM.currentState; }
 			set { 
@@ -81,9 +83,9 @@ namespace GodotFrontend.code.Input
             inputMagic = new InputMagic(getBattlefieldCursorPosDel, cursorEffect, FireballFX);
             inputShootPhase = new InputShootPhase(getBattlefieldCursorPosDel);
             inputCharge = new InputCharge(getBattlefieldCursorPosDel);
-			
+			inputCombatPhase = new InputCombatPhase(getBattlefieldCursorPosDel);
 
-			Panel blockPanel = GetNode<Panel>("UnitManager/HUD/CanvasGroup/AnchorProvider/BlockGamePanel");
+            Panel blockPanel = GetNode<Panel>("UnitManager/HUD/CanvasGroup/AnchorProvider/BlockGamePanel");
             reactiveInput = new ReactiveInput(blockPanel);
 			inputResolveCharge = new InputResolveCharge();
             // magic runs in all phases
@@ -95,6 +97,25 @@ namespace GodotFrontend.code.Input
 		}
 		private void OnSubPhaseChanged(SubBattleStatePhase currentSubPhase)
 		{
+            // leaving previous subphase
+            switch (prevSubState)
+			{
+				case SubBattleStatePhase.charge:
+                    inputCharge.finishChargeSubphase();
+                    break;
+                case SubBattleStatePhase.move:
+                    inputMovePhase.finishMoveSubphase(unitRenderCreator);
+                    break;
+                case SubBattleStatePhase.shoot:
+                    inputShootPhase.finishShootSubphase(unitRenderCreator);
+                    break;
+                case SubBattleStatePhase.combat:
+                    inputCombatPhase.finishCombatSubphase(unitRenderCreator);
+                    break;
+                default:
+                    break;
+            }
+            // entering new subphase
             switch (currentSubPhase)
             {
                 case SubBattleStatePhase.charge:
@@ -108,17 +129,20 @@ namespace GodotFrontend.code.Input
 				case SubBattleStatePhase.shoot:
 					setUpShootInputSubPhase();
 					break;
+                case SubBattleStatePhase.combat:
+                    setUpCombatPhase();
+                    break;
                 default:
                     Debug.WriteLine("state not implemented");
                     break;
             }
+			prevSubState = currentSubPhase;
         }
 		// Breaking the patterns, sorry
         public void setUpResolveChargesInputphase(Action OnfinishResolvingCharges)
         {
             inputState = InputState.ResolvingCharges;
             currentStateProccess = inputResolveCharge.CustomProcess;
-
             inputResolveCharge.setChargesToResolve(inputCharge.charges,OnfinishResolvingCharges);            
         }
 		private void setUpShootInputSubPhase()
@@ -137,8 +161,14 @@ namespace GodotFrontend.code.Input
 			inputState = InputState.Empty;
 			currentStateProccess = inputMovePhase.CustomProcess;
 		}
+		private void setUpCombatPhase()
+        {
+            inputState = InputState.Empty;
+			unitRenderCreator.disableOutOfCombatTroops();
+            currentStateProccess = inputCombatPhase.CustomProcess;
+        }
 
-		public void clickUnit(UnitGodot unitSelect)
+        public void clickUnit(UnitGodot unitSelect)
 		{
             //if (lastUnitSelected != null)
             //{
@@ -170,6 +200,9 @@ namespace GodotFrontend.code.Input
 					case SubBattleStatePhase.shoot:
                         inputShootPhase.clickUnit(unitSelect);
 						break;
+                    case SubBattleStatePhase.combat:
+                        inputCombatPhase.clickUnit(unitSelect);
+                        break;
                     default:
 						throw new NotImplementedException();
 						break;                        
@@ -237,7 +270,7 @@ namespace GodotFrontend.code.Input
 		{
 			deselectLastUnit();
 			// can be selected, and can be moved(not charging this turn, not in combat )
-			if (SelectOwnUnit(unitSelect)!=null && !unitSelect.coreUnit.isCharging && !unitSelect.coreUnit.isInCombatRange)
+			if (SelectOwnUnit(unitSelect)!=null && !unitSelect.coreUnit.temporalCombatVars.isCharging && !unitSelect.coreUnit.temporalCombatVars.isInCombatRange)
 			{
 				unitSelect.inputEnabled = true;
 				unitSelected = unitSelect;

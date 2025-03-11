@@ -113,4 +113,8 @@ public partial class InputMovePhase:BaseMove, ISubInputManager
 		//AddChild(meshInstance);
 	}
 
+    internal void finishMoveSubphase(UnitRenderCreator unitRenderCreator)
+    {
+		unitRenderCreator.disableMoveInputAllTroops();
+    }
 }

@@ -103,17 +103,10 @@ namespace Core.Units
         //delegates
         public delegate Task<List<int>> DiceThrowerTaskDelegate(int numberdices, string dicePhase, int dicetype=6);
         private DiceThrowerTaskDelegate DiceThrowerTaskDel;
-        
+
         #endregion
         #region TEMPORALCOMBAT 
-        // Combat temporal variables, restart every turn
-        public List<Spell> spellsAffecting = new List<Spell>();
-        public CombatSide CombatSide { get; set; }
-        public bool isCharging { get; set; }
-        public bool isCharged { get; set; }
-        public bool isInCombatRange { get; set; } = false;
-        public ChargeResponse chargeResponse { get; set; }
-        public float distanceRemaining { get;set; }
+        public TemporalCombatVars temporalCombatVars { get; set; }
         #endregion
         // This constructor is for information purposes, creating a unit with a single troop
         // as a dummy unit to get da information
@@ -155,6 +148,7 @@ namespace Core.Units
             Troops.Add(character);
             reformTroops();
             restartCombatState();
+            
         }
         public void reformTroops()
         {
@@ -182,7 +176,8 @@ namespace Core.Units
         }
         public void restartCombatState()
         {
-            distanceRemaining = Troop.MovementDm;
+            temporalCombatVars = new TemporalCombatVars();            
+            temporalCombatVars.distanceRemaining = Troop.Movement;
         }
         // to check the charge we're gonna create a rectangle and check the overlapping with other rectangles, 
         // and then, we see, maybe increase accuracy and/or check only the closest hit
@@ -192,7 +187,7 @@ namespace Core.Units
             // the height will be the distance remaining+charge distance
             // and the transform the unit transform
             List<HitCollider> hittedColliders = new List<HitCollider>();
-            float maximumCharge = distanceRemaining + MaximumChargedm;
+            float maximumCharge = temporalCombatVars.distanceRemaining + MaximumChargedm;
             RectangleBB rectangleBB = new RectangleBB(sizeEnclosedRectangledm.X, -1*maximumCharge, Transform);
 
             List<CollidedObject> collisions =  UnitsClientManager.Instance.checkRectangleCollision(rectangleBB).FindAll(collided=>collided.unit !=this);// remove himself from the list

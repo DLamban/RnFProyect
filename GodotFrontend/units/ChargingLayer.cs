@@ -40,7 +40,7 @@ namespace GodotFrontend.units
             sprite.Scale = new Vector3(unit.coreUnit.sizeEnclosedRectangledm.X, unit.coreUnit.MaximumChargedm, 1);
 
             Vector3 calcPosition = Vector3.Zero;
-            float movementOffset = unit.affTrans.ForwardVec.Y * unit.coreUnit.distanceRemaining;
+            float movementOffset = unit.affTrans.ForwardVec.Y * unit.coreUnit.temporalCombatVars.distanceRemaining;
             calcPosition.X = unit.center.X;
             calcPosition.Y = -unit.center.Y + movementOffset;
             calcPosition.Z = 0.30f;

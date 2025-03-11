@@ -52,9 +52,9 @@ namespace GodotFrontend.code.Input
 
         private async Task<Charge> ChargeRes(Charge charge)
         {
-            charge.chargedUnit.coreUnit.chargeResponse = ChargeResponse.HOLD;                        
-            await chargeResponseUI.ShowToast(charge.chargedUnit.coreUnit.chargeResponse.ToString() + "!");
-            charge.chargedUnit.showChargingResponseBillboard(charge.chargedUnit.coreUnit.chargeResponse);
+            charge.chargedUnit.coreUnit.temporalCombatVars.chargeResponse = ChargeResponse.HOLD;                        
+            await chargeResponseUI.ShowToast(charge.chargedUnit.coreUnit.temporalCombatVars.chargeResponse.ToString() + "!");
+            charge.chargedUnit.showChargingResponseBillboard(charge.chargedUnit.coreUnit.temporalCombatVars.chargeResponse);
             //charge.arrow.Visible = false;
             if (chargeResponses.Count == 0) {
                 chargeResponseFinish.SetResult(true);

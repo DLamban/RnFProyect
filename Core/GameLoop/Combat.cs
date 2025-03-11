@@ -62,6 +62,17 @@ namespace Core.GameLoop
             }
             return (woundResult + modifier);            
         }
+        // need to check the units that are touching
+        // and the units that are in the front line
+        public static void combatUnit(BaseUnit attacker, BaseUnit defender)
+        {
+            //calculate the combat width
+            int combatWidth = Math.Min(attacker.TroopsWidth, defender.TroopsWidth);
+            // take the front line
+
+
+        }
+
         public static void combat(List<BaseUnit> units, List<BaseUnit> enemyUnits)
         { 
             foreach (BaseUnit unit in units)
@@ -69,6 +80,7 @@ namespace Core.GameLoop
                 // find frontline in combat
             }
         }
+
         public static void singleCombat(BaseUnit unitA, BaseUnit unitB)
         {
             executeCombatRound(unitA, unitB);   

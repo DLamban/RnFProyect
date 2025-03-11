@@ -76,7 +76,7 @@ namespace GodotFrontend.code.Input
 
             if (spellSelected.Type == SpellType.Hex || spellSelected.Type == SpellType.Buff)
             {
-                unitSelected.coreUnit.spellsAffecting.Add(spellSelected);
+                unitSelected.coreUnit.temporalCombatVars.spellsAffecting.Add(spellSelected);
             }
             else
             {

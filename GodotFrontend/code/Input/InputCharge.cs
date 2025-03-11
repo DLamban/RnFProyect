@@ -129,7 +129,7 @@ public class InputCharge : BaseMove, ISubInputManager
     // test if the charge is close enough, and charging unit has LOS to objetive
     private bool checkValidCharge(UnitGodot _chargingUnit, UnitGodot _chargedUnit, float dist=0f)
     {
-        float maxChargeDist = _chargingUnit.coreUnit.distanceRemaining + _chargingUnit.coreUnit.MaximumChargedm;
+        float maxChargeDist = _chargingUnit.coreUnit.temporalCombatVars.distanceRemaining + _chargingUnit.coreUnit.MaximumChargedm;
         if (dist > maxChargeDist) {
             return false;
         }
