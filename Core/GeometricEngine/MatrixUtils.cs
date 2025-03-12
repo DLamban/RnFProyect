@@ -203,12 +203,20 @@ namespace Core.GeometricEngine
         {
             return new Vector2((float)(m22 * -1), (float)m21);
         }
+        public Vector2 localToGlobalTransforms(Vector2 vec)
+        {
+            return localToGlobalTransforms(vec.X, vec.Y);
+        }
         public Vector2 localToGlobalTransforms(double X, double Y)
         {
             Vector2 result = new Vector2();
             result.X = (float)((float)( X *   m11 +  Y *  m12) +   offsetX);
             result.Y = (float)( X *   m21 + Y *   m22 +   offsetY);
             return result;
+        }
+        public Vector2 GlobalToLocalTransforms(Vector2 vec)
+        {
+            return GlobalToLocalTransforms(vec.X, vec.Y);
         }
         public Vector2 GlobalToLocalTransforms(double X, double Y)
         {

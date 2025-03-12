@@ -37,7 +37,8 @@ namespace GodotFrontend.code.Input
         {
             //check unit in combat
             BaseUnit coreunit = selectedUnit.coreUnit.temporalCombatVars.inCombatUnits.FirstOrDefault();
-            Combat.singleCombat(selectedUnit.coreUnit, coreunit);
+            
+            Combat.combatUnit(selectedUnit.coreUnit, coreunit);
         }
         private UnitGodot? SelectOwnUnit(UnitGodot unitToSelect)
         {

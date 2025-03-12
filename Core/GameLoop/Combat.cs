@@ -62,14 +62,54 @@ namespace Core.GameLoop
             }
             return (woundResult + modifier);            
         }
+        /// <summary>
+        /// We put this calculation in combat class
+        /// and as static, make it fast    
+        /// inside is two Atan2, so it is not that fast
+        /// </summary>
+        /// <param name="unitA"></param>
+        /// <param name="unitB"></param>
+        /// <returns>the combat side that is A over B</returns>
+        public static CombatSide calcCombatSide(BaseUnit unitA, BaseUnit unitB) {
+            var angleA = unitA.Transform.currentAngleDegrees;
+            var angleB = unitB.Transform.currentAngleDegrees;
+            // watch put for orientation
+            var angle = angleA - angleB;
+            angle -= 180;
+
+            if (angle < 0)
+            {
+                angle = 360 + angle;
+            }
+            if (angle > 315 || angle < 45)
+            {
+                return CombatSide.FRONT;
+            }
+            if (angle > 45 && angle < 135)
+            {
+                return CombatSide.RIGHTFLANK;
+            }
+            if (angle > 135 && angle < 225)
+            {
+                return CombatSide.REAR;
+            }
+            if (angle > 225 && angle < 315)
+            {
+                return CombatSide.LEFTFLANK;
+            }
+            return CombatSide.FRONT;
+        }
         // need to check the units that are touching
         // and the units that are in the front line
         public static void combatUnit(BaseUnit attacker, BaseUnit defender)
         {
             //calculate the combat width
             int combatWidth = Math.Min(attacker.TroopsWidth, defender.TroopsWidth);
-            // take the front line
-
+            // get front line troops
+            List<BaseUnit> unitsInCombat = new List<BaseUnit>();
+            unitsInCombat.Add(defender);
+            List<BaseTroop> troopsAtt = attacker.getAttackingTroops(unitsInCombat);
+            //int attackingtroops = attacker.;
 
         }
 

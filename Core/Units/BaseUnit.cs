@@ -15,7 +15,15 @@ using Core.List;
 using System.Diagnostics;
 namespace Core.Units
 {
+    using static Core.GeometricEngine.GeometricTypedef;
     using Hit = Tuple<Vector2, float>;
+    public struct UnitBorders
+    {
+        public RectSegment frontLine;
+        public RectSegment backLine;
+        public RectSegment leftLine;
+        public RectSegment rightLine;
+    }
     public class BaseUnit
     {
         
@@ -50,6 +58,7 @@ namespace Core.Units
         }
         public RectangleBB rectangleBB { get { return new RectangleBB(sizeEnclosedRectangledm.X, sizeEnclosedRectangledm.Y, Transform);}
              }
+        
         public List<Point> polygonPoints { get; set; }
         public List<Vector2> enclosedPolygonPointsdm { get; set; }
         public List<Vector2> polygonPointsWorld { 
@@ -62,18 +71,42 @@ namespace Core.Units
                 return _polygonpointsworld;
             }
         }
-        public Tuple<Vector2, Vector2> frontLinePoints { 
-            get { 
-                Vector2 left = new Vector2(0,0);
-                Vector2 right = new Vector2(sizeEnclosedRectangle.Width/100f, 0);
-                return new Tuple<Vector2, Vector2>(left,right);
-            } 
+        public UnitBorders unitBorders {
+            get
+            {
+                // We made the points in the order of left to right, up to down, in points we usually do as clockwise
+                UnitBorders _unitBorders = new UnitBorders();
+                _unitBorders.frontLine = frontLinePoints;
+                _unitBorders.backLine = new RectSegment(new Vector2(0, sizeEnclosedRectangledm.Y), new Vector2(sizeEnclosedRectangledm.X, sizeEnclosedRectangledm.Y));
+                _unitBorders.leftLine = new RectSegment(new Vector2(0, 0), new Vector2(0, sizeEnclosedRectangledm.Y));
+                _unitBorders.rightLine = new RectSegment(new Vector2(sizeEnclosedRectangledm.X, 0), new Vector2(sizeEnclosedRectangledm.X, sizeEnclosedRectangledm.Y));
+                return _unitBorders;
+            }                
         }
-        public Tuple<Vector2, Vector2> worldFrontLinePoints
+        public UnitBorders unitBordersWorld
         {
             get
             {
-                return new Tuple<Vector2, Vector2>(Transform.localToGlobalTransforms(frontLinePoints.Item1.X,frontLinePoints.Item1.Y), Transform.localToGlobalTransforms(frontLinePoints.Item2.X,frontLinePoints.Item2.Y));
+                UnitBorders _unitBorders = new UnitBorders();
+                _unitBorders.frontLine = new RectSegment(Transform.localToGlobalTransforms(unitBorders.frontLine.Start), Transform.localToGlobalTransforms(unitBorders.frontLine.End));
+                _unitBorders.backLine = new RectSegment(Transform.localToGlobalTransforms(unitBorders.backLine.Start), Transform.localToGlobalTransforms(unitBorders.backLine.End));
+                _unitBorders.leftLine = new RectSegment(Transform.localToGlobalTransforms(unitBorders.leftLine.Start), Transform.localToGlobalTransforms(unitBorders.leftLine.End));
+                _unitBorders.rightLine = new RectSegment(Transform.localToGlobalTransforms(unitBorders.rightLine.Start), Transform.localToGlobalTransforms(unitBorders.rightLine.End));
+                return _unitBorders;
+            }
+        }
+        public RectSegment frontLinePoints { 
+            get { 
+                Vector2 left = new Vector2(0,0);
+                Vector2 right = new Vector2(sizeEnclosedRectangle.Width/100f, 0);
+                return new RectSegment(left,right);
+            } 
+        }
+        public RectSegment worldFrontLinePoints
+        {
+            get
+            {
+                return new RectSegment(Transform.localToGlobalTransforms(frontLinePoints.Start.X,frontLinePoints.Start.Y), Transform.localToGlobalTransforms(frontLinePoints.End.X,frontLinePoints.End.Y));
             }
         }
         public AffineTransformCore Transform { get; set; }
@@ -192,18 +225,63 @@ namespace Core.Units
 
             List<CollidedObject> collisions =  UnitsClientManager.Instance.checkRectangleCollision(rectangleBB).FindAll(collided=>collided.unit !=this);// remove himself from the list
             // we check every corner of the rectangles collided, so we found the closest corner to the unit
-            Tuple<Vector2, Vector2> rectSegment = new Tuple<Vector2, Vector2>(Transform.localToGlobalTransforms(0,0),Transform.localToGlobalTransforms(sizeEnclosedRectangledm.X,0));
+            RectSegment rectSegment = new RectSegment(Transform.localToGlobalTransforms(0,0),Transform.localToGlobalTransforms(sizeEnclosedRectangledm.X,0));
 
             foreach(CollidedObject collision in collisions)
             {
                 Tuple<Vector2, float> collisionPointAndDist = collision.checkClosestPoint(rectSegment);
                 HitCollider hit = new HitCollider(collision,collisionPointAndDist.Item1,collisionPointAndDist.Item2);
                 hittedColliders.Add(hit);
-                //collision.checkProjectionOverRectSegment(rectSegment.Item1,rectSegment.Item2);
+                //collision.checkProjectionOverRectSegment(rectSegment.Start,rectSegment.End);
             }
             return hittedColliders;
         }
-        
+      
+        /// <summary>
+        /// This method is to get the troops that are in direct combat
+        /// only touching troops
+        /// WE NEED TO CALCULATE PRECISE POSITIONS oof
+        /// </summary>
+        /// <param name="widthFrontLine"></param>
+        /// <returns></returns>
+        private List<BaseTroop> getInDirectCombatTroops(CombatSide combatSide, BaseUnit enemyUnit)
+        {
+            
+            List<BaseTroop> inDirectCombatTroops = new List<BaseTroop>();
+
+            // we do calculations in local space of the main unit, lot easier
+            RectSegment lineEnemy;
+            switch (combatSide)
+            {
+                case CombatSide.FRONT:
+                    lineEnemy = new RectSegment(Transform.GlobalToLocalTransforms(enemyUnit.unitBordersWorld.frontLine.Start), Transform.GlobalToLocalTransforms(enemyUnit.unitBordersWorld.frontLine.End));
+                    break;
+            }
+                      
+            
+            return null;
+
+
+        }
+        /// <summary>
+        /// this is not as evident as it seems, because they are special rules
+        /// for example, spears weapon allow second rank to fight
+        /// also, it deppends on the orientation of the fight
+        /// and the if is flanked, reared ....
+        /// </summary>
+        /// <returns>All the troops able to attack, and maybe supporting attacks</returns>
+        public List<BaseTroop> getAttackingTroops(List<BaseUnit> unitsInContact)
+        {
+            List<BaseTroop> attackingTroops = new List<BaseTroop>();
+            foreach(BaseUnit unit in unitsInContact)
+            {
+                var combatSide = Combat.calcCombatSide(this, unit);
+
+                attackingTroops = getInDirectCombatTroops(combatSide,unit);
+
+            }
+            return attackingTroops;
+        }
         public int hitUnit(List<int> diceValues, int dexAttacker, List<BaseRule> specialRules)
         {
             int hits = ResolveDiceThrow.resolveToHit(diceValues, dexAttacker, this.Troop.Dexterity, specialRules);

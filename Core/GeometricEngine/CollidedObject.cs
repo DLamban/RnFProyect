@@ -7,11 +7,11 @@ using System.Numerics;
 using System.Runtime.Intrinsics;
 using System.Text;
 using System.Threading.Tasks;
+using static Core.GeometricEngine.GeometricTypedef;
 
 namespace Core.GeometricEngine
 {
 
-    using RectSegment = Tuple<Vector2, Vector2>;
     public class CollidedObject
     {
         public enum CollidedType
@@ -45,7 +45,7 @@ namespace Core.GeometricEngine
             throw new NotImplementedException();
             return null;
         }
-        public Tuple<Vector2,float> checkClosestPoint(Tuple<Vector2,Vector2> frontlineSegment)
+        public Tuple<Vector2,float> checkClosestPoint(RectSegment frontlineSegment)
         {
             
             List<Vector2> polygonPoints = new List<Vector2>();
@@ -77,8 +77,8 @@ namespace Core.GeometricEngine
         private Tuple<Vector2,float> calculateDistance(RectSegment poligonRect, RectSegment rectSegment)
         {
 
-            Vector2 pointprojection1 = calculatePointProjection(poligonRect.Item1, rectSegment);
-            Vector2 pointprojection2 = calculatePointProjection(poligonRect.Item2, rectSegment);
+            Vector2 pointprojection1 = calculatePointProjection(poligonRect.Start, rectSegment);
+            Vector2 pointprojection2 = calculatePointProjection(poligonRect.End, rectSegment);
             Vector3 rect = convertSegmentToRect(rectSegment);
             Vector2 crossingPoint1 = pointCrossing(poligonRect, pointprojection1,rect);
             Vector2 crossingPoint2 = pointCrossing(poligonRect, pointprojection2,rect);
@@ -147,11 +147,11 @@ namespace Core.GeometricEngine
             // Float point error!
             float decimalPrecision = 1f / 10000f;
 
-            float minX = Math.Min(rectSegment.Item2.X, rectSegment.Item1.X);
-            float maxX = Math.Max(rectSegment.Item2.X, rectSegment.Item1.X);
+            float minX = Math.Min(rectSegment.End.X, rectSegment.Start.X);
+            float maxX = Math.Max(rectSegment.End.X, rectSegment.Start.X);
 
-            float minY = Math.Min(rectSegment.Item2.Y, rectSegment.Item1.Y);
-            float maxY = Math.Max(rectSegment.Item2.Y, rectSegment.Item1.Y);
+            float minY = Math.Min(rectSegment.End.Y, rectSegment.Start.Y);
+            float maxY = Math.Max(rectSegment.End.Y, rectSegment.Start.Y);
 
             bool xinside = (point.X > minX - decimalPrecision) && (point.X < maxX +decimalPrecision);
             bool yinside = (point.Y > minY - decimalPrecision) && (point.Y < maxY + decimalPrecision);
@@ -163,18 +163,18 @@ namespace Core.GeometricEngine
         private Vector2 calculatePointProjection(Vector2 point, RectSegment rectSegment)
         {
             Vector2 frontlineDirector = new Vector2(
-                rectSegment.Item2.X - rectSegment.Item1.X, 
-                rectSegment.Item2.Y - rectSegment.Item1.Y
+                rectSegment.End.X - rectSegment.Start.X, 
+                rectSegment.End.Y - rectSegment.Start.Y
                 );
-            Vector2 pointToLineVector = new Vector2(point.X - rectSegment.Item1.X, point.Y - rectSegment.Item1.Y);
+            Vector2 pointToLineVector = new Vector2(point.X - rectSegment.Start.X, point.Y - rectSegment.Start.Y);
             float dotproduct = Vector2.Dot(pointToLineVector, frontlineDirector);
             double magnitude = Math.Pow(frontlineDirector.X, 2) + Math.Pow(frontlineDirector.Y, 2);
             float resultProjectionScalar = (float)(dotproduct / magnitude);
 
             resultProjectionScalar = Math.Clamp(resultProjectionScalar, 0, 1);    
             Vector2 pointProjection = resultProjectionScalar * frontlineDirector;
-            pointProjection.X = pointProjection.X + rectSegment.Item1.X;
-            pointProjection.Y = pointProjection.Y + rectSegment.Item1.Y;
+            pointProjection.X = pointProjection.X + rectSegment.Start.X;
+            pointProjection.Y = pointProjection.Y + rectSegment.Start.Y;
             
 
             return pointProjection;
@@ -197,18 +197,18 @@ namespace Core.GeometricEngine
             }
         private Vector3 convertSegmentToRect(RectSegment rectSegment)
         {
-            float x2subx1 = rectSegment.Item2.X - rectSegment.Item1.X;
-            float y2suby1 = rectSegment.Item2.Y - rectSegment.Item1.Y;
+            float x2subx1 = rectSegment.End.X - rectSegment.Start.X;
+            float y2suby1 = rectSegment.End.Y - rectSegment.Start.Y;
 
             float A = y2suby1;
             float B = x2subx1 * -1;
-            float C = rectSegment.Item1.Y * x2subx1 - rectSegment.Item1.X * y2suby1;
+            float C = rectSegment.Start.Y * x2subx1 - rectSegment.Start.X * y2suby1;
             return new Vector3(A, B, C);
         }
         private Vector2 vectorProjection(RectSegment projected, RectSegment overProject)
         {
-            Vector2 director1 = new Vector2(projected.Item2.X - projected.Item1.X, projected.Item2.Y - projected.Item1.Y);
-            Vector2 director2 = new Vector2(overProject.Item2.X - overProject.Item1.X, overProject.Item2.Y - overProject.Item1.Y);
+            Vector2 director1 = new Vector2(projected.End.X - projected.Start.X, projected.End.Y - projected.Start.Y);
+            Vector2 director2 = new Vector2(overProject.End.X - overProject.Start.X, overProject.End.Y - overProject.Start.Y);
             
             float dotProduct = Vector2.Dot(director1, director2);
             double normVectorProjected = Math.Pow(director2.X,2) + Math.Pow(director2.Y,2);

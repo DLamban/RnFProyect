@@ -19,7 +19,7 @@ namespace Core.List
         Vector2 startPosRatis2 = new Vector2(2.75f, -0.6f);
         Vector2 startPosAbomination = new Vector2(5, 0);
         Vector2 startPosGoblins = new Vector2(6f, 0.14f);
-        Vector2 startBoarRiders = new Vector2(-.5f, -0.94f);
+        Vector2 startBoarRiders = new Vector2(-.75f, -0.94f);
         Vector2 startHeavyOrcs = new Vector2(1.05f, -1.14f);
         // Start positions Dwarfs
         Vector2 startPosDwarfos = new Vector2(0.5f, 1.15f);
@@ -72,7 +72,7 @@ namespace Core.List
 
             //// PLAYER2
             ///DWARSSSSSSSSSSS
-            BaseUnit dwarfos = unitManagerCore.CreateNewUnit(UnitEnum.Dwarf_Warriors, new List<CharacterEnum>(), 5, 13, startPosDwarfos, 130);
+            BaseUnit dwarfos = unitManagerCore.CreateNewUnit(UnitEnum.Dwarf_Warriors, new List<CharacterEnum>(), 5, 13, startPosDwarfos, 90);
             unitManagerCore.addEnemyUnit(dwarfos);
 
             BaseUnit crossbow = unitManagerCore.CreateNewUnit(UnitEnum.Crossbowmen, new List<CharacterEnum>(), 5, 11, startPosCrossbow, 175);

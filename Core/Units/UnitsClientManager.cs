@@ -193,13 +193,13 @@ namespace Core.Units
             // WATCH OUT FOR THE NORMAL OF THE SEGMENT, WE CAN'T CHANGE THE ORDER OF THE POINTS
             if (isAnchorPointLeft)
             {
-                pivotPoint = unit.worldFrontLinePoints.Item1;
-                rotatingPoint = unit.worldFrontLinePoints.Item2;
+                pivotPoint = unit.worldFrontLinePoints.Start;
+                rotatingPoint = unit.worldFrontLinePoints.End;
             }
             else
             {
-                rotatingPoint = unit.worldFrontLinePoints.Item1;
-                pivotPoint = unit.worldFrontLinePoints.Item2;                
+                rotatingPoint = unit.worldFrontLinePoints.Start;
+                pivotPoint = unit.worldFrontLinePoints.End;                
             }
 
             List<BaseUnit> units = findUnitsBoundingCircle(unit, pivotPoint, rotatingPoint);
