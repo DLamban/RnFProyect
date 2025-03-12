@@ -62,7 +62,7 @@ namespace Core.GeometricEngine
                 }
                 else
                 {
-                    polygonSegment = new RectSegment(polygonPoints[i], polygonPoints[1]);
+                    polygonSegment = new RectSegment(polygonPoints[i], polygonPoints[0]);
                 }
                 Tuple<Vector2, float> pointAndDist = calculateDistance(polygonSegment, frontlineSegment);
                 if ( pointAndDist.Item2 < minDist)
