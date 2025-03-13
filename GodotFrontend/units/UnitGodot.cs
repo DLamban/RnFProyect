@@ -291,8 +291,8 @@ public partial class UnitGodot : Node3D
 				{
 
 					ChargeMovement(hitCollider);
-					
-					calcChargeResult(hitCollider);
+                    CombatSide combatSide = checkSideCharge(hitCollider);
+                    calcChargeResult(hitCollider);
 					
 					unitState = UnitState.charging;
 					// CHECK IF CHARGED UNIT FLEES
@@ -320,6 +320,19 @@ public partial class UnitGodot : Node3D
 		coreUnit.temporalCombatVars.isCharging = true;
 		hitCollider.HitObject.unit.temporalCombatVars.isCharged = true;
 	}
+    // the hitted unit mark the side of the charge
+    private CombatSide checkSideCharge(HitCollider hitCollider)
+	{
+		foreach(KeyValuePair<ArcSeparatorName, ArcSeparatorStruct> item in hitCollider.HitObject.unit.ArcSeparators)
+        {
+            //check waht lines intersect with the unit
+            GeometryUtils.checkSemisegmentUnitCross(item.Value.origin, item.Value.dir, coreUnit.unitBordersWorld);
+
+        }
+        
+        var i = 0;
+		return CombatSide.FRONT;
+    }
 	private async void ChargeMovement(HitCollider hitCollider)
 	{
 		moveForward(hitCollider.distance,false);

@@ -24,6 +24,19 @@ namespace Core.Units
         public RectSegment leftLine;
         public RectSegment rightLine;
     }
+    public struct ArcSeparatorStruct
+    {
+        public Vector2 dir;
+        public Vector2 origin;
+        public Vector3 line;
+    }
+    public enum ArcSeparatorName
+    {
+        point00,
+        point01,
+        point11,
+        point10
+    }
     public class BaseUnit
     {
         
@@ -56,9 +69,70 @@ namespace Core.Units
                 return new Vector2((float)sizeEnclosedRectangle.Width / 100, (float)sizeEnclosedRectangle.Height / 100);
             }            
         }
-        public RectangleBB rectangleBB { get { return new RectangleBB(sizeEnclosedRectangledm.X, sizeEnclosedRectangledm.Y, Transform);}
-             }
-        
+        public RectangleBB rectangleBB { get { return new RectangleBB(sizeEnclosedRectangledm.X, sizeEnclosedRectangledm.Y, Transform);}}
+        public Dictionary<ArcSeparatorName,ArcSeparatorStruct> ArcSeparators {
+            get
+            {
+                Dictionary<ArcSeparatorName, ArcSeparatorStruct> _arcSeparators = new Dictionary<ArcSeparatorName, ArcSeparatorStruct>();
+                // ********************************************
+                // WATCH  OUT!   in the line equation:
+                //       C = dy*x - dx*y
+                // *******************************************
+                // FOLLOW CONVENTIONS
+
+                
+                // *****************************************
+                // Point 0,0 135 degrees
+                // *****************************************
+                Vector2 vec135 = Vector2.Normalize(new Vector2(-1, 1));
+                Vector2 ori135 = new Vector2(0, 0);
+                _arcSeparators.Add(ArcSeparatorName.point00, new ArcSeparatorStruct()
+                {
+                    dir = Transform.localVectorToWorldTransform(new Vector2(vec135.X, vec135.Y)),
+                    origin = Transform.localToGlobalTransforms(ori135.X, ori135.Y),
+                    line = Transform.localEqPointDirToWorld(ori135, new Vector2(-vec135.Y, vec135.X))
+                });
+
+                // *****************************************
+                // 0,1  45 degrees
+                // *****************************************                
+                Vector2 vec45 = Vector2.Normalize(new Vector2(1, 1));
+                Vector2 ori45 = new Vector2(sizeEnclosedRectangledm.X, 0);
+                _arcSeparators.Add(ArcSeparatorName.point01, new ArcSeparatorStruct()
+                {
+                    dir = Transform.localVectorToWorldTransform(new Vector2(vec45.X, vec45.Y)),
+                    origin = Transform.localToGlobalTransforms(ori45.X, ori45.Y),
+                    line = Transform.localEqPointDirToWorld(ori45, new Vector2(-vec45.Y, vec45.X))
+                });
+
+                // *****************************************
+                // 1,1  315 degrees
+                // *****************************************                
+                Vector2 vec315 = Vector2.Normalize(new Vector2(1, -1));
+                Vector2 ori315 = new Vector2(sizeEnclosedRectangledm.X, -sizeEnclosedRectangledm.Y);
+                _arcSeparators.Add(ArcSeparatorName.point11, new ArcSeparatorStruct()
+                {
+                    dir = Transform.localVectorToWorldTransform(new Vector2(vec315.X, vec315.Y)),
+                    origin = Transform.localToGlobalTransforms(ori315.X, ori315.Y),
+                    line = Transform.localEqPointDirToWorld(ori315, new Vector2(-vec315.Y, vec315.X))
+                });
+
+                // *****************************************
+                // 1,0  225 degrees
+                // *****************************************                
+                
+                Vector2 vec225 = Vector2.Normalize(new Vector2(-1, -1));
+                Vector2 ori225 = new Vector2(0, -sizeEnclosedRectangledm.Y);
+                _arcSeparators.Add(ArcSeparatorName.point10, new ArcSeparatorStruct()
+                {
+                    dir = Transform.localVectorToWorldTransform(new Vector2(vec225.X, vec225.Y)),
+                    origin = Transform.localToGlobalTransforms(ori315.X, ori315.Y),
+                    line = Transform.localEqPointDirToWorld(ori225, new Vector2(-vec225.Y, vec225.X))
+                });
+                return _arcSeparators;
+            }
+        }   
+
         public List<Point> polygonPoints { get; set; }
         public List<Vector2> enclosedPolygonPointsdm { get; set; }
         public List<Vector2> polygonPointsWorld { 
@@ -74,12 +148,13 @@ namespace Core.Units
         public UnitBorders unitBorders {
             get
             {
-                // We made the points in the order of left to right, up to down, in points we usually do as clockwise
+                // We made the points clockwise
                 UnitBorders _unitBorders = new UnitBorders();
                 _unitBorders.frontLine = frontLinePoints;
-                _unitBorders.backLine = new RectSegment(new Vector2(0, sizeEnclosedRectangledm.Y), new Vector2(sizeEnclosedRectangledm.X, sizeEnclosedRectangledm.Y));
-                _unitBorders.leftLine = new RectSegment(new Vector2(0, 0), new Vector2(0, sizeEnclosedRectangledm.Y));
                 _unitBorders.rightLine = new RectSegment(new Vector2(sizeEnclosedRectangledm.X, 0), new Vector2(sizeEnclosedRectangledm.X, sizeEnclosedRectangledm.Y));
+                _unitBorders.backLine = new RectSegment(new Vector2(sizeEnclosedRectangledm.X, sizeEnclosedRectangledm.Y), new Vector2(0, sizeEnclosedRectangledm.Y));
+                _unitBorders.leftLine = new RectSegment(new Vector2(0, sizeEnclosedRectangledm.Y), new Vector2(0, 0));
+                
                 return _unitBorders;
             }                
         }

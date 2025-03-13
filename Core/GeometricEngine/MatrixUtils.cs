@@ -130,6 +130,7 @@ namespace Core.GeometricEngine
         {
             return frontLineRect;
         }
+
         private Vector2 normalizeVec(Vector2 vec)
         {
             double length = Math.Sqrt(vec.X * vec.X + vec.Y * vec.Y);
@@ -203,6 +204,35 @@ namespace Core.GeometricEngine
         {
             return new Vector2((float)(m22 * -1), (float)m21);
         }
+        public Vector3 localEqPointDirToWorld(Vector2 point, Vector2 dir)
+        {
+            var A = (float)(dir.X * m11 + dir.Y * m12);
+            var B = (float)(dir.X * m21 + dir.Y * m22);
+            var pointworld = localToGlobalTransforms(point);
+            //C = vx​y−vy​x0
+            var C = -(float)(pointworld.X * A + pointworld.Y * B);
+            return new Vector3(A, B, C);
+        }
+        // DEPRECATED, not sure if it's working
+        public Vector3 localEquationToWorld(Vector3 eq)
+        {
+            var A = (float)(eq.X * m11 + eq.Y * m12);
+            var B = (float)(eq.X * m21 + eq.Y * m22);
+            var C = (float)(eq.Z - (offsetX * A + offsetY * B));
+            return new Vector3(A, B, C);
+        }
+        /// <summary>
+        ///  Vector transformations ignore the translation part of the matrix
+        /// </summary>
+        /// <param name="vec"></param>
+        /// <returns>Vector transformed</returns>
+        public Vector2 localVectorToWorldTransform(Vector2 vec)
+        {
+            Vector2 result = new Vector2();
+            result.X = (float)(vec.X * m11 + vec.Y * m12);
+            result.Y = (float)(vec.X * m21 + vec.Y * m22);
+            return result;
+        }        
         public Vector2 localToGlobalTransforms(Vector2 vec)
         {
             return localToGlobalTransforms(vec.X, vec.Y);

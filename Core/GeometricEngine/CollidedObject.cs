@@ -1,4 +1,5 @@
-﻿using Core.Units;
+﻿using Core.GameLoop;
+using Core.Units;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -73,7 +74,7 @@ namespace Core.GeometricEngine
             }
             return new Tuple<Vector2, float> (closestPoint,minDist);
         }
-       
+        
         private Tuple<Vector2,float> calculateDistance(RectSegment poligonRect, RectSegment rectSegment)
         {
 

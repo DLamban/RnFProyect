@@ -72,9 +72,8 @@ namespace Core.List
 
             //// PLAYER2
             ///DWARSSSSSSSSSSS
-            BaseUnit dwarfos = unitManagerCore.CreateNewUnit(UnitEnum.Dwarf_Warriors, new List<CharacterEnum>(), 5, 13, startPosDwarfos, 90);
+            BaseUnit dwarfos = unitManagerCore.CreateNewUnit(UnitEnum.Dwarf_Warriors, new List<CharacterEnum>(), 5, 13, startPosDwarfos, 189);
             unitManagerCore.addEnemyUnit(dwarfos);
-
             BaseUnit crossbow = unitManagerCore.CreateNewUnit(UnitEnum.Crossbowmen, new List<CharacterEnum>(), 5, 11, startPosCrossbow, 175);
             unitManagerCore.addEnemyUnit(crossbow);
 
