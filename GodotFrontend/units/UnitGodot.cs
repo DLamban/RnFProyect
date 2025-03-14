@@ -290,7 +290,7 @@ public partial class UnitGodot : Node3D
 				if (hitCollider.HitObject.unit != null && hitCollider.HitObject.owner == CollidedObject.Owner.enemy)
 				{
                     CombatSide combatSide = checkSideCharge(hitCollider);
-                    ChargeMovement(hitCollider);
+                    ChargeMovement(hitCollider, combatSide);
 
                     calcChargeResult(hitCollider);
 					
@@ -321,26 +321,51 @@ public partial class UnitGodot : Node3D
 		hitCollider.HitObject.unit.temporalCombatVars.isCharged = true;
 	}
     // the hitted unit mark the side of the charge
+	// complicated code...
     private CombatSide checkSideCharge(HitCollider hitCollider)
 	{
-		foreach(KeyValuePair<ArcSeparatorName, ArcSeparatorStruct> item in hitCollider.HitObject.unit.ArcSeparators)
+		float maxArea = 0;
+        CombatSide side = CombatSide.FRONT;
+
+        foreach (KeyValuePair<ArcSeparatorName, ArcSeparatorStruct> item in hitCollider.HitObject.unit.ArcSeparators)
         {
             //check what lines intersect with the unit
             var cross = GeometryUtils.checkSemisegmentUnitCross(item.Value.origin, item.Value.dir, coreUnit.unitBordersWorld);
 			if (cross)
 			{
-                var cosa = GeometryUtils.getSubPolygons(item.Value.origin, item.Value.dir, coreUnit.unitBordersWorld);
+                (float, bool) isLeftBigger = GeometryUtils.isLeftSideBiggerWithArea(item.Value.origin, item.Value.dir, coreUnit.unitBordersWorld);
+                if (isLeftBigger.Item1 > maxArea)
+				{
+					maxArea = isLeftBigger.Item1;
+					switch (item.Key)
+					{
+						case ArcSeparatorName.point00:
+                            if (isLeftBigger.Item2) side = CombatSide.FRONT;
+                            else side = CombatSide.LEFTFLANK;
+							break;
+						case ArcSeparatorName.point01:
+                            if (isLeftBigger.Item2) side = CombatSide.RIGHTFLANK;
+                            else side = CombatSide.FRONT;
+							break;
+						case ArcSeparatorName.point11:
+                            if (isLeftBigger.Item2) side = CombatSide.REAR;
+                            else side = CombatSide.RIGHTFLANK;
+                            break;
+                        case ArcSeparatorName.point10:
+                            if (isLeftBigger.Item2) side = CombatSide.REAR;
+                            else side = CombatSide.LEFTFLANK;
+                            break;
+                    }
+                }
             }			
         }
-        
-        var i = 0;
-		return CombatSide.FRONT;
+		return side;        
     }
-	private async void ChargeMovement(HitCollider hitCollider)
+	private async void ChargeMovement(HitCollider hitCollider, CombatSide combatSide)
 	{
 		moveForward(hitCollider.distance,false);
 		Vector2 vectorForward = new Vector2(affTrans.ForwardVec.X, affTrans.ForwardVec.Y);
-		float deltaAngleDegrees = (float)CloseTheDoor(hitCollider.HitObject.unit);
+		float deltaAngleDegrees = (float)CloseTheDoor(hitCollider.HitObject.unit, combatSide);
 		
 		float time = (float)(hitCollider.distance / speed);
 		
@@ -371,20 +396,45 @@ public partial class UnitGodot : Node3D
 	}
 	/// <summary>
 	/// rotate unit to face enemy, only in the transform, not visible so we can tween for better visuals
+	/// TODO: check collisions on closing the door, ye, annoying
 	/// </summary>
 	/// <param name="collidedUnit">the collided unit</param>
 	/// <returns>Degrees needed for the rotation</returns>
-	private double CloseTheDoor(BaseUnit collidedUnit)
+	private double CloseTheDoor(BaseUnit collidedUnit, CombatSide combatSide)
 	{
-		float angleEnemy = collidedUnit.Transform.currentAngleDegrees + 180 % 360;
+
+		float angleenemy = collidedUnit.Transform.currentAngleDegrees;
+
+        switch (combatSide)
+		{
+            case CombatSide.FRONT:
+				angleenemy += 180;
+                break;
+            case CombatSide.LEFTFLANK:
+                angleenemy -= 90;
+				break;
+            case CombatSide.RIGHTFLANK:
+                angleenemy += 90;
+                break;
+            case CombatSide.REAR:
+				break;
+            
+                
+        }
+		float angleEnemy = angleenemy % 360;
+		
+
 		float currentAngle = (float)affTrans.currentAngleDegrees;
+
 		currentAngle = currentAngle >= 0 ? currentAngle : 360 + currentAngle;
 		float angle = angleEnemy - currentAngle;
 		if (angle > 180)
 		{
 			angle = angle - 360;
-		}
-		return angle;
+		}else if (angle<-180) {
+            angle = 360 + angle;
+        }
+        return angle;
 
 	}
 	private void createChargingResponseBillboard()

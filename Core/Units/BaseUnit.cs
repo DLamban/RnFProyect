@@ -326,7 +326,48 @@ namespace Core.Units
             }
             return hittedColliders;
         }
-      
+        /// <summary>
+        ///  hard time
+        /// </summary>
+        /// <param name="segment"></param>
+        /// <returns></returns>
+        public List<BaseTroop> getTroopByCoord(RectSegment segment)
+        {
+
+            int startindexX = (int)Math.Floor(segment.Start.X / Troop.Widthdm);
+            int startindexY = (int)Math.Floor(segment.Start.Y / Troop.Heightdm);
+
+            int endindexX = (int)Math.Floor(segment.End.X / Troop.Widthdm);
+            int endindexY = (int)Math.Floor(segment.End.Y / Troop.Heightdm);
+
+            List<BaseTroop> _troops = new List<BaseTroop>();
+            if (startindexY == endindexY)// Horizontal
+            {
+                if (endindexY == Troops.Count / TroopsWidth)// last rank case
+                {
+                    endindexX = Troops.Count % TroopsWidth;
+                }
+                for (int i = startindexX; i <= endindexX; i++)
+                {
+                    int index = startindexY * TroopsWidth + i;
+                    _troops.Add(Troops[index]);
+                }
+            }
+            else if (startindexX == endindexX)// Vertical, harder than gorizontal
+            {
+                if (endindexY == Troops.Count / TroopsWidth)// last rank case
+                {
+                    endindexX = Troops.Count % TroopsWidth;
+                }
+                throw new NotImplementedException();
+            }
+            else
+            {
+                throw new Exception("Somthing goes wrong in this index calculations");
+            }
+            return _troops;
+        }
+
         /// <summary>
         /// This method is to get the troops that are in direct combat
         /// only touching troops
@@ -345,9 +386,13 @@ namespace Core.Units
             {
                 case CombatSide.FRONT:
                     lineEnemy = new RectSegment(Transform.GlobalToLocalTransforms(enemyUnit.unitBordersWorld.frontLine.Start), Transform.GlobalToLocalTransforms(enemyUnit.unitBordersWorld.frontLine.End));
+                    // only work for front
+                    RectSegment overlappingRect =new RectSegment( new Vector2(Math.Min(frontLinePoints.End.X, lineEnemy.End.X), frontLinePoints.End.Y), new Vector2(Math.Max(frontLinePoints.Start.X, lineEnemy.Start.X), frontLinePoints.Start.Y));
+                    float dist = Vector2.Distance(overlappingRect.Start, overlappingRect.End);
+                    return getTroopByCoord(overlappingRect);
                     break;
             }
-                      
+                          
             
             return null;
 

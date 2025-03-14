@@ -87,7 +87,7 @@ namespace Core.GameLoop
             }
             if (angle > 45 && angle < 135)
             {
-                return CombatSide.RIGHTFLANK;
+                return CombatSide.LEFTFLANK;
             }
             if (angle > 135 && angle < 225)
             {
@@ -95,7 +95,7 @@ namespace Core.GameLoop
             }
             if (angle > 225 && angle < 315)
             {
-                return CombatSide.LEFTFLANK;
+                return CombatSide.RIGHTFLANK;
             }
             return CombatSide.FRONT;
         }

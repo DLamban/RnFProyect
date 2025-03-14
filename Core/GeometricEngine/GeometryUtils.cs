@@ -23,9 +23,32 @@ namespace Core.GeometricEngine
             public Vector2 point;
             public float t;
         }
-        public static void getAreaRectangle(List<Point> crossingPoints, List<Point> rectangle)
+        /// <summary>
+        /// Get the area of a polygon
+        /// by determinants(gauss)
+        /// </summary>
+        /// <param name="crossingPoints"></param>        
+        public static float getAreaPolygon (List<PointF> Points)
         {
-
+            float res = 0;
+            for(int i = 0; i < Points.Count; i++)
+            {
+                int index = (i + 1) % Points.Count;
+                res += Points[i].X * Points[index].Y - Points[i].Y * Points[index].X;
+            }
+            return Math.Abs(res) / 2;
+        }
+        public static (float,bool) isLeftSideBiggerWithArea(Vector2 rayOri, Vector2 rayDir, UnitBorders unitBorders)
+        {
+            PolygonsResult polygonsResult = getSubPolygons(rayOri, rayDir, unitBorders);
+            float area = getAreaPolygon(polygonsResult.leftPolygon);
+            float area2 = getAreaPolygon(polygonsResult.rightPolygon);
+            float totalArea = Vector2.Distance(unitBorders.frontLine.Start, unitBorders.frontLine.End) * Vector2.Distance(unitBorders.firstRankLeftLine.Start, unitBorders.firstRankLeftLine.End);
+            if (Math.Abs(area + area2 - totalArea) > 0.01)
+            {
+                throw new Exception("Area calculation failed");
+            }
+            return (Math.Max(area,area2),  area > area2);
         }
         /// <summary>
         ///  To divde the polygon and still have the correcto order
@@ -90,6 +113,7 @@ namespace Core.GeometricEngine
             PolygonsResult result = new PolygonsResult();
             result.leftPolygon = leftPolygon;
             result.rightPolygon = rightPolygon;
+
             return result;
 
         }
