@@ -289,9 +289,9 @@ public partial class UnitGodot : Node3D
 				
 				if (hitCollider.HitObject.unit != null && hitCollider.HitObject.owner == CollidedObject.Owner.enemy)
 				{
-
-					ChargeMovement(hitCollider);
                     CombatSide combatSide = checkSideCharge(hitCollider);
+                    ChargeMovement(hitCollider);
+
                     calcChargeResult(hitCollider);
 					
 					unitState = UnitState.charging;
@@ -325,9 +325,12 @@ public partial class UnitGodot : Node3D
 	{
 		foreach(KeyValuePair<ArcSeparatorName, ArcSeparatorStruct> item in hitCollider.HitObject.unit.ArcSeparators)
         {
-            //check waht lines intersect with the unit
-            GeometryUtils.checkSemisegmentUnitCross(item.Value.origin, item.Value.dir, coreUnit.unitBordersWorld);
-
+            //check what lines intersect with the unit
+            var cross = GeometryUtils.checkSemisegmentUnitCross(item.Value.origin, item.Value.dir, coreUnit.unitBordersWorld);
+			if (cross)
+			{
+                var cosa = GeometryUtils.getSubPolygons(item.Value.origin, item.Value.dir, coreUnit.unitBordersWorld);
+            }			
         }
         
         var i = 0;

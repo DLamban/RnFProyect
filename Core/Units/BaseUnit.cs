@@ -23,6 +23,10 @@ namespace Core.Units
         public RectSegment backLine;
         public RectSegment leftLine;
         public RectSegment rightLine;
+        public RectSegment firstRankBackLine;
+        public RectSegment firstRankLeftLine;
+        public RectSegment firstRankRightLine;
+
     }
     public struct ArcSeparatorStruct
     {
@@ -151,9 +155,14 @@ namespace Core.Units
                 // We made the points clockwise
                 UnitBorders _unitBorders = new UnitBorders();
                 _unitBorders.frontLine = frontLinePoints;
-                _unitBorders.rightLine = new RectSegment(new Vector2(sizeEnclosedRectangledm.X, 0), new Vector2(sizeEnclosedRectangledm.X, sizeEnclosedRectangledm.Y));
-                _unitBorders.backLine = new RectSegment(new Vector2(sizeEnclosedRectangledm.X, sizeEnclosedRectangledm.Y), new Vector2(0, sizeEnclosedRectangledm.Y));
-                _unitBorders.leftLine = new RectSegment(new Vector2(0, sizeEnclosedRectangledm.Y), new Vector2(0, 0));
+
+                _unitBorders.rightLine = new RectSegment(new Vector2(sizeEnclosedRectangledm.X, 0), new Vector2(sizeEnclosedRectangledm.X, -sizeEnclosedRectangledm.Y));
+                _unitBorders.backLine = new RectSegment(new Vector2(sizeEnclosedRectangledm.X, -sizeEnclosedRectangledm.Y), new Vector2(0, -sizeEnclosedRectangledm.Y));
+                _unitBorders.leftLine = new RectSegment(new Vector2(0, -sizeEnclosedRectangledm.Y), new Vector2(0, 0));
+                // first rank lines, is needed for flanking charges calculations
+                _unitBorders.firstRankRightLine = new RectSegment(new Vector2(sizeEnclosedRectangledm.X, 0), new Vector2(sizeEnclosedRectangledm.X, -Troop.Heightdm));
+                _unitBorders.firstRankBackLine = new RectSegment(new Vector2(sizeEnclosedRectangledm.X, -Troop.Heightdm), new Vector2(0, -Troop.Heightdm));
+                _unitBorders.firstRankLeftLine = new RectSegment(new Vector2(0, -Troop.Heightdm), new Vector2(0, 0));
                 
                 return _unitBorders;
             }                
@@ -164,9 +173,15 @@ namespace Core.Units
             {
                 UnitBorders _unitBorders = new UnitBorders();
                 _unitBorders.frontLine = new RectSegment(Transform.localToGlobalTransforms(unitBorders.frontLine.Start), Transform.localToGlobalTransforms(unitBorders.frontLine.End));
+                
                 _unitBorders.backLine = new RectSegment(Transform.localToGlobalTransforms(unitBorders.backLine.Start), Transform.localToGlobalTransforms(unitBorders.backLine.End));
                 _unitBorders.leftLine = new RectSegment(Transform.localToGlobalTransforms(unitBorders.leftLine.Start), Transform.localToGlobalTransforms(unitBorders.leftLine.End));
                 _unitBorders.rightLine = new RectSegment(Transform.localToGlobalTransforms(unitBorders.rightLine.Start), Transform.localToGlobalTransforms(unitBorders.rightLine.End));
+                _unitBorders.firstRankRightLine = new RectSegment(Transform.localToGlobalTransforms(unitBorders.firstRankRightLine.Start), Transform.localToGlobalTransforms(unitBorders.firstRankRightLine.End));
+                _unitBorders.firstRankBackLine = new RectSegment(Transform.localToGlobalTransforms(unitBorders.firstRankBackLine.Start), Transform.localToGlobalTransforms(unitBorders.firstRankBackLine.End));
+                _unitBorders.firstRankLeftLine = new RectSegment(Transform.localToGlobalTransforms(unitBorders.firstRankLeftLine.Start), Transform.localToGlobalTransforms(unitBorders.firstRankLeftLine.End));
+                
+
                 return _unitBorders;
             }
         }

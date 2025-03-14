@@ -99,6 +99,8 @@ namespace Core.Units
         public bool canShoot { get; set;}
         public int Cost { get; set; }
         public Size Size { get; set; }
+        public float Heightdm{ get { return (Size.Height / 100f); } }
+        public float Widthdm { get { return (Size.Width / 100f); } }
         public bool isDying { get; set; }
         
         public List<Modifiers> Mods { get; set; }

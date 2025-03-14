@@ -213,14 +213,6 @@ namespace Core.GeometricEngine
             var C = -(float)(pointworld.X * A + pointworld.Y * B);
             return new Vector3(A, B, C);
         }
-        // DEPRECATED, not sure if it's working
-        public Vector3 localEquationToWorld(Vector3 eq)
-        {
-            var A = (float)(eq.X * m11 + eq.Y * m12);
-            var B = (float)(eq.X * m21 + eq.Y * m22);
-            var C = (float)(eq.Z - (offsetX * A + offsetY * B));
-            return new Vector3(A, B, C);
-        }
         /// <summary>
         ///  Vector transformations ignore the translation part of the matrix
         /// </summary>

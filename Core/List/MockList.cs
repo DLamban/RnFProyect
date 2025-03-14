@@ -22,7 +22,7 @@ namespace Core.List
         Vector2 startBoarRiders = new Vector2(-.75f, -0.94f);
         Vector2 startHeavyOrcs = new Vector2(1.05f, -1.14f);
         // Start positions Dwarfs
-        Vector2 startPosDwarfos = new Vector2(0.5f, 1f);
+        Vector2 startPosDwarfos = new Vector2(0.5f,0.65f);
         Vector2 startPosSlayers = new Vector2(2.8f, 0.65f);
         Vector2 startPosCannon = new Vector2(-1.25f, 1.35f);
         Vector2 startPosGyros = new Vector2(4.5f, 1.35f);
