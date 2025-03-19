@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Core.GameLoop.Combat;
 using static Core.Units.BaseUnit;
 
 namespace GodotFrontend.UIcode
@@ -30,9 +31,11 @@ namespace GodotFrontend.UIcode
         private List<int> diceResult;
         
         public DiceThrowerTaskDelegate diceThrowerTaskDel;
+        public DiceThrowerCombatTaskDelegate diceThrowerCombatTaskDelegate;
         public DiceThrower() {
 
             diceThrowerTaskDel = ThrowDices;
+            diceThrowerCombatTaskDelegate = ThrowDices;
             // we will use the dicetray to change scale depending on number of dices
             // and move the zoom of the camera 
 

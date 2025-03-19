@@ -17,6 +17,12 @@ namespace Core.GameLoop
     }
     public static class Combat
     {
+        public delegate Task<List<int>> DiceThrowerCombatTaskDelegate(int numberdices, string dicePhase, int dicetype = 6);
+        private static DiceThrowerCombatTaskDelegate DiceThrowerTaskDel;        
+        public static void vinculateDiceThrower(DiceThrowerCombatTaskDelegate diceThrowerTaskDelegate)
+        {
+            DiceThrowerTaskDel = diceThrowerTaskDelegate;
+        }
         private static int toHitResult(int WsAtt, int WsDef, int modifier=0)
         {
             int tohitResult = 0;
@@ -101,18 +107,112 @@ namespace Core.GameLoop
         }
         // need to check the units that are touching
         // and the units that are in the front line
-        public static void combatUnit(BaseUnit attacker, BaseUnit defender)
+        // for now only front to front
+        public static async void combatUnit(BaseUnit attacker, BaseUnit defender)
         {
             //calculate the combat width
             int combatWidth = Math.Min(attacker.TroopsWidth, defender.TroopsWidth);
-            // get front line troops
-            List<BaseUnit> unitsInCombat = new List<BaseUnit>();
-            unitsInCombat.Add(defender);
-            List<BaseTroop> troopsAtt = attacker.getAttackingTroops(unitsInCombat);
-            //int attackingtroops = attacker.;
+            // get front line troops            
+            EngagedTroops troopsAtt = attacker.getEngagedTroops(defender);                        
+            EngagedTroops troopsDefender = defender.getEngagedTroops(attacker);
+            await combatRound(troopsAtt, troopsDefender, attacker, defender, 3);
+        }
+        
+        public static async Task combatRound(EngagedTroops attackerTroops, EngagedTroops defenderTroops,BaseUnit attackUnit, BaseUnit defendUnit, int attackerChargeInitiativeBonus)
+        {
+            // find max initiative
+
+            int maxInitiative = attackerTroops.directCombatTroops.DefaultIfEmpty().Max(troop => troop?.Initiative + attackerChargeInitiativeBonus ?? 0 );
+            maxInitiative = Math.Max(maxInitiative, attackerTroops.supportingTroops.DefaultIfEmpty().Max(troop => troop?.Initiative + attackerChargeInitiativeBonus ?? 0 ));
+            maxInitiative = Math.Max(maxInitiative, defenderTroops.directCombatTroops.DefaultIfEmpty().Max(troop => troop?.Initiative  ?? 0));
+            maxInitiative = Math.Max(maxInitiative, defenderTroops.supportingTroops.DefaultIfEmpty().Max(troop => troop?.Initiative ?? 0));
+
+            while (maxInitiative > 0)
+            {
+                // find the troops with that initiative
+                List<BaseTroop> troopsDirectAttack = attackerTroops.directCombatTroops.FindAll(
+                        troop => troop.Initiative + attackerChargeInitiativeBonus == maxInitiative && troop.Wounds > 0);
+                List<BaseTroop> troopsSupportAttack = attackerTroops.supportingTroops.FindAll(
+                        troop => troop.Initiative + attackerChargeInitiativeBonus == maxInitiative && troop.Wounds > 0);
+                List<BaseTroop> troopsDirectDefend = defenderTroops.directCombatTroops.FindAll(
+                        troop => troop.Initiative == maxInitiative && troop.Wounds > 0);
+                List<BaseTroop> troopsSupportDefend =    defenderTroops.supportingTroops.FindAll(
+                        troop => troop.Initiative == maxInitiative && troop.Wounds > 0);
+                await executeCombatByInitiative(troopsDirectAttack, troopsSupportAttack, troopsDirectDefend, troopsSupportDefend, attackUnit, defendUnit);
+                maxInitiative--;
+            }
+
+            
 
         }
+        public static async Task executeCombatByInitiative(List<BaseTroop> attackerDirectTroops, List<BaseTroop> attackerSupportTroops, 
+                                                     List<BaseTroop> defenderDirectTroops, List<BaseTroop> defenderSupportTroops,
+                                                     BaseUnit attackUnit, BaseUnit defendUnit   )
+        {
+            int hitsAtttoDefend = 0;
+            int hitsDefendtoAtt = 0;
+            // first characters and champions
+            // then the rest
+            List<Character> charactersAttDirect = attackerDirectTroops.FindAll(troop => troop is Character).ConvertAll(troop => (Character)troop);
+            List<Character> charactersAttSupport = attackerSupportTroops.FindAll(troop => troop is Character).ConvertAll(troop => (Character)troop);
+            List<Character> charactersDefend = defenderDirectTroops.FindAll(troop => troop is Character).ConvertAll(troop => (Character)troop);
+            List<Character> charactersDefendSupport = defenderSupportTroops.FindAll(troop => troop is Character).ConvertAll(troop => (Character)troop);
 
+            List<BaseTroop> troopsAttDirect = attackerDirectTroops.FindAll(troop => !(troop is Character));
+            List<BaseTroop> troopsAttSupport = attackerSupportTroops.FindAll(troop => !(troop is Character));
+            List<BaseTroop> troopsDefend = defenderDirectTroops.FindAll(troop => !(troop is Character));
+            List<BaseTroop> troopsDefendSupport = defenderSupportTroops.FindAll(troop => !(troop is Character));
+            // ugly as fuck attacker first
+            
+            //ATACKER
+            foreach (Character character in charactersAttDirect)
+            {
+                int attacks = character.Attacks;
+                int toHit = toHitResult(character.Dexterity, defendUnit.Troop.Dexterity);
+                List<int> tohitResult =  await DiceThrowerTaskDel.Invoke(attacks, "Attacking with " + character.Name);
+            }
+
+            foreach (Character character in charactersAttSupport)
+            {
+                int attacks = 1;
+                int toHit = toHitResult(character.Dexterity, defendUnit.Troop.Dexterity);
+                List<int> tohitResult = await DiceThrowerTaskDel.Invoke(attacks, "Attacking with " + character.Name);
+            }
+            int troopsAttacks = 0;
+            
+            troopsAttacks += troopsAttDirect.Count * (troopsAttDirect.FirstOrDefault()?.Attacks ?? 0);
+            troopsAttacks += troopsAttSupport.Count;
+
+            if (troopsAttacks > 0) { 
+                int toHit = toHitResult(troopsAttDirect.FirstOrDefault().Dexterity, defendUnit.Troop.Dexterity);
+                List<int> tohitResult = await DiceThrowerTaskDel.Invoke(troopsAttacks, "Attacking with attacker troops");
+            }
+
+            // DEFENDER TIME
+            foreach (Character item in defenderDirectTroops)
+            {
+                int attacks = item.Attacks;
+                int toHit = toHitResult(item.Dexterity, defendUnit.Troop.Dexterity);
+                List<int> tohitResult = await DiceThrowerTaskDel.Invoke(attacks, "Attacking with " + item.Name);
+            }
+            foreach (Character item in defenderSupportTroops)
+            {
+                int attacks = 1;
+                int toHit = toHitResult(item.Dexterity, defendUnit.Troop.Dexterity);
+                List<int> tohitResult = await DiceThrowerTaskDel.Invoke(attacks, "Attacking with " + item.Name);
+            }
+            int troopsDefendAttacks = 0;
+            troopsDefendAttacks += troopsDefend.Count * (troopsDefend.FirstOrDefault()?.Attacks ?? 0);
+            troopsDefendAttacks += troopsDefendSupport.Count;
+
+            if (troopsDefendAttacks > 0)
+            {
+                int toHit = toHitResult(troopsDefend.FirstOrDefault().Dexterity, attackUnit.Troop.Dexterity);
+                List<int> tohitResult = await DiceThrowerTaskDel.Invoke(troopsDefendAttacks, "Attacking with defender troops");
+            }
+
+        }
+        
         public static void combat(List<BaseUnit> units, List<BaseUnit> enemyUnits)
         { 
             foreach (BaseUnit unit in units)
@@ -126,6 +226,7 @@ namespace Core.GameLoop
             executeCombatRound(unitA, unitB);   
         }
         /// <summary>
+        /// DEPRECATED
         /// All the troops should be in place for the combat round,
         /// Characters at the front, readdress the flanks and center reasigned
         /// </summary>

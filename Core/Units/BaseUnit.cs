@@ -13,6 +13,7 @@ using System.Numerics;
 using Core.Magic;
 using Core.List;
 using System.Diagnostics;
+using System.Runtime.Versioning;
 namespace Core.Units
 {
     using static Core.GeometricEngine.GeometricTypedef;
@@ -40,6 +41,11 @@ namespace Core.Units
         point01,
         point11,
         point10
+    }
+    public struct EngagedTroops
+    {
+        public List<BaseTroop> directCombatTroops;
+        public List<BaseTroop> supportingTroops;
     }
     public class BaseUnit
     {
@@ -206,6 +212,7 @@ namespace Core.Units
                 return (6 * 2.54f) / 10;
             }
         }
+        //BASE TROOP
         public BaseTroop Troop { get; set; }
         public List<BaseTroop> Troops { get; set; }
         public List<string> SpecialRules { get; set; }
@@ -331,7 +338,7 @@ namespace Core.Units
         /// </summary>
         /// <param name="segment"></param>
         /// <returns></returns>
-        public List<BaseTroop> getTroopByCoord(RectSegment segment)
+        private List<BaseTroop> getTroopByCoord(RectSegment segment)
         {
 
             int startindexX = (int)Math.Floor(segment.Start.X / Troop.Widthdm);
@@ -339,6 +346,16 @@ namespace Core.Units
 
             int endindexX = (int)Math.Floor(segment.End.X / Troop.Widthdm);
             int endindexY = (int)Math.Floor(segment.End.Y / Troop.Heightdm);
+            
+            // check boundaries
+            startindexX = Math.Max(startindexX, 0);
+            startindexY = Math.Max(startindexY, 0);
+
+            endindexX = Math.Min(endindexX, TroopsWidth - 1);
+            endindexY = Math.Min(endindexY, Troops.Count / TroopsWidth - 1);
+
+
+            if (startindexY < 0) { startindexY = 0; }
 
             List<BaseTroop> _troops = new List<BaseTroop>();
             if (startindexY == endindexY)// Horizontal
@@ -353,7 +370,7 @@ namespace Core.Units
                     _troops.Add(Troops[index]);
                 }
             }
-            else if (startindexX == endindexX)// Vertical, harder than gorizontal
+            else if (startindexX == endindexX)// Vertical, harder than horizontal
             {
                 if (endindexY == Troops.Count / TroopsWidth)// last rank case
                 {
@@ -367,7 +384,6 @@ namespace Core.Units
             }
             return _troops;
         }
-
         /// <summary>
         /// This method is to get the troops that are in direct combat
         /// only touching troops
@@ -388,16 +404,54 @@ namespace Core.Units
                     lineEnemy = new RectSegment(Transform.GlobalToLocalTransforms(enemyUnit.unitBordersWorld.frontLine.Start), Transform.GlobalToLocalTransforms(enemyUnit.unitBordersWorld.frontLine.End));
                     // only work for front
                     RectSegment overlappingRect =new RectSegment( new Vector2(Math.Min(frontLinePoints.End.X, lineEnemy.End.X), frontLinePoints.End.Y), new Vector2(Math.Max(frontLinePoints.Start.X, lineEnemy.Start.X), frontLinePoints.Start.Y));
-                    float dist = Vector2.Distance(overlappingRect.Start, overlappingRect.End);
+                    //float dist = Vector2.Distance(overlappingRect.Start, overlappingRect.End);
                     return getTroopByCoord(overlappingRect);
                     break;
             }
                           
             
             return null;
-
-
         }
+        private List<BaseTroop> getSupportAttackingTroops(CombatSide combatSide, List<BaseTroop> directCombatTroops)
+        {
+            List<BaseTroop> supportingTroops = new List<BaseTroop>();
+            switch (combatSide)
+            {
+                case CombatSide.FRONT:
+                    for (int i = 0; i < TroopsWidth; i++)
+                    {
+                        
+                        supportingTroops.Add(Troops[i]);
+
+                    }
+                    break;
+                case CombatSide.LEFTFLANK:
+                    for (int i = 0; i < Troops.Count; i += TroopsWidth)
+                    {
+                        supportingTroops.Add(Troops[i]);
+                    }
+                    break;
+                case CombatSide.REAR:// don't know what to do with rear
+                    for (int i = Troops.Count - TroopsWidth; i < Troops.Count; i++)
+                    {
+                        supportingTroops.Add(Troops[i]);
+                    }
+                    break;
+                case CombatSide.RIGHTFLANK:
+                    for (int i = TroopsWidth - 1; i < Troops.Count; i += TroopsWidth)
+                    {
+                        supportingTroops.Add(Troops[i]);
+                    }
+                    break;
+            }
+            // remove direct combat troops
+            foreach (BaseTroop troop in directCombatTroops)
+            {
+                supportingTroops.Remove(troop);
+            }
+            return supportingTroops;
+        }
+
         /// <summary>
         /// this is not as evident as it seems, because they are special rules
         /// for example, spears weapon allow second rank to fight
@@ -405,16 +459,23 @@ namespace Core.Units
         /// and the if is flanked, reared ....
         /// </summary>
         /// <returns>All the troops able to attack, and maybe supporting attacks</returns>
-        public List<BaseTroop> getAttackingTroops(List<BaseUnit> unitsInContact)
+        public EngagedTroops getEngagedTroops(BaseUnit unitInContact)
         {
-            List<BaseTroop> attackingTroops = new List<BaseTroop>();
-            foreach(BaseUnit unit in unitsInContact)
+            List<BaseTroop> directattackingTroops = new List<BaseTroop>();
+            List<BaseTroop> suppportattackingTroops = new List<BaseTroop>();
+            
+            
+            var combatSide = Combat.calcCombatSide(this, unitInContact);
+
+            directattackingTroops = getInDirectCombatTroops(combatSide,unitInContact);
+            suppportattackingTroops = getSupportAttackingTroops(combatSide, directattackingTroops);
+            
+
+            EngagedTroops attackingTroops = new EngagedTroops()
             {
-                var combatSide = Combat.calcCombatSide(this, unit);
-
-                attackingTroops = getInDirectCombatTroops(combatSide,unit);
-
-            }
+                directCombatTroops = directattackingTroops,
+                supportingTroops = suppportattackingTroops
+            };
             return attackingTroops;
         }
         public int hitUnit(List<int> diceValues, int dexAttacker, List<BaseRule> specialRules)

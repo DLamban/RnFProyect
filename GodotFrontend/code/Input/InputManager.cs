@@ -2,6 +2,7 @@ using Core.GameLoop;
 using Core.Magic;
 using Core.Units;
 using Godot;
+using GodotFrontend.UIcode;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -65,6 +66,7 @@ namespace GodotFrontend.code.Input
 			mainCamera = viewport.GetCamera3D() as Camera3D;
 			spaceState = GetWorld3D().DirectSpaceState;			
 			BuildSubManagers();
+			Combat.vinculateDiceThrower(DiceThrower.Instance.diceThrowerCombatTaskDelegate);
         }
 		private void BuildSubManagers()
 		{
