@@ -22,12 +22,17 @@ namespace Core.DB.Data
                 return _instance;
             }
         }
-
+        public static Weapon getBasicWeapon()
+        {
+            return Instance.Weapons.FirstOrDefault(w => w.Code == "Hand Weapon");
+        }
         public static Character GetCharacter(int id)
         {
             return Instance.Characters
                 .Include(character => character.BaseSize)
-                .Include(character => character.Race)
+                .Include(character => character.Race)                
+                .Include(character => character.WeaponsCharacters)
+                    .ThenInclude(wc => wc.Weapon)
                 .FirstOrDefault(c => c.Id == id);
         }
         public static Character GetCharacter(CharacterEnum characterEnum)

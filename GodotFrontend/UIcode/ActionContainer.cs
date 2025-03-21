@@ -1,5 +1,6 @@
 using Core.GameLoop;
 using Core.Rules;
+using Core.Units;
 using Godot;
 using GodotFrontend.code.Input;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
@@ -81,7 +82,7 @@ public partial class ActionContainer : Panel
 		
 
         inputResolveCharge = inputManager.inputResolveCharge;
-		inputResolveCharge.OnChargeSelectedToExecute += (visibility) => { toogleVisibility("Charge", visibility); };
+		inputResolveCharge.OnChargeSelectedToExecute += (enabled) => { toogleDisabled("Charge", !enabled); };
         
 		inputShootPhase = inputManager.inputShootPhase;
         inputShootPhase.OnShootSelectedToExecute += (enabled) => { toogleDisabled("Shoot", !enabled); };// disable to true to enable the button
@@ -225,7 +226,7 @@ public partial class ActionContainer : Panel
 	{
 		foreach (var action in chargeActionButtons)
 		{
-			if (action.Name == "Charge") break;
+			if (action.Name == "Charge") action.GetNode<Button>("ActionButton").Disabled = true;
 			action.Visible = true;
 		}
 	}
@@ -290,8 +291,10 @@ public partial class ActionContainer : Panel
 		};
 		strategicActions.Add(new ActionGeneric("Spells", actionSpells));
 		strategicActions.Add(new ActionGeneric("Rally troops", () => { }));
-
-		return createActions(strategicActions);
+   //     strategicActions.Add(new ActionGeneric("Kill orcs(test)", () => {
+			//UnitsClientManager.Instance.findUnitByName("Orcs").ApplyWoundUnit(1);
+   //     }));
+        return createActions(strategicActions);
 
 	}
 

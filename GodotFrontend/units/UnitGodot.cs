@@ -200,10 +200,152 @@ public partial class UnitGodot : Node3D
 			item.QueueFree();
 			troopNodes.Remove(item);
 		}
-		ReformAfterCombat(baseTroopsTodieIndexes);
+        //reorder the troopnodes array after removing elements. don't know why?!
+        troopNodes = troopNodes.OrderByDescending(troop => troop.Position.Y).ThenBy(troop => troop.Position.X).ToList();
+        ReformAfterCombat(baseTroopsTodieIndexes);
 	}
-	
-	private void createColliderForInput(InputManager inputManager)
+    /// <summary>
+    /// Reform Now needs to take care of Front characters, i have been delaying this for too long
+    /// </summary>
+    /// <param name="deaths"></param>
+    async private void ReformAfterCombat(List<int> baseTroopsTodieIndexes)
+    {
+        if (baseTroopsTodieIndexes.Count == 0) return;
+        // Columns to advance, the index of column, and the positions to advance
+        List<ColumnAdvance> columnsAdvance = new List<ColumnAdvance>();
+
+
+        int deathtroops = baseTroopsTodieIndexes.Count;
+        TaskCompletionSource<bool> tweenY = new TaskCompletionSource<bool>();
+        coreUnit.DeleteDeathUnits();
+        // check columns to move
+        Dictionary<int, int> columnsToAdvance = new Dictionary<int, int>();
+        for (int i = 0; i < coreUnit.TroopsWidth; i++)
+        {
+            columnsToAdvance.Add(i, 0);
+        }
+        foreach (int index in baseTroopsTodieIndexes)
+        {
+            columnsToAdvance[index % coreUnit.TroopsWidth] += 1;
+        }
+        Tween tween = CreateTween();
+        int startColumnDeath = baseTroopsTodieIndexes[0];
+        foreach (var kvp in columnsToAdvance.Where(entry => entry.Value > 0))
+        {
+            for (int i = 0; i < troopNodes.Count; i++)
+            {
+                int tempIndex = i + deathtroops;
+                if ((i + deathtroops + startColumnDeath) / coreUnit.TroopsWidth == 0)
+                {
+                    // do nothing, first rank
+                    //tempIndex = i + baseTroopsTodieIndexes.Count;// Offset by deaths
+                }
+                else if ((tempIndex % coreUnit.TroopsWidth) == kvp.Key
+                    && i >= startColumnDeath)// ignore troops before => i > columnsAdvance[0].column
+                {
+
+                    Node3D node = troopNodes[i];
+                    //int realpositioninformation = (int)Math.Floor(node.Position.Y / offsetTroop.Y) * coreUnit.TroopsWidth * -1 + (int)Math.Floor(node.Position.X / offsetTroop.X);
+                    // MOVE TO FRONT
+                    float Ymove = (offsetTroop.Y) * kvp.Value;
+                    Vector3 targetPos = node.Position + new Vector3(0, Ymove, 0);
+
+                    tween.SetParallel();
+                    tween.TweenProperty(node, "position", targetPos, 1.0f).SetTrans(Tween.TransitionType.Quint);
+                    // need the delay because we are running in paralell
+                    //tween.TweenCallback(Callable.From(() => tweenY.TrySetResult(true))).SetDelay(1.0f);
+
+                }
+            }
+        }
+        // check coherency  
+
+        if (coreUnit.Troops.Count <= coreUnit.TroopsWidth)
+        {
+            // reform backline to front
+            // write to output
+
+            Console.WriteLine("less troop than width");
+
+        }
+        await tween.ToSignal(tween, "finished");
+
+        // Reform backline
+        // we need to check how many ranks we still have
+        // and check the last rank troops and penultimate rank troops
+        // because we can have a last rank that is behind the character that didn't advance
+        // also, the check must be with positional info, maybe could be done with more matrix calculations, but it's confusing
+        // and also, i think is more robust for more strange ocurrences in the future
+        int backlineTroops = coreUnit.Troops.Count % coreUnit.TroopsWidth;
+
+        int desiredRanksCount = coreUnit.Troops.Count / coreUnit.TroopsWidth;
+
+        desiredRanksCount = backlineTroops != 0 ? desiredRanksCount + 1 : desiredRanksCount;// add partial rank count
+
+        if (desiredRanksCount == 1) return; //happy code return
+
+        // We had to reorganize the list because the troops got disordered
+        troopNodes = troopNodes.OrderByDescending(troop => troop.Position.Y).ThenBy(troop => troop.Position.X).ToList();
+
+        List<IGrouping<float, Node3D>> ranksGroupsByPosition = troopNodes.GroupBy(troop => (float)Math.Round(troop.Position.Y, 2)).ToList(); // FP precision error
+        int actualRanksCount = ranksGroupsByPosition.Count();
+        // check if penultimate rank is filled
+        bool penultimateRankfilled = ranksGroupsByPosition[actualRanksCount - 2].Count() == coreUnit.TroopsWidth;
+
+        // penultimate rank not filled means that we have the last ranks fragmented
+
+
+
+        if (penultimateRankfilled)// OLD CODE that works for common ocurrences
+        {
+            int startBackline = coreUnit.Troops.Count - backlineTroops;
+            Tween tweenx = CreateTween();
+            for (int i = startBackline; i < troopNodes.Count; i++)
+            {
+                Node3D node = troopNodes[i];
+                float Xobj = 0;
+                Xobj = (i % coreUnit.TroopsWidth) * offsetTroop.X;
+                Xobj = Xobj + ((float)coreUnit.Troop.Size.Width / 100) / 2;
+                Vector3 targetPos = new Vector3(Xobj, node.Position.Y, node.Position.Z);
+                tweenx.SetParallel();
+                tweenx.TweenProperty(node, "position", targetPos, .6f).SetTrans(Tween.TransitionType.Quint);
+            }
+        }
+        else
+        {
+            //float backRankPos = troopNodes.Min(troop => troop.Position.Y);// Y is negative
+            int offsetForPenultimateLine = ranksGroupsByPosition[actualRanksCount - 1].Count();
+            // ofset the penultimate line to the right and advance the loose troops of the last rank
+            // first the horizontal move
+
+            Tween tweenx = CreateTween();
+            List<Node3D> penultimateRank = ranksGroupsByPosition[actualRanksCount - 2].ToList();
+            for (int i = 0; i < penultimateRank.Count(); i++)
+            {
+                Node3D node = penultimateRank[i];
+                float Xobj = 0;
+                Xobj = (i + offsetForPenultimateLine) * offsetTroop.X;
+                Xobj = Xobj + ((float)coreUnit.Troop.Size.Width / 100) / 2;
+                Vector3 targetPos = new Vector3(Xobj, node.Position.Y, node.Position.Z);
+                tweenx.SetParallel();
+                tweenx.TweenProperty(node, "position", targetPos, .6f).SetTrans(Tween.TransitionType.Quint);
+            }
+
+            // now the last advance of the last rank
+            List<Node3D> lastRank = ranksGroupsByPosition[actualRanksCount - 1].ToList();
+            foreach (Node3D node in lastRank)
+            {
+                float yObj = node.Position.Y + offsetTroop.Y;
+                Vector3 targetPos = new Vector3(node.Position.X, yObj, node.Position.Z);
+                tweenx.SetParallel();
+                tweenx.TweenProperty(node, "position", targetPos, .6f).SetTrans(Tween.TransitionType.Quint);
+            }
+
+        }
+        //reorder the troopnodes array
+        troopNodes = troopNodes.OrderByDescending(troop => troop.Position.Y).ThenBy(troop => troop.Position.X).ToList();
+    }
+    private void createColliderForInput(InputManager inputManager)
 	{
 		Area3D area = new Area3D();
 		area.SetProcessInput(true);
@@ -669,149 +811,7 @@ public partial class UnitGodot : Node3D
 	
 	}
 	
-    /// <summary>
-    /// Reform Now needs to take care of Front characters, i have been delaying this for too long
-    /// </summary>
-    /// <param name="deaths"></param>
-    async private void ReformAfterCombat(List<int> baseTroopsTodieIndexes)
-	{
-		if (baseTroopsTodieIndexes.Count == 0) return;
-        // Columns to advance, the index of column, and the positions to advance
-        List<ColumnAdvance> columnsAdvance = new List<ColumnAdvance>();
-
-
-		int deathtroops = baseTroopsTodieIndexes.Count;
-        TaskCompletionSource<bool> tweenY = new TaskCompletionSource<bool>();
-		coreUnit.DeleteDeathUnits();
-        // check columns to move
-		Dictionary<int, int> columnsToAdvance = new Dictionary<int, int>();
-		for(int i = 0; i < coreUnit.TroopsWidth; i++)
-        {
-            columnsToAdvance.Add(i, 0);
-        }
-        foreach (int index in baseTroopsTodieIndexes)
-		{
-			columnsToAdvance[index % coreUnit.TroopsWidth] += 1;
-        }
-        Tween tween = CreateTween();
-        int startColumnDeath = baseTroopsTodieIndexes[0];
-        foreach (var kvp in columnsToAdvance.Where(entry=>entry.Value >0))
-        {
-			for (int i = 0; i < troopNodes.Count; i++)
-			{
-				int tempIndex = i+deathtroops;
-                if ((i + deathtroops + startColumnDeath)/ coreUnit.TroopsWidth == 0)
-				{
-					// do nothing, first rank
-					//tempIndex = i + baseTroopsTodieIndexes.Count;// Offset by deaths
-				}
-				else if ((tempIndex % coreUnit.TroopsWidth)  == kvp.Key 
-					&& i >= startColumnDeath)// ignore troops before => i > columnsAdvance[0].column
-                {
-                    
-					Node3D node = troopNodes[i];
-                    int realpositioninformation = (int)Math.Floor(node.Position.Y / offsetTroop.Y) * coreUnit.TroopsWidth * -1 + (int)Math.Floor(node.Position.X / offsetTroop.X);
-                    // MOVE TO FRONT
-                    float Ymove = (offsetTroop.Y) * kvp.Value;
-                    Vector3 targetPos = node.Position + new Vector3(0, Ymove, 0);
-                    
-                    tween.SetParallel();
-                    tween.TweenProperty(node, "position", targetPos, 1.0f).SetTrans(Tween.TransitionType.Quint);
-                    // need the delay because we are running in paralell
-                    tween.TweenCallback(Callable.From(() => tweenY.TrySetResult(true))).SetDelay(1.0f);
-
-                }
-            }
-		}
-		// check coherency  
-
-		if (coreUnit.Troops.Count <= coreUnit.TroopsWidth)
-		{
-            // reform backline to front
-			// write to output
-
-            Console.WriteLine("less troop than width");
-
-        }
-		await tween.ToSignal(tween, "finished");
-
-        // Reform backline
-        // we need to check how many ranks we still have
-        // and check the last rank troops and penultimate rank troops
-        // because we can have a last rank that is behind the character that didn't advance
-        // also, the check must be with positional info, maybe could be done with more matrix calculations, but it's confusing
-		// and also, i think is more robust for more strange ocurrences in the future
-        int backlineTroops = coreUnit.Troops.Count % coreUnit.TroopsWidth;
-
-		int desiredRanksCount =  coreUnit.Troops.Count / coreUnit.TroopsWidth;
-		
-		desiredRanksCount = backlineTroops!=0 ? desiredRanksCount + 1 : desiredRanksCount;// add partial rank count
-        
-		if (desiredRanksCount == 1) return; //happy code return
-        
-		// We had to reorganize the list because the troops got disordered
-        troopNodes = troopNodes.OrderByDescending(troop => troop.Position.Y).ThenBy(troop => troop.Position.X).ToList();
-
-        List<IGrouping<float, Node3D>> ranksGroupsByPosition = troopNodes.GroupBy(troop => troop.Position.Y).ToList();
-		int actualRanksCount = ranksGroupsByPosition.Count();
-		// check if penultimate rank is filled
-		bool penultimateRankfilled = ranksGroupsByPosition[actualRanksCount-2].Count() == coreUnit.TroopsWidth;
-
-		// penultimate rank not filled means that we have the last ranks fragmented
-        
-		
-		
-		if (penultimateRankfilled)// OLD CODE that works for common ocurrences
-		{
-            int startBackline = coreUnit.Troops.Count - backlineTroops;
-            Tween tweenx = CreateTween();
-            for (int i = startBackline; i < troopNodes.Count; i++)
-            {
-                Node3D node = troopNodes[i];
-                float Xobj = 0;
-                Xobj = (i % coreUnit.TroopsWidth) * offsetTroop.X;
-                Xobj = Xobj + ((float)coreUnit.Troop.Size.Width / 100) / 2;
-                Vector3 targetPos = new Vector3(Xobj, node.Position.Y, node.Position.Z);
-                tweenx.SetParallel();
-                tweenx.TweenProperty(node, "position", targetPos, .6f).SetTrans(Tween.TransitionType.Quint);
-            }
-		}
-		else
-		{
-            //float backRankPos = troopNodes.Min(troop => troop.Position.Y);// Y is negative
-			int offsetForPenultimateLine = ranksGroupsByPosition[actualRanksCount - 1].Count();
-            // ofset the penultimate line to the right and advance the loose troops of the last rank
-            // first the horizontal move
-			
-			Tween tweenx = CreateTween();
-			List<Node3D> penultimateRank = ranksGroupsByPosition[actualRanksCount - 2].ToList();
-            for (int i = 0; i < penultimateRank.Count(); i++)
-            {
-                Node3D node = penultimateRank[i];
-                float Xobj = 0;
-                Xobj =  (i+offsetForPenultimateLine) * offsetTroop.X;
-                Xobj = Xobj + ((float)coreUnit.Troop.Size.Width / 100) / 2;
-                Vector3 targetPos = new Vector3(Xobj, node.Position.Y, node.Position.Z);
-                tweenx.SetParallel();
-                tweenx.TweenProperty(node, "position", targetPos, .6f).SetTrans(Tween.TransitionType.Quint);
-            }
-
-            // now the last advance of the last rank
-            List<Node3D> lastRank = ranksGroupsByPosition[actualRanksCount - 1].ToList();
-            foreach (Node3D node in lastRank)
-			{
-				float yObj = node.Position.Y + offsetTroop.Y;
-                Vector3 targetPos = new Vector3(node.Position.X, yObj, node.Position.Z);
-                tweenx.SetParallel();
-                tweenx.TweenProperty(node, "position", targetPos, .6f).SetTrans(Tween.TransitionType.Quint);
-            }
-
-        }
-        //reorder the troopnodes array
-        troopNodes = troopNodes.OrderByDescending(troop => troop.Position.Y).ThenBy(troop => troop.Position.X).ToList();
-
-
-    }
+    
     // Rotate, scale and translate every troop to break pattens
     private void AddVariationToTroop(Node3D clone)
 	{

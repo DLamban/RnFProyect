@@ -47,6 +47,14 @@ namespace Core.Units
             unit.Transform.matrixTransform = newAffine.matrixTransform;
             unitMovedNet(unitGuid);
         }
+        public BaseUnit findUnitByName(string name)
+        {
+            foreach (KeyValuePair<string, BaseUnit> unit in unitsPlayer.Concat(unitsEnemy))
+            {
+                if (unit.Value.Name == name) return unit.Value;
+            }
+            return null;
+        }
         private BaseUnit findUnit(Guid guid)
         {
             if (unitsPlayer.TryGetValue(guid.ToString(), out BaseUnit unit))

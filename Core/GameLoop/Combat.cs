@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Core.Rules;
 using Core.Units;
 using Core.utils;
 
@@ -14,6 +15,22 @@ namespace Core.GameLoop
         LEFTFLANK,
         RIGHTFLANK,
         REAR
+    }
+    //It's gonna be more complex
+    public class WoundingAttacks
+    {
+        public BaseTroop troop;
+        public int numAttacks;
+        public int AP;
+        public List<BaseRule> specialRules = new List<BaseRule>();
+        public WoundingAttacks(BaseTroop troop,int numAttacks, int AP, List<BaseRule> rules)
+        {
+            this.troop = troop;
+            this.numAttacks = numAttacks;
+            this.AP = AP;
+            this.specialRules = rules;
+        }
+       
     }
     public static class Combat
     {
@@ -138,12 +155,40 @@ namespace Core.GameLoop
                         troop => troop.Initiative == maxInitiative && troop.Wounds > 0);
                 List<BaseTroop> troopsSupportDefend =    defenderTroops.supportingTroops.FindAll(
                         troop => troop.Initiative == maxInitiative && troop.Wounds > 0);
+                if (troopsDirectAttack.Count + troopsSupportAttack.Count + troopsDirectDefend.Count + troopsSupportDefend.Count == 0)
+                {
+                    maxInitiative--;
+                    continue;
+                }
+                
                 await executeCombatByInitiative(troopsDirectAttack, troopsSupportAttack, troopsDirectDefend, troopsSupportDefend, attackUnit, defendUnit);
                 maxInitiative--;
             }
 
             
 
+        }
+        // calculate the wounds
+        public static async Task<WoundingAttacks> calcWounds(BaseTroop troop, BaseUnit defUnit, int numAttacks)
+        {
+            DB.Models.Weapon meleeweapon = troop.Weapons.FirstOrDefault(weapon=>weapon.Range==0);
+            int strength = (meleeweapon.IsStrengthFlat == 0 ? troop.Strength + meleeweapon.Strength : meleeweapon.Strength).Value;
+
+            int toHit = toHitResult(troop.Dexterity, defUnit.Troop.Dexterity);
+            List<int> tohitResult = await DiceThrowerTaskDel.Invoke(numAttacks, "Attacking with " + troop.Name);
+            int tohitDicesSuccess = tohitResult.FindAll(res => res >= toHit).Count;
+            if (tohitDicesSuccess == 0)
+            {
+                return new WoundingAttacks(troop,0, 0, new List<BaseRule>());
+            }
+            int toWound = woundResult(strength, defUnit.Troop.Resistance);
+            List<int> towoundResult = await DiceThrowerTaskDel.Invoke(tohitDicesSuccess, "Wounding with " + troop.Name);
+            int hittedAttacksToDefender = towoundResult.FindAll(res => res >= toWound).Count;
+            if (hittedAttacksToDefender==0)
+            {
+                return new WoundingAttacks(troop, 0, 0, new List<BaseRule>());
+            }
+            return new WoundingAttacks(troop,hittedAttacksToDefender, meleeweapon.Ap.Value, new List<BaseRule>());
         }
         public static async Task executeCombatByInitiative(List<BaseTroop> attackerDirectTroops, List<BaseTroop> attackerSupportTroops, 
                                                      List<BaseTroop> defenderDirectTroops, List<BaseTroop> defenderSupportTroops,
@@ -162,54 +207,71 @@ namespace Core.GameLoop
             List<BaseTroop> troopsAttSupport = attackerSupportTroops.FindAll(troop => !(troop is Character));
             List<BaseTroop> troopsDefend = defenderDirectTroops.FindAll(troop => !(troop is Character));
             List<BaseTroop> troopsDefendSupport = defenderSupportTroops.FindAll(troop => !(troop is Character));
-            // ugly as fuck attacker first
-            
+            // ugly as fuck 
+
+            //*********************************************************
+            // NOT DICT, SPECIAL STRUCT WITH ALL THE SCPECIAL RULEs
+            // **************************************************
+            List<WoundingAttacks> woundingAttacksList = new List<WoundingAttacks>();
+            List<WoundingAttacks> woundingDefenderList = new List<WoundingAttacks>();
+
             //ATACKER
             foreach (Character character in charactersAttDirect)
             {
-                int attacks = character.Attacks;
-                int toHit = toHitResult(character.Dexterity, defendUnit.Troop.Dexterity);
-                List<int> tohitResult =  await DiceThrowerTaskDel.Invoke(attacks, "Attacking with " + character.Name);
+                var woundindAttacks = await calcWounds(character, defendUnit, character.Attacks);
+                woundingAttacksList.Add(woundindAttacks);
             }
 
             foreach (Character character in charactersAttSupport)
             {
-                int attacks = 1;
-                int toHit = toHitResult(character.Dexterity, defendUnit.Troop.Dexterity);
-                List<int> tohitResult = await DiceThrowerTaskDel.Invoke(attacks, "Attacking with " + character.Name);
+                var woundindAttacks = await calcWounds(character, defendUnit, 1);
+                woundingAttacksList.Add(woundindAttacks);
+
             }
             int troopsAttacks = 0;
             
             troopsAttacks += troopsAttDirect.Count * (troopsAttDirect.FirstOrDefault()?.Attacks ?? 0);
             troopsAttacks += troopsAttSupport.Count;
 
-            if (troopsAttacks > 0) { 
-                int toHit = toHitResult(troopsAttDirect.FirstOrDefault().Dexterity, defendUnit.Troop.Dexterity);
-                List<int> tohitResult = await DiceThrowerTaskDel.Invoke(troopsAttacks, "Attacking with attacker troops");
+            if (troopsAttacks > 0) {
+                var woundindAttacks = await calcWounds(attackUnit.Troop, defendUnit, troopsAttacks);
+                woundingAttacksList.Add(woundindAttacks);
             }
 
             // DEFENDER TIME
-            foreach (Character item in defenderDirectTroops)
+            foreach (Character character in charactersDefend)
             {
-                int attacks = item.Attacks;
-                int toHit = toHitResult(item.Dexterity, defendUnit.Troop.Dexterity);
-                List<int> tohitResult = await DiceThrowerTaskDel.Invoke(attacks, "Attacking with " + item.Name);
+                var woundindAttacks = await calcWounds(character, attackUnit, character.Attacks);
+                woundingDefenderList.Add(woundindAttacks);
             }
-            foreach (Character item in defenderSupportTroops)
+            foreach (Character character in charactersDefendSupport)
             {
-                int attacks = 1;
-                int toHit = toHitResult(item.Dexterity, defendUnit.Troop.Dexterity);
-                List<int> tohitResult = await DiceThrowerTaskDel.Invoke(attacks, "Attacking with " + item.Name);
+                var woundindAttacks = await calcWounds(character, attackUnit, 1);
+                woundingDefenderList.Add(woundindAttacks);
             }
+
             int troopsDefendAttacks = 0;
             troopsDefendAttacks += troopsDefend.Count * (troopsDefend.FirstOrDefault()?.Attacks ?? 0);
             troopsDefendAttacks += troopsDefendSupport.Count;
 
             if (troopsDefendAttacks > 0)
             {
-                int toHit = toHitResult(troopsDefend.FirstOrDefault().Dexterity, attackUnit.Troop.Dexterity);
-                List<int> tohitResult = await DiceThrowerTaskDel.Invoke(troopsDefendAttacks, "Attacking with defender troops");
+                var woundindAttacks = await calcWounds(defendUnit.Troop, attackUnit, troopsDefendAttacks);
+                woundingDefenderList.Add(woundindAttacks);
             }
+            // apply wounds// DAMMN AP irregular
+            foreach (WoundingAttacks woundingAttacks in woundingAttacksList)
+            {
+                if (woundingAttacks.numAttacks == 0) return;
+                await defendUnit.confirmWounds(woundingAttacks.numAttacks,woundingAttacks.specialRules, woundingAttacks.AP);
+            }
+            foreach (WoundingAttacks woundingAttacks in woundingDefenderList)
+            {
+                if (woundingAttacks.numAttacks == 0) return;
+                await attackUnit.confirmWounds(woundingAttacks.numAttacks, woundingAttacks.specialRules, woundingAttacks.AP);
+            }
+
+
 
         }
         

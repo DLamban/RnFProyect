@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using Core.DB.Data;
 using Core.DB.Models;
 using Core.Rules;
 using Core.Units.Weapons;
@@ -166,6 +167,11 @@ namespace Core.Units
             Cost = troopProfile.Cost;
             Size = new Size(troopProfile.BaseSize.Width, troopProfile.BaseSize.Height);
             var weapons = troopProfile.WeaponsTroops.Select(wt => wt.Weapon).ToList();
+            // set basic hand weapon if no weapon is found
+            if (weapons.FindAll((w) => w.Range == 0).Count == 0)
+            {
+                weapons.Add(DBSingleton.getBasicWeapon());
+            }
             Weapons = weapons;
             foreach (var weapon in weapons)
             {
@@ -195,7 +201,12 @@ namespace Core.Units
             Armour = character.Armour;
             Cost = character.Cost;
             Size = new Size(character.BaseSize.Width, character.BaseSize.Height);
-            var weapons = character.WeaponsCharacters.Select(wt => wt.Weapon).ToList();
+            List<Weapon?> weapons = character.WeaponsCharacters.Select(wt => wt.Weapon).ToList();
+            // set basic hand weapon if no weapon is found
+            if (weapons.FindAll((w) => w.Range == 0).Count == 0)
+            {
+                weapons.Add(DBSingleton.getBasicWeapon());
+            }
             Weapons = weapons;
 
         }

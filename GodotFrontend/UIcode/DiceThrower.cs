@@ -74,6 +74,10 @@ namespace GodotFrontend.UIcode
         // TODO: pooling the dices so we avoid the instantion
         public async Task<List<int>> ThrowDices(int numberdices, string _dicePhase, int diceType = 6)
         {
+            if (numberdices == 0)
+            {
+                throw new Exception("Number of dices should be greater than 0");
+            }
             dicePhase.Text = _dicePhase;
             dicePanel.Visible = true;
             // remove and return to pool used dices

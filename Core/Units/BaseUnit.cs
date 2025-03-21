@@ -407,6 +407,9 @@ namespace Core.Units
                     //float dist = Vector2.Distance(overlappingRect.Start, overlappingRect.End);
                     return getTroopByCoord(overlappingRect);
                     break;
+                default:
+                    throw new NotImplementedException();
+                    break;
             }
                           
             
@@ -492,9 +495,9 @@ namespace Core.Units
             
             
         }
-        public async void confirmWounds(int wounds, List<BaseRule> specialRules, int ap)
+        public async Task confirmWounds(int wounds, List<BaseRule> specialRules, int ap)
         {
-            List<int> savingThrow = await DiceThrowerTaskDel(wounds, "armour save");
+            List<int> savingThrow = await DiceThrowerTaskDel(wounds, "armour save with ap"+ap);
             int confirmedWounds = ResolveDiceThrow.armourSave(wounds, savingThrow, ap, Troop.Armour);
             ApplyWoundUnit(confirmedWounds, specialRules);
         }

@@ -39,9 +39,11 @@ text = "HOT SEAT (single player)"
 [node name="ConnPlayer1" type="Button" parent="Panel/CenterContainer/VBoxContainer"]
 layout_mode = 2
 theme = ExtResource("1_8ci20")
+disabled = true
 text = "CONNECT PLAYER 1"
 
 [node name="ConnPlayer2" type="Button" parent="Panel/CenterContainer/VBoxContainer"]
 layout_mode = 2
 theme = ExtResource("1_8ci20")
+disabled = true
 text = "CONNECT PLAYER 2"
