@@ -52,10 +52,11 @@ namespace GodotFrontend.code.Input
             get { return PlayerInfoSingleton.Instance.battleStateManager.currentSubPhase;}
 			set { PlayerInfoSingleton.Instance.battleStateManager.currentSubPhase = value;}
         }
+		// DELEGATES
         public delegate Vector3? BattlefieldCursorPosDel();
 		BattlefieldCursorPosDel getBattlefieldCursorPosDel;
 		UnitRenderCreator unitRenderCreator;
-
+        public event Action<BaseUnit> OnHoverUnit;
         public override void _Ready()
 		{
         //    PlayerInfoSingleton.Instance.battleStateManager.OnBattleStateChanged += OnBattleStateChanged;
@@ -169,7 +170,7 @@ namespace GodotFrontend.code.Input
 			unitRenderCreator.disableOutOfCombatTroops();
             currentStateProccess = inputCombatPhase.CustomProcess;
         }
-
+		
         public void clickUnit(UnitGodot unitSelect)
 		{
             //if (lastUnitSelected != null)
@@ -211,9 +212,11 @@ namespace GodotFrontend.code.Input
                 }
 
             }
-
-
-
+        }
+		public void HoveringUnit(UnitGodot unitGodot)
+		{
+			OnHoverUnit?.Invoke(unitGodot.coreUnit);
+            Debug.WriteLine("hovering unit");
         }
 		private Vector3? getBattlefieldCursorPos()
 		{

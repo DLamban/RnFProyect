@@ -99,7 +99,8 @@ namespace Core.Units
 
                     troops.Add(baseTroop);
                 }
-                baseUnit = new BaseUnit(unitDetail.Race.Code, unitDetail.Name, widthRank, Formation_type.CLOSE_ORDER, new List<string> { "Reglaespecial1", "Reglaespecial2" }, troops);
+                baseUnit = new BaseUnit(unitDetail.Race.Code, unitDetail.Name, unitDetail.TroopProfiles.FirstOrDefault(t => t.IsMainProfile != 0).TroopType.Code,
+                    widthRank, Formation_type.CLOSE_ORDER, new List<string> { "Reglaespecial1", "Reglaespecial2" }, troops);
                 foreach (CharacterEnum character in characters)
                 {
                     DB.Models.Character character1 = DBSingleton.GetCharacter(character);

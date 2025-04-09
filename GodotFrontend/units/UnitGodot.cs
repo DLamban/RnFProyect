@@ -366,7 +366,12 @@ public partial class UnitGodot : Node3D
 			}
 		};
 		area.InputEvent += (camera, @event, position, normal, shapeIdx) => _unitSelect(camera, @event, position, normal, shapeIdx, this);
-		area.Position = new Vector3(center.X, center.Y, 0.2f);
+		
+		area.MouseEntered += () => { 
+			inputManager.HoveringUnit(this);
+        };
+
+        area.Position = new Vector3(center.X, center.Y, 0.2f);
 		this.AddChild(area);
 	}
 	

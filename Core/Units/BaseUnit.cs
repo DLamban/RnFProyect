@@ -253,7 +253,7 @@ namespace Core.Units
         }
 
         // Unit constructor
-        public BaseUnit(string race, string name,int troopsWidth, Formation_type formation_Type, List<string> specialRules, List<BaseTroop> troops)
+        public BaseUnit(string race, string name,string troopType, int troopsWidth, Formation_type formation_Type, List<string> specialRules, List<BaseTroop> troops)
         {
             Race = race;
             
@@ -262,8 +262,10 @@ namespace Core.Units
             Formation_Type = formation_Type;
             SpecialRules = specialRules;
             Troops = troops;
+            
             // take the last because first is the characters
             Troop = troops[UnitCount-1];
+            Type = troopType;
             formationType = formation_Type;
             reformTroops();
             restartCombatState();
@@ -273,6 +275,7 @@ namespace Core.Units
             Race = race;
             Name = name;
             TroopsWidth = 1;
+            Type = "Character";
             Troop = character;
             Troops = new List<BaseTroop>();
             Troops.Add(character);

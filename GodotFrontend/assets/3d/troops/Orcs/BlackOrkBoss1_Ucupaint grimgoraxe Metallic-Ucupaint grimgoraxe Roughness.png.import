@@ -2,14 +2,11 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://5knp0rxt307"
+uid="uid://dldax763yb4a8"
 path.s3tc="res://.godot/imported/BlackOrkBoss1_Ucupaint grimgoraxe Metallic-Ucupaint grimgoraxe Roughness.png-32eba9ccae970ffaa4d14503df30fd23.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
-}
-generator_parameters={
-"md5": "53209de1fc2a919126363db3a6fc0b7f"
 }
 
 [deps]

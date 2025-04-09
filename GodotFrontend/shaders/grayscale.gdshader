@@ -9,7 +9,7 @@ void fragment() {
 
 
     float grayscale = dot(currentColor.rgb, vec3(0.299, 0.587, 0.114));
-    
+
     // Aplicar la desaturación
     vec3 desaturated_color = mix(currentColor.rgb, vec3(grayscale), desaturation_amount);
 
@@ -17,7 +17,7 @@ void fragment() {
     vec3 final_color = mix(desaturated_color, vec3(0.0), darkness_amount);
 
     // El resultado final (mezcla con la textura original)
-    
+
   	ALBEDO = final_color;
   	ALPHA = 1.;
 }
