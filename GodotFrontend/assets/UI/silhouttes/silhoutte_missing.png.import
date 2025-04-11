@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://coq57fnoeljv7"
-path="res://.godot/imported/orcSilhoutteIcon.png-f9f4bbd3271ab8cc9bbc1a4cf4afc3fc.ctex"
+uid="uid://bpb43wnb2dnjm"
+path="res://.godot/imported/silhoutte_missing.png-c9c33411e5e37634c9fd6bea4635daf0.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/UI/orcSilhoutteIcon.png"
-dest_files=["res://.godot/imported/orcSilhoutteIcon.png-f9f4bbd3271ab8cc9bbc1a4cf4afc3fc.ctex"]
+source_file="res://assets/UI/silhouttes/silhoutte_missing.png"
+dest_files=["res://.godot/imported/silhoutte_missing.png-c9c33411e5e37634c9fd6bea4635daf0.ctex"]
 
 [params]
 

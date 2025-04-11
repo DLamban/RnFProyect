@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bdcr0xbhqkrbl"
-path="res://.godot/imported/BlackOrcShield.png-bb6fc09dfbf7ca5dbaf2b9a09bae6763.ctex"
+uid="uid://ce67eqrbwnnk5"
+path="res://.godot/imported/silhoutte_armored_orc.png-98609c644c222205b8bc2e63d7b35504.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/UI/BlackOrcShield.png"
-dest_files=["res://.godot/imported/BlackOrcShield.png-bb6fc09dfbf7ca5dbaf2b9a09bae6763.ctex"]
+source_file="res://assets/UI/silhouttes/silhoutte_armored_orc.png"
+dest_files=["res://.godot/imported/silhoutte_armored_orc.png-98609c644c222205b8bc2e63d7b35504.ctex"]
 
 [params]
 

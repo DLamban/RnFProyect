@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dvllmsl28kasa"
-path="res://.godot/imported/BlackOrcsSilhoutteIconBanner.png-71c74279f0a3c70351744b9f8c122dc4.ctex"
+uid="uid://dopt73drcikll"
+path="res://.godot/imported/silhoutte_gyrocopter.png-7e42c0073bd6893c591216cf811221d2.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/UI/BlackOrcsSilhoutteIconBanner.png"
-dest_files=["res://.godot/imported/BlackOrcsSilhoutteIconBanner.png-71c74279f0a3c70351744b9f8c122dc4.ctex"]
+source_file="res://assets/UI/silhouttes/silhoutte_gyrocopter.png"
+dest_files=["res://.godot/imported/silhoutte_gyrocopter.png-7e42c0073bd6893c591216cf811221d2.ctex"]
 
 [params]
 

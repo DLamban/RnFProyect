@@ -29,15 +29,16 @@ texture_margin_right = 25.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wjsdw"]
 bg_color = Color(0.00123183, 0.0986915, 0.325436, 0.545098)
-border_width_left = 5
-border_width_top = 5
-border_width_right = 5
-border_width_bottom = 5
-border_color = Color(0.555155, 0.526474, 0.157052, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.219501, 0.219501, 0.219501, 1)
 corner_radius_top_left = 5
 corner_radius_top_right = 5
 corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
+shadow_color = Color(0.113725, 0.133333, 0.101961, 0.796078)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_u2ar3"]
 bg_color = Color(0.463534, 0.404529, 0.39688, 1)

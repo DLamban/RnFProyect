@@ -1,4 +1,4 @@
-[gd_scene load_steps=47 format=3 uid="uid://dpsexlp7rtu24"]
+[gd_scene load_steps=50 format=3 uid="uid://dpsexlp7rtu24"]
 
 [ext_resource type="Theme" uid="uid://c5l7fthgxiatx" path="res://assets/fonts/basic_theme.tres" id="1_7w5fx"]
 [ext_resource type="Script" path="res://UIcode/UICanvas.cs" id="1_uf8sf"]
@@ -6,9 +6,11 @@
 [ext_resource type="Script" path="res://UIcode/CharacteristicsPanelPlayer.cs" id="3_o5ffo"]
 [ext_resource type="Texture2D" uid="uid://hnj7ql520e8p" path="res://assets/UI/heart.png" id="4_3dbfc"]
 [ext_resource type="FontFile" uid="uid://vtcjtdfu4eef" path="res://assets/UI/fonts/Tintagel.otf" id="4_4uqtr"]
+[ext_resource type="Texture2D" uid="uid://bi5ftqceawyon" path="res://assets/UI/HEXAGONbadge.png" id="4_ae8eg"]
 [ext_resource type="PackedScene" uid="uid://bty8onggmax8r" path="res://dices_resources/velvetdicetray.glb" id="4_vvqy3"]
 [ext_resource type="Texture2D" uid="uid://bu1qu6rd35ub5" path="res://assets/2D/gamestatebar.png" id="5_4txjm"]
 [ext_resource type="FontFile" uid="uid://dcyjlcm8v5xs6" path="res://assets/fonts/alagard_by_pix3m.ttf" id="5_m1l0s"]
+[ext_resource type="Texture2D" uid="uid://dxuf1gtl0kvit" path="res://assets/UI/silhouttes/silhoutte_king.png" id="5_xc26d"]
 [ext_resource type="Texture2D" uid="uid://c81elnyyc6frc" path="res://assets/2D/iconsgamebar.png" id="6_wpu2u"]
 [ext_resource type="Texture2D" uid="uid://cjkqqh1ls3d2s" path="res://assets/2D/gamestatebaroverlay.png" id="7_rpjy1"]
 [ext_resource type="Script" path="res://UIcode/ActionContainer.cs" id="8_ceo8v"]
@@ -17,19 +19,32 @@
 [ext_resource type="Texture2D" uid="uid://bit4lhdtx8hl1" path="res://assets/UI/actionbar.png" id="8_y51aj"]
 [ext_resource type="Script" path="res://Spells/UISpellManager.cs" id="9_xjim1"]
 [ext_resource type="Script" path="res://Spells/ConfirmPanel.cs" id="10_b20x0"]
+[ext_resource type="Theme" uid="uid://bk5xexpak07ax" path="res://assets/charplayerstatstheme.tres" id="10_u38qt"]
 [ext_resource type="Texture2D" uid="uid://dnxq5ax7u30ca" path="res://assets/UI/BubbleStatusButton/button_strategic.png" id="11_6hgaq"]
 [ext_resource type="Texture2D" uid="uid://ch81blc1r68ki" path="res://assets/UI/BubbleStatusButton/button_strategic_hover.png" id="12_3o4ep"]
 [ext_resource type="Texture2D" uid="uid://cyrh1cdt8wynl" path="res://assets/UI/BubbleStatusButton/button_strategic_pressed.png" id="12_6rqb7"]
 [ext_resource type="Script" path="res://UIcode/ChargeResponseUI.cs" id="13_iahc3"]
 [ext_resource type="FontFile" uid="uid://d1abuqp2etn8q" path="res://assets/UI/fonts/fight16cleaned.png" id="14_3sye8"]
-[ext_resource type="Texture2D" uid="uid://d0e8gqjyf63we" path="res://assets/UI/HEXAGONcoolorc.png" id="23_my1ev"]
-[ext_resource type="Texture2D" uid="uid://bi4wdr221lhwk" path="res://assets/UI/HEXAGONcoolgoblin.png" id="24_36gmo"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_geu8v"]
+bg_color = Color(0.293337, 0.176045, 1.20327e-07, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0.21968, 0.404197, 1)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+
+[sub_resource type="Theme" id="Theme_mhqrt"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qcv53"]
-content_margin_left = 25.0
-content_margin_top = 30.0
-content_margin_right = 25.0
-content_margin_bottom = 20.0
+content_margin_left = 5.0
+content_margin_top = 3.0
+content_margin_right = 5.0
+content_margin_bottom = 3.0
 bg_color = Color(7.82125e-08, 0.221687, 0.107342, 0.564706)
 border_width_left = 2
 border_width_top = 2
@@ -169,28 +184,388 @@ mouse_filter = 2
 
 [node name="CharacteristicsPanelPlayer" type="Panel" parent="CanvasGroup/AnchorProvider"]
 layout_mode = 0
-offset_left = 45.0
-offset_top = 549.0
-offset_right = 627.0
-offset_bottom = 829.0
+offset_left = 62.0
+offset_top = 101.0
+offset_right = 573.0
+offset_bottom = 381.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme = ExtResource("1_7w5fx")
 script = ExtResource("3_o5ffo")
 
+[node name="CommandPanel" type="Panel" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer"]
+layout_mode = 0
+offset_left = 19.0
+offset_top = 280.0
+offset_right = 503.0
+offset_bottom = 489.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel"]
+layout_mode = 0
+offset_left = 19.0
+offset_top = 12.0
+offset_right = 413.0
+offset_bottom = 124.0
+
+[node name="Label" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer"]
+layout_mode = 2
+text = "Command group"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer"]
+custom_minimum_size = Vector2(458.09, 169.735)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="PanelContainer" type="Panel" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(455.725, 81.755)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/VBoxContainer/PanelContainer"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -218.863
+offset_top = -34.8775
+offset_right = 214.137
+offset_bottom = 32.1225
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 15
+
+[node name="Panel" type="PanelContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/VBoxContainer/PanelContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_geu8v")
+
+[node name="CommandSilhoutteIcon" type="TextureRect" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/VBoxContainer/PanelContainer/HBoxContainer/Panel"]
+custom_minimum_size = Vector2(8.23, 51.92)
+layout_mode = 2
+theme = SubResource("Theme_mhqrt")
+texture = ExtResource("5_xc26d")
+expand_mode = 3
+
+[node name="PanelContainer" type="PanelContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/VBoxContainer/PanelContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 8
+theme_override_styles/panel = SubResource("StyleBoxFlat_qcv53")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/VBoxContainer/PanelContainer/HBoxContainer/PanelContainer"]
+layout_mode = 2
+theme = SubResource("Theme_5oqvp")
+theme_override_constants/separation = 5
+
+[node name="VBoxContainer3" type="VBoxContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/VBoxContainer/PanelContainer/HBoxContainer/PanelContainer/HBoxContainer"]
+clip_contents = true
+layout_mode = 2
+size_flags_vertical = 4
+theme = SubResource("Theme_03xsm")
+
+[node name="Label" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/VBoxContainer/PanelContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer3"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("5_m1l0s")
+theme_override_font_sizes/font_size = 11
+text = "MOV"
+horizontal_alignment = 1
+clip_text = true
+
+[node name="Panel2" type="PanelContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/VBoxContainer/PanelContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer3"]
+custom_minimum_size = Vector2(25, 25)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_3qhsn")
+
+[node name="Movement" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/VBoxContainer/PanelContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer3/Panel2"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_fonts/font = ExtResource("4_4uqtr")
+theme_override_font_sizes/font_size = 20
+text = "3"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/VBoxContainer/PanelContainer/HBoxContainer/PanelContainer/HBoxContainer"]
+clip_contents = true
+layout_mode = 2
+size_flags_vertical = 4
+theme = SubResource("Theme_03xsm")
+
+[node name="Label" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/VBoxContainer/PanelContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("5_m1l0s")
+theme_override_font_sizes/font_size = 11
+text = "DEX
+"
+horizontal_alignment = 1
+clip_text = true
+
+[node name="Panel" type="PanelContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/VBoxContainer/PanelContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer2"]
+custom_minimum_size = Vector2(25, 25)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_3qhsn")
+
+[node name="Dexterity" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/VBoxContainer/PanelContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer2/Panel"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_fonts/font = ExtResource("4_4uqtr")
+theme_override_font_sizes/font_size = 20
+text = "4"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VBoxContainer4" type="VBoxContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/VBoxContainer/PanelContainer/HBoxContainer/PanelContainer/HBoxContainer"]
+clip_contents = true
+layout_mode = 2
+size_flags_vertical = 4
+theme = SubResource("Theme_03xsm")
+
+[node name="Label" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/VBoxContainer/PanelContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer4"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("5_m1l0s")
+theme_override_font_sizes/font_size = 11
+text = "SHT
+"
+horizontal_alignment = 1
+clip_text = true
+
+[node name="Panel" type="PanelContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/VBoxContainer/PanelContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer4"]
+custom_minimum_size = Vector2(25, 25)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_3qhsn")
+
+[node name="Shoot" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/VBoxContainer/PanelContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer4/Panel"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_fonts/font = ExtResource("4_4uqtr")
+theme_override_font_sizes/font_size = 20
+text = "3"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VBoxContainer5" type="VBoxContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/VBoxContainer/PanelContainer/HBoxContainer/PanelContainer/HBoxContainer"]
+clip_contents = true
+layout_mode = 2
+size_flags_vertical = 4
+theme = SubResource("Theme_03xsm")
+
+[node name="Label2" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/VBoxContainer/PanelContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer5"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("5_m1l0s")
+theme_override_font_sizes/font_size = 11
+text = "STR"
+horizontal_alignment = 1
+clip_text = true
+
+[node name="Panel" type="PanelContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/VBoxContainer/PanelContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer5"]
+custom_minimum_size = Vector2(25, 25)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_3qhsn")
+
+[node name="Strength" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/VBoxContainer/PanelContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer5/Panel"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_fonts/font = ExtResource("4_4uqtr")
+theme_override_font_sizes/font_size = 20
+text = "3"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VBoxContainer6" type="VBoxContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/VBoxContainer/PanelContainer/HBoxContainer/PanelContainer/HBoxContainer"]
+clip_contents = true
+layout_mode = 2
+size_flags_vertical = 4
+theme = SubResource("Theme_03xsm")
+
+[node name="Label" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/VBoxContainer/PanelContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer6"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("5_m1l0s")
+theme_override_font_sizes/font_size = 11
+text = "RES"
+horizontal_alignment = 1
+clip_text = true
+
+[node name="Panel" type="PanelContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/VBoxContainer/PanelContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer6"]
+custom_minimum_size = Vector2(25, 25)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_3qhsn")
+
+[node name="Resistance" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/VBoxContainer/PanelContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer6/Panel"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_fonts/font = ExtResource("4_4uqtr")
+theme_override_font_sizes/font_size = 20
+text = "4"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VBoxContainer8" type="VBoxContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/VBoxContainer/PanelContainer/HBoxContainer/PanelContainer/HBoxContainer"]
+clip_contents = true
+layout_mode = 2
+size_flags_vertical = 4
+theme = SubResource("Theme_03xsm")
+
+[node name="Label" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/VBoxContainer/PanelContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer8"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("5_m1l0s")
+theme_override_font_sizes/font_size = 11
+text = "ATT
+"
+horizontal_alignment = 1
+clip_text = true
+
+[node name="Panel" type="PanelContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/VBoxContainer/PanelContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer8"]
+custom_minimum_size = Vector2(25, 25)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_3qhsn")
+
+[node name="Attacks" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/VBoxContainer/PanelContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer8/Panel"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_fonts/font = ExtResource("4_4uqtr")
+theme_override_font_sizes/font_size = 20
+text = "1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VBoxContainer9" type="VBoxContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/VBoxContainer/PanelContainer/HBoxContainer/PanelContainer/HBoxContainer"]
+clip_contents = true
+layout_mode = 2
+size_flags_vertical = 4
+theme = SubResource("Theme_03xsm")
+
+[node name="Label" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/VBoxContainer/PanelContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer9"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("5_m1l0s")
+theme_override_font_sizes/font_size = 11
+text = "INI"
+horizontal_alignment = 1
+clip_text = true
+
+[node name="Panel" type="PanelContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/VBoxContainer/PanelContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer9"]
+custom_minimum_size = Vector2(25, 25)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_3qhsn")
+
+[node name="Initiative" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/VBoxContainer/PanelContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer9/Panel"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_fonts/font = ExtResource("4_4uqtr")
+theme_override_font_sizes/font_size = 20
+text = "2"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VBoxContainer10" type="VBoxContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/VBoxContainer/PanelContainer/HBoxContainer/PanelContainer/HBoxContainer"]
+clip_contents = true
+layout_mode = 2
+size_flags_vertical = 4
+theme = SubResource("Theme_03xsm")
+
+[node name="Label" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/VBoxContainer/PanelContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer10"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("5_m1l0s")
+theme_override_font_sizes/font_size = 11
+text = "LDS"
+horizontal_alignment = 1
+clip_text = true
+
+[node name="Panel" type="PanelContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/VBoxContainer/PanelContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer10"]
+custom_minimum_size = Vector2(25, 25)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_3qhsn")
+
+[node name="Leadership" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/VBoxContainer/PanelContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer10/Panel"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_fonts/font = ExtResource("4_4uqtr")
+theme_override_font_sizes/font_size = 20
+text = "9
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/VBoxContainer/PanelContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Dwarf king"
+
+[node name="WoundsContainer" type="HBoxContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_constants/separation = 5
+alignment = 2
+
+[node name="TroopCount" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/WoundsContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "5"
+vertical_alignment = 2
+
+[node name="Label" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/WoundsContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "X"
+vertical_alignment = 2
+
+[node name="TextureRect" type="TextureRect" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/WoundsContainer"]
+custom_minimum_size = Vector2(3.1, 0)
+layout_mode = 2
+texture = ExtResource("4_3dbfc")
+expand_mode = 2
+stretch_mode = 4
+
+[node name="TextureRect" type="TextureRect" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/WoundsContainer/TextureRect"]
+custom_minimum_size = Vector2(3.1, 0)
+texture = ExtResource("4_3dbfc")
+expand_mode = 2
+stretch_mode = 4
+
+[node name="HexagoNcoolorc" type="Sprite2D" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer"]
+z_index = 1
+position = Vector2(73.2079, 46.5475)
+scale = Vector2(0.18006, 0.18006)
+texture = ExtResource("4_ae8eg")
+
+[node name="SilhoutteIcon" type="TextureRect" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/HexagoNcoolorc"]
+anchors_preset = -1
+anchor_left = -0.475
+offset_left = 208.977
+offset_top = -289.193
+offset_right = 296.577
+offset_bottom = 303.807
+texture = ExtResource("5_xc26d")
+expand_mode = 1
+
 [node name="CenterContainer" type="CenterContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer"]
 layout_mode = 1
-anchors_preset = 7
+anchors_preset = 8
 anchor_left = 0.5
-anchor_top = 1.0
+anchor_top = 0.5
 anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -240.0
-offset_top = -187.0
-offset_right = 240.0
-offset_bottom = -22.0
+anchor_bottom = 0.5
+offset_left = -246.5
+offset_top = -110.0
+offset_right = 244.5
+offset_bottom = 129.0
 grow_horizontal = 2
-grow_vertical = 0
+grow_vertical = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CenterContainer"]
 layout_mode = 2
@@ -239,7 +614,7 @@ stretch_mode = 4
 
 [node name="PanelContainer" type="PanelContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_qcv53")
+theme = ExtResource("10_u38qt")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/PanelContainer"]
 layout_mode = 2
@@ -1095,13 +1470,3 @@ grow_vertical = 2
 text = "HOLD!"
 label_settings = SubResource("LabelSettings_8u1al")
 horizontal_alignment = 1
-
-[node name="HexagoNcoolorc" type="Sprite2D" parent="."]
-position = Vector2(132, 556)
-scale = Vector2(0.138316, 0.138316)
-texture = ExtResource("23_my1ev")
-
-[node name="HexagoNcoolgoblin" type="Sprite2D" parent="."]
-position = Vector2(288, 560)
-scale = Vector2(0.151203, 0.151203)
-texture = ExtResource("24_36gmo")
