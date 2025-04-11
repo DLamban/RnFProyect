@@ -1,4 +1,4 @@
-[gd_scene load_steps=50 format=3 uid="uid://dpsexlp7rtu24"]
+[gd_scene load_steps=53 format=3 uid="uid://dpsexlp7rtu24"]
 
 [ext_resource type="Theme" uid="uid://c5l7fthgxiatx" path="res://assets/fonts/basic_theme.tres" id="1_7w5fx"]
 [ext_resource type="Script" path="res://UIcode/UICanvas.cs" id="1_uf8sf"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://hnj7ql520e8p" path="res://assets/UI/heart.png" id="4_3dbfc"]
 [ext_resource type="FontFile" uid="uid://vtcjtdfu4eef" path="res://assets/UI/fonts/Tintagel.otf" id="4_4uqtr"]
 [ext_resource type="Texture2D" uid="uid://bi5ftqceawyon" path="res://assets/UI/HEXAGONbadge.png" id="4_ae8eg"]
+[ext_resource type="Texture2D" uid="uid://1oos2gm11wdb" path="res://assets/UI/panels/panelTexture.png" id="4_ogvgp"]
 [ext_resource type="PackedScene" uid="uid://bty8onggmax8r" path="res://dices_resources/velvetdicetray.glb" id="4_vvqy3"]
 [ext_resource type="Texture2D" uid="uid://bu1qu6rd35ub5" path="res://assets/2D/gamestatebar.png" id="5_4txjm"]
 [ext_resource type="FontFile" uid="uid://dcyjlcm8v5xs6" path="res://assets/fonts/alagard_by_pix3m.ttf" id="5_m1l0s"]
@@ -26,6 +27,19 @@
 [ext_resource type="Script" path="res://UIcode/ChargeResponseUI.cs" id="13_iahc3"]
 [ext_resource type="FontFile" uid="uid://d1abuqp2etn8q" path="res://assets/UI/fonts/fight16cleaned.png" id="14_3sye8"]
 
+[sub_resource type="Theme" id="Theme_nfelp"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_qls7c"]
+content_margin_left = 9.0
+content_margin_top = 9.0
+content_margin_right = 9.0
+content_margin_bottom = 9.0
+texture = ExtResource("4_ogvgp")
+texture_margin_left = 9.0
+texture_margin_top = 9.0
+texture_margin_right = 9.0
+texture_margin_bottom = 9.0
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_geu8v"]
 bg_color = Color(0.293337, 0.176045, 1.20327e-07, 1)
 border_width_left = 1
@@ -33,10 +47,10 @@ border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
 border_color = Color(0, 0.21968, 0.404197, 1)
-corner_radius_top_left = 25
-corner_radius_top_right = 25
-corner_radius_bottom_right = 25
-corner_radius_bottom_left = 25
+corner_radius_top_left = 35
+corner_radius_top_right = 35
+corner_radius_bottom_right = 35
+corner_radius_bottom_left = 35
 
 [sub_resource type="Theme" id="Theme_mhqrt"]
 
@@ -202,10 +216,10 @@ offset_bottom = 489.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel"]
 layout_mode = 0
-offset_left = 19.0
+offset_left = 10.0
 offset_top = 12.0
-offset_right = 413.0
-offset_bottom = 124.0
+offset_right = 477.0
+offset_bottom = 203.0
 
 [node name="Label" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer"]
 layout_mode = 2
@@ -216,60 +230,68 @@ custom_minimum_size = Vector2(458.09, 169.735)
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer"]
+[node name="CommanderContainer" type="VBoxContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="PanelContainer" type="Panel" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/VBoxContainer"]
-custom_minimum_size = Vector2(455.725, 81.755)
+[node name="CommanderPanel" type="Panel" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/CommanderContainer"]
+custom_minimum_size = Vector2(461.74, 95.735)
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 2
+theme = SubResource("Theme_nfelp")
+theme_override_styles/panel = SubResource("StyleBoxTexture_qls7c")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/VBoxContainer/PanelContainer"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -218.863
-offset_top = -34.8775
-offset_right = 214.137
-offset_bottom = 32.1225
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/separation = 15
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/CommanderContainer/CommanderPanel"]
+layout_mode = 0
+offset_left = 13.0
+offset_top = 10.0
+offset_right = 450.0
+offset_bottom = 85.0
 
-[node name="Panel" type="PanelContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/VBoxContainer/PanelContainer/HBoxContainer"]
+[node name="Panel" type="PanelContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/CommanderContainer/CommanderPanel/HBoxContainer"]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_geu8v")
 
-[node name="CommandSilhoutteIcon" type="TextureRect" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/VBoxContainer/PanelContainer/HBoxContainer/Panel"]
+[node name="CommandSilhoutteIcon" type="TextureRect" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/CommanderContainer/CommanderPanel/HBoxContainer/Panel"]
 custom_minimum_size = Vector2(8.23, 51.92)
 layout_mode = 2
 theme = SubResource("Theme_mhqrt")
 texture = ExtResource("5_xc26d")
 expand_mode = 3
 
-[node name="PanelContainer" type="PanelContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/VBoxContainer/PanelContainer/HBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/CommanderContainer/CommanderPanel/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 5
+
+[node name="Name" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/CommanderContainer/CommanderPanel/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Dwarf king on shields"
+horizontal_alignment = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/CommanderContainer/CommanderPanel/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="PanelContainer" type="PanelContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/CommanderContainer/CommanderPanel/HBoxContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 8
 theme_override_styles/panel = SubResource("StyleBoxFlat_qcv53")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/VBoxContainer/PanelContainer/HBoxContainer/PanelContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/CommanderContainer/CommanderPanel/HBoxContainer/VBoxContainer/HBoxContainer/PanelContainer"]
 layout_mode = 2
 theme = SubResource("Theme_5oqvp")
 theme_override_constants/separation = 5
 
-[node name="VBoxContainer3" type="VBoxContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/VBoxContainer/PanelContainer/HBoxContainer/PanelContainer/HBoxContainer"]
+[node name="VBoxContainer3" type="VBoxContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/CommanderContainer/CommanderPanel/HBoxContainer/VBoxContainer/HBoxContainer/PanelContainer/HBoxContainer"]
 clip_contents = true
 layout_mode = 2
 size_flags_vertical = 4
 theme = SubResource("Theme_03xsm")
 
-[node name="Label" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/VBoxContainer/PanelContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer3"]
+[node name="Label" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/CommanderContainer/CommanderPanel/HBoxContainer/VBoxContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer3"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("5_m1l0s")
 theme_override_font_sizes/font_size = 11
@@ -277,13 +299,13 @@ text = "MOV"
 horizontal_alignment = 1
 clip_text = true
 
-[node name="Panel2" type="PanelContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/VBoxContainer/PanelContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer3"]
+[node name="Panel2" type="PanelContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/CommanderContainer/CommanderPanel/HBoxContainer/VBoxContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer3"]
 custom_minimum_size = Vector2(25, 25)
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_styles/panel = SubResource("StyleBoxFlat_3qhsn")
 
-[node name="Movement" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/VBoxContainer/PanelContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer3/Panel2"]
+[node name="Movement" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/CommanderContainer/CommanderPanel/HBoxContainer/VBoxContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer3/Panel2"]
 layout_mode = 2
 size_flags_vertical = 1
 theme_override_fonts/font = ExtResource("4_4uqtr")
@@ -292,13 +314,13 @@ text = "3"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/VBoxContainer/PanelContainer/HBoxContainer/PanelContainer/HBoxContainer"]
+[node name="VBoxContainer2" type="VBoxContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/CommanderContainer/CommanderPanel/HBoxContainer/VBoxContainer/HBoxContainer/PanelContainer/HBoxContainer"]
 clip_contents = true
 layout_mode = 2
 size_flags_vertical = 4
 theme = SubResource("Theme_03xsm")
 
-[node name="Label" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/VBoxContainer/PanelContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer2"]
+[node name="Label" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/CommanderContainer/CommanderPanel/HBoxContainer/VBoxContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer2"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("5_m1l0s")
 theme_override_font_sizes/font_size = 11
@@ -307,13 +329,13 @@ text = "DEX
 horizontal_alignment = 1
 clip_text = true
 
-[node name="Panel" type="PanelContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/VBoxContainer/PanelContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer2"]
+[node name="Panel" type="PanelContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/CommanderContainer/CommanderPanel/HBoxContainer/VBoxContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer2"]
 custom_minimum_size = Vector2(25, 25)
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_styles/panel = SubResource("StyleBoxFlat_3qhsn")
 
-[node name="Dexterity" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/VBoxContainer/PanelContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer2/Panel"]
+[node name="Dexterity" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/CommanderContainer/CommanderPanel/HBoxContainer/VBoxContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer2/Panel"]
 layout_mode = 2
 size_flags_vertical = 1
 theme_override_fonts/font = ExtResource("4_4uqtr")
@@ -322,13 +344,13 @@ text = "4"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="VBoxContainer4" type="VBoxContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/VBoxContainer/PanelContainer/HBoxContainer/PanelContainer/HBoxContainer"]
+[node name="VBoxContainer4" type="VBoxContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/CommanderContainer/CommanderPanel/HBoxContainer/VBoxContainer/HBoxContainer/PanelContainer/HBoxContainer"]
 clip_contents = true
 layout_mode = 2
 size_flags_vertical = 4
 theme = SubResource("Theme_03xsm")
 
-[node name="Label" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/VBoxContainer/PanelContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer4"]
+[node name="Label" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/CommanderContainer/CommanderPanel/HBoxContainer/VBoxContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer4"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("5_m1l0s")
 theme_override_font_sizes/font_size = 11
@@ -337,13 +359,13 @@ text = "SHT
 horizontal_alignment = 1
 clip_text = true
 
-[node name="Panel" type="PanelContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/VBoxContainer/PanelContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer4"]
+[node name="Panel" type="PanelContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/CommanderContainer/CommanderPanel/HBoxContainer/VBoxContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer4"]
 custom_minimum_size = Vector2(25, 25)
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_styles/panel = SubResource("StyleBoxFlat_3qhsn")
 
-[node name="Shoot" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/VBoxContainer/PanelContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer4/Panel"]
+[node name="Shoot" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/CommanderContainer/CommanderPanel/HBoxContainer/VBoxContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer4/Panel"]
 layout_mode = 2
 size_flags_vertical = 1
 theme_override_fonts/font = ExtResource("4_4uqtr")
@@ -352,13 +374,13 @@ text = "3"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="VBoxContainer5" type="VBoxContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/VBoxContainer/PanelContainer/HBoxContainer/PanelContainer/HBoxContainer"]
+[node name="VBoxContainer5" type="VBoxContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/CommanderContainer/CommanderPanel/HBoxContainer/VBoxContainer/HBoxContainer/PanelContainer/HBoxContainer"]
 clip_contents = true
 layout_mode = 2
 size_flags_vertical = 4
 theme = SubResource("Theme_03xsm")
 
-[node name="Label2" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/VBoxContainer/PanelContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer5"]
+[node name="Label2" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/CommanderContainer/CommanderPanel/HBoxContainer/VBoxContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer5"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("5_m1l0s")
 theme_override_font_sizes/font_size = 11
@@ -366,13 +388,13 @@ text = "STR"
 horizontal_alignment = 1
 clip_text = true
 
-[node name="Panel" type="PanelContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/VBoxContainer/PanelContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer5"]
+[node name="Panel" type="PanelContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/CommanderContainer/CommanderPanel/HBoxContainer/VBoxContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer5"]
 custom_minimum_size = Vector2(25, 25)
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_styles/panel = SubResource("StyleBoxFlat_3qhsn")
 
-[node name="Strength" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/VBoxContainer/PanelContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer5/Panel"]
+[node name="Strength" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/CommanderContainer/CommanderPanel/HBoxContainer/VBoxContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer5/Panel"]
 layout_mode = 2
 size_flags_vertical = 1
 theme_override_fonts/font = ExtResource("4_4uqtr")
@@ -381,13 +403,13 @@ text = "3"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="VBoxContainer6" type="VBoxContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/VBoxContainer/PanelContainer/HBoxContainer/PanelContainer/HBoxContainer"]
+[node name="VBoxContainer6" type="VBoxContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/CommanderContainer/CommanderPanel/HBoxContainer/VBoxContainer/HBoxContainer/PanelContainer/HBoxContainer"]
 clip_contents = true
 layout_mode = 2
 size_flags_vertical = 4
 theme = SubResource("Theme_03xsm")
 
-[node name="Label" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/VBoxContainer/PanelContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer6"]
+[node name="Label" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/CommanderContainer/CommanderPanel/HBoxContainer/VBoxContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer6"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("5_m1l0s")
 theme_override_font_sizes/font_size = 11
@@ -395,13 +417,13 @@ text = "RES"
 horizontal_alignment = 1
 clip_text = true
 
-[node name="Panel" type="PanelContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/VBoxContainer/PanelContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer6"]
+[node name="Panel" type="PanelContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/CommanderContainer/CommanderPanel/HBoxContainer/VBoxContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer6"]
 custom_minimum_size = Vector2(25, 25)
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_styles/panel = SubResource("StyleBoxFlat_3qhsn")
 
-[node name="Resistance" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/VBoxContainer/PanelContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer6/Panel"]
+[node name="Resistance" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/CommanderContainer/CommanderPanel/HBoxContainer/VBoxContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer6/Panel"]
 layout_mode = 2
 size_flags_vertical = 1
 theme_override_fonts/font = ExtResource("4_4uqtr")
@@ -410,13 +432,13 @@ text = "4"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="VBoxContainer8" type="VBoxContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/VBoxContainer/PanelContainer/HBoxContainer/PanelContainer/HBoxContainer"]
+[node name="VBoxContainer8" type="VBoxContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/CommanderContainer/CommanderPanel/HBoxContainer/VBoxContainer/HBoxContainer/PanelContainer/HBoxContainer"]
 clip_contents = true
 layout_mode = 2
 size_flags_vertical = 4
 theme = SubResource("Theme_03xsm")
 
-[node name="Label" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/VBoxContainer/PanelContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer8"]
+[node name="Label" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/CommanderContainer/CommanderPanel/HBoxContainer/VBoxContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer8"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("5_m1l0s")
 theme_override_font_sizes/font_size = 11
@@ -425,13 +447,13 @@ text = "ATT
 horizontal_alignment = 1
 clip_text = true
 
-[node name="Panel" type="PanelContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/VBoxContainer/PanelContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer8"]
+[node name="Panel" type="PanelContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/CommanderContainer/CommanderPanel/HBoxContainer/VBoxContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer8"]
 custom_minimum_size = Vector2(25, 25)
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_styles/panel = SubResource("StyleBoxFlat_3qhsn")
 
-[node name="Attacks" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/VBoxContainer/PanelContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer8/Panel"]
+[node name="Attacks" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/CommanderContainer/CommanderPanel/HBoxContainer/VBoxContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer8/Panel"]
 layout_mode = 2
 size_flags_vertical = 1
 theme_override_fonts/font = ExtResource("4_4uqtr")
@@ -440,13 +462,13 @@ text = "1"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="VBoxContainer9" type="VBoxContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/VBoxContainer/PanelContainer/HBoxContainer/PanelContainer/HBoxContainer"]
+[node name="VBoxContainer9" type="VBoxContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/CommanderContainer/CommanderPanel/HBoxContainer/VBoxContainer/HBoxContainer/PanelContainer/HBoxContainer"]
 clip_contents = true
 layout_mode = 2
 size_flags_vertical = 4
 theme = SubResource("Theme_03xsm")
 
-[node name="Label" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/VBoxContainer/PanelContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer9"]
+[node name="Label" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/CommanderContainer/CommanderPanel/HBoxContainer/VBoxContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer9"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("5_m1l0s")
 theme_override_font_sizes/font_size = 11
@@ -454,13 +476,13 @@ text = "INI"
 horizontal_alignment = 1
 clip_text = true
 
-[node name="Panel" type="PanelContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/VBoxContainer/PanelContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer9"]
+[node name="Panel" type="PanelContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/CommanderContainer/CommanderPanel/HBoxContainer/VBoxContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer9"]
 custom_minimum_size = Vector2(25, 25)
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_styles/panel = SubResource("StyleBoxFlat_3qhsn")
 
-[node name="Initiative" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/VBoxContainer/PanelContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer9/Panel"]
+[node name="Initiative" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/CommanderContainer/CommanderPanel/HBoxContainer/VBoxContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer9/Panel"]
 layout_mode = 2
 size_flags_vertical = 1
 theme_override_fonts/font = ExtResource("4_4uqtr")
@@ -469,13 +491,13 @@ text = "2"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="VBoxContainer10" type="VBoxContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/VBoxContainer/PanelContainer/HBoxContainer/PanelContainer/HBoxContainer"]
+[node name="VBoxContainer10" type="VBoxContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/CommanderContainer/CommanderPanel/HBoxContainer/VBoxContainer/HBoxContainer/PanelContainer/HBoxContainer"]
 clip_contents = true
 layout_mode = 2
 size_flags_vertical = 4
 theme = SubResource("Theme_03xsm")
 
-[node name="Label" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/VBoxContainer/PanelContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer10"]
+[node name="Label" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/CommanderContainer/CommanderPanel/HBoxContainer/VBoxContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer10"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("5_m1l0s")
 theme_override_font_sizes/font_size = 11
@@ -483,13 +505,13 @@ text = "LDS"
 horizontal_alignment = 1
 clip_text = true
 
-[node name="Panel" type="PanelContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/VBoxContainer/PanelContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer10"]
+[node name="Panel" type="PanelContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/CommanderContainer/CommanderPanel/HBoxContainer/VBoxContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer10"]
 custom_minimum_size = Vector2(25, 25)
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_styles/panel = SubResource("StyleBoxFlat_3qhsn")
 
-[node name="Leadership" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/VBoxContainer/PanelContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer10/Panel"]
+[node name="Leadership" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/CommanderContainer/CommanderPanel/HBoxContainer/VBoxContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer10/Panel"]
 layout_mode = 2
 size_flags_vertical = 1
 theme_override_fonts/font = ExtResource("4_4uqtr")
@@ -499,61 +521,37 @@ text = "9
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/VBoxContainer/PanelContainer/HBoxContainer"]
+[node name="CommandWoundsContainer" type="HBoxContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/CommanderContainer/CommanderPanel/HBoxContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
-
-[node name="Label" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer"]
-layout_mode = 2
-text = "Dwarf king"
-
-[node name="WoundsContainer" type="HBoxContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 8
+size_flags_horizontal = 10
 theme_override_constants/separation = 5
 alignment = 2
 
-[node name="TroopCount" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/WoundsContainer"]
+[node name="Wounds" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/CommanderContainer/CommanderPanel/HBoxContainer/VBoxContainer/HBoxContainer/CommandWoundsContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "5"
 vertical_alignment = 2
 
-[node name="Label" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/WoundsContainer"]
+[node name="Label" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/CommanderContainer/CommanderPanel/HBoxContainer/VBoxContainer/HBoxContainer/CommandWoundsContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 14
 text = "X"
 vertical_alignment = 2
 
-[node name="TextureRect" type="TextureRect" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/WoundsContainer"]
+[node name="TextureRect" type="TextureRect" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/CommanderContainer/CommanderPanel/HBoxContainer/VBoxContainer/HBoxContainer/CommandWoundsContainer"]
 custom_minimum_size = Vector2(3.1, 0)
 layout_mode = 2
 texture = ExtResource("4_3dbfc")
-expand_mode = 2
-stretch_mode = 4
+stretch_mode = 3
 
-[node name="TextureRect" type="TextureRect" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/WoundsContainer/TextureRect"]
+[node name="TextureRect" type="TextureRect" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CommandPanel/VBoxContainer/ScrollContainer/CommanderContainer/CommanderPanel/HBoxContainer/VBoxContainer/HBoxContainer/CommandWoundsContainer/TextureRect"]
 custom_minimum_size = Vector2(3.1, 0)
 texture = ExtResource("4_3dbfc")
 expand_mode = 2
 stretch_mode = 4
 
-[node name="HexagoNcoolorc" type="Sprite2D" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer"]
-z_index = 1
-position = Vector2(73.2079, 46.5475)
-scale = Vector2(0.18006, 0.18006)
-texture = ExtResource("4_ae8eg")
-
-[node name="SilhoutteIcon" type="TextureRect" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/HexagoNcoolorc"]
-anchors_preset = -1
-anchor_left = -0.475
-offset_left = 208.977
-offset_top = -289.193
-offset_right = 296.577
-offset_bottom = 303.807
-texture = ExtResource("5_xc26d")
-expand_mode = 1
-
-[node name="CenterContainer" type="CenterContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer"]
+[node name="UnitContainer" type="CenterContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -567,14 +565,30 @@ offset_bottom = 129.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CenterContainer"]
+[node name="HexagoNcoolorc" type="Sprite2D" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/UnitContainer"]
+z_index = 1
+position = Vector2(64.2079, 16.5475)
+scale = Vector2(0.18006, 0.18006)
+texture = ExtResource("4_ae8eg")
+
+[node name="SilhoutteIcon" type="TextureRect" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/UnitContainer/HexagoNcoolorc"]
+anchors_preset = -1
+anchor_left = -0.475
+offset_left = 208.977
+offset_top = -289.193
+offset_right = 296.577
+offset_bottom = 303.807
+texture = ExtResource("5_xc26d")
+expand_mode = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/UnitContainer"]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="NameBox" type="HBoxContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer"]
+[node name="NameBox" type="HBoxContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/UnitContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="Name" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/NameBox"]
+[node name="Name" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/UnitContainer/VBoxContainer/NameBox"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
@@ -582,52 +596,52 @@ text = "Dwarf warrior"
 label_settings = ExtResource("2_6wcfk")
 horizontal_alignment = 2
 
-[node name="TroopType" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer"]
+[node name="TroopType" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/UnitContainer/VBoxContainer"]
 layout_mode = 2
 text = "Heavy Infantry"
 horizontal_alignment = 2
 
-[node name="WoundsContainer" type="HBoxContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer"]
+[node name="WoundsContainer" type="HBoxContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/UnitContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 8
 theme_override_constants/separation = 5
 alignment = 2
 
-[node name="TroopCount" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/WoundsContainer"]
+[node name="TroopCount" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/UnitContainer/VBoxContainer/WoundsContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "20"
 vertical_alignment = 2
 
-[node name="Label" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/WoundsContainer"]
+[node name="Label" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/UnitContainer/VBoxContainer/WoundsContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 14
 text = "X"
 vertical_alignment = 2
 
-[node name="TextureRect" type="TextureRect" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/WoundsContainer"]
+[node name="TextureRect" type="TextureRect" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/UnitContainer/VBoxContainer/WoundsContainer"]
 custom_minimum_size = Vector2(3.1, 0)
 layout_mode = 2
 texture = ExtResource("4_3dbfc")
 expand_mode = 2
 stretch_mode = 4
 
-[node name="PanelContainer" type="PanelContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/UnitContainer/VBoxContainer"]
 layout_mode = 2
 theme = ExtResource("10_u38qt")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/PanelContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/UnitContainer/VBoxContainer/PanelContainer"]
 layout_mode = 2
 theme = SubResource("Theme_5oqvp")
 theme_override_constants/separation = 10
 
-[node name="VBoxContainer3" type="VBoxContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/PanelContainer/HBoxContainer"]
+[node name="VBoxContainer3" type="VBoxContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/UnitContainer/VBoxContainer/PanelContainer/HBoxContainer"]
 clip_contents = true
 layout_mode = 2
 size_flags_vertical = 4
 theme = SubResource("Theme_03xsm")
 
-[node name="Label" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer3"]
+[node name="Label" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/UnitContainer/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer3"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("5_m1l0s")
 theme_override_font_sizes/font_size = 14
@@ -635,13 +649,13 @@ text = "MOV"
 horizontal_alignment = 1
 clip_text = true
 
-[node name="Panel2" type="PanelContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer3"]
+[node name="Panel2" type="PanelContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/UnitContainer/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer3"]
 custom_minimum_size = Vector2(45, 45)
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_styles/panel = SubResource("StyleBoxFlat_3qhsn")
 
-[node name="Movement" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer3/Panel2"]
+[node name="Movement" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/UnitContainer/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer3/Panel2"]
 layout_mode = 2
 size_flags_vertical = 1
 theme_override_fonts/font = ExtResource("4_4uqtr")
@@ -650,13 +664,13 @@ text = "3"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/PanelContainer/HBoxContainer"]
+[node name="VBoxContainer2" type="VBoxContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/UnitContainer/VBoxContainer/PanelContainer/HBoxContainer"]
 clip_contents = true
 layout_mode = 2
 size_flags_vertical = 4
 theme = SubResource("Theme_03xsm")
 
-[node name="Label" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer2"]
+[node name="Label" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/UnitContainer/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer2"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("5_m1l0s")
 theme_override_font_sizes/font_size = 14
@@ -665,13 +679,13 @@ text = "DEX
 horizontal_alignment = 1
 clip_text = true
 
-[node name="Panel" type="PanelContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer2"]
+[node name="Panel" type="PanelContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/UnitContainer/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer2"]
 custom_minimum_size = Vector2(45, 45)
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_styles/panel = SubResource("StyleBoxFlat_3qhsn")
 
-[node name="Dexterity" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer2/Panel"]
+[node name="Dexterity" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/UnitContainer/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer2/Panel"]
 layout_mode = 2
 size_flags_vertical = 1
 theme_override_fonts/font = ExtResource("4_4uqtr")
@@ -680,13 +694,13 @@ text = "4"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="VBoxContainer4" type="VBoxContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/PanelContainer/HBoxContainer"]
+[node name="VBoxContainer4" type="VBoxContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/UnitContainer/VBoxContainer/PanelContainer/HBoxContainer"]
 clip_contents = true
 layout_mode = 2
 size_flags_vertical = 4
 theme = SubResource("Theme_03xsm")
 
-[node name="Label" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer4"]
+[node name="Label" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/UnitContainer/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer4"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("5_m1l0s")
 theme_override_font_sizes/font_size = 14
@@ -695,13 +709,13 @@ text = "SHOOT
 horizontal_alignment = 1
 clip_text = true
 
-[node name="Panel" type="PanelContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer4"]
+[node name="Panel" type="PanelContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/UnitContainer/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer4"]
 custom_minimum_size = Vector2(45, 45)
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_styles/panel = SubResource("StyleBoxFlat_3qhsn")
 
-[node name="Shoot" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer4/Panel"]
+[node name="Shoot" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/UnitContainer/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer4/Panel"]
 layout_mode = 2
 size_flags_vertical = 1
 theme_override_fonts/font = ExtResource("4_4uqtr")
@@ -710,13 +724,13 @@ text = "3"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="VBoxContainer5" type="VBoxContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/PanelContainer/HBoxContainer"]
+[node name="VBoxContainer5" type="VBoxContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/UnitContainer/VBoxContainer/PanelContainer/HBoxContainer"]
 clip_contents = true
 layout_mode = 2
 size_flags_vertical = 4
 theme = SubResource("Theme_03xsm")
 
-[node name="Label2" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer5"]
+[node name="Label2" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/UnitContainer/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer5"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("5_m1l0s")
 theme_override_font_sizes/font_size = 14
@@ -724,13 +738,13 @@ text = "STR"
 horizontal_alignment = 1
 clip_text = true
 
-[node name="Panel" type="PanelContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer5"]
+[node name="Panel" type="PanelContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/UnitContainer/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer5"]
 custom_minimum_size = Vector2(45, 45)
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_styles/panel = SubResource("StyleBoxFlat_3qhsn")
 
-[node name="Strength" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer5/Panel"]
+[node name="Strength" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/UnitContainer/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer5/Panel"]
 layout_mode = 2
 size_flags_vertical = 1
 theme_override_fonts/font = ExtResource("4_4uqtr")
@@ -739,13 +753,13 @@ text = "3"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="VBoxContainer6" type="VBoxContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/PanelContainer/HBoxContainer"]
+[node name="VBoxContainer6" type="VBoxContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/UnitContainer/VBoxContainer/PanelContainer/HBoxContainer"]
 clip_contents = true
 layout_mode = 2
 size_flags_vertical = 4
 theme = SubResource("Theme_03xsm")
 
-[node name="Label" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer6"]
+[node name="Label" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/UnitContainer/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer6"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("5_m1l0s")
 theme_override_font_sizes/font_size = 14
@@ -753,13 +767,13 @@ text = "RES"
 horizontal_alignment = 1
 clip_text = true
 
-[node name="Panel" type="PanelContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer6"]
+[node name="Panel" type="PanelContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/UnitContainer/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer6"]
 custom_minimum_size = Vector2(45, 45)
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_styles/panel = SubResource("StyleBoxFlat_3qhsn")
 
-[node name="Resistance" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer6/Panel"]
+[node name="Resistance" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/UnitContainer/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer6/Panel"]
 layout_mode = 2
 size_flags_vertical = 1
 theme_override_fonts/font = ExtResource("4_4uqtr")
@@ -768,13 +782,13 @@ text = "4"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="VBoxContainer8" type="VBoxContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/PanelContainer/HBoxContainer"]
+[node name="VBoxContainer8" type="VBoxContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/UnitContainer/VBoxContainer/PanelContainer/HBoxContainer"]
 clip_contents = true
 layout_mode = 2
 size_flags_vertical = 4
 theme = SubResource("Theme_03xsm")
 
-[node name="Label" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer8"]
+[node name="Label" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/UnitContainer/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer8"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("5_m1l0s")
 theme_override_font_sizes/font_size = 14
@@ -783,13 +797,13 @@ text = "ATT
 horizontal_alignment = 1
 clip_text = true
 
-[node name="Panel" type="PanelContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer8"]
+[node name="Panel" type="PanelContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/UnitContainer/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer8"]
 custom_minimum_size = Vector2(45, 45)
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_styles/panel = SubResource("StyleBoxFlat_3qhsn")
 
-[node name="Attacks" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer8/Panel"]
+[node name="Attacks" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/UnitContainer/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer8/Panel"]
 layout_mode = 2
 size_flags_vertical = 1
 theme_override_fonts/font = ExtResource("4_4uqtr")
@@ -798,13 +812,13 @@ text = "1"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="VBoxContainer9" type="VBoxContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/PanelContainer/HBoxContainer"]
+[node name="VBoxContainer9" type="VBoxContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/UnitContainer/VBoxContainer/PanelContainer/HBoxContainer"]
 clip_contents = true
 layout_mode = 2
 size_flags_vertical = 4
 theme = SubResource("Theme_03xsm")
 
-[node name="Label" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer9"]
+[node name="Label" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/UnitContainer/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer9"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("5_m1l0s")
 theme_override_font_sizes/font_size = 14
@@ -812,13 +826,13 @@ text = "INI"
 horizontal_alignment = 1
 clip_text = true
 
-[node name="Panel" type="PanelContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer9"]
+[node name="Panel" type="PanelContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/UnitContainer/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer9"]
 custom_minimum_size = Vector2(45, 45)
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_styles/panel = SubResource("StyleBoxFlat_3qhsn")
 
-[node name="Initiative" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer9/Panel"]
+[node name="Initiative" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/UnitContainer/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer9/Panel"]
 layout_mode = 2
 size_flags_vertical = 1
 theme_override_fonts/font = ExtResource("4_4uqtr")
@@ -827,13 +841,13 @@ text = "2"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="VBoxContainer10" type="VBoxContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/PanelContainer/HBoxContainer"]
+[node name="VBoxContainer10" type="VBoxContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/UnitContainer/VBoxContainer/PanelContainer/HBoxContainer"]
 clip_contents = true
 layout_mode = 2
 size_flags_vertical = 4
 theme = SubResource("Theme_03xsm")
 
-[node name="Label" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer10"]
+[node name="Label" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/UnitContainer/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer10"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("5_m1l0s")
 theme_override_font_sizes/font_size = 14
@@ -841,13 +855,13 @@ text = "LDS"
 horizontal_alignment = 1
 clip_text = true
 
-[node name="Panel" type="PanelContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer10"]
+[node name="Panel" type="PanelContainer" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/UnitContainer/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer10"]
 custom_minimum_size = Vector2(45, 45)
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_styles/panel = SubResource("StyleBoxFlat_3qhsn")
 
-[node name="Leadership" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/CenterContainer/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer10/Panel"]
+[node name="Leadership" type="Label" parent="CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer/UnitContainer/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer10/Panel"]
 layout_mode = 2
 size_flags_vertical = 1
 theme_override_fonts/font = ExtResource("4_4uqtr")

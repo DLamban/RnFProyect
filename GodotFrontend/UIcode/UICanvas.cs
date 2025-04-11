@@ -19,21 +19,21 @@ public partial class UICanvas : CanvasLayer
 	
 	public override void _Ready()
 	{		
-		hBoxesValuesPlayer = new List<Node>();
-		Panel charpanelplayer = GetNode<Panel>("CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer");
-		Panel charpanelenemy = GetNode<Panel>("CanvasGroup/AnchorProvider/CharacteristicsPanelEnemy");
-		string pathhboxvalues = "CenterContainer/VBoxContainer";
-		hBoxesValuesPlayer = charpanelplayer.GetNode<VBoxContainer>(pathhboxvalues).GetChildren().ToList().FindAll(node => node.GetType() == typeof(HBoxContainer));
-		hBoxesValuesEnemy = charpanelenemy.GetNode<VBoxContainer>(pathhboxvalues).GetChildren().ToList().FindAll(node => node.GetType() == typeof(HBoxContainer));
+		//hBoxesValuesPlayer = new List<Node>();
+		//Panel charpanelplayer = GetNode<Panel>("CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer");
+		//Panel charpanelenemy = GetNode<Panel>("CanvasGroup/AnchorProvider/CharacteristicsPanelEnemy");
+		//string pathhboxvalues = "CenterContainer/VBoxContainer";
+		//hBoxesValuesPlayer = charpanelplayer.GetNode<VBoxContainer>(pathhboxvalues).GetChildren().ToList().FindAll(node => node.GetType() == typeof(HBoxContainer));
+		//hBoxesValuesEnemy = charpanelenemy.GetNode<VBoxContainer>(pathhboxvalues).GetChildren().ToList().FindAll(node => node.GetType() == typeof(HBoxContainer));
 
-		foreach (Node node in hBoxesValuesPlayer)
-		{
-			charValuesPlayer[node.GetChild(0).ToString()] = (Label)node.GetChild(1);
-		}
-		foreach (Node node in hBoxesValuesEnemy)
-		{
-			charValuesEnemy[node.GetChild(0).ToString()] = (Label)node.GetChild(1);
-		}
+		//foreach (Node node in hBoxesValuesPlayer)
+		//{
+		//	charValuesPlayer[node.GetChild(0).ToString()] = (Label)node.GetChild(1);
+		//}
+		//foreach (Node node in hBoxesValuesEnemy)
+		//{
+		//	charValuesEnemy[node.GetChild(0).ToString()] = (Label)node.GetChild(1);
+		//}
 
 
 		// DICE TRAY

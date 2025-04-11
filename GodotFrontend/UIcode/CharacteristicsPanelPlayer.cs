@@ -1,8 +1,10 @@
+
 using Core.Units;
 using Godot;
 using GodotFrontend.code.Input;
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 public partial class CharacteristicsPanelPlayer : Panel
 {
@@ -10,7 +12,7 @@ public partial class CharacteristicsPanelPlayer : Panel
 	private Label nameLabel;
 	private Label troopTypeLabel;
 	private Label troopCountLabel;
-
+	private CenterContainer unitContainer;
 	private Label movementLabel;
 	private Label dexterityLabel;
 	private Label shootLabel;    
@@ -20,28 +22,43 @@ public partial class CharacteristicsPanelPlayer : Panel
 	private Label attacksLabel;
 	private Label leadershipLabel;
 	private TextureRect silhouetteIcon;
+	// COMMANDER STATS
+	private Label commandLabelName;
+	private Label commandWounds;
+
+	private Panel commandPanel;
+	private VBoxContainer commanderContainer;
+	private Panel commanderPanel;
+	private TextureRect commanderIcon;
 	private Dictionary<string, Texture2D> silhouettes;
 	InputManager inputManager;
 
 	public override async void _Ready()
 	{
-		nameLabel = (Label)FindChild("Name");
-		troopCountLabel = (Label)FindChild("TroopCount");
-		troopTypeLabel = (Label)FindChild("TroopType");
 
-		movementLabel = (Label)FindChild("Movement");
-		dexterityLabel = (Label)FindChild("Dexterity");
-		shootLabel = (Label)FindChild("Shoot");
-		strengthLabel = (Label)FindChild("Strength");
-		resistanceLabel = (Label)FindChild("Resistance");
-		initiativeLabel = (Label)FindChild("Initiative");
-		attacksLabel = (Label)FindChild("Attacks");
-		leadershipLabel = (Label)FindChild("Leadership");
+		/// UNIT STATS
+		unitContainer = (CenterContainer)FindChild("UnitContainer");
+		nameLabel = (Label)unitContainer.FindChild("Name");
+		troopCountLabel = (Label)unitContainer.FindChild("TroopCount");
+		troopTypeLabel = (Label)unitContainer.FindChild("TroopType");
+		movementLabel = (Label)unitContainer.FindChild("Movement");
+		dexterityLabel = (Label)unitContainer.FindChild("Dexterity");
+		shootLabel = (Label)unitContainer.FindChild("Shoot");
+		strengthLabel = (Label)unitContainer.FindChild("Strength");
+		resistanceLabel = (Label)unitContainer.FindChild("Resistance");
+		initiativeLabel = (Label)unitContainer.FindChild("Initiative");
+		attacksLabel = (Label)unitContainer.FindChild("Attacks");
+		leadershipLabel = (Label)unitContainer.FindChild("Leadership");
 		//UpdateCharacteristics(UnitsClientManager.Instance.findUnitByName("Goblins"));
-		silhouetteIcon = (TextureRect)FindChild("SilhoutteIcon");
+		silhouetteIcon = (TextureRect)unitContainer.FindChild("SilhoutteIcon");
 		silhouettes = loadSilhouttes();
-
-		inputManager = GetTree().CurrentScene.GetNode<Node3D>("Battlefield") as InputManager;		
+		// COMMANDER STATS
+		commandPanel = (Panel)FindChild("CommandPanel");
+		commanderContainer = (VBoxContainer)FindChild("CommanderContainer");
+		commanderPanel = (Panel)FindChild("CommanderPanel");
+		commandLabelName = (Label)commanderContainer.FindChild("Name");
+		commanderIcon = (TextureRect)commanderContainer.FindChild("CommandSilhoutteIcon");
+        inputManager = GetTree().CurrentScene.GetNode<Node3D>("Battlefield") as InputManager;		
 		await ToSignal(inputManager, SignalName.Ready);
 		inputManager.OnHoverUnit += UpdateCharacteristics;
 		
@@ -101,42 +118,77 @@ public partial class CharacteristicsPanelPlayer : Panel
 		initiativeLabel.Text = baseUnit.Troop.Initiative.ToString();
 		attacksLabel.Text = baseUnit.Troop.Attacks.ToString();
 		leadershipLabel.Text = baseUnit.Troop.Leadership.ToString();
-		updateSilhoutte(baseUnit);
+		updateCommandGroup(baseUnit);
+		updateSilhoutte(baseUnit, silhouetteIcon);
 
 	}
-	private void updateSilhoutte(BaseUnit unit)
+	private void updateCommandGroup(BaseUnit unit)
 	{
-		// MAGIC Strings, TODO: use enums. I'm pretty sure this is gonna last a long time
 		
-		switch (unit.Name.ToLower())
+		if (unit.Troops.FindAll(troop => troop is Character).Count > 0 && unit.Troops.Count>1) {
+			commandPanel.Visible = true;
+			Character testChar = (Character)unit.Troops.Find(troop => troop is Character);
+
+			commandLabelName.Text = testChar.Name;
+            updateSilhoutte(testChar.Name, commanderIcon);
+        }
+		else
 		{
-			case "heavy orcs":
-				silhouetteIcon.Texture = silhouettes["armored_orc"];
-				break;
-			case "gyrocopter":
-				silhouetteIcon.Texture = silhouettes["gyrocopter"];
-				break;
-			case "goblins":
-				silhouetteIcon.Texture = silhouettes["goblin"];
-				break;
-			case "dwarf warriors":
-				silhouetteIcon.Texture = silhouettes["dwarf_warrior"];
-				break;
-			case "slayers":
-				silhouetteIcon.Texture = silhouettes["slayer"];
-				break;
-			case "king dwarf on shield":
-				silhouetteIcon.Texture = silhouettes["king"];
-				break;
-			case "elder dwarfs":
-				silhouetteIcon.Texture = silhouettes["elder_dwarf"];
-				break;
-			case "boar riders":
-				silhouetteIcon.Texture = silhouettes["orc_boar"];
-				break;
-			default:
-				silhouetteIcon.Texture = silhouettes["missing"];
-				break;
+			commandPanel.Visible = false;
 		}
 	}
+	private void addCharacterToCommandGroup()
+	{
+
+	}
+	
+
+    private void updateSilhoutte(BaseUnit unit, TextureRect iconToChange)
+	{
+		updateSilhoutte(unit.Name, iconToChange);
+    }
+    private void updateSilhoutte(string name, TextureRect iconToChange)
+    {
+        // MAGIC Strings, TODO: use enums. I'm pretty sure this is gonna last a long time
+        
+        switch (name.ToLower())
+        {
+            case "heavy orcs":
+                iconToChange.Texture = silhouettes["armored_orc"];
+                break;
+            case "gyrocopter":
+                iconToChange.Texture = silhouettes["gyrocopter"];
+                break;
+            case "goblins":
+                iconToChange.Texture = silhouettes["goblin"];
+                break;
+            case "dwarf warriors":
+                iconToChange.Texture = silhouettes["dwarf_warrior"];
+                break;
+            case "slayers":
+                iconToChange.Texture = silhouettes["slayer"];
+                break;
+            case "king dwarf on shield":
+                iconToChange.Texture = silhouettes["king"];
+                break;
+			case "king dwarf":
+                iconToChange.Texture = silhouettes["king"];
+                break;
+            case "elder dwarfs":
+                iconToChange.Texture = silhouettes["elder_dwarf"];
+                break;
+            case "boar riders":
+                iconToChange.Texture = silhouettes["orc_boar"];
+                break;
+			case "warlord black orc":
+                iconToChange.Texture = silhouettes["orcboss"];
+                break;
+			case "goblin wizard":
+                iconToChange.Texture = silhouettes["goblin_wizard"];
+                break;
+            default:
+                iconToChange.Texture = silhouettes["missing"];
+                break;
+        }
+    }
 }
