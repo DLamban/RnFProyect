@@ -8,6 +8,8 @@ using System.Runtime.CompilerServices;
 
 public partial class CharacteristicsPanelPlayer : Panel
 {
+	[Export]
+	public string statsOwner = "default";
 	// Called when the node enters the scene tree for the first time.
 	private Label nameLabel;
 	private Label troopTypeLabel;
@@ -58,7 +60,7 @@ public partial class CharacteristicsPanelPlayer : Panel
 		commanderPanel = (Panel)FindChild("CommanderPanel");
 		commandLabelName = (Label)commanderContainer.FindChild("Name");
 		commanderIcon = (TextureRect)commanderContainer.FindChild("CommandSilhoutteIcon");
-        inputManager = GetTree().CurrentScene.GetNode<Node3D>("Battlefield") as InputManager;		
+		inputManager = GetTree().CurrentScene.GetNode<Node3D>("Battlefield") as InputManager;		
 		await ToSignal(inputManager, SignalName.Ready);
 		inputManager.OnHoverUnit += UpdateCharacteristics;
 		
@@ -103,8 +105,17 @@ public partial class CharacteristicsPanelPlayer : Panel
 
 		return silhouettes;
 	}
-	public void UpdateCharacteristics(BaseUnit baseUnit)
+	public void hidePanel()
+    {
+        this.Visible = false;
+    }
+    public void showPanel()
+    {
+        this.Visible = true;
+    }
+    public void UpdateCharacteristics(BaseUnit baseUnit, string unitowner)
 	{
+		if (unitowner != statsOwner) return;
 		// name
 		nameLabel.Text = baseUnit.Name;
 		troopCountLabel.Text = baseUnit.UnitCount.ToString();
@@ -130,8 +141,8 @@ public partial class CharacteristicsPanelPlayer : Panel
 			Character testChar = (Character)unit.Troops.Find(troop => troop is Character);
 
 			commandLabelName.Text = testChar.Name;
-            updateSilhoutte(testChar.Name, commanderIcon);
-        }
+			updateSilhoutte(testChar.Name, commanderIcon);
+		}
 		else
 		{
 			commandPanel.Visible = false;
@@ -143,52 +154,52 @@ public partial class CharacteristicsPanelPlayer : Panel
 	}
 	
 
-    private void updateSilhoutte(BaseUnit unit, TextureRect iconToChange)
+	private void updateSilhoutte(BaseUnit unit, TextureRect iconToChange)
 	{
 		updateSilhoutte(unit.Name, iconToChange);
-    }
-    private void updateSilhoutte(string name, TextureRect iconToChange)
-    {
-        // MAGIC Strings, TODO: use enums. I'm pretty sure this is gonna last a long time
-        
-        switch (name.ToLower())
-        {
-            case "heavy orcs":
-                iconToChange.Texture = silhouettes["armored_orc"];
-                break;
-            case "gyrocopter":
-                iconToChange.Texture = silhouettes["gyrocopter"];
-                break;
-            case "goblins":
-                iconToChange.Texture = silhouettes["goblin"];
-                break;
-            case "dwarf warriors":
-                iconToChange.Texture = silhouettes["dwarf_warrior"];
-                break;
-            case "slayers":
-                iconToChange.Texture = silhouettes["slayer"];
-                break;
-            case "king dwarf on shield":
-                iconToChange.Texture = silhouettes["king"];
-                break;
+	}
+	private void updateSilhoutte(string name, TextureRect iconToChange)
+	{
+		// MAGIC Strings, TODO: use enums. I'm pretty sure this is gonna last a long time
+		
+		switch (name.ToLower())
+		{
+			case "heavy orcs":
+				iconToChange.Texture = silhouettes["armored_orc"];
+				break;
+			case "gyrocopter":
+				iconToChange.Texture = silhouettes["gyrocopter"];
+				break;
+			case "goblins":
+				iconToChange.Texture = silhouettes["goblin"];
+				break;
+			case "dwarf warriors":
+				iconToChange.Texture = silhouettes["dwarf_warrior"];
+				break;
+			case "slayers":
+				iconToChange.Texture = silhouettes["slayer"];
+				break;
+			case "king dwarf on shield":
+				iconToChange.Texture = silhouettes["king"];
+				break;
 			case "king dwarf":
-                iconToChange.Texture = silhouettes["king"];
-                break;
-            case "elder dwarfs":
-                iconToChange.Texture = silhouettes["elder_dwarf"];
-                break;
-            case "boar riders":
-                iconToChange.Texture = silhouettes["orc_boar"];
-                break;
+				iconToChange.Texture = silhouettes["king"];
+				break;
+			case "elder dwarfs":
+				iconToChange.Texture = silhouettes["elder_dwarf"];
+				break;
+			case "boar riders":
+				iconToChange.Texture = silhouettes["orc_boar"];
+				break;
 			case "warlord black orc":
-                iconToChange.Texture = silhouettes["orcboss"];
-                break;
+				iconToChange.Texture = silhouettes["orcboss"];
+				break;
 			case "goblin wizard":
-                iconToChange.Texture = silhouettes["goblin_wizard"];
-                break;
-            default:
-                iconToChange.Texture = silhouettes["missing"];
-                break;
-        }
-    }
+				iconToChange.Texture = silhouettes["goblin_wizard"];
+				break;
+			default:
+				iconToChange.Texture = silhouettes["missing"];
+				break;
+		}
+	}
 }

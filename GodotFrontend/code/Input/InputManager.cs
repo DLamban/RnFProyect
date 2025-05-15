@@ -56,7 +56,7 @@ namespace GodotFrontend.code.Input
         public delegate Vector3? BattlefieldCursorPosDel();
 		BattlefieldCursorPosDel getBattlefieldCursorPosDel;
 		UnitRenderCreator unitRenderCreator;
-        public event Action<BaseUnit> OnHoverUnit;
+        public event Action<BaseUnit,string> OnHoverUnit;// string defines the owner of the unit, player or enemy
         public override void _Ready()
 		{
         //    PlayerInfoSingleton.Instance.battleStateManager.OnBattleStateChanged += OnBattleStateChanged;
@@ -215,7 +215,9 @@ namespace GodotFrontend.code.Input
         }
 		public void HoveringUnit(UnitGodot unitGodot)
 		{
-			OnHoverUnit?.Invoke(unitGodot.coreUnit);
+            //check if is player or enemy unit
+            string unitowner = UnitsClientManager.Instance.isCurrentPlayerUnit(unitGodot.coreUnit.Guid)?"Player":"Enemy";
+            OnHoverUnit?.Invoke(unitGodot.coreUnit,unitowner);
             Debug.WriteLine("hovering unit");
         }
 		private Vector3? getBattlefieldCursorPos()

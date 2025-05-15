@@ -7,6 +7,7 @@
 -- CARGA DE LISTAS
 -- CREADOR DE LISTAS
 -- ONLINE
+-- DIPLOMACY IS NOT AN OPTION ARTSTYLE!!!
 
 **********************
 ***** EN PROGRESO ****
@@ -18,3 +19,5 @@
 ********** HECHO ********************
 *************************************
 -- Añadir controles de camara
+
+

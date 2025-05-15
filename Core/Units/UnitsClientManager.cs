@@ -103,6 +103,20 @@ namespace Core.Units
             unitsEnemy.Remove(unitGuid.ToString());
         }
         /// <summary>
+        /// TODO: Need to check for turn, 
+        /// </summary>
+        /// <param name="unitGuid"></param>
+        /// <returns></returns>
+        public bool isCurrentPlayerUnit(Guid unitGuid)
+        {
+            if (unitsPlayer.ContainsKey(unitGuid.ToString()))
+            {
+                return true;
+            }
+            return false;
+        }
+        
+        /// <summary>
         /// Beware of hotseat
         /// </summary>
         /// <returns></returns>
