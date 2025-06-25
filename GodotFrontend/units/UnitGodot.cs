@@ -16,6 +16,8 @@ using Core.Networking;
 using Core.GameLoop;
 using GodotFrontend.units.Animation;
 using GodotFrontend.code.Input;
+using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
 public partial class UnitGodot : Node3D
 {
 	private class ColumnAdvance
@@ -201,9 +203,21 @@ public partial class UnitGodot : Node3D
 			troopNodes.Remove(item);
 		}
         //reorder the troopnodes array after removing elements. don't know why?!
-        troopNodes = troopNodes.OrderByDescending(troop => troop.Position.Y).ThenBy(troop => troop.Position.X).ToList();
+        troopNodes = troopNodes.OrderByDescending(troop => MathF.Round(troop.Position.Y, 4)).ThenBy(troop => MathF.Round(troop.Position.X, 4)).ToList();
+
         ReformAfterCombat(baseTroopsTodieIndexes);
 	}
+	private Dictionary<(int,int), int> getXYorderedTroops()
+	{
+		Dictionary<(int, int), int> xyOrderedTroops = new Dictionary<(int, int), int>();
+        foreach (var troop in troopNodes)
+		{
+            int realpositioninformationy = -1 * (int)Math.Floor(troop.Position.Y / offsetTroop.Y);
+            int realpositioninformationx = (int)Math.Floor(troop.Position.X / offsetTroop.X);
+			xyOrderedTroops.Add((realpositioninformationy, realpositioninformationx), troopNodes.IndexOf(troop));
+        }
+        return xyOrderedTroops;
+    }
     /// <summary>
     /// Reform Now needs to take care of Front characters, i have been delaying this for too long
     /// </summary>
@@ -230,6 +244,7 @@ public partial class UnitGodot : Node3D
         }
         Tween tween = CreateTween();
         int startColumnDeath = baseTroopsTodieIndexes[0];
+        Dictionary<(int, int), float> ymovedebug = new();
         foreach (var kvp in columnsToAdvance.Where(entry => entry.Value > 0))
         {
             for (int i = 0; i < troopNodes.Count; i++)
@@ -245,10 +260,16 @@ public partial class UnitGodot : Node3D
                 {
 
                     Node3D node = troopNodes[i];
-                    //int realpositioninformation = (int)Math.Floor(node.Position.Y / offsetTroop.Y) * coreUnit.TroopsWidth * -1 + (int)Math.Floor(node.Position.X / offsetTroop.X);
+					int realpositioninformationy =  -1* (int)Math.Floor(node.Position.Y / offsetTroop.Y);
+					int realpositioninformationx = (int)Math.Floor(node.Position.X / offsetTroop.X);
+					if (realpositioninformationx == 1)
+					{
+						var test = 0;
+					}
                     // MOVE TO FRONT
                     float Ymove = (offsetTroop.Y) * kvp.Value;
                     Vector3 targetPos = node.Position + new Vector3(0, Ymove, 0);
+                    ymovedebug.Add((realpositioninformationx, realpositioninformationy), targetPos.Y);
 
                     tween.SetParallel();
                     tween.TweenProperty(node, "position", targetPos, 1.0f).SetTrans(Tween.TransitionType.Quint);
@@ -285,7 +306,7 @@ public partial class UnitGodot : Node3D
         if (desiredRanksCount == 1) return; //happy code return
 
         // We had to reorganize the list because the troops got disordered
-        troopNodes = troopNodes.OrderByDescending(troop => troop.Position.Y).ThenBy(troop => troop.Position.X).ToList();
+        troopNodes = troopNodes.OrderByDescending(troop => MathF.Round(troop.Position.Y, 4)).ThenBy(troop => MathF.Round(troop.Position.X, 4)).ToList();
 
         List<IGrouping<float, Node3D>> ranksGroupsByPosition = troopNodes.GroupBy(troop => (float)Math.Round(troop.Position.Y, 2)).ToList(); // FP precision error
         int actualRanksCount = ranksGroupsByPosition.Count();
@@ -343,7 +364,7 @@ public partial class UnitGodot : Node3D
 
         }
         //reorder the troopnodes array
-        troopNodes = troopNodes.OrderByDescending(troop => troop.Position.Y).ThenBy(troop => troop.Position.X).ToList();
+        troopNodes = troopNodes.OrderByDescending(troop => MathF.Round(troop.Position.Y, 4)).ThenBy(troop => MathF.Round(troop.Position.X, 4)).ToList();
     }
     private void createColliderForInput(InputManager inputManager)
 	{

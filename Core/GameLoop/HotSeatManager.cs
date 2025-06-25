@@ -38,6 +38,17 @@ namespace Core.GameLoop
 
             currentPlayer = PlayerSpotEnum.PLAYER1;
         }
+        public void endTurn()
+        {
+            if (currentPlayer == PlayerSpotEnum.PLAYER1)
+            {
+                currentPlayer = PlayerSpotEnum.PLAYER2;
+            }
+            else
+            {
+                currentPlayer = PlayerSpotEnum.PLAYER1;
+            }
+        }
         public void changeCurrentPlayer(PlayerSpotEnum playerSpot)
         {
             currentPlayer = playerSpot;

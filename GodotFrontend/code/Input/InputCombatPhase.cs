@@ -56,6 +56,7 @@ namespace GodotFrontend.code.Input
         internal void finishCombatSubphase(UnitRenderCreator unitRenderCreator)
         {
             unitRenderCreator.enableTroops();
+            //END TURN
         }
     }
 }

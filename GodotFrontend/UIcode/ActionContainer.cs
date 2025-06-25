@@ -133,7 +133,12 @@ public partial class ActionContainer : Panel
 
                 }                    
 				break;
-			default:
+			case SubBattleStatePhase.combat:
+				// END TURN
+				HotSeatManager.Instance.endTurn();
+                PlayerInfoSingleton.Instance.battleStateManager.passNextSubState();
+                break;
+            default:
 				PlayerInfoSingleton.Instance.battleStateManager.passNextSubState();
 				changeIcon();
                 break;
@@ -185,30 +190,35 @@ public partial class ActionContainer : Panel
 	{
 		inputPhaseLabel.Text = "Strategic Phase";
 		subPhaseLabel.Text = "Strategic";
-		activateStrategicActions();
+		endSubPhaseButton.TooltipText = "End strategic phase";
+        activateStrategicActions();
 	}
 	private void enterChargePhase()
 	{
         inputPhaseLabel.Text = "Charge subphase";
 		subPhaseLabel.Text = "declare charges";
-		activateChargeActions();
+        endSubPhaseButton.TooltipText = "End charge phase";
+        activateChargeActions();
 	}
 	private void enterMovePhase()
 	{
 		inputPhaseLabel.Text = "Move Phase";
 		subPhaseLabel.Text = "Move troops";
-		activateChargeActions();
+        endSubPhaseButton.TooltipText = "End move phase";
+        activateChargeActions();
 	}
 	private void enterShootingPhase()
 	{
 		inputPhaseLabel.Text = "Shooting Phase";
 		subPhaseLabel.Text = "select shooter";
-		activateShootingActions();
+        endSubPhaseButton.TooltipText = "End shooting phase";
+        activateShootingActions();
     }
     private void enterCombatPhase()
     {
         inputPhaseLabel.Text = "Combat Phase";
         subPhaseLabel.Text = "select unit";
+        endSubPhaseButton.TooltipText = "Next turn";
         activateCombatActions();
     }
     private void disableActions()
@@ -291,10 +301,11 @@ public partial class ActionContainer : Panel
 		};
 		strategicActions.Add(new ActionGeneric("Spells", actionSpells));
 		strategicActions.Add(new ActionGeneric("Rally troops", () => { }));
-   //     strategicActions.Add(new ActionGeneric("Kill orcs(test)", () => {
-			//UnitsClientManager.Instance.findUnitByName("Orcs").ApplyWoundUnit(1);
-   //     }));
-        return createActions(strategicActions);
+		strategicActions.Add(new ActionGeneric("Kill orcs(test)", () =>
+		{
+			UnitsClientManager.Instance.findUnitByName("Orcs").ApplyWoundUnit(1);
+		}));
+		return createActions(strategicActions);
 
 	}
 

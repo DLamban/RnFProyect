@@ -106,14 +106,14 @@ public partial class CharacteristicsPanelPlayer : Panel
 		return silhouettes;
 	}
 	public void hidePanel()
-    {
-        this.Visible = false;
-    }
-    public void showPanel()
-    {
-        this.Visible = true;
-    }
-    public void UpdateCharacteristics(BaseUnit baseUnit, string unitowner)
+	{
+		this.Visible = false;
+	}
+	public void showPanel()
+	{
+		this.Visible = true;
+	}
+	public void UpdateCharacteristics(BaseUnit baseUnit, string unitowner)
 	{
 		if (unitowner != statsOwner) return;
 		// name
