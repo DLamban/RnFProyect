@@ -1,6 +1,6 @@
 [gd_resource type="ShaderMaterial" load_steps=8 format=3 uid="uid://duj0gb6gya46f"]
 
-[ext_resource type="Shader" path="res://assets/3d/grass/grass_blade_normals.gdshader" id="1_lsli4"]
+[ext_resource type="Shader" path="res://assets/3d/grass/grass_blade_normals-upgrade.gdshader" id="1_6as52"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_w1xsp"]
 
@@ -24,15 +24,15 @@ noise = SubResource("FastNoiseLite_mlof2")
 
 [resource]
 render_priority = 0
-shader = ExtResource("1_lsli4")
+shader = ExtResource("1_6as52")
 shader_parameter/tip_color = Color(0, 0.526792, 0, 1)
-shader_parameter/base_color = Color(1.56425e-07, 0.196067, 1.68458e-07, 1)
-shader_parameter/fake_ambient_oclusion = Color(4.88828e-08, 0.125881, 2.40654e-08, 1)
+shader_parameter/base_color = Color(4.06103e-08, 0.0389941, 9.02452e-09, 1)
+shader_parameter/fake_ambient_oclusion = Color(0, 0.0510198, 0, 1)
 shader_parameter/burning_tip_color = Color(0.564706, 0, 0, 1)
 shader_parameter/burning_tip_color2 = Color(0.708431, 0.691836, 1.15514e-06, 1)
 shader_parameter/burned_color = Color(0.0499541, 0.0192068, 3.00817e-09, 1)
 shader_parameter/mesh_size = Vector2(15.24, 11.76)
-shader_parameter/displacement_force = 0.18
+shader_parameter/displacement_force = 0.05
 shader_parameter/noise = SubResource("NoiseTexture2D_lvqql")
 shader_parameter/height_variance_tex = SubResource("NoiseTexture2D_ked7x")
 shader_parameter/data_texture = SubResource("NoiseTexture2D_3cvfu")
