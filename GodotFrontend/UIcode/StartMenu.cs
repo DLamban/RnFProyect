@@ -18,7 +18,7 @@ public partial class StartMenu : Control
 	}
 	private void ConnectPlayer(string player)
 	{        
-		ConnectToServer.Connect(player);
+		//ConnectToServer.Connect(player);
 		PackedScene combatScene = (PackedScene)ResourceLoader.Load("res://battlefield.tscn");
 		GetTree().ChangeSceneToPacked(combatScene);
 	}

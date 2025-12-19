@@ -1,0 +1,135 @@
+[gd_scene load_steps=8 format=3 uid="uid://pn1qjfuag8cl"]
+
+[ext_resource type="Script" path="res://UIcode/Home.cs" id="1_rg8g4"]
+[ext_resource type="Texture2D" uid="uid://cryxtfyvpnt4o" path="res://assets/UI/shield-icon-main.png" id="1_uahlq"]
+[ext_resource type="Theme" uid="uid://bk5xexpak07ax" path="res://assets/charplayerstatstheme.tres" id="2_w36om"]
+[ext_resource type="FontFile" uid="uid://vtcjtdfu4eef" path="res://assets/UI/fonts/Tintagel.otf" id="2_ygx6h"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sd58e"]
+bg_color = Color(0, 0.0196078, 0.0509804, 0.65098)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.905882, 0.698039, 0.0117647, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+expand_margin_left = 20.0
+expand_margin_top = 20.0
+expand_margin_right = 20.0
+expand_margin_bottom = 20.0
+
+[sub_resource type="LabelSettings" id="LabelSettings_lj3jv"]
+font = ExtResource("2_ygx6h")
+font_size = 70
+font_color = Color(0.866667, 0.717647, 0.109804, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_d7eqw"]
+bg_color = Color(0.00438362, 0.104911, 0.250863, 1)
+
+[node name="Home" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_rg8g4")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.12, 0.12, 0.12, 1)
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 0
+offset_top = -72.0
+offset_right = 1922.0
+offset_bottom = 1150.0
+texture = ExtResource("1_uahlq")
+stretch_mode = 5
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="PanelContainer" parent="CenterContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_sd58e")
+
+[node name="Connected" type="VBoxContainer" parent="CenterContainer/Panel"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="Title" type="Label" parent="CenterContainer/Panel/Connected"]
+visible = false
+layout_mode = 2
+theme_override_font_sizes/font_size = 42
+text = "ARANFEE"
+label_settings = SubResource("LabelSettings_lj3jv")
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/Panel/Connected"]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="CenterContainer/Panel/Connected/HBoxContainer"]
+layout_mode = 2
+text = "Choose army"
+
+[node name="ArmySelector" type="OptionButton" parent="CenterContainer/Panel/Connected/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+selected = 0
+item_count = 2
+popup/item_0/text = "Orks"
+popup/item_1/text = "Dwarfs"
+popup/item_1/id = 1
+
+[node name="BtnFindMatch" type="Button" parent="CenterContainer/Panel/Connected"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 60)
+layout_mode = 2
+theme = ExtResource("2_w36om")
+theme_type_variation = &"FlatButton"
+theme_override_styles/normal = SubResource("StyleBoxFlat_d7eqw")
+text = "FIND MATCH"
+
+[node name="StatusLabel" type="Label" parent="CenterContainer/Panel/Connected"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+text = "Status: Connected"
+horizontal_alignment = 1
+
+[node name="TestMsg" type="Button" parent="CenterContainer/Panel/Connected"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "send message"
+
+[node name="Disconnected" type="VBoxContainer" parent="CenterContainer/Panel"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Login1btn" type="Button" parent="CenterContainer/Panel/Disconnected"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Login player 1
+"
+
+[node name="Login2btn" type="Button" parent="CenterContainer/Panel/Disconnected"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Login player 2"
