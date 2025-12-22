@@ -34,8 +34,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Azure.Messaging.WebPubSub" Version="1.4.0" />
-    <PackageReference Include="Azure.Messaging.WebPubSub.Client" Version="1.0.0" />
+    <PackageReference Include="Google.Protobuf" Version="3.33.2" />
+    <PackageReference Include="Google.Protobuf.Tools" Version="3.33.2" />
+    <PackageReference Include="Grpc.Tools" Version="2.76.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.2">
       <PrivateAssets>all</PrivateAssets>
@@ -44,7 +48,9 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.2" />
     <PackageReference Include="NakamaClient" Version="3.21.0" />
   </ItemGroup>
-
+  <ItemGroup>
+    <Protobuf Include="**/*.proto" GrpcServices="None" />
+  </ItemGroup>
   <ItemGroup>
     <None Update="DB\DatabaseEnums.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -62,6 +68,10 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>DatabaseEnums.tt</DependentUpon>
     </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Networking\protobuf\" />
   </ItemGroup>
 
 </Project>

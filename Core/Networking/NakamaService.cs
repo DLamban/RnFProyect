@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Aranfee;
 using Core.Networking.config;
 using Nakama;
 
@@ -18,95 +19,58 @@ namespace Core.Networking
     }
     public class NakamaService
     {
-        // Instancia única para acceder desde Godot (Singleton)
         public static NakamaService Instance { get; } = new NakamaService();
 
         private IClient _client;
         private ISession _session;
         public ISocket Socket { get; private set; }
         public IMatch CurrentMatch { get; private set; }
+
+        // This event notifies your UI (Home.cs)
         public event Action OnMatchFound;
+        public event Action<ServerInit> OnReceiveMatchState;
         private NakamaService() { }
 
         public async Task LoginUser(string userId)
         {
-            if (Socket != null)
-            {
-                await Socket.CloseAsync();
-                Socket = null;
-            }
             var config = AppSettings.getNetworkConfig();
             _client = new Client("http", config.host, config.port, config.serverKey);
+            _session = await _client.AuthenticateDeviceAsync(userId);
 
-            try
-            {
-                _session = await _client.AuthenticateDeviceAsync(userId);
+            Socket = Nakama.Socket.From(_client);
 
-                var nuevoSocket = Nakama.Socket.From(_client);
-                await nuevoSocket.ConnectAsync(_session, true);
-
-                Socket = nuevoSocket;
-
-                Console.WriteLine($"Connected, session token: {_session.AuthToken}");
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine($"connection error: {e.Message}");
-                throw;
-            }
-        }        
-        private IMatchmakerTicket _ticket;
-
-        public async Task FindMatch()
-        {
-            if (Socket == null) throw new Exception("Socket not connected");
-
-            
             Socket.ReceivedMatchmakerMatched += OnMatchmakerMatched;
-                        
-            _ticket = await Socket.AddMatchmakerAsync("*", 2, 2);
-
-            Console.WriteLine($"[Matchmaking] Ticket created: {_ticket.Ticket}");
+            Socket.ReceivedMatchState += OnReceivedMatchState;
+            await Socket.ConnectAsync(_session, true);
+            Console.WriteLine("Socket Connected and Events Registered.");
         }
-        
-        // Update your OnMatchmakerMatched to store the match
+        public async Task FindAuthoritativeMatch()
+        {
+            await Socket.AddMatchmakerAsync("*", 2, 2);
+            Console.WriteLine("Searching for match...");
+        }
+
         private async void OnMatchmakerMatched(IMatchmakerMatched matched)
         {
+            Console.WriteLine("Matchmaker found opponents! Joining authoritative match...");
+
             CurrentMatch = await Socket.JoinMatchAsync(matched);
-            // subscribe to match state updates
-            Socket.ReceivedMatchState += OnReceivedMatchState;
+
+            // Notify the UI
             OnMatchFound?.Invoke();
-            Console.WriteLine($"[Network] Match Joined: {CurrentMatch.Id}");
-
         }
-
-        // Method to send data to the other player
-        public async Task SendMatchState(long opCode, string payload)
-        {
-            if (CurrentMatch == null) return;
-
-            // Convert string to byte array (Nakama sends raw bytes)
-            var data = System.Text.Encoding.UTF8.GetBytes(payload);
-
-            await Socket.SendMatchStateAsync(CurrentMatch.Id, opCode, data);
-        }
-
-        // Handler for incoming data
+        // We build EVENTS by opCODE
+        // this is for initial server data and matching
         private void OnReceivedMatchState(IMatchState state)
         {
-            // In authoritative mode, state.Presence might be null 
-            // because the message comes from the SERVER (OpCode 0 or custom)
+            Console.WriteLine($"Received Match State OpCode: {state.OpCode}");
+            OpCode opCode = (OpCode)state.OpCode;
 
-            if (state.OpCode == MatchOpCodes.ServerInit)
+            if (opCode == OpCode.ServerInit)
             {
-                var config = ServerMatchState.Parser.ParseFrom(state.State);
-
-                this.IsHost = false; // "Host" doesn't exist among clients now
-                this.PlayerNumber = config.PlayerNumber;
-                this.MatchSeed = config.MapSeed;
-
-                Console.WriteLine($"[Server] Assigned as Player {PlayerNumber}");
-                OnMatchFound?.Invoke();
+                ServerInit data = ServerInit.Parser.ParseFrom(state.State);
+                Console.WriteLine($"Server Assigned Player: {data.PlayerNumber}");
+                OnReceiveMatchState?.Invoke(data);
             }
         }
     }

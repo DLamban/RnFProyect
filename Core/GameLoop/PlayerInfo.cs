@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Azure.Messaging.WebPubSub;
-using Azure.Messaging.WebPubSub.Clients;
+
 using Core.Networking;
 namespace Core.GameLoop
 {
@@ -21,7 +20,7 @@ namespace Core.GameLoop
         public BattleStateManager battleStateManager;
         // azure webpubsub vars
         private string connectionString;        
-        public WebPubSubClient client;
+        //public WebPubSubClient client;
         public bool connected = false;
         public ClientNetworkController clientNetworkController { get; set; }     
         public PlayerSpotEnum playerSpot { get; set; }
@@ -30,16 +29,16 @@ namespace Core.GameLoop
             connectionString = _connectionString;
             Uri clientAccessUri = new Uri(connectionString);
             userId = _userId;
-            client = new WebPubSubClient(clientAccessUri);
-            client.StartAsync().Wait();
-            client.Connected += eventArgs =>
-            {
-                connected = true;
-                return Task.CompletedTask;
-            };
-            client.JoinGroupAsync(roomId).Wait();
-            ClientNetEvents.setEventHandlers(client);
-            clientNetworkController = new ClientNetworkController(client,"server_"+roomId);
+            //client = new WebPubSubClient(clientAccessUri);
+            //client.StartAsync().Wait();
+            //client.Connected += eventArgs =>
+            //{
+            //    connected = true;
+            //    return Task.CompletedTask;
+            //};
+            //client.JoinGroupAsync(roomId).Wait();
+            //ClientNetEvents.setEventHandlers(client);
+            //clientNetworkController = new ClientNetworkController(client,"server_"+roomId);
             initBattleState();
         }
         

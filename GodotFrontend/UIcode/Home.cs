@@ -1,6 +1,12 @@
+using Aranfee;
+using Core.GameLoop;
+using Core.List;
 using Core.Networking;
+using Core.Units;
 using Godot;
 using System;
+using System.Collections.Generic;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 public partial class Home : Control
@@ -22,29 +28,66 @@ public partial class Home : Control
         // The handler when a match is found
         NakamaService.Instance.OnMatchFound += HandleMatchFound;
         // Connect signals using async lambdas
+        
         login1.Pressed += async () => await AttemptLogin("Player1_" + deviceId);
         login2.Pressed += async () => await AttemptLogin("Player2_" + deviceId);
-        testMsg.Pressed += async () =>
-        {
-            if (NakamaService.Instance.Socket != null)
-            {                
-                await NakamaService.Instance.SendMatchState(MatchOpCodes.Chat, "Hello buddy");
-            }
-        };
+
         _btnFindMatch = GetNode<Button>("%BtnFindMatch");
         _btnFindMatch.Pressed += async () =>
         {
             _btnFindMatch.Disabled = true;
-            _statusLabel.Text = "Searching for opponent...";
-            await NakamaService.Instance.FindMatch();
-        };
+            _statusLabel.Text = "Searching for opponent...";            
+            await NakamaService.Instance.FindAuthoritativeMatch();            
+        }; 
+
+
+        // Change scene to battlefield        
+        PackedScene combatScene = (PackedScene)ResourceLoader.Load("res://battlefield.tscn");
+        GetTree().ChangeSceneToPacked(combatScene);
+
+        loadUnits();
     }
+    
     private void HandleMatchFound()
     {
         GD.Print("Match found! Transitioning to battlefield...");
-        PackedScene battlefieldScene = (PackedScene)ResourceLoader.Load("res://battlefield.tscn");
-        GetTree().ChangeSceneToPacked(battlefieldScene);
+        NakamaService.Instance.OnMatchFound -= HandleMatchFound;
+        // subscribe to match state updates
+        NakamaService.Instance.OnReceiveMatchState += OnReceiveMatchState;
     }
+    
+    private void OnReceiveMatchState(ServerInit data)
+    {
+        if (data.PlayerNumber == 1)
+        {
+            PlayerInfoSingleton.Instance.playerSpot = PlayerSpotEnum.PLAYER1;
+        }
+        else if (data.PlayerNumber == 2)
+        {
+            PlayerInfoSingleton.Instance.playerSpot = PlayerSpotEnum.PLAYER2;
+        }
+        // Load the lists
+        loadUnits();
+        
+    }
+    private async void loadUnits()
+    {
+        MockList MockList = new MockList(1);
+        List<BaseUnit> player1units = MockList.unitManagerCore.getUnitsPlayer1();
+        List<BaseUnit> player2units = MockList.unitManagerCore.getUnitsPlayer2();
+        
+        if (PlayerSpotEnum.PLAYER1 == PlayerInfoSingleton.Instance.playerSpot)
+        {
+            UnitsClientManager.Instance.addAllPlayerUnits(player2units);
+            UnitsClientManager.Instance.addAllEnemyUnits(player1units);
+        }
+        else
+        {
+            UnitsClientManager.Instance.addAllPlayerUnits(player2units);
+            UnitsClientManager.Instance.addAllEnemyUnits(player1units);
+        }
+    }
+
     private async Task AttemptLogin(string userId)
     {
         try

@@ -25,77 +25,77 @@ namespace Core.Networking
 
 
         #region OBJECT_TO_BINARY
-        public static BinaryData ConvertPositionInfoToBinary(AffineTransformCore affine, Guid guid)
-        {
-            BinaryData binaryData;
-            using (var stream = new MemoryStream())
-            {
-                using (var writer = new BinaryWriter(stream))
-                {
-                    byte msgType = encodeNetMsg(MSGType.VEC3UNIT, (SenderMessageEnum)PlayerInfoSingleton.Instance.playerSpot);
+        //public static BinaryData ConvertPositionInfoToBinary(AffineTransformCore affine, Guid guid)
+        //{
+        //    BinaryData binaryData;
+        //    using (var stream = new MemoryStream())
+        //    {
+        //        using (var writer = new BinaryWriter(stream))
+        //        {
+        //            byte msgType = encodeNetMsg(MSGType.VEC3UNIT, (SenderMessageEnum)PlayerInfoSingleton.Instance.playerSpot);
 
-                    writer.Write(msgType);
-                    writer.Write(guid.ToByteArray());
+        //            writer.Write(msgType);
+        //            writer.Write(guid.ToByteArray());
 
-                    writer.Write((float)affine.offsetX);
-                    writer.Write((float)affine.offsetY);
-                    float currentAngle = (float)affine.currentAngle;
-                    writer.Write((float)currentAngle);
-                    binaryData = new BinaryData(stream.ToArray());
-                }
-            }
-            return binaryData;
-        }
+        //            writer.Write((float)affine.offsetX);
+        //            writer.Write((float)affine.offsetY);
+        //            float currentAngle = (float)affine.currentAngle;
+        //            writer.Write((float)currentAngle);
+        //            binaryData = new BinaryData(stream.ToArray());
+        //        }
+        //    }
+        //    return binaryData;
+        //}
 
-        public static BinaryData ConvertPositionInfoToBinary(SenderMessageEnum sender, Vector3 vec3, Guid guid)
-        {
-            BinaryData binaryData;
-            using (var stream = new MemoryStream())
-            {
-                using (var writer = new BinaryWriter(stream))
-                {
-                    byte msgType = encodeNetMsg(MSGType.VEC3UNIT, sender);
-                    writer.Write(msgType);
-                    writer.Write(guid.ToByteArray());
-                    writer.Write(vec3.X);
-                    writer.Write(vec3.Y);
-                    writer.Write(vec3.Z);
-                    binaryData = new BinaryData(stream.ToArray());
-                }
-            }
-            return binaryData;
-        }
-        public static BinaryData ConvertBattleStateToBinary(SenderMessageEnum sender, BattleState battleState)
-        {
-            BinaryData binaryData;
-            using (var stream = new MemoryStream())
-            {
-                using (var writer = new BinaryWriter(stream))
-                {
-                    byte msgType = encodeNetMsg(MSGType.BATTLESTATE, sender);
-                    writer.Write(msgType);
-                    writer.Write((byte)battleState);
-                    binaryData = new BinaryData(stream.ToArray());
-                }
-            }
-            return binaryData;
-        }
-        #endregion
+        //public static BinaryData ConvertPositionInfoToBinary(SenderMessageEnum sender, Vector3 vec3, Guid guid)
+        //{
+        //    BinaryData binaryData;
+        //    using (var stream = new MemoryStream())
+        //    {
+        //        using (var writer = new BinaryWriter(stream))
+        //        {
+        //            byte msgType = encodeNetMsg(MSGType.VEC3UNIT, sender);
+        //            writer.Write(msgType);
+        //            writer.Write(guid.ToByteArray());
+        //            writer.Write(vec3.X);
+        //            writer.Write(vec3.Y);
+        //            writer.Write(vec3.Z);
+        //            binaryData = new BinaryData(stream.ToArray());
+        //        }
+        //    }
+        //    return binaryData;
+        //}
+        //public static BinaryData ConvertBattleStateToBinary(SenderMessageEnum sender, BattleState battleState)
+        //{
+        //    BinaryData binaryData;
+        //    using (var stream = new MemoryStream())
+        //    {
+        //        using (var writer = new BinaryWriter(stream))
+        //        {
+        //            byte msgType = encodeNetMsg(MSGType.BATTLESTATE, sender);
+        //            writer.Write(msgType);
+        //            writer.Write((byte)battleState);
+        //            binaryData = new BinaryData(stream.ToArray());
+        //        }
+        //    }
+        //    return binaryData;
+        //}
+        //#endregion
 
-        #region BINARY_TO_OBJECT
-        public static Guid BinaryToGuid(BinaryReader reader) {
-            return new Guid(reader.ReadBytes(16));
-        }
-        //convert the binary data to a Vector3
-        public static Vector3 BinaryToVec3(BinaryReader reader)
-        {
-            Vector3 vector3;
-            float x1 = reader.ReadSingle();
-            float y1 = reader.ReadSingle();
-            float z1 = reader.ReadSingle();
-            vector3 = new Vector3(x1, y1, z1);
-            return vector3;
-        }
+        //#region BINARY_TO_OBJECT
+        //public static Guid BinaryToGuid(BinaryReader reader) {
+        //    return new Guid(reader.ReadBytes(16));
+        //}
+        ////convert the binary data to a Vector3
+        //public static Vector3 BinaryToVec3(BinaryReader reader)
+        //{
+        //    Vector3 vector3;
+        //    float x1 = reader.ReadSingle();
+        //    float y1 = reader.ReadSingle();
+        //    float z1 = reader.ReadSingle();
+        //    vector3 = new Vector3(x1, y1, z1);
+        //    return vector3;
+        //}
         #endregion
     }
 }

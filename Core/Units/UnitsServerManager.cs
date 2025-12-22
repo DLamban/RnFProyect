@@ -33,7 +33,7 @@ namespace Core.Units
         public MinimumUnitTransferInfo(BaseUnit unit)
         {
             Name = unit.Name;
-            // NOT IMPLEMENTED
+            // NOT IMPLEMENTED            
             List<Character> characters = new List<Character>();
             WidthRank = unit.TroopsWidth;
             UnitCount = unit.UnitCount;

@@ -26,13 +26,17 @@ public partial class UnitRenderCreator : Node
 		CanvasLayer canvasLayer = GetNode<CanvasLayer>("HUD") as CanvasLayer;
 		UICanvas = canvasLayer as UICanvas;
 		BindSignalsHUD(canvasLayer);
-		// We will load the list of units from the server
-		loadedList += CreateAllUnits;
-		UnitsClientManager.Instance.unitMovedNet = unitNetworkMoved;
-		UnitsClientManager.Instance.setLoadedListEvent(loadedList);
+		
 		
 		// We need to wait for the ready function, annoying
-		if (HotSeatManager.Instance.isHotseat) HotSeatManager.Instance.populateBoard();
+		if (HotSeatManager.Instance.isHotseat)
+		{
+			HotSeatManager.Instance.populateBoard();
+		}
+		else
+		{
+			CreateAllUnits();
+		}
 	}
 	public void unitNetworkMoved(Guid guid)
 	{

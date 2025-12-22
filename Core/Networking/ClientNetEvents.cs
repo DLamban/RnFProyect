@@ -1,5 +1,4 @@
-﻿using Azure.Messaging.WebPubSub.Clients;
-using Core.GameLoop;
+﻿using Core.GameLoop;
 using Core.GeometricEngine;
 using Core.Units;
 using System;
@@ -54,49 +53,49 @@ namespace Core.Networking
         public static event Pos2DDistNetSendDelegate OnPos2DDistNetSend;
         public static event BattleStateNetSendDelegate OnBattleStateNetSend;
 
-        private static WebPubSubClient client;
+        //private static WebPubSubClient client;
         static ClientNetEvents()
         {        
         }
         
-        public static void setEventHandlers(WebPubSubClient _client)
-        {
-            client = _client;
-            client.GroupMessageReceived += eventArgs =>
-            {
-                groupMessageReceived(eventArgs.Message);
-                return Task.CompletedTask;
-            };
-            client.ServerMessageReceived += eventArgs =>
-            {
-                serverMessageReceived(eventArgs.Message);
-                return Task.CompletedTask;
-            };
-        }
-        // we try to use the same method for both group and server messages
-        private static void groupMessageReceived(GroupDataMessage msg)
-        {
-            if (msg.DataType == WebPubSubDataType.Binary)
-            {
-                receivedData(msg.Data);
-            } else if (msg.DataType == WebPubSubDataType.Json)
-            {
-                receivedData(msg.Data.ToString());
-            }
-        }
-        private static void serverMessageReceived(ServerDataMessage msg)
-        {
+        //public static void setEventHandlers(WebPubSubClient _client)
+        //{
+        //    client = _client;
+        //    client.GroupMessageReceived += eventArgs =>
+        //    {
+        //        groupMessageReceived(eventArgs.Message);
+        //        return Task.CompletedTask;
+        //    };
+        //    client.ServerMessageReceived += eventArgs =>
+        //    {
+        //        serverMessageReceived(eventArgs.Message);
+        //        return Task.CompletedTask;
+        //    };
+        //}
+        //// we try to use the same method for both group and server messages
+        //private static void groupMessageReceived(GroupDataMessage msg)
+        //{
+        //    if (msg.DataType == WebPubSubDataType.Binary)
+        //    {
+        //        receivedData(msg.Data);
+        //    } else if (msg.DataType == WebPubSubDataType.Json)
+        //    {
+        //        receivedData(msg.Data.ToString());
+        //    }
+        //}
+        //private static void serverMessageReceived(ServerDataMessage msg)
+        //{
 
-            if (msg.DataType == WebPubSubDataType.Binary)
-            {
-                receivedData(msg.Data);
-            }
-            else if (msg.DataType == WebPubSubDataType.Json)
-            {
-                receivedData(msg.Data.ToString());
-            }
+        //    if (msg.DataType == WebPubSubDataType.Binary)
+        //    {
+        //        receivedData(msg.Data);
+        //    }
+        //    else if (msg.DataType == WebPubSubDataType.Json)
+        //    {
+        //        receivedData(msg.Data.ToString());
+        //    }
 
-        }
+        //}
 
 
         /// <summary>
@@ -134,62 +133,62 @@ namespace Core.Networking
         /// We need to decode the binary date received, a bit complex
         /// </summary>
         /// <param name="binaryData"></param>
-        public static void receivedData(BinaryData binaryData)
-        {            
-            using (var stream = binaryData.ToStream())
-            using (var reader = new BinaryReader(stream))
-            {
+        //public static void receivedData(BinaryData binaryData)
+        //{            
+        //    using (var stream = binaryData.ToStream())
+        //    using (var reader = new BinaryReader(stream))
+        //    {
 
                 
-                Tuple<MSGType,SenderMessageEnum> result =  NetMappers.decodeNetMsg(reader.ReadByte());
+        //        Tuple<MSGType,SenderMessageEnum> result =  NetMappers.decodeNetMsg(reader.ReadByte());
 
-                switch (result.Item1) { 
-                    //TODO: AI CODE, RECHECK
-                    case MSGType.MSG:
-                        string message = reader.ReadString();
-                        Console.WriteLine($"Received message: {message}");
-                        break;
-                    case MSGType.VEC2:
-                        float x = reader.ReadSingle();
-                        float y = reader.ReadSingle();
-                        var vector2 = new Vector2(x, y);
-                        Console.WriteLine($"Received Vector2: X={vector2.X}, Y={vector2.Y}");
-                        break;
-                    case MSGType.VEC3UNIT:
+        //        switch (result.Item1) { 
+        //            //TODO: AI CODE, RECHECK
+        //            case MSGType.MSG:
+        //                string message = reader.ReadString();
+        //                Console.WriteLine($"Received message: {message}");
+        //                break;
+        //            case MSGType.VEC2:
+        //                float x = reader.ReadSingle();
+        //                float y = reader.ReadSingle();
+        //                var vector2 = new Vector2(x, y);
+        //                Console.WriteLine($"Received Vector2: X={vector2.X}, Y={vector2.Y}");
+        //                break;
+        //            case MSGType.VEC3UNIT:
                         
-                        Guid entityguid = NetMappers.BinaryToGuid(reader);
-                        var vector3 = NetMappers.BinaryToVec3(reader);                        
-                        OnVec3NetSendPlayer?.Invoke( entityguid, vector3);
-                        //NECESITAMOS EL PLAYER, VIENEN EN EL MENSAJE, mas info
-                        break;
-                    case MSGType.POS2DDIST:
-                        float x2 = reader.ReadSingle();
-                        float y2 = reader.ReadSingle();
-                        float z2 = reader.ReadSingle();
-                        float dist = reader.ReadSingle();
-                        var vector3Dist = new Vector3(x2, y2, z2);
-                        Console.WriteLine($"Received Vector3: X={vector3Dist.X}, Y={vector3Dist.Y}, Z={vector3Dist.Z} Distance: {dist}");
-                        break;
-                    case MSGType.POS3DDIST:
-                        float x3 = reader.ReadSingle();
-                        float y3 = reader.ReadSingle();
-                        float z3 = reader.ReadSingle();
-                        float dist2 = reader.ReadSingle();
-                        var vector3Dist2 = new Vector3(x3, y3, z3);
-                       // Console.WriteLine($"Received Vector3: X={vector3Dist2.X}, Y={vector3Dist2.Y}, Z={vector3Dist2.Z} Distance: {dist2}");
-                        break;
-                    case MSGType.BATTLESTATE:
-                        //Console.WriteLine("Received Battle State");
-                        BattleState battleState = (BattleState)reader.ReadByte();
-                        break;
-                    default:
-                        Console.WriteLine($"Received unknown message type: {result.Item1}");
-                        throw new Exception("Unknown message type");
-                        break;
-                }               
+        //                Guid entityguid = NetMappers.BinaryToGuid(reader);
+        //                var vector3 = NetMappers.BinaryToVec3(reader);                        
+        //                OnVec3NetSendPlayer?.Invoke( entityguid, vector3);
+        //                //NECESITAMOS EL PLAYER, VIENEN EN EL MENSAJE, mas info
+        //                break;
+        //            case MSGType.POS2DDIST:
+        //                float x2 = reader.ReadSingle();
+        //                float y2 = reader.ReadSingle();
+        //                float z2 = reader.ReadSingle();
+        //                float dist = reader.ReadSingle();
+        //                var vector3Dist = new Vector3(x2, y2, z2);
+        //                Console.WriteLine($"Received Vector3: X={vector3Dist.X}, Y={vector3Dist.Y}, Z={vector3Dist.Z} Distance: {dist}");
+        //                break;
+        //            case MSGType.POS3DDIST:
+        //                float x3 = reader.ReadSingle();
+        //                float y3 = reader.ReadSingle();
+        //                float z3 = reader.ReadSingle();
+        //                float dist2 = reader.ReadSingle();
+        //                var vector3Dist2 = new Vector3(x3, y3, z3);
+        //               // Console.WriteLine($"Received Vector3: X={vector3Dist2.X}, Y={vector3Dist2.Y}, Z={vector3Dist2.Z} Distance: {dist2}");
+        //                break;
+        //            case MSGType.BATTLESTATE:
+        //                //Console.WriteLine("Received Battle State");
+        //                BattleState battleState = (BattleState)reader.ReadByte();
+        //                break;
+        //            default:
+        //                Console.WriteLine($"Received unknown message type: {result.Item1}");
+        //                throw new Exception("Unknown message type");
+        //                break;
+        //        }               
 
-                //Console.WriteLine($"Received Vector3: X={vector3.X}, Y={vector3.Y}, Z={vector3.Z}");
-            }
-        }        
+        //        //Console.WriteLine($"Received Vector3: X={vector3.X}, Y={vector3.Y}, Z={vector3.Z}");
+        //    }
+        //}        
     }
 }
