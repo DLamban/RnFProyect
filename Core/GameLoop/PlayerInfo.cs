@@ -22,25 +22,8 @@ namespace Core.GameLoop
         private string connectionString;        
         //public WebPubSubClient client;
         public bool connected = false;
-        public ClientNetworkController clientNetworkController { get; set; }     
+        public ClientNetworkController clientNetworkController { get; set; }             
         public PlayerSpotEnum playerSpot { get; set; }
-        public void connect(string _connectionString, string _userId, string roomId)
-        {
-            connectionString = _connectionString;
-            Uri clientAccessUri = new Uri(connectionString);
-            userId = _userId;
-            //client = new WebPubSubClient(clientAccessUri);
-            //client.StartAsync().Wait();
-            //client.Connected += eventArgs =>
-            //{
-            //    connected = true;
-            //    return Task.CompletedTask;
-            //};
-            //client.JoinGroupAsync(roomId).Wait();
-            //ClientNetEvents.setEventHandlers(client);
-            //clientNetworkController = new ClientNetworkController(client,"server_"+roomId);
-            initBattleState();
-        }
         
         public void initBattleState()
         {

@@ -10,6 +10,7 @@ using System.Numerics;
 using System.Runtime.Intrinsics;
 using System.Reflection.Metadata;
 using Core.Networking;
+using static Core.GeometricEngine.GeometryUtils;
 
 namespace Core.GeometricEngine
 {
@@ -82,6 +83,10 @@ namespace Core.GeometricEngine
             get { return matrixTransform[1, 2]; }
             set { matrixTransform[1, 2] = value; }
         }
+        public SimplePositionRotation toSimplePosRot()
+        {
+            return new SimplePositionRotation(new Vector2((float)offsetX, (float)offsetY), getVectorDirector());
+        }
         /// <summary>
         /// Default affinetransform 
         /// </summary>
@@ -110,6 +115,7 @@ namespace Core.GeometricEngine
                                         sin, cos, vector.Y,
                                         0, 0, 1);
         }
+        
         /// <summary>
         ///  for net code, create a new affinetransform from a minimum serialized one
         /// </summary>

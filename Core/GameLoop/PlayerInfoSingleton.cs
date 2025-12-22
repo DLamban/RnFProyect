@@ -10,6 +10,7 @@ namespace Core.GameLoop
     public class PlayerInfoSingleton
     {
         private static readonly PlayerInfo instance = new PlayerInfo();
+        public static ClientNetworkController clientNetworkController { get; set; } = new ClientNetworkController();
         public static PlayerInfo Instance
         {
             get

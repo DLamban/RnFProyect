@@ -17,7 +17,7 @@ public partial class battlefieldManager : Node3D
 		else if (PlayerInfoSingleton.Instance.playerSpot == PlayerSpotEnum.PLAYER2)
 		{
 			// change camera position to reflect battlefield
-			gimballCamera.Position = new Vector3(5, 6.5f, 5);
+			gimballCamera.Position = new Vector3(3, 4.5f, 4);
 			gimballCamera.RotateZ(Mathf.Pi);// 180 degrees
 			
 		}

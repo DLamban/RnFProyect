@@ -38,14 +38,13 @@ public partial class Home : Control
             _btnFindMatch.Disabled = true;
             _statusLabel.Text = "Searching for opponent...";            
             await NakamaService.Instance.FindAuthoritativeMatch();            
-        }; 
+        };
 
-
+        PlayerInfoSingleton.Instance.playerSpot = PlayerSpotEnum.PLAYER2;
         // Change scene to battlefield        
-        PackedScene combatScene = (PackedScene)ResourceLoader.Load("res://battlefield.tscn");
-        GetTree().ChangeSceneToPacked(combatScene);
+        NakamaService.Instance.OnReceiveMatchState += OnReceiveMatchState;
 
-        loadUnits();
+
     }
     
     private void HandleMatchFound()
@@ -68,9 +67,13 @@ public partial class Home : Control
         }
         // Load the lists
         loadUnits();
+        PackedScene combatScene = (PackedScene)ResourceLoader.Load("res://battlefield.tscn");
+        GetTree().ChangeSceneToPacked(combatScene);
+
+
         
     }
-    private async void loadUnits()
+    private void loadUnits()
     {
         MockList MockList = new MockList(1);
         List<BaseUnit> player1units = MockList.unitManagerCore.getUnitsPlayer1();
@@ -78,8 +81,8 @@ public partial class Home : Control
         
         if (PlayerSpotEnum.PLAYER1 == PlayerInfoSingleton.Instance.playerSpot)
         {
-            UnitsClientManager.Instance.addAllPlayerUnits(player2units);
-            UnitsClientManager.Instance.addAllEnemyUnits(player1units);
+            UnitsClientManager.Instance.addAllPlayerUnits(player1units);
+            UnitsClientManager.Instance.addAllEnemyUnits(player2units);
         }
         else
         {

@@ -1,11 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Sockets;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using Aranfee;
 using Core.Networking.config;
+using Core.Units;
+using Google.Protobuf;
 using Nakama;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Core.Networking
 {
@@ -73,5 +79,27 @@ namespace Core.Networking
                 OnReceiveMatchState?.Invoke(data);
             }
         }
+        public async void sendUpdatedUnitPosition(BaseUnit unit)
+        {
+            var vectordirector = unit.Transform.getVectorDirector();
+            var updatedPosition = new UnitPosition
+            {
+                Guid = unit.Guid.ToString(),
+                Position = new Position
+                {
+                    X = (float)unit.Transform.offsetX,
+                    Y = (float)unit.Transform.offsetY                    
+                },                
+                Director = new VectorDirector
+                {
+                    Dx = (float)vectordirector.X,
+                    Dy = (float)vectordirector.Y
+                }
+            };
+            byte[] data = updatedPosition.ToByteArray();
+
+            await Socket.SendMatchStateAsync(CurrentMatch.Id, (long)OpCode.UnitPosition, data);
+        }
+        
     }
 }

@@ -149,7 +149,7 @@ public partial class UnitGodot : Node3D
 		
 		// TODO: if we're playing as hotseat, clientNetworkController is null, and sholud avoid this line....
 		// a bit ugly, but performant
-		//if (!HotSeatManager.Instance.isHotseat && !netReceived) PlayerInfoSingleton.Instance.clientNetworkController.updateUnitTransform(affTrans, coreUnit.Guid);
+		if (!HotSeatManager.Instance.isHotseat && !netReceived) PlayerInfoSingleton.Instance.clientNetworkController.updateUnitTransform(this.coreUnit);
 	}
 
 	private void enableInput()

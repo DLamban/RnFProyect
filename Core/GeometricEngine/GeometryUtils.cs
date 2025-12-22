@@ -13,6 +13,16 @@ namespace Core.GeometricEngine
 {
     public class GeometryUtils
     {
+        public struct SimplePositionRotation
+        {
+            public Vector2 position;
+            public Vector2 directorVec;
+            public SimplePositionRotation(Vector2 pos, Vector2 dir)
+            {
+                position = pos;
+                directorVec = dir;
+            }
+        }
         public struct PolygonsResult
         {
             public List<PointF> leftPolygon;

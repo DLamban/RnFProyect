@@ -6,6 +6,7 @@ option go_package = "./customapi";
 enum OpCode {
     OP_UNSPECIFIED = 0;
     SERVER_INIT = 1;
+    UNIT_POSITION = 2;
     PING = 3;  // Nuevo
     PONG = 4;  // Nuevo
 }
@@ -24,3 +25,19 @@ message Pong {
     int64 server_timestamp = 2;
 }
 
+message Position {
+    float x = 1;
+    float y = 2;
+}
+message VectorDirector{
+    float dx = 1;
+    float dy = 2;
+}
+
+message UnitPosition{
+    string guid =1;
+    // Position
+    Position position = 2;
+    // Director vector
+    VectorDirector director = 3;
+}
