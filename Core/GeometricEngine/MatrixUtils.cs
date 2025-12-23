@@ -93,6 +93,17 @@ namespace Core.GeometricEngine
         public AffineTransformCore() {
             new AffineTransformCore(1, 0, 0, 1, 0, 0);        
         }
+        /// <summary>
+        /// Affine transformation from position and director vector
+        /// </summary>
+        public AffineTransformCore(Vector2 pos, Vector2 director )
+        {
+            //normalize director
+            Vector2 normDirector = normalizeVec(director);
+            matrixTransform = new MatrixAffine(normDirector.Y * -1, normDirector.X, pos.X,
+                                        normDirector.X, normDirector.Y, pos.Y,
+                                        0, 0, 1);
+        }
         public AffineTransformCore(double m11, double m12,
                                 double m21, double m22,
                                 double offsetX, double offsetY)

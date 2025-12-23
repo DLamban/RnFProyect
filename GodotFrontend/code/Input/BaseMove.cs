@@ -37,7 +37,7 @@ namespace GodotFrontend.code.Input
         protected BattlefieldCursorPosDel battlefieldCursorPosDel;
         private BattleState battleState
         {
-            get { return PlayerInfoSingleton.Instance.battleStateManager.currentState; }
+            get { return PlayerInfoSingletonHotSeat.Instance.battleStateManager.currentState; }
         }
         public InputState inputState
         {
@@ -59,7 +59,7 @@ namespace GodotFrontend.code.Input
         }
         protected UnitGodot? SelectOwnUnit(UnitGodot unitToSelect)
         {
-            if (UnitsClientManager.Instance.canSelectUnit(unitToSelect.coreUnit.Guid, true))
+            if (UnitsClientManager.Instance.canSelectUnit(unitToSelect.coreUnit.UnitGuid, true))
             {
                 return unitToSelect;
             }
@@ -67,7 +67,7 @@ namespace GodotFrontend.code.Input
         }
         protected UnitGodot? SelectEnemyUnit(UnitGodot unitToSelect)
         {
-            if (UnitsClientManager.Instance.canSelectUnit(unitToSelect.coreUnit.Guid, false))
+            if (UnitsClientManager.Instance.canSelectUnit(unitToSelect.coreUnit.UnitGuid, false))
             {
                 return unitToSelect;
             }

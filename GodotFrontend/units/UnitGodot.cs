@@ -23,8 +23,8 @@ public partial class UnitGodot : Node3D
 	private class ColumnAdvance
 	{
 		public int column;
-        public int positions;
-    }
+		public int positions;
+	}
 	// primitive state manager to handle the cases of UI
 	private enum UnitState
 	{
@@ -109,7 +109,7 @@ public partial class UnitGodot : Node3D
 	{
 		this.coreUnit = coreUnit;
 
-		this.Name = "UNIT:" + coreUnit.Guid;
+		this.Name = "UNIT:" + coreUnit.UnitGuid;
 		distanceRemaining = coreUnit.temporalCombatVars.distanceRemaining;
 		Size troopSize = coreUnit.Troop.Size;
 		center = new Vector2((float)coreUnit.sizeEnclosedRectangle.Width / 2, (float)coreUnit.sizeEnclosedRectangle.Height / 2);
@@ -121,7 +121,7 @@ public partial class UnitGodot : Node3D
 		gizmo.Position = gizmo.Position + new Vector3(center.X, center.Y, 0);
 		//affTrans = coreUnit.Transform;
 		createUIElements(inputManager);
-		createUnitTroopsBase(coreUnit.TroopsWidth, coreUnit.UnitCount);
+		createUnitTroopsBase(coreUnit.WidthRank, coreUnit.UnitCount);
 		createColliderForInput(inputManager);
 		coreUnit.OnDeathTroops += OnTroopsKilled;
 	}
@@ -149,7 +149,7 @@ public partial class UnitGodot : Node3D
 		
 		// TODO: if we're playing as hotseat, clientNetworkController is null, and sholud avoid this line....
 		// a bit ugly, but performant
-		if (!HotSeatManager.Instance.isHotseat && !netReceived) PlayerInfoSingleton.Instance.clientNetworkController.updateUnitTransform(this.coreUnit);
+		if (!HotSeatManager.Instance.isHotseat && !netReceived) PlayerInfoSingletonHotSeat.Instance.networkController.updateUnitTransform(this.coreUnit);
 	}
 
 	private void enableInput()
@@ -180,13 +180,13 @@ public partial class UnitGodot : Node3D
 			.Select((troop, index) => new { troop, index })
 			.Where((tuple) => tuple.troop.Wounds == 0)
 			.Select((tuple) => tuple.index)
-            .ToList();
-        List<Node3D> troopstodie = new List<Node3D>();
+			.ToList();
+		List<Node3D> troopstodie = new List<Node3D>();
 		foreach (var index in baseTroopsTodieIndexes)
 		{
-            troopstodie.Add(troopNodes[index]);
-        }
-        foreach (Node3D node in troopstodie)
+			troopstodie.Add(troopNodes[index]);
+		}
+		foreach (Node3D node in troopstodie)
 		{
 			AnimationPlayer animationPlayer = node.GetChild(1).GetNode<AnimationPlayer>("AnimationPlayer");
 
@@ -202,171 +202,171 @@ public partial class UnitGodot : Node3D
 			item.QueueFree();
 			troopNodes.Remove(item);
 		}
-        //reorder the troopnodes array after removing elements. don't know why?!
-        troopNodes = troopNodes.OrderByDescending(troop => MathF.Round(troop.Position.Y, 4)).ThenBy(troop => MathF.Round(troop.Position.X, 4)).ToList();
+		//reorder the troopnodes array after removing elements. don't know why?!
+		troopNodes = troopNodes.OrderByDescending(troop => MathF.Round(troop.Position.Y, 4)).ThenBy(troop => MathF.Round(troop.Position.X, 4)).ToList();
 
-        ReformAfterCombat(baseTroopsTodieIndexes);
+		ReformAfterCombat(baseTroopsTodieIndexes);
 	}
 	private Dictionary<(int,int), int> getXYorderedTroops()
 	{
 		Dictionary<(int, int), int> xyOrderedTroops = new Dictionary<(int, int), int>();
-        foreach (var troop in troopNodes)
+		foreach (var troop in troopNodes)
 		{
-            int realpositioninformationy = -1 * (int)Math.Floor(troop.Position.Y / offsetTroop.Y);
-            int realpositioninformationx = (int)Math.Floor(troop.Position.X / offsetTroop.X);
+			int realpositioninformationy = -1 * (int)Math.Floor(troop.Position.Y / offsetTroop.Y);
+			int realpositioninformationx = (int)Math.Floor(troop.Position.X / offsetTroop.X);
 			xyOrderedTroops.Add((realpositioninformationy, realpositioninformationx), troopNodes.IndexOf(troop));
-        }
-        return xyOrderedTroops;
-    }
-    /// <summary>
-    /// Reform Now needs to take care of Front characters, i have been delaying this for too long
-    /// </summary>
-    /// <param name="deaths"></param>
-    async private void ReformAfterCombat(List<int> baseTroopsTodieIndexes)
-    {
-        if (baseTroopsTodieIndexes.Count == 0) return;
-        // Columns to advance, the index of column, and the positions to advance
-        List<ColumnAdvance> columnsAdvance = new List<ColumnAdvance>();
+		}
+		return xyOrderedTroops;
+	}
+	/// <summary>
+	/// Reform Now needs to take care of Front characters, i have been delaying this for too long
+	/// </summary>
+	/// <param name="deaths"></param>
+	async private void ReformAfterCombat(List<int> baseTroopsTodieIndexes)
+	{
+		if (baseTroopsTodieIndexes.Count == 0) return;
+		// Columns to advance, the index of column, and the positions to advance
+		List<ColumnAdvance> columnsAdvance = new List<ColumnAdvance>();
 
 
-        int deathtroops = baseTroopsTodieIndexes.Count;
-        TaskCompletionSource<bool> tweenY = new TaskCompletionSource<bool>();
-        coreUnit.DeleteDeathUnits();
-        // check columns to move
-        Dictionary<int, int> columnsToAdvance = new Dictionary<int, int>();
-        for (int i = 0; i < coreUnit.TroopsWidth; i++)
-        {
-            columnsToAdvance.Add(i, 0);
-        }
-        foreach (int index in baseTroopsTodieIndexes)
-        {
-            columnsToAdvance[index % coreUnit.TroopsWidth] += 1;
-        }
-        Tween tween = CreateTween();
-        int startColumnDeath = baseTroopsTodieIndexes[0];
-        Dictionary<(int, int), float> ymovedebug = new();
-        foreach (var kvp in columnsToAdvance.Where(entry => entry.Value > 0))
-        {
-            for (int i = 0; i < troopNodes.Count; i++)
-            {
-                int tempIndex = i + deathtroops;
-                if ((i + deathtroops + startColumnDeath) / coreUnit.TroopsWidth == 0)
-                {
-                    // do nothing, first rank
-                    //tempIndex = i + baseTroopsTodieIndexes.Count;// Offset by deaths
-                }
-                else if ((tempIndex % coreUnit.TroopsWidth) == kvp.Key
-                    && i >= startColumnDeath)// ignore troops before => i > columnsAdvance[0].column
-                {
+		int deathtroops = baseTroopsTodieIndexes.Count;
+		TaskCompletionSource<bool> tweenY = new TaskCompletionSource<bool>();
+		coreUnit.DeleteDeathUnits();
+		// check columns to move
+		Dictionary<int, int> columnsToAdvance = new Dictionary<int, int>();
+		for (int i = 0; i < coreUnit.WidthRank; i++)
+		{
+			columnsToAdvance.Add(i, 0);
+		}
+		foreach (int index in baseTroopsTodieIndexes)
+		{
+			columnsToAdvance[index % coreUnit.WidthRank] += 1;
+		}
+		Tween tween = CreateTween();
+		int startColumnDeath = baseTroopsTodieIndexes[0];
+		Dictionary<(int, int), float> ymovedebug = new();
+		foreach (var kvp in columnsToAdvance.Where(entry => entry.Value > 0))
+		{
+			for (int i = 0; i < troopNodes.Count; i++)
+			{
+				int tempIndex = i + deathtroops;
+				if ((i + deathtroops + startColumnDeath) / coreUnit.WidthRank == 0)
+				{
+					// do nothing, first rank
+					//tempIndex = i + baseTroopsTodieIndexes.Count;// Offset by deaths
+				}
+				else if ((tempIndex % coreUnit.WidthRank) == kvp.Key
+					&& i >= startColumnDeath)// ignore troops before => i > columnsAdvance[0].column
+				{
 
-                    Node3D node = troopNodes[i];
+					Node3D node = troopNodes[i];
 					int realpositioninformationy =  -1* (int)Math.Floor(node.Position.Y / offsetTroop.Y);
 					int realpositioninformationx = (int)Math.Floor(node.Position.X / offsetTroop.X);
 					if (realpositioninformationx == 1)
 					{
 						var test = 0;
 					}
-                    // MOVE TO FRONT
-                    float Ymove = (offsetTroop.Y) * kvp.Value;
-                    Vector3 targetPos = node.Position + new Vector3(0, Ymove, 0);
-                    ymovedebug.Add((realpositioninformationx, realpositioninformationy), targetPos.Y);
+					// MOVE TO FRONT
+					float Ymove = (offsetTroop.Y) * kvp.Value;
+					Vector3 targetPos = node.Position + new Vector3(0, Ymove, 0);
+					ymovedebug.Add((realpositioninformationx, realpositioninformationy), targetPos.Y);
 
-                    tween.SetParallel();
-                    tween.TweenProperty(node, "position", targetPos, 1.0f).SetTrans(Tween.TransitionType.Quint);
-                    // need the delay because we are running in paralell
-                    //tween.TweenCallback(Callable.From(() => tweenY.TrySetResult(true))).SetDelay(1.0f);
+					tween.SetParallel();
+					tween.TweenProperty(node, "position", targetPos, 1.0f).SetTrans(Tween.TransitionType.Quint);
+					// need the delay because we are running in paralell
+					//tween.TweenCallback(Callable.From(() => tweenY.TrySetResult(true))).SetDelay(1.0f);
 
-                }
-            }
-        }
-        // check coherency  
+				}
+			}
+		}
+		// check coherency  
 
-        if (coreUnit.Troops.Count <= coreUnit.TroopsWidth)
-        {
-            // reform backline to front
-            // write to output
+		if (coreUnit.Troops.Count <= coreUnit.WidthRank)
+		{
+			// reform backline to front
+			// write to output
 
-            Console.WriteLine("less troop than width");
+			Console.WriteLine("less troop than width");
 
-        }
-        await tween.ToSignal(tween, "finished");
+		}
+		await tween.ToSignal(tween, "finished");
 
-        // Reform backline
-        // we need to check how many ranks we still have
-        // and check the last rank troops and penultimate rank troops
-        // because we can have a last rank that is behind the character that didn't advance
-        // also, the check must be with positional info, maybe could be done with more matrix calculations, but it's confusing
-        // and also, i think is more robust for more strange ocurrences in the future
-        int backlineTroops = coreUnit.Troops.Count % coreUnit.TroopsWidth;
+		// Reform backline
+		// we need to check how many ranks we still have
+		// and check the last rank troops and penultimate rank troops
+		// because we can have a last rank that is behind the character that didn't advance
+		// also, the check must be with positional info, maybe could be done with more matrix calculations, but it's confusing
+		// and also, i think is more robust for more strange ocurrences in the future
+		int backlineTroops = coreUnit.Troops.Count % coreUnit.WidthRank;
 
-        int desiredRanksCount = coreUnit.Troops.Count / coreUnit.TroopsWidth;
+		int desiredRanksCount = coreUnit.Troops.Count / coreUnit.WidthRank;
 
-        desiredRanksCount = backlineTroops != 0 ? desiredRanksCount + 1 : desiredRanksCount;// add partial rank count
+		desiredRanksCount = backlineTroops != 0 ? desiredRanksCount + 1 : desiredRanksCount;// add partial rank count
 
-        if (desiredRanksCount == 1) return; //happy code return
+		if (desiredRanksCount == 1) return; //happy code return
 
-        // We had to reorganize the list because the troops got disordered
-        troopNodes = troopNodes.OrderByDescending(troop => MathF.Round(troop.Position.Y, 4)).ThenBy(troop => MathF.Round(troop.Position.X, 4)).ToList();
+		// We had to reorganize the list because the troops got disordered
+		troopNodes = troopNodes.OrderByDescending(troop => MathF.Round(troop.Position.Y, 4)).ThenBy(troop => MathF.Round(troop.Position.X, 4)).ToList();
 
-        List<IGrouping<float, Node3D>> ranksGroupsByPosition = troopNodes.GroupBy(troop => (float)Math.Round(troop.Position.Y, 2)).ToList(); // FP precision error
-        int actualRanksCount = ranksGroupsByPosition.Count();
-        // check if penultimate rank is filled
-        bool penultimateRankfilled = ranksGroupsByPosition[actualRanksCount - 2].Count() == coreUnit.TroopsWidth;
+		List<IGrouping<float, Node3D>> ranksGroupsByPosition = troopNodes.GroupBy(troop => (float)Math.Round(troop.Position.Y, 2)).ToList(); // FP precision error
+		int actualRanksCount = ranksGroupsByPosition.Count();
+		// check if penultimate rank is filled
+		bool penultimateRankfilled = ranksGroupsByPosition[actualRanksCount - 2].Count() == coreUnit.WidthRank;
 
-        // penultimate rank not filled means that we have the last ranks fragmented
+		// penultimate rank not filled means that we have the last ranks fragmented
 
 
 
-        if (penultimateRankfilled)// OLD CODE that works for common ocurrences
-        {
-            int startBackline = coreUnit.Troops.Count - backlineTroops;
-            Tween tweenx = CreateTween();
-            for (int i = startBackline; i < troopNodes.Count; i++)
-            {
-                Node3D node = troopNodes[i];
-                float Xobj = 0;
-                Xobj = (i % coreUnit.TroopsWidth) * offsetTroop.X;
-                Xobj = Xobj + ((float)coreUnit.Troop.Size.Width / 100) / 2;
-                Vector3 targetPos = new Vector3(Xobj, node.Position.Y, node.Position.Z);
-                tweenx.SetParallel();
-                tweenx.TweenProperty(node, "position", targetPos, .6f).SetTrans(Tween.TransitionType.Quint);
-            }
-        }
-        else
-        {
-            //float backRankPos = troopNodes.Min(troop => troop.Position.Y);// Y is negative
-            int offsetForPenultimateLine = ranksGroupsByPosition[actualRanksCount - 1].Count();
-            // ofset the penultimate line to the right and advance the loose troops of the last rank
-            // first the horizontal move
+		if (penultimateRankfilled)// OLD CODE that works for common ocurrences
+		{
+			int startBackline = coreUnit.Troops.Count - backlineTroops;
+			Tween tweenx = CreateTween();
+			for (int i = startBackline; i < troopNodes.Count; i++)
+			{
+				Node3D node = troopNodes[i];
+				float Xobj = 0;
+				Xobj = (i % coreUnit.WidthRank) * offsetTroop.X;
+				Xobj = Xobj + ((float)coreUnit.Troop.Size.Width / 100) / 2;
+				Vector3 targetPos = new Vector3(Xobj, node.Position.Y, node.Position.Z);
+				tweenx.SetParallel();
+				tweenx.TweenProperty(node, "position", targetPos, .6f).SetTrans(Tween.TransitionType.Quint);
+			}
+		}
+		else
+		{
+			//float backRankPos = troopNodes.Min(troop => troop.Position.Y);// Y is negative
+			int offsetForPenultimateLine = ranksGroupsByPosition[actualRanksCount - 1].Count();
+			// ofset the penultimate line to the right and advance the loose troops of the last rank
+			// first the horizontal move
 
-            Tween tweenx = CreateTween();
-            List<Node3D> penultimateRank = ranksGroupsByPosition[actualRanksCount - 2].ToList();
-            for (int i = 0; i < penultimateRank.Count(); i++)
-            {
-                Node3D node = penultimateRank[i];
-                float Xobj = 0;
-                Xobj = (i + offsetForPenultimateLine) * offsetTroop.X;
-                Xobj = Xobj + ((float)coreUnit.Troop.Size.Width / 100) / 2;
-                Vector3 targetPos = new Vector3(Xobj, node.Position.Y, node.Position.Z);
-                tweenx.SetParallel();
-                tweenx.TweenProperty(node, "position", targetPos, .6f).SetTrans(Tween.TransitionType.Quint);
-            }
+			Tween tweenx = CreateTween();
+			List<Node3D> penultimateRank = ranksGroupsByPosition[actualRanksCount - 2].ToList();
+			for (int i = 0; i < penultimateRank.Count(); i++)
+			{
+				Node3D node = penultimateRank[i];
+				float Xobj = 0;
+				Xobj = (i + offsetForPenultimateLine) * offsetTroop.X;
+				Xobj = Xobj + ((float)coreUnit.Troop.Size.Width / 100) / 2;
+				Vector3 targetPos = new Vector3(Xobj, node.Position.Y, node.Position.Z);
+				tweenx.SetParallel();
+				tweenx.TweenProperty(node, "position", targetPos, .6f).SetTrans(Tween.TransitionType.Quint);
+			}
 
-            // now the last advance of the last rank
-            List<Node3D> lastRank = ranksGroupsByPosition[actualRanksCount - 1].ToList();
-            foreach (Node3D node in lastRank)
-            {
-                float yObj = node.Position.Y + offsetTroop.Y;
-                Vector3 targetPos = new Vector3(node.Position.X, yObj, node.Position.Z);
-                tweenx.SetParallel();
-                tweenx.TweenProperty(node, "position", targetPos, .6f).SetTrans(Tween.TransitionType.Quint);
-            }
+			// now the last advance of the last rank
+			List<Node3D> lastRank = ranksGroupsByPosition[actualRanksCount - 1].ToList();
+			foreach (Node3D node in lastRank)
+			{
+				float yObj = node.Position.Y + offsetTroop.Y;
+				Vector3 targetPos = new Vector3(node.Position.X, yObj, node.Position.Z);
+				tweenx.SetParallel();
+				tweenx.TweenProperty(node, "position", targetPos, .6f).SetTrans(Tween.TransitionType.Quint);
+			}
 
-        }
-        //reorder the troopnodes array
-        troopNodes = troopNodes.OrderByDescending(troop => MathF.Round(troop.Position.Y, 4)).ThenBy(troop => MathF.Round(troop.Position.X, 4)).ToList();
-    }
-    private void createColliderForInput(InputManager inputManager)
+		}
+		//reorder the troopnodes array
+		troopNodes = troopNodes.OrderByDescending(troop => MathF.Round(troop.Position.Y, 4)).ThenBy(troop => MathF.Round(troop.Position.X, 4)).ToList();
+	}
+	private void createColliderForInput(InputManager inputManager)
 	{
 		Area3D area = new Area3D();
 		area.SetProcessInput(true);
@@ -390,9 +390,9 @@ public partial class UnitGodot : Node3D
 		
 		area.MouseEntered += () => { 
 			inputManager.HoveringUnit(this);
-        };
+		};
 
-        area.Position = new Vector3(center.X, center.Y, 0.2f);
+		area.Position = new Vector3(center.X, center.Y, 0.2f);
 		this.AddChild(area);
 	}
 	
@@ -449,24 +449,24 @@ public partial class UnitGodot : Node3D
 		int result = await diceThrower.ThrowDicesCharge();
 		float resultToDm = (result * 2.54f) / 10;
 		unitState = UnitState.charging;
-        coreUnit.temporalCombatVars.isCharging = true;
-        foreach (HitCollider hitCollider in this.coreUnit.checkCharge())
+		coreUnit.temporalCombatVars.isCharging = true;
+		foreach (HitCollider hitCollider in this.coreUnit.checkCharge())
 		{
 			if (hitCollider.distance <= distanceRemaining + resultToDm)
 			{
 				
 				if (hitCollider.HitObject.unit != null && hitCollider.HitObject.owner == CollidedObject.Owner.enemy)
 				{
-                    CombatSide combatSide = checkSideCharge(hitCollider);
-                    ChargeMovement(hitCollider, combatSide);
+					CombatSide combatSide = checkSideCharge(hitCollider);
+					ChargeMovement(hitCollider, combatSide);
 
-                    calcChargeResult(hitCollider);
+					calcChargeResult(hitCollider);
 					
 					unitState = UnitState.charging;
 					// CHECK IF CHARGED UNIT FLEES
 					coreUnit.temporalCombatVars.isInCombatRange = true;
 					coreUnit.temporalCombatVars.inCombatUnits.Add(hitCollider.HitObject.unit);
-                }
+				}
 				else
 				{
 					throw new NotImplementedException();
@@ -481,54 +481,54 @@ public partial class UnitGodot : Node3D
 			break;
 		}	
 		return;
-    }
+	}
 	// Watch out for charge reactions
 	private void calcChargeResult(HitCollider hitCollider)
 	{
 		coreUnit.temporalCombatVars.isCharging = true;
 		hitCollider.HitObject.unit.temporalCombatVars.isCharged = true;
 	}
-    // the hitted unit mark the side of the charge
+	// the hitted unit mark the side of the charge
 	// complicated code...
-    private CombatSide checkSideCharge(HitCollider hitCollider)
+	private CombatSide checkSideCharge(HitCollider hitCollider)
 	{
 		float maxArea = 0;
-        CombatSide side = CombatSide.FRONT;
+		CombatSide side = CombatSide.FRONT;
 
-        foreach (KeyValuePair<ArcSeparatorName, ArcSeparatorStruct> item in hitCollider.HitObject.unit.ArcSeparators)
-        {
-            //check what lines intersect with the unit
-            var cross = GeometryUtils.checkSemisegmentUnitCross(item.Value.origin, item.Value.dir, coreUnit.unitBordersWorld);
+		foreach (KeyValuePair<ArcSeparatorName, ArcSeparatorStruct> item in hitCollider.HitObject.unit.ArcSeparators)
+		{
+			//check what lines intersect with the unit
+			var cross = GeometryUtils.checkSemisegmentUnitCross(item.Value.origin, item.Value.dir, coreUnit.unitBordersWorld);
 			if (cross)
 			{
-                (float, bool) isLeftBigger = GeometryUtils.isLeftSideBiggerWithArea(item.Value.origin, item.Value.dir, coreUnit.unitBordersWorld);
-                if (isLeftBigger.Item1 > maxArea)
+				(float, bool) isLeftBigger = GeometryUtils.isLeftSideBiggerWithArea(item.Value.origin, item.Value.dir, coreUnit.unitBordersWorld);
+				if (isLeftBigger.Item1 > maxArea)
 				{
 					maxArea = isLeftBigger.Item1;
 					switch (item.Key)
 					{
 						case ArcSeparatorName.point00:
-                            if (isLeftBigger.Item2) side = CombatSide.FRONT;
-                            else side = CombatSide.LEFTFLANK;
+							if (isLeftBigger.Item2) side = CombatSide.FRONT;
+							else side = CombatSide.LEFTFLANK;
 							break;
 						case ArcSeparatorName.point01:
-                            if (isLeftBigger.Item2) side = CombatSide.RIGHTFLANK;
-                            else side = CombatSide.FRONT;
+							if (isLeftBigger.Item2) side = CombatSide.RIGHTFLANK;
+							else side = CombatSide.FRONT;
 							break;
 						case ArcSeparatorName.point11:
-                            if (isLeftBigger.Item2) side = CombatSide.REAR;
-                            else side = CombatSide.RIGHTFLANK;
-                            break;
-                        case ArcSeparatorName.point10:
-                            if (isLeftBigger.Item2) side = CombatSide.REAR;
-                            else side = CombatSide.LEFTFLANK;
-                            break;
-                    }
-                }
-            }			
-        }
+							if (isLeftBigger.Item2) side = CombatSide.REAR;
+							else side = CombatSide.RIGHTFLANK;
+							break;
+						case ArcSeparatorName.point10:
+							if (isLeftBigger.Item2) side = CombatSide.REAR;
+							else side = CombatSide.LEFTFLANK;
+							break;
+					}
+				}
+			}			
+		}
 		return side;        
-    }
+	}
 	private async void ChargeMovement(HitCollider hitCollider, CombatSide combatSide)
 	{
 		moveForward(hitCollider.distance,false);
@@ -573,22 +573,22 @@ public partial class UnitGodot : Node3D
 
 		float angleenemy = collidedUnit.Transform.currentAngleDegrees;
 
-        switch (combatSide)
+		switch (combatSide)
 		{
-            case CombatSide.FRONT:
+			case CombatSide.FRONT:
 				angleenemy += 180;
-                break;
-            case CombatSide.LEFTFLANK:
-                angleenemy -= 90;
 				break;
-            case CombatSide.RIGHTFLANK:
-                angleenemy += 90;
-                break;
-            case CombatSide.REAR:
+			case CombatSide.LEFTFLANK:
+				angleenemy -= 90;
 				break;
-            
-                
-        }
+			case CombatSide.RIGHTFLANK:
+				angleenemy += 90;
+				break;
+			case CombatSide.REAR:
+				break;
+			
+				
+		}
 		float angleEnemy = angleenemy % 360;
 		
 
@@ -600,9 +600,9 @@ public partial class UnitGodot : Node3D
 		{
 			angle = angle - 360;
 		}else if (angle<-180) {
-            angle = 360 + angle;
-        }
-        return angle;
+			angle = 360 + angle;
+		}
+		return angle;
 
 	}
 	private void createChargingResponseBillboard()
@@ -837,9 +837,9 @@ public partial class UnitGodot : Node3D
 	
 	}
 	
-    
-    // Rotate, scale and translate every troop to break pattens
-    private void AddVariationToTroop(Node3D clone)
+	
+	// Rotate, scale and translate every troop to break pattens
+	private void AddVariationToTroop(Node3D clone)
 	{
 		(clone.GetChild(1) as Node3D).RotateY(randomNumberGenerator.RandfRange(-Mathf.Tau / 60, Mathf.Tau/60));
 		

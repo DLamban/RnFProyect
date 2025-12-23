@@ -13,7 +13,7 @@ namespace Core.Units
       
     {
         private Action finishLoadList;
-        private static readonly UnitsClientManager instance =new UnitsClientManager();
+        private static readonly UnitsClientManager instance = new UnitsClientManager();
         public Action<Guid> unitMovedNet;
         public static UnitsClientManager Instance
         {
@@ -86,12 +86,12 @@ namespace Core.Units
         public void addPlayerUnit(BaseUnit unit)
         {
             // We will use guid as unique key for unit
-            unitsPlayer[unit.Guid.ToString()] = unit;            
+            unitsPlayer[unit.UnitGuid.ToString()] = unit;            
         }        
         public void addEnemyUnit(BaseUnit unit)
         {
             // We will use guid as unique key for unit                        
-            unitsEnemy[unit.Guid.ToString()] = unit;
+            unitsEnemy[unit.UnitGuid.ToString()] = unit;
         }
         
         public void removePlayerUnit(Guid unitGuid)

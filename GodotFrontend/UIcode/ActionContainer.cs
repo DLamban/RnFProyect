@@ -70,7 +70,7 @@ public partial class ActionContainer : Panel
 		
 
 		endSubPhaseButton.Pressed += endSubPhase;
-		PlayerInfoSingleton.Instance.battleStateManager.OnSubPhaseChanged += OnSubPhaseChange;
+		PlayerInfoSingletonHotSeat.Instance.battleStateManager.OnSubPhaseChanged += OnSubPhaseChange;
 		// we need the instances that we are send messages
 		spellContainer = GetTree().CurrentScene.GetNode<PanelContainer>("Battlefield/UnitManager/HUD/CanvasGroup/AnchorProvider/SpellsContainer");
 		inputManager = GetTree().CurrentScene.GetNode<Node3D>("Battlefield") as InputManager;
@@ -95,7 +95,7 @@ public partial class ActionContainer : Panel
 	}
 	private void changeIcon()
 	{
-        string phaseString = PlayerInfoSingleton.Instance.battleStateManager.currentState.ToString();
+        string phaseString = PlayerInfoSingletonHotSeat.Instance.battleStateManager.currentState.ToString();
         string pathNormal = $"res://assets/UI/BubbleStatusButton/button_{phaseString}.png";
 		string pathHover = $"res://assets/UI/BubbleStatusButton/button_{phaseString}_hover.png";
 		string pathPressed = $"res://assets/UI/BubbleStatusButton/button_{phaseString}_pressed.png";
@@ -108,11 +108,11 @@ public partial class ActionContainer : Panel
     private async void endSubPhase()
 	{
 
-		switch (PlayerInfoSingleton.Instance.battleStateManager.currentSubPhase) {
+		switch (PlayerInfoSingletonHotSeat.Instance.battleStateManager.currentSubPhase) {
 			case SubBattleStatePhase.charge:
 				if (inputState == InputState.ResolvingCharges)
 				{
-					PlayerInfoSingleton.Instance.battleStateManager.passNextSubState();
+					PlayerInfoSingletonHotSeat.Instance.battleStateManager.passNextSubState();
 					inputCharge.finishChargeSubphase();
 				}
 				else
@@ -128,7 +128,7 @@ public partial class ActionContainer : Panel
                     }
 					else
 					{
-                        PlayerInfoSingleton.Instance.battleStateManager.passNextSubState();
+                        PlayerInfoSingletonHotSeat.Instance.battleStateManager.passNextSubState();
                     }
 
                 }                    
@@ -136,10 +136,10 @@ public partial class ActionContainer : Panel
 			case SubBattleStatePhase.combat:
 				// END TURN
 				HotSeatManager.Instance.endTurn();
-                PlayerInfoSingleton.Instance.battleStateManager.passNextSubState();
+                PlayerInfoSingletonHotSeat.Instance.battleStateManager.passNextSubState();
                 break;
             default:
-				PlayerInfoSingleton.Instance.battleStateManager.passNextSubState();
+				PlayerInfoSingletonHotSeat.Instance.battleStateManager.passNextSubState();
 				changeIcon();
                 break;
 		}        

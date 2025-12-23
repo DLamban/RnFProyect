@@ -45,12 +45,12 @@ namespace GodotFrontend.code.Input
 		}
 		private BattleState battleState
 		{
-			get { return PlayerInfoSingleton.Instance.battleStateManager.currentState; }
+			get { return PlayerInfoSingletonHotSeat.Instance.battleStateManager.currentState; }
 		}
         private SubBattleStatePhase currentSubPhase
         {
-            get { return PlayerInfoSingleton.Instance.battleStateManager.currentSubPhase;}
-			set { PlayerInfoSingleton.Instance.battleStateManager.currentSubPhase = value;}
+            get { return PlayerInfoSingletonHotSeat.Instance.battleStateManager.currentSubPhase;}
+			set { PlayerInfoSingletonHotSeat.Instance.battleStateManager.currentSubPhase = value;}
         }
 		// DELEGATES
         public delegate Vector3? BattlefieldCursorPosDel();
@@ -60,7 +60,7 @@ namespace GodotFrontend.code.Input
         public override void _Ready()
 		{
         //    PlayerInfoSingleton.Instance.battleStateManager.OnBattleStateChanged += OnBattleStateChanged;
-            PlayerInfoSingleton.Instance.battleStateManager.OnSubPhaseChanged += OnSubPhaseChanged;
+            PlayerInfoSingletonHotSeat.Instance.battleStateManager.OnSubPhaseChanged += OnSubPhaseChanged;
             getBattlefieldCursorPosDel = getBattlefieldCursorPos;
 			// we get the viewport and spacesate to pass as parameter so we can raycast the battlefield
 			viewport = GetViewport();
@@ -216,7 +216,7 @@ namespace GodotFrontend.code.Input
 		public void HoveringUnit(UnitGodot unitGodot)
 		{
             //check if is player or enemy unit
-            string unitowner = UnitsClientManager.Instance.isCurrentPlayerUnit(unitGodot.coreUnit.Guid)?"Player":"Enemy";
+            string unitowner = UnitsClientManager.Instance.isCurrentPlayerUnit(unitGodot.coreUnit.UnitGuid)?"Player":"Enemy";
             OnHoverUnit?.Invoke(unitGodot.coreUnit,unitowner);
             Debug.WriteLine("hovering unit");
         }
@@ -259,7 +259,7 @@ namespace GodotFrontend.code.Input
 		}	
 		private UnitGodot? SelectOwnUnit(UnitGodot unitToSelect)
 		{
-			if (UnitsClientManager.Instance.canSelectUnit(unitToSelect.coreUnit.Guid, true))
+			if (UnitsClientManager.Instance.canSelectUnit(unitToSelect.coreUnit.UnitGuid, true))
 			{
 				return unitToSelect;
 			}

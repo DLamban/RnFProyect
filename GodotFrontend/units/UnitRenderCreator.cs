@@ -52,12 +52,12 @@ public partial class UnitRenderCreator : Node
 		foreach(BaseUnit unit in UnitsClientManager.Instance.unitsPlayer.Values)
 		{
 			UnitGodot tempunit = createUnitToRender(unit);
-			units.Add(unit.Guid, tempunit);
+			units.Add(unit.UnitGuid, tempunit);
 		}
 		foreach (BaseUnit unit in UnitsClientManager.Instance.unitsEnemy.Values)
 		{
 			UnitGodot tempunit = createUnitToRender(unit);
-			units.Add(unit.Guid, tempunit);
+			units.Add(unit.UnitGuid, tempunit);
 		}
 
 	}

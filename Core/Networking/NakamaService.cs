@@ -18,11 +18,8 @@ namespace Core.Networking
     public static class MatchOpCodes
     {
         public const long ServerInit = 1;
-        public const long Chat = 2;
-        public const long Message = 3;
-        public const long UnitMove = 4;
-        public const long UnitAttack = 5;
-    }
+        public const long UnitPosition = 2;      
+    }    
     public class NakamaService
     {
         public static NakamaService Instance { get; } = new NakamaService();
@@ -32,11 +29,12 @@ namespace Core.Networking
         public ISocket Socket { get; private set; }
         public IMatch CurrentMatch { get; private set; }
 
-        // This event notifies your UI (Home.cs)
+        // actions
         public event Action OnMatchFound;
         public event Action<ServerInit> OnReceiveMatchState;
+        public event Action<UnitPosition> OnReceiveUnitPosition;
         private NakamaService() { }
-
+        #region LOGIN_AND_MATCHMAKING
         public async Task LoginUser(string userId)
         {
             var config = AppSettings.getNetworkConfig();
@@ -65,6 +63,8 @@ namespace Core.Networking
             // Notify the UI
             OnMatchFound?.Invoke();
         }
+        #endregion
+        #region RECEIVE_DATA_SERVER
         // We build EVENTS by opCODE
         // this is for initial server data and matching
         private void OnReceivedMatchState(IMatchState state)
@@ -72,34 +72,51 @@ namespace Core.Networking
             Console.WriteLine($"Received Match State OpCode: {state.OpCode}");
             OpCode opCode = (OpCode)state.OpCode;
 
-            if (opCode == OpCode.ServerInit)
+            switch (opCode)
             {
-                ServerInit data = ServerInit.Parser.ParseFrom(state.State);
-                Console.WriteLine($"Server Assigned Player: {data.PlayerNumber}");
-                OnReceiveMatchState?.Invoke(data);
+                case OpCode.ServerInit:
+                    ServerInit data = ServerInit.Parser.ParseFrom(state.State);
+                    OnReceiveMatchState?.Invoke(data);
+                    break;
+                case OpCode.UnitPosition:
+                    UnitPosition unitPosition = UnitPosition.Parser.ParseFrom(state.State);
+                    OnReceiveUnitPosition?.Invoke(unitPosition);
+                    break;
+
+                default:
+                    Console.WriteLine($"Unhandled OpCode: {state.OpCode}");
+                    break;
             }
         }
+        #endregion
+
+        #region SEND_DATA_SERVER
         public async void sendUpdatedUnitPosition(BaseUnit unit)
         {
             var vectordirector = unit.Transform.getVectorDirector();
             var updatedPosition = new UnitPosition
             {
-                Guid = unit.Guid.ToString(),
-                Position = new Position
+                Guid = unit.UnitGuid.ToString(),
+                Position = new Vector2Proto
                 {
                     X = (float)unit.Transform.offsetX,
                     Y = (float)unit.Transform.offsetY                    
                 },                
-                Director = new VectorDirector
+                Director = new Vector2Proto
                 {
-                    Dx = (float)vectordirector.X,
-                    Dy = (float)vectordirector.Y
+                    X = (float)vectordirector.X,
+                    Y = (float)vectordirector.Y
                 }
             };
             byte[] data = updatedPosition.ToByteArray();
 
             await Socket.SendMatchStateAsync(CurrentMatch.Id, (long)OpCode.UnitPosition, data);
         }
-        
+        public async void sendEnemyUnits(List<BaseUnit> listUnits)
+        {
+            //MAP units to protobuf data objects
+
+        }
+        #endregion
     }
 }

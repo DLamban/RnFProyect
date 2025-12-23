@@ -90,7 +90,7 @@ namespace GodotFrontend.code.Input
         private UnitGodot? SelectOwnUnit(UnitGodot unitToSelect)
         {
             //bool isShooter = unitToSelect.coreUnit.
-            if (UnitsClientManager.Instance.canSelectUnit(unitToSelect.coreUnit.Guid, true) )
+            if (UnitsClientManager.Instance.canSelectUnit(unitToSelect.coreUnit.UnitGuid, true) )
             {
                 return unitToSelect;
             }
@@ -98,7 +98,7 @@ namespace GodotFrontend.code.Input
         }
         private UnitGodot? SelectEnemyUnit(UnitGodot unitToSelect)
         {
-            if (UnitsClientManager.Instance.canSelectUnit(unitToSelect.coreUnit.Guid, false))
+            if (UnitsClientManager.Instance.canSelectUnit(unitToSelect.coreUnit.UnitGuid, false))
             {
                 return unitToSelect;
             }

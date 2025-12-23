@@ -47,9 +47,12 @@ public partial class GameDbContext : DbContext
     public virtual DbSet<WeaponsTroop> WeaponsTroops { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlite("Data Source=C:\\dev\\games\\RnFProyect\\Core\\DB\\RnFDBSqlite.db");
-
+    {
+        string baseDir = AppContext.BaseDirectory;        
+        string relativePath = Path.Combine("Core", "DB", "RnFDBSqlite.db");
+        string fullPath = Path.GetFullPath(Path.Combine(baseDir, relativePath));
+        optionsBuilder.UseSqlite($"Data Source={fullPath}");
+    }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Character>(entity =>

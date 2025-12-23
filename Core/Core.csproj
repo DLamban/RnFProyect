@@ -52,6 +52,9 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>DatabaseEnums.cs</LastGenOutput>
     </None>
+    <None Update="DB\RnFDBSqlite.db">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
   <ItemGroup>

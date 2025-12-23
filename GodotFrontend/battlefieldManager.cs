@@ -10,11 +10,11 @@ public partial class battlefieldManager : Node3D
 	public override void _Ready()
 	{
 		gimballCamera = GetNode<Node3D>("Battlefield/Environment/gimball");
-		if (PlayerInfoSingleton.Instance.playerSpot == PlayerSpotEnum.PLAYER1)
+		if (PlayerInfoSingletonHotSeat.Instance.playerSpot == PlayerSpotEnum.PLAYER1)
 		{
 			// do nothing, camera as default
 		}
-		else if (PlayerInfoSingleton.Instance.playerSpot == PlayerSpotEnum.PLAYER2)
+		else if (PlayerInfoSingletonHotSeat.Instance.playerSpot == PlayerSpotEnum.PLAYER2)
 		{
 			// change camera position to reflect battlefield
 			gimballCamera.Position = new Vector3(3, 4.5f, 4);

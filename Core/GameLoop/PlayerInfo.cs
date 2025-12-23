@@ -9,22 +9,21 @@ namespace Core.GameLoop
 {
     public enum PlayerSpotEnum :byte
     {
-        PLAYER1  = 0b0000_0000,
-        PLAYER2  = 0b1000_0000,
-        HOT_SEAT = 0b0001_0000
+        PLAYER1,
+        PLAYER2        
     }
     
     public class PlayerInfo
     {                
         public string userId;
         public BattleStateManager battleStateManager;
-        // azure webpubsub vars
-        private string connectionString;        
-        //public WebPubSubClient client;
         public bool connected = false;
-        public ClientNetworkController clientNetworkController { get; set; }             
+        public ClientNetworkController networkController;
         public PlayerSpotEnum playerSpot { get; set; }
-        
+        public void initNetPlayer(string netId)
+        {
+            networkController = new ClientNetworkController();
+        }
         public void initBattleState()
         {
             battleStateManager = new BattleStateManager();

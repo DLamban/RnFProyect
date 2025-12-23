@@ -51,15 +51,17 @@ namespace Core.Units
     {
         
         // Characteristics of the unit
+        public UnitEnum UnitTypeEnum { get; set; }
+
         public string Race { get; set; }
         public string Name { get; set; }
-        public Guid Guid { get; set; }
+        public Guid UnitGuid { get; set; }
         public int UnitCount { get { return  Troops.Count; } }
         public int Points { get; set; }
         /// <summary>
         /// The width in troops count
         /// </summary>
-        public int TroopsWidth { get; set; }
+        public int WidthRank { get; set; }
         public Formation_type formationType { get; set; }
         public string Type { get; set; }
         public string Category { get; set; }
@@ -258,7 +260,7 @@ namespace Core.Units
             Race = race;
             
             Name = name;
-            TroopsWidth = troopsWidth;
+            WidthRank = troopsWidth;
             Formation_Type = formation_Type;
             SpecialRules = specialRules;
             Troops = troops;
@@ -274,7 +276,7 @@ namespace Core.Units
         public BaseUnit(string race, string name, Character character) { 
             Race = race;
             Name = name;
-            TroopsWidth = 1;
+            WidthRank = 1;
             Type = "Character";
             Troop = character;
             Troops = new List<BaseTroop>();
@@ -288,13 +290,13 @@ namespace Core.Units
             if (formationType == Formation_type.CLOSE_ORDER)
             {
                 //Build close order unit
-                CloseOrder unitForm = new CloseOrder(TroopsWidth, Troops);
-                enclosedPolygonPointsdm = unitForm.calculateEnclosedPolygondm(TroopsWidth, Troops);
+                CloseOrder unitForm = new CloseOrder(WidthRank, Troops);
+                enclosedPolygonPointsdm = unitForm.calculateEnclosedPolygondm(WidthRank, Troops);
                 //polygonPoints = unitForm.calculateEnclosedPolygondm;
 
             }
             // calculate the size of the rectangle, with characters will be more complicated
-            sizeEnclosedRectangle = new Size(TroopsWidth * Troop.Size.Width, (int)Math.Ceiling((float)Troops.Count / TroopsWidth) * Troop.Size.Height);
+            sizeEnclosedRectangle = new Size(WidthRank * Troop.Size.Width, (int)Math.Ceiling((float)Troops.Count / WidthRank) * Troop.Size.Height);
             Transform = new AffineTransformCore(1, 0, 0, 1, 0, 0);
         }
         public void AddCharacter(Character character)
@@ -354,8 +356,8 @@ namespace Core.Units
             startindexX = Math.Max(startindexX, 0);
             startindexY = Math.Max(startindexY, 0);
 
-            endindexX = Math.Min(endindexX, TroopsWidth - 1);
-            endindexY = Math.Min(endindexY, Troops.Count / TroopsWidth - 1);
+            endindexX = Math.Min(endindexX, WidthRank - 1);
+            endindexY = Math.Min(endindexY, Troops.Count / WidthRank - 1);
 
 
             if (startindexY < 0) { startindexY = 0; }
@@ -363,21 +365,21 @@ namespace Core.Units
             List<BaseTroop> _troops = new List<BaseTroop>();
             if (startindexY == endindexY)// Horizontal
             {
-                if (endindexY == Troops.Count / TroopsWidth)// last rank case
+                if (endindexY == Troops.Count / WidthRank)// last rank case
                 {
-                    endindexX = Troops.Count % TroopsWidth;
+                    endindexX = Troops.Count % WidthRank;
                 }
                 for (int i = startindexX; i <= endindexX; i++)
                 {
-                    int index = startindexY * TroopsWidth + i;
+                    int index = startindexY * WidthRank + i;
                     _troops.Add(Troops[index]);
                 }
             }
             else if (startindexX == endindexX)// Vertical, harder than horizontal
             {
-                if (endindexY == Troops.Count / TroopsWidth)// last rank case
+                if (endindexY == Troops.Count / WidthRank)// last rank case
                 {
-                    endindexX = Troops.Count % TroopsWidth;
+                    endindexX = Troops.Count % WidthRank;
                 }
                 throw new NotImplementedException();
             }
@@ -424,7 +426,7 @@ namespace Core.Units
             switch (combatSide)
             {
                 case CombatSide.FRONT:
-                    for (int i = 0; i < TroopsWidth; i++)
+                    for (int i = 0; i < WidthRank; i++)
                     {
                         
                         supportingTroops.Add(Troops[i]);
@@ -432,19 +434,19 @@ namespace Core.Units
                     }
                     break;
                 case CombatSide.LEFTFLANK:
-                    for (int i = 0; i < Troops.Count; i += TroopsWidth)
+                    for (int i = 0; i < Troops.Count; i += WidthRank)
                     {
                         supportingTroops.Add(Troops[i]);
                     }
                     break;
                 case CombatSide.REAR:// don't know what to do with rear
-                    for (int i = Troops.Count - TroopsWidth; i < Troops.Count; i++)
+                    for (int i = Troops.Count - WidthRank; i < Troops.Count; i++)
                     {
                         supportingTroops.Add(Troops[i]);
                     }
                     break;
                 case CombatSide.RIGHTFLANK:
-                    for (int i = TroopsWidth - 1; i < Troops.Count; i += TroopsWidth)
+                    for (int i = WidthRank - 1; i < Troops.Count; i += WidthRank)
                     {
                         supportingTroops.Add(Troops[i]);
                     }

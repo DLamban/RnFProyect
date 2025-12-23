@@ -33,11 +33,10 @@ namespace Core.Units
         public MinimumUnitTransferInfo(BaseUnit unit)
         {
             Name = unit.Name;
-            // NOT IMPLEMENTED            
             List<Character> characters = new List<Character>();
-            WidthRank = unit.TroopsWidth;
+            WidthRank = unit.WidthRank;
             UnitCount = unit.UnitCount;
-            guid = unit.Guid;
+            guid = unit.UnitGuid;
             affTransSer = new SerializableAffineTrans(unit.Transform);
             
         }
@@ -54,54 +53,55 @@ namespace Core.Units
             unitsPlayer = new Dictionary<string, BaseUnit>();
             unitsEnemy = new Dictionary<string, BaseUnit>();
         }
-        public List<BaseUnit> createUnits(List<MinimumUnitTransferInfo> minimumUnitTransfers)
+        public BaseUnit CreateNewUnit(UnitEnum unitEnum, List<CharacterEnum> characters, int widthRank, int unitCount, Vector2 startPos, float rotationDeg)
         {
-            List<BaseUnit> units = new List<BaseUnit>();    
-            foreach(MinimumUnitTransferInfo minimumUnitTransferInfo in minimumUnitTransfers)
+            Guid guid = Guid.NewGuid();
+            IUnitCreateAndSpawnParams unitCreationParams = new UnitSpawnDTO()
             {
-                units.Add(CreateUnit(minimumUnitTransferInfo));
-            }
-            return units;
+                UnitTypeEnum = unitEnum,
+                Characters = characters,
+                WidthRank = widthRank,
+                UnitCount = unitCount,
+                UnitGuid = guid,
+                posVec = startPos,
+                DirectorVec = new Vector2((float)Math.Cos(rotationDeg * (Math.PI / 180.0)), (float)Math.Sin(rotationDeg * (Math.PI / 180.0)))
+            };
+            return CreateNewUnit(unitCreationParams);
         }
-        public BaseUnit CreateUnit(MinimumUnitTransferInfo minimumUnitTransferInfo)
-        {
-            return CreateNetworkUnit(minimumUnitTransferInfo.UnitEnum,minimumUnitTransferInfo.characters,  minimumUnitTransferInfo.WidthRank, minimumUnitTransferInfo.UnitCount,  minimumUnitTransferInfo.guid, minimumUnitTransferInfo.affTransSer);
-        }        
-        public BaseUnit CreateNetworkUnit(UnitEnum unitEnum, List<CharacterEnum> characters, int widthRank, int unitCount, Guid guid, SerializableAffineTrans serializableAffineTrans)
-        {            
-            BaseUnit unit = instantiateUnit(unitEnum, characters,widthRank, unitCount, guid);
-            unit.Transform = new AffineTransformCore(serializableAffineTrans);
-            return unit;
-        }
-        public BaseUnit CreateNewUnit(UnitEnum unitEnum, List<CharacterEnum> characters,int widthRank, int unitCount, Vector2 startPos, float rotationDeg)
+
+        public BaseUnit CreateNewUnit(IUnitCreateAndSpawnParams unitCreateAndSpawnParams)
         {
             Guid guid = Guid.NewGuid();
 
-            BaseUnit unit = instantiateUnit(unitEnum, characters, widthRank,unitCount,guid);
-            unit.Transform.offsetX = startPos.X;
-            unit.Transform.offsetY = startPos.Y;
+            BaseUnit unit = instantiateUnit(unitCreateAndSpawnParams);
+            
+
+            float rotationDeg = (float)(Math.Atan2(unitCreateAndSpawnParams.DirectorVec.Y, unitCreateAndSpawnParams.DirectorVec.X) * (180.0 / Math.PI));
+
+            unit.Transform.offsetX = unitCreateAndSpawnParams.posVec.X;
+            unit.Transform.offsetY = unitCreateAndSpawnParams.posVec.Y;
             unit.Transform.rotate(rotationDeg, unit.sizeEnclosedRectangledm.X / 2, -unit.sizeEnclosedRectangledm.Y / 2);            
             return unit;
         }
-        private BaseUnit instantiateUnit(UnitEnum unitEnum,List<CharacterEnum> characters, int widthRank, int unitCount, Guid guid)
+        private BaseUnit instantiateUnit(IUnitCreationParams unitCreationParams)
         {
 
             // MIgrating to db, test first
             
-            var unitDetail = DBSingleton.GetUnit(unitEnum);
+            var unitDetail = DBSingleton.GetUnit(unitCreationParams.UnitTypeEnum);
             BaseUnit baseUnit;
-            if (unitCount != 0)
+            if (unitCreationParams.UnitCount != 0)
             {
                 List<BaseTroop> troops = new List<BaseTroop>();
-                for (int i = 0; i < unitCount; i++)
+                for (int i = 0; i < unitCreationParams.UnitCount; i++)
                 {
                     BaseTroop baseTroop = new BaseTroop(unitDetail.TroopProfiles.FirstOrDefault(t => t.IsMainProfile != 0));
 
                     troops.Add(baseTroop);
                 }
                 baseUnit = new BaseUnit(unitDetail.Race.Code, unitDetail.Name, unitDetail.TroopProfiles.FirstOrDefault(t => t.IsMainProfile != 0).TroopType.Code,
-                    widthRank, Formation_type.CLOSE_ORDER, new List<string> { "Reglaespecial1", "Reglaespecial2" }, troops);
-                foreach (CharacterEnum character in characters)
+                    unitCreationParams.WidthRank, Formation_type.CLOSE_ORDER, new List<string> { "Reglaespecial1", "Reglaespecial2" }, troops);
+                foreach (CharacterEnum character in unitCreationParams.Characters)
                 {
                     DB.Models.Character character1 = DBSingleton.GetCharacter(character);
                     Character cahracterfromdb = new Character(character1);
@@ -110,7 +110,7 @@ namespace Core.Units
             }
             else// it's single char unit
             {
-                DB.Models.Character characterDb = DBSingleton.GetCharacter(characters[0]);
+                DB.Models.Character characterDb = DBSingleton.GetCharacter(unitCreationParams.Characters[0]);
                 Character cahracterfromdb = new Character(characterDb);
                     
                 baseUnit = new BaseUnit(characterDb.Race.Code, characterDb.Name, cahracterfromdb);
@@ -118,7 +118,7 @@ namespace Core.Units
 
 
                
-            baseUnit.Guid = guid;
+            baseUnit.UnitGuid = unitCreationParams.UnitGuid;
             return baseUnit;
             
            
@@ -127,14 +127,14 @@ namespace Core.Units
         
         public void addPlayerUnit(BaseUnit unit)
         {   
-            unitsPlayer[unit.Guid.ToString()] = unit;
+            unitsPlayer[unit.UnitGuid.ToString()] = unit;
         }
 
         public void addEnemyUnit(BaseUnit unit)
         {
             Guid guid = Guid.NewGuid();            
-            unit.Guid = guid;
-            unitsEnemy[unit.Guid.ToString()] = unit;
+            unit.UnitGuid = guid;
+            unitsEnemy[unit.UnitGuid.ToString()] = unit;
         }
         public List<BaseUnit> getUnitsPlayer()
         {

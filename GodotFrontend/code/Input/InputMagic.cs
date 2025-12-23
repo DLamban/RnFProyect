@@ -43,7 +43,7 @@ namespace GodotFrontend.code.Input
             unitSelected = _unitSelected;
             if (currentSpellTarget == SpellTarget.OwnTroops)
             {
-                if (UnitsClientManager.Instance.canSelectUnit(unitSelection.coreUnit.Guid, true))
+                if (UnitsClientManager.Instance.canSelectUnit(unitSelection.coreUnit.UnitGuid, true))
                 {
                     unitSelected = unitSelection;
                     unitSelected.magicSelectionFX.Visible = true;
@@ -51,7 +51,7 @@ namespace GodotFrontend.code.Input
             }
             else if (currentSpellTarget == SpellTarget.EnemyTroops)
             {
-                if (UnitsClientManager.Instance.canSelectUnit(unitSelection.coreUnit.Guid, false))
+                if (UnitsClientManager.Instance.canSelectUnit(unitSelection.coreUnit.UnitGuid, false))
                 {
                     unitSelected = unitSelection;
                     unitSelected.magicSelectionFX.Visible = true;

@@ -39,12 +39,11 @@ public partial class Home : Control
             _statusLabel.Text = "Searching for opponent...";            
             await NakamaService.Instance.FindAuthoritativeMatch();            
         };
-
-        PlayerInfoSingleton.Instance.playerSpot = PlayerSpotEnum.PLAYER2;
-        // Change scene to battlefield        
+        string baseDir = AppContext.BaseDirectory;
         NakamaService.Instance.OnReceiveMatchState += OnReceiveMatchState;
-
-
+        loadUnits();
+        PackedScene combatScene = (PackedScene)ResourceLoader.Load("res://battlefield.tscn");
+        GetTree().ChangeSceneToPacked(combatScene);
     }
     
     private void HandleMatchFound()
@@ -59,35 +58,31 @@ public partial class Home : Control
     {
         if (data.PlayerNumber == 1)
         {
-            PlayerInfoSingleton.Instance.playerSpot = PlayerSpotEnum.PLAYER1;
+            PLayerInfoNetcode.Instance.playerSpot = PlayerSpotEnum.PLAYER1;
         }
         else if (data.PlayerNumber == 2)
         {
-            PlayerInfoSingleton.Instance.playerSpot = PlayerSpotEnum.PLAYER2;
+            PLayerInfoNetcode.Instance.playerSpot = PlayerSpotEnum.PLAYER2;
         }
         // Load the lists
         loadUnits();
         PackedScene combatScene = (PackedScene)ResourceLoader.Load("res://battlefield.tscn");
-        GetTree().ChangeSceneToPacked(combatScene);
-
-
-        
+        GetTree().ChangeSceneToPacked(combatScene);        
     }
     private void loadUnits()
     {
+        
         MockList MockList = new MockList(1);
         List<BaseUnit> player1units = MockList.unitManagerCore.getUnitsPlayer1();
         List<BaseUnit> player2units = MockList.unitManagerCore.getUnitsPlayer2();
         
-        if (PlayerSpotEnum.PLAYER1 == PlayerInfoSingleton.Instance.playerSpot)
+        if (PlayerSpotEnum.PLAYER1 == PLayerInfoNetcode.Instance.playerSpot)
         {
             UnitsClientManager.Instance.addAllPlayerUnits(player1units);
-            UnitsClientManager.Instance.addAllEnemyUnits(player2units);
         }
         else
         {
-            UnitsClientManager.Instance.addAllPlayerUnits(player2units);
-            UnitsClientManager.Instance.addAllEnemyUnits(player1units);
+            UnitsClientManager.Instance.addAllPlayerUnits(player2units);            
         }
     }
 

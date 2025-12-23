@@ -15,6 +15,12 @@
     <Folder Include="assets\UI\" />
   </ItemGroup>
   <ItemGroup>
+	<None Include="..\Core\DB\RnFDBSqlite.db">
+	  <Link>Core\DB\RnFDBSqlite.db</Link>
+	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	</None>
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.2">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>

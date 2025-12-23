@@ -43,12 +43,26 @@ namespace Core.List
                     break;
             }
         }
+
+        private Vector2 rotationToDirectorVec(float rotationDeg)
+        {
+            float radians = rotationDeg * (float)(Math.PI / 180);
+            return new Vector2((float)Math.Cos(radians), (float)Math.Sin(radians));
+        }
         private void MockList1()
         {
 
             
-
-            BaseUnit goblins = unitManagerCore.CreateNewUnit(UnitEnum.Goblins,new List<CharacterEnum>() { CharacterEnum.Goblin_Wizard}, 5, 17, startPosGoblins, 15);
+            IUnitCreateAndSpawnParams goblinsParam = new UnitSpawnDTO()
+            {
+                UnitTypeEnum = UnitEnum.Goblins,
+                Characters = new List<CharacterEnum>() { CharacterEnum.Goblin_Wizard },
+                WidthRank = 5,
+                UnitCount = 17,
+                posVec = startPosGoblins,
+                DirectorVec = rotationToDirectorVec(15),
+            };
+            BaseUnit goblins = unitManagerCore.CreateNewUnit(goblinsParam);
             unitManagerCore.addPlayerUnit(goblins);
 
 

@@ -1,4 +1,5 @@
-﻿using Core.GameLoop;
+﻿using Aranfee;
+using Core.GameLoop;
 using Core.GeometricEngine;
 using Core.Units;
 using System;
@@ -8,20 +9,41 @@ using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using static Core.GeometricEngine.GeometryUtils;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Core.Networking
 {
     public class ClientNetworkController
-    {        
-        #region RECEIVE_DATA_SERVER
-        private void OnUpdatePos(Guid unitGuid, Vector3 vector3)
+    {
+        private string networkId;
+        public ClientNetworkController()
         {
-            AffineTransformCore affineTransformCore = new AffineTransformCore(vector3);
-            UnitsClientManager.Instance.networkMoveUnit(unitGuid, affineTransformCore);
+            NakamaService.Instance.OnReceiveUnitPosition += OnUpdatePos;
+        }
+        public void setNetId(string netId)
+        {
+            networkId = netId;
+        }
+        #region RECEIVE_DATA_SERVER
+        private void OnUpdatePos(UnitPosition unitpos)
+        {
+            Vector2 position = new Vector2(unitpos.Position.X, unitpos.Position.Y);
+            Vector2 director = new Vector2(unitpos.Director.X, unitpos.Director.Y);
+            AffineTransformCore newAffine = new AffineTransformCore(position,director);
+            if (Guid.TryParse(unitpos.Guid, out Guid unitGuid))
+            {
+
+                UnitsClientManager.Instance.networkMoveUnit(unitGuid, newAffine);
+            }
+            else
+            {
+                Console.WriteLine("Invalid GUID format: " + unitpos.Guid);
+            }
+                
         }
         private void OnUpdateBattleState(BattleState battleState)
         {
-            PlayerInfoSingleton.Instance.battleStateManager.currentState = battleState;
+            PlayerInfoSingletonHotSeat.Instance.battleStateManager.currentState = battleState;
         }
         #endregion
 

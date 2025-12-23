@@ -128,7 +128,7 @@ namespace Core.GameLoop
         public static async void combatUnit(BaseUnit attacker, BaseUnit defender)
         {
             //calculate the combat width
-            int combatWidth = Math.Min(attacker.TroopsWidth, defender.TroopsWidth);
+            int combatWidth = Math.Min(attacker.WidthRank, defender.WidthRank);
             // get front line troops            
             EngagedTroops troopsAtt = attacker.getEngagedTroops(defender);                        
             EngagedTroops troopsDefender = defender.getEngagedTroops(attacker);
@@ -302,8 +302,8 @@ namespace Core.GameLoop
             // take troops form the front width
             // for now we are going to assume that combat is front to front
 
-            List<BaseTroop> troopsAFrontRank = unitA.Troops.GetRange(0, unitA.TroopsWidth);
-            List<BaseTroop> troopsBFrontRank = unitB.Troops.GetRange(0, unitB.TroopsWidth);
+            List<BaseTroop> troopsAFrontRank = unitA.Troops.GetRange(0, unitA.WidthRank);
+            List<BaseTroop> troopsBFrontRank = unitB.Troops.GetRange(0, unitB.WidthRank);
             //find the highest initiative
 
             int maxInitiative = Math.Max(troopsAFrontRank.Max(troop => troop.Initiative), troopsBFrontRank.Max(troop => troop.Initiative));
