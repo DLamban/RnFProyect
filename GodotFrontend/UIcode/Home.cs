@@ -41,6 +41,7 @@ public partial class Home : Control
         };
         string baseDir = AppContext.BaseDirectory;
         NakamaService.Instance.OnReceiveMatchState += OnReceiveMatchState;
+        PLayerInfoNetcode.Instance.playerSpot = PlayerSpotEnum.PLAYER2;
         loadUnits();
         PackedScene combatScene = (PackedScene)ResourceLoader.Load("res://battlefield.tscn");
         GetTree().ChangeSceneToPacked(combatScene);
@@ -72,18 +73,9 @@ public partial class Home : Control
     private void loadUnits()
     {
         
-        MockList MockList = new MockList(1);
-        List<BaseUnit> player1units = MockList.unitManagerCore.getUnitsPlayer1();
-        List<BaseUnit> player2units = MockList.unitManagerCore.getUnitsPlayer2();
+        MockList MockList = new (2);        
+        UnitsClientManager.Instance.addAllPlayerUnits(MockList.unitManagerCore.getUnitsPlayer());
         
-        if (PlayerSpotEnum.PLAYER1 == PLayerInfoNetcode.Instance.playerSpot)
-        {
-            UnitsClientManager.Instance.addAllPlayerUnits(player1units);
-        }
-        else
-        {
-            UnitsClientManager.Instance.addAllPlayerUnits(player2units);            
-        }
     }
 
     private async Task AttemptLogin(string userId)
