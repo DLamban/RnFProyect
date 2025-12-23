@@ -14,7 +14,7 @@ namespace Core.List
 {
     public class MockList
     {
-        public UnitsServerManager unitManagerCore { get; set; }
+       
         // Start positions Orcs
         Vector2 startPosRatis = new Vector2(-1f, 0);
         Vector2 startPosRatis2 = new Vector2(2.75f, -0.6f);
@@ -30,10 +30,12 @@ namespace Core.List
         Vector2 startPosKing = new Vector2(5.8f, 0.65f);
         Vector2 startPosElders = new Vector2(5.8f, 1.25f);
         Vector2 startPosCrossbow = new Vector2(-1.8f, 1.25f);
+        public List<UnitSpawnDTO> playerunitsParamsToCreateandSpawn;
+        
 
         public MockList(int numberList)
         {
-            unitManagerCore = new UnitsServerManager();
+       
             switch (numberList)
             {
                 case 1:
@@ -55,67 +57,84 @@ namespace Core.List
         }
         private void MockListNetcode()
         {
-            if (PLayerInfoNetcode.Instance.playerSpot == PlayerSpotEnum.PLAYER1)
+            if (PlayerInfoNetcode.Instance.playerSpot == PlayerSpotEnum.PLAYER1)
             {
-                IUnitCreateAndSpawnParams goblinsParam = new UnitSpawnDTO()
+                playerunitsParamsToCreateandSpawn = new List<UnitSpawnDTO>()
                 {
-                    UnitTypeEnum = UnitEnum.Goblins,
-                    Characters = new List<CharacterEnum>() { CharacterEnum.Goblin_Wizard },
-                    WidthRank = 5,
-                    UnitCount = 17,
-                    posVec = startPosGoblins,
-                    DirectorVec = rotationToDirectorVec(15),
+                    new UnitSpawnDTO()
+                    {
+                        UnitTypeEnum = UnitEnum.Goblins,
+                        Characters = new List<CharacterEnum>() { CharacterEnum.Goblin_Wizard },
+                        WidthRank = 5,
+                        UnitCount = 17,
+                        posVec = startPosGoblins,
+                        DirectorVec = rotationToDirectorVec(15),
+                        UnitGuid = Guid.NewGuid() // No olvides el GUID si la interfaz lo pide
+                    },
+                    new UnitSpawnDTO()
+                    {
+                        UnitTypeEnum = UnitEnum.Orcs,
+                        Characters = new List<CharacterEnum>(),
+                        WidthRank = 5,
+                        UnitCount = 20,
+                        posVec = startPosRatis2,
+                        DirectorVec = rotationToDirectorVec(20),
+                        UnitGuid = Guid.NewGuid()
+                    },
+                    new UnitSpawnDTO()
+                    {
+                        UnitTypeEnum = UnitEnum.Boar_Riders,
+                        Characters = new List<CharacterEnum>(),
+                        WidthRank = 5,
+                        UnitCount = 10,
+                        posVec = startBoarRiders,
+                        DirectorVec = rotationToDirectorVec(-20),
+                        UnitGuid = Guid.NewGuid()
+                    },
+                    new UnitSpawnDTO()
+                    {
+                        UnitTypeEnum = UnitEnum.Heavy_Orcs,
+                        Characters = new List<CharacterEnum>() { CharacterEnum.Warlord_Black_Orc },
+                        WidthRank = 5,
+                        UnitCount = 18,
+                        posVec = startHeavyOrcs,
+                        DirectorVec = rotationToDirectorVec(20),
+                        UnitGuid = Guid.NewGuid()
+                    }
+
                 };
-                BaseUnit goblins = unitManagerCore.CreateNewUnit(goblinsParam);
-                unitManagerCore.addPlayerUnit(goblins);
-
-
-                BaseUnit orcs = unitManagerCore.CreateNewUnit(UnitEnum.Orcs, new List<CharacterEnum>(), 5, 20, startPosRatis2, 20);
-                unitManagerCore.addPlayerUnit(orcs);
-
-
-
-                BaseUnit boarRiders = unitManagerCore.CreateNewUnit(UnitEnum.Boar_Riders, new List<CharacterEnum>(), 5, 10, startBoarRiders, -20);
-                unitManagerCore.addPlayerUnit(boarRiders);
-
-                //BaseUnit dragon = unitManagerCore.CreateNewUnit("Wyvern", new List<CharacterEnum>(), 1, 1, startPosAbomination, 15);
-                //unitManagerCore.addPlayerUnit(dragon);
-
-
-
-                BaseUnit HeavyOrcs = unitManagerCore.CreateNewUnit(UnitEnum.Heavy_Orcs, new List<CharacterEnum>() { CharacterEnum.Warlord_Black_Orc }, 5, 18, startHeavyOrcs, 20);
-                unitManagerCore.addPlayerUnit(HeavyOrcs);
-            } else if (PLayerInfoNetcode.Instance.playerSpot == PlayerSpotEnum.PLAYER2)
+                foreach (var unitParam in playerunitsParamsToCreateandSpawn)
+                {
+                    BaseUnit unit = UnitsServerManager.CreateNewUnit(unitParam);
+                    UnitsServerManager.addPlayerUnit(unit);
+                }
+            } else if (PlayerInfoNetcode.Instance.playerSpot == PlayerSpotEnum.PLAYER2)
             {
                 //// PLAYER2
-                ///DWARSSSSSSSSSSS
-                BaseUnit dwarfos = unitManagerCore.CreateNewUnit(UnitEnum.Dwarf_Warriors, new List<CharacterEnum>(), 5, 13, startPosDwarfos, 160);
-                unitManagerCore.addPlayerUnit(dwarfos);
-                BaseUnit crossbow = unitManagerCore.CreateNewUnit(UnitEnum.Crossbowmen, new List<CharacterEnum>(), 5, 11, startPosCrossbow, 175);
-                unitManagerCore.addPlayerUnit(crossbow);
-
-                BaseUnit cannon = unitManagerCore.CreateNewUnit(UnitEnum.Cannon, new List<CharacterEnum>(), 1, 1, startPosCannon, 190);
-                unitManagerCore.addPlayerUnit(cannon);
-
-                BaseUnit slayers = unitManagerCore.CreateNewUnit(UnitEnum.Slayers, new List<CharacterEnum>() { CharacterEnum.King_Dwarf }, 5, 9, startPosSlayers, 200);
-                unitManagerCore.addPlayerUnit(slayers);
-
-
-                BaseUnit gyros = unitManagerCore.CreateNewUnit(UnitEnum.Gyrocopter, new List<CharacterEnum>(), 1, 1, startPosGyros, 190);
-                unitManagerCore.addPlayerUnit(gyros);
-
-
-
-
-
-                BaseUnit kingDwarfOnShield = unitManagerCore.CreateNewUnit(UnitEnum.Character_Unit,
-                    new List<CharacterEnum>() { CharacterEnum.King_Dwarf_on_shield },
-                    0, 0, startPosKing, 200);
-
-
-                unitManagerCore.addPlayerUnit(kingDwarfOnShield);
-                BaseUnit elders = unitManagerCore.CreateNewUnit(UnitEnum.Elder_Dwarfs, new List<CharacterEnum>() { CharacterEnum.King_Dwarf }, 5, 12, startPosElders, 170);
-                unitManagerCore.addPlayerUnit(elders);
+                playerunitsParamsToCreateandSpawn = new List<UnitSpawnDTO>
+{
+                    new UnitSpawnDTO { 
+                        UnitTypeEnum = UnitEnum.Dwarf_Warriors, Characters = new List<CharacterEnum>(), WidthRank = 5, UnitCount = 13, posVec = startPosDwarfos, DirectorVec = rotationToDirectorVec(160), UnitGuid = Guid.NewGuid() },
+                    new UnitSpawnDTO { 
+                        UnitTypeEnum = UnitEnum.Crossbowmen, Characters = new List<CharacterEnum>(), WidthRank = 5, UnitCount = 11, posVec = startPosCrossbow, DirectorVec = rotationToDirectorVec(175), UnitGuid = Guid.NewGuid() },
+                    new UnitSpawnDTO { 
+                        UnitTypeEnum = UnitEnum.Cannon, Characters = new List<CharacterEnum>(), WidthRank = 1, UnitCount = 1, posVec = startPosCannon, DirectorVec = rotationToDirectorVec(190), UnitGuid = Guid.NewGuid() },
+                    new UnitSpawnDTO { 
+                        UnitTypeEnum = UnitEnum.Slayers, Characters = new List<CharacterEnum> { CharacterEnum.King_Dwarf }, WidthRank = 5, UnitCount = 9, posVec = startPosSlayers, DirectorVec = rotationToDirectorVec(200), UnitGuid = Guid.NewGuid() },
+                    new UnitSpawnDTO { 
+                        UnitTypeEnum = UnitEnum.Gyrocopter, Characters = new List<CharacterEnum>(), WidthRank = 1, UnitCount = 1, posVec = startPosGyros, DirectorVec = rotationToDirectorVec(190), UnitGuid = Guid.NewGuid() },
+                    new UnitSpawnDTO { 
+                        UnitTypeEnum = UnitEnum.Character_Unit, 
+                        Characters = new List<CharacterEnum> { CharacterEnum.King_Dwarf_on_shield }, WidthRank = 0, UnitCount = 0, posVec = startPosKing, DirectorVec = rotationToDirectorVec(200), UnitGuid = Guid.NewGuid() },
+                    new UnitSpawnDTO { 
+                        UnitTypeEnum = UnitEnum.Elder_Dwarfs, 
+                        Characters = new List<CharacterEnum> { CharacterEnum.King_Dwarf }, WidthRank = 5, UnitCount = 12, posVec = startPosElders, DirectorVec = rotationToDirectorVec(170), UnitGuid = Guid.NewGuid() }
+                };
+                foreach (var unitParam in playerunitsParamsToCreateandSpawn)
+                {
+                    BaseUnit unit = UnitsServerManager.CreateNewUnit(unitParam);
+                    UnitsServerManager.addPlayerUnit(unit);
+                }
             }
 
         }
@@ -132,57 +151,57 @@ namespace Core.List
                 posVec = startPosGoblins,
                 DirectorVec = rotationToDirectorVec(15),
             };
-            BaseUnit goblins = unitManagerCore.CreateNewUnit(goblinsParam);
-            unitManagerCore.addPlayerUnit(goblins);
+            BaseUnit goblins = UnitsServerManager.CreateNewUnit(goblinsParam);
+            UnitsServerManager.addPlayerUnit(goblins);
 
 
-            BaseUnit orcs = unitManagerCore.CreateNewUnit(UnitEnum.Orcs, new List<CharacterEnum>(), 5, 20, startPosRatis2, 20);
-            unitManagerCore.addPlayerUnit(orcs);
+            BaseUnit orcs = UnitsServerManager.CreateNewUnit(UnitEnum.Orcs, new List<CharacterEnum>(), 5, 20, startPosRatis2, 20);
+            UnitsServerManager.addPlayerUnit(orcs);
 
 
 
-            BaseUnit boarRiders = unitManagerCore.CreateNewUnit(UnitEnum.Boar_Riders, new List<CharacterEnum>(), 5, 10, startBoarRiders, -20);
-            unitManagerCore.addPlayerUnit(boarRiders);
+            BaseUnit boarRiders = UnitsServerManager.CreateNewUnit(UnitEnum.Boar_Riders, new List<CharacterEnum>(), 5, 10, startBoarRiders, -20);
+            UnitsServerManager.addPlayerUnit(boarRiders);
 
             //BaseUnit dragon = unitManagerCore.CreateNewUnit("Wyvern", new List<CharacterEnum>(), 1, 1, startPosAbomination, 15);
             //unitManagerCore.addPlayerUnit(dragon);
 
 
 
-            BaseUnit HeavyOrcs = unitManagerCore.CreateNewUnit(UnitEnum.Heavy_Orcs, new List<CharacterEnum>() { CharacterEnum.Warlord_Black_Orc}, 5, 18, startHeavyOrcs, 20);
-            unitManagerCore.addPlayerUnit(HeavyOrcs);
+            BaseUnit HeavyOrcs = UnitsServerManager.CreateNewUnit(UnitEnum.Heavy_Orcs, new List<CharacterEnum>() { CharacterEnum.Warlord_Black_Orc}, 5, 18, startHeavyOrcs, 20);
+            UnitsServerManager.addPlayerUnit(HeavyOrcs);
 
 
 
             //// PLAYER2
             ///DWARSSSSSSSSSSS
-            BaseUnit dwarfos = unitManagerCore.CreateNewUnit(UnitEnum.Dwarf_Warriors, new List<CharacterEnum>(), 5, 13, startPosDwarfos, 160);
-            unitManagerCore.addEnemyUnit(dwarfos);
-            BaseUnit crossbow = unitManagerCore.CreateNewUnit(UnitEnum.Crossbowmen, new List<CharacterEnum>(), 5, 11, startPosCrossbow, 175);
-            unitManagerCore.addEnemyUnit(crossbow);
+            BaseUnit dwarfos = UnitsServerManager.CreateNewUnit(UnitEnum.Dwarf_Warriors, new List<CharacterEnum>(), 5, 13, startPosDwarfos, 160);
+            UnitsServerManager.addEnemyUnit(dwarfos);
+            BaseUnit crossbow = UnitsServerManager.CreateNewUnit(UnitEnum.Crossbowmen, new List<CharacterEnum>(), 5, 11, startPosCrossbow, 175);
+            UnitsServerManager.addEnemyUnit(crossbow);
 
-            BaseUnit cannon = unitManagerCore.CreateNewUnit(UnitEnum.Cannon, new List<CharacterEnum>(), 1, 1, startPosCannon, 190);
-            unitManagerCore.addEnemyUnit(cannon);
+            BaseUnit cannon = UnitsServerManager.CreateNewUnit(UnitEnum.Cannon, new List<CharacterEnum>(), 1, 1, startPosCannon, 190);
+            UnitsServerManager.addEnemyUnit(cannon);
 
-            BaseUnit slayers = unitManagerCore.CreateNewUnit(UnitEnum.Slayers, new List<CharacterEnum>() { CharacterEnum.King_Dwarf }, 5, 9, startPosSlayers, 200);
-            unitManagerCore.addEnemyUnit(slayers);
-
-
-            BaseUnit gyros = unitManagerCore.CreateNewUnit(UnitEnum.Gyrocopter, new List<CharacterEnum>(), 1, 1, startPosGyros, 190);
-            unitManagerCore.addEnemyUnit(gyros);
+            BaseUnit slayers = UnitsServerManager.CreateNewUnit(UnitEnum.Slayers, new List<CharacterEnum>() { CharacterEnum.King_Dwarf }, 5, 9, startPosSlayers, 200);
+            UnitsServerManager.addEnemyUnit(slayers);
 
 
+            BaseUnit gyros = UnitsServerManager.CreateNewUnit(UnitEnum.Gyrocopter, new List<CharacterEnum>(), 1, 1, startPosGyros, 190);
+            UnitsServerManager.addEnemyUnit(gyros);
 
 
 
-            BaseUnit kingDwarfOnShield = unitManagerCore.CreateNewUnit(UnitEnum.Character_Unit, 
+
+
+            BaseUnit kingDwarfOnShield = UnitsServerManager.CreateNewUnit(UnitEnum.Character_Unit, 
                 new List<CharacterEnum>() { CharacterEnum.King_Dwarf_on_shield }, 
                 0, 0, startPosKing, 200);
 
 
-            unitManagerCore.addEnemyUnit(kingDwarfOnShield);
-            BaseUnit elders = unitManagerCore.CreateNewUnit(UnitEnum.Elder_Dwarfs, new List<CharacterEnum>() { CharacterEnum.King_Dwarf}, 5, 12, startPosElders, 170);
-            unitManagerCore.addEnemyUnit(elders);
+            UnitsServerManager.addEnemyUnit(kingDwarfOnShield);
+            BaseUnit elders = UnitsServerManager.CreateNewUnit(UnitEnum.Elder_Dwarfs, new List<CharacterEnum>() { CharacterEnum.King_Dwarf}, 5, 12, startPosElders, 170);
+            UnitsServerManager.addEnemyUnit(elders);
         }
     }
 }

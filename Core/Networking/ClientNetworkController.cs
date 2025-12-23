@@ -2,20 +2,15 @@
 using Core.GameLoop;
 using Core.GeometricEngine;
 using Core.Units;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
-using static Core.GeometricEngine.GeometryUtils;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+
 
 namespace Core.Networking
 {
     public class ClientNetworkController
     {
         private string networkId;
+        public Action<UnitSpawnList> onReceiveOpponentList;
         public ClientNetworkController()
         {
             NakamaService.Instance.OnReceiveUnitPosition += OnUpdatePos;
@@ -41,6 +36,7 @@ namespace Core.Networking
             }
                 
         }
+
         private void OnUpdateBattleState(BattleState battleState)
         {
             PlayerInfoSingletonHotSeat.Instance.battleStateManager.currentState = battleState;
@@ -56,6 +52,10 @@ namespace Core.Networking
         public void updateBattleState(BattleState currentState)
         {
            
+        }
+        public void sendListtToOpponent(List<UnitSpawnDTO> unitsData)
+        {
+            NakamaService.Instance.sendPlayerUnitList(unitsData);
         }
         #endregion
     }

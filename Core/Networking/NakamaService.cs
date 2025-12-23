@@ -4,8 +4,10 @@ using System.Linq;
 using System.Net.Sockets;
 using System.Numerics;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Aranfee;
+using Core.GameLoop;
 using Core.Networking.config;
 using Core.Units;
 using Google.Protobuf;
@@ -33,6 +35,7 @@ namespace Core.Networking
         public event Action OnMatchFound;
         public event Action<ServerInit> OnReceiveMatchState;
         public event Action<UnitPosition> OnReceiveUnitPosition;
+        public event Action<List<UnitSpawnDTO>> OnReceiveOpponentUnitSpawnList;
         private NakamaService() { }
         #region LOGIN_AND_MATCHMAKING
         public async Task LoginUser(string userId)
@@ -83,6 +86,12 @@ namespace Core.Networking
                     OnReceiveUnitPosition?.Invoke(unitPosition);
                     break;
 
+                case OpCode.UnitOpponentList:
+                    // Handle opponent unit list if needed
+                    UnitSpawnList unitSpawnList = UnitSpawnList.Parser.ParseFrom(state.State);
+                    List<UnitSpawnDTO> res = NetworkMappers.MapProtodefinitionToUnitList(unitSpawnList);
+                    OnReceiveOpponentUnitSpawnList?.Invoke(res);
+                    break;
                 default:
                     Console.WriteLine($"Unhandled OpCode: {state.OpCode}");
                     break;
@@ -112,9 +121,22 @@ namespace Core.Networking
 
             await Socket.SendMatchStateAsync(CurrentMatch.Id, (long)OpCode.UnitPosition, data);
         }
-        public async void sendEnemyUnits(List<BaseUnit> listUnits)
+        public async void sendPlayerUnitList(List<UnitSpawnDTO> unitsData)
         {
-            //MAP units to protobuf data objects
+            // 1. Creamos el "sobre" de Protobuf
+            var listMessage = new UnitSpawnList();
+
+            // 2. Mapeamos y añadimos cada unidad
+            foreach (var dto in unitsData)
+            {
+                // Usamos el método MapUnitToProtodefinition que creamos antes
+                var protoUnit = NetworkMappers.MapUnitToProtodefinition(dto);
+                listMessage.Units.Add(protoUnit);
+            }
+            // 3. Serializamos a bytes
+            byte[] data = listMessage.ToByteArray();         
+
+            await Socket.SendMatchStateAsync(CurrentMatch.Id, (long)OpCode.UnitOpponentList, data);
 
         }
         #endregion

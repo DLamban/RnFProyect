@@ -7,7 +7,10 @@ enum OpCode {
     OP_UNSPECIFIED = 0;
     SERVER_INIT = 1;
     UNIT_POSITION = 2;
-    DEPLOYED_UNITS = 3;
+    
+    // Matchmaking start
+    DEPLOYED_UNITS = 3;// event
+    UNIT_OPPONENT_LIST = 101;
 }
 
 message ServerInit {
@@ -20,13 +23,6 @@ message Vector2Proto {
     float y = 2;
 }
 
-message UnitPosition{
-    string guid =1;
-    // Position
-    Vector2Proto position = 2;
-    // Director vector
-    Vector2Proto director = 3;
-}
 message UnitDefinition {    
     int32 unit_type_enum = 1;
     repeated int32 characters = 2;
@@ -37,7 +33,14 @@ message UnitDefinition {
     Vector2Proto director_vec = 7;
 }
 
-message InitialArmySetup {
-    string player_id = 1;
-    repeated UnitDefinition units = 2; // El "repeated" es la clave
+message UnitSpawnList {
+    repeated UnitDefinition units = 1;
+}
+
+message UnitPosition{
+    string guid =1;
+    // Position
+    Vector2Proto position = 2;
+    // Director vector
+    Vector2Proto director = 3;
 }

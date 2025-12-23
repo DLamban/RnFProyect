@@ -48,7 +48,18 @@ public partial class UnitRenderCreator : Node
 		Panel charPanelPlayer = unitHUD.GetNode<Panel>("CanvasGroup/AnchorProvider/CharacteristicsPanelPlayer") as Panel;
 		Panel charPanelEnemy = unitHUD.GetNode<Panel>("CanvasGroup/AnchorProvider/CharacteristicsPanelEnemy") as Panel;
 	}
-	private void CreateAllUnits(){
+    /// <summary>
+    ///  this function is in case is network play so the enemy list is deferred
+    /// </summary>
+    public void CreateOpponentUnits()
+    {
+        foreach (BaseUnit unit in UnitsClientManager.Instance.unitsEnemy.Values)
+        {
+            UnitGodot tempunit = createUnitToRender(unit);
+            units.Add(unit.UnitGuid, tempunit);
+        }
+    }
+    private void CreateAllUnits(){
 		foreach(BaseUnit unit in UnitsClientManager.Instance.unitsPlayer.Values)
 		{
 			UnitGodot tempunit = createUnitToRender(unit);
@@ -59,8 +70,8 @@ public partial class UnitRenderCreator : Node
 			UnitGodot tempunit = createUnitToRender(unit);
 			units.Add(unit.UnitGuid, tempunit);
 		}
-
 	}
+
 	private void deselectAllUnits()
 	{
 	//	throw new NotImplementedException();

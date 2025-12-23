@@ -67,8 +67,8 @@ namespace Core.GameLoop
         public void populateBoard()
         {
             MockList mockList = new MockList(1);
-            var unitsplay1 = mockList.unitManagerCore.getUnitsPlayer1();
-            var unitsplay2 = mockList.unitManagerCore.getUnitsPlayer2();
+            var unitsplay1 = UnitsServerManager.getUnitsPlayer1();
+            var unitsplay2 = UnitsServerManager.getUnitsPlayer2();
             UnitsClientManager.Instance.addAllPlayerUnits(unitsplay1);
             UnitsClientManager.Instance.addAllEnemyUnits(unitsplay2);
             UnitsClientManager.Instance.unitsLoaded();

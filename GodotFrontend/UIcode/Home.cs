@@ -15,6 +15,7 @@ public partial class Home : Control
     private VBoxContainer _vboxDisconnected;
     private Label _statusLabel;
     private Button _btnFindMatch;
+    private ClientNetworkController _clientNetworkController;
     public override void _Ready()
     {
         Button login1 = GetNode<Button>("%Login1btn");
@@ -26,11 +27,12 @@ public partial class Home : Control
 
         string deviceId = OS.GetUniqueId();
         // The handler when a match is found
-        NakamaService.Instance.OnMatchFound += HandleMatchFound;
+
         // Connect signals using async lambdas
-        
-        login1.Pressed += async () => await AttemptLogin("Player1_" + deviceId);
-        login2.Pressed += async () => await AttemptLogin("Player2_" + deviceId);
+        string player1id = "Player1_" + deviceId;
+        string player2id = "Player2_" + deviceId;
+        login1.Pressed += async () => await AttemptLogin(player1id);
+        login2.Pressed += async () => await AttemptLogin(player2id);
 
         _btnFindMatch = GetNode<Button>("%BtnFindMatch");
         _btnFindMatch.Pressed += async () =>
@@ -41,41 +43,62 @@ public partial class Home : Control
         };
         string baseDir = AppContext.BaseDirectory;
         NakamaService.Instance.OnReceiveMatchState += OnReceiveMatchState;
-        PLayerInfoNetcode.Instance.playerSpot = PlayerSpotEnum.PLAYER2;
+        NakamaService.Instance.OnMatchFound += HandleMatchFound;
+        NakamaService.Instance.OnReceiveOpponentUnitSpawnList += OpponentListReceived;
+        PlayerInfoNetcode.Instance.playerSpot = PlayerSpotEnum.PLAYER1;
+        
+        PlayerInfoNetcode.Instance.initNetPlayer(PlayerInfoNetcode.Instance.playerSpot == PlayerSpotEnum.PLAYER1? player1id:player2id);
+        _clientNetworkController = PlayerInfoNetcode.Instance.networkController;
         loadUnits();
+    }
+
+    private void OpponentListReceived(List<UnitSpawnDTO> list)
+    {
+        foreach (var unitParam in list)
+        {
+            BaseUnit unit = UnitsServerManager.CreateNewUnit(unitParam);
+            UnitsServerManager.addEnemyUnit(unit);
+        }
+        var enemyunits = UnitsServerManager.getUnitsEnemy();
+        UnitsClientManager.Instance.addAllEnemyUnits(enemyunits);
         PackedScene combatScene = (PackedScene)ResourceLoader.Load("res://battlefield.tscn");
         GetTree().ChangeSceneToPacked(combatScene);
     }
-    
+
     private void HandleMatchFound()
     {
         GD.Print("Match found! Transitioning to battlefield...");
         NakamaService.Instance.OnMatchFound -= HandleMatchFound;
+        // Load the lists
+        var units = loadUnits();
+        _clientNetworkController.sendListtToOpponent(units);
+        
+       
+        
         // subscribe to match state updates
-        NakamaService.Instance.OnReceiveMatchState += OnReceiveMatchState;
+        //NakamaService.Instance.OnReceiveMatchState += OnReceiveMatchState;
     }
     
     private void OnReceiveMatchState(ServerInit data)
     {
+        
         if (data.PlayerNumber == 1)
         {
-            PLayerInfoNetcode.Instance.playerSpot = PlayerSpotEnum.PLAYER1;
+            PlayerInfoNetcode.Instance.playerSpot = PlayerSpotEnum.PLAYER1;
         }
         else if (data.PlayerNumber == 2)
         {
-            PLayerInfoNetcode.Instance.playerSpot = PlayerSpotEnum.PLAYER2;
+            PlayerInfoNetcode.Instance.playerSpot = PlayerSpotEnum.PLAYER2;
         }
-        // Load the lists
-        loadUnits();
-        PackedScene combatScene = (PackedScene)ResourceLoader.Load("res://battlefield.tscn");
-        GetTree().ChangeSceneToPacked(combatScene);        
+        
+
     }
-    private void loadUnits()
+    private List<UnitSpawnDTO> loadUnits()
     {
         
         MockList MockList = new (2);        
-        UnitsClientManager.Instance.addAllPlayerUnits(MockList.unitManagerCore.getUnitsPlayer());
-        
+        UnitsClientManager.Instance.addAllPlayerUnits(UnitsServerManager.getUnitsPlayer());
+        return MockList.playerunitsParamsToCreateandSpawn;
     }
 
     private async Task AttemptLogin(string userId)

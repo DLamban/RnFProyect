@@ -22,6 +22,7 @@ namespace Core.GameLoop
         public PlayerSpotEnum playerSpot { get; set; }
         public void initNetPlayer(string netId)
         {
+
             networkController = new ClientNetworkController();
         }
         public void initBattleState()

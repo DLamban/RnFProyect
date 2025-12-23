@@ -42,18 +42,23 @@ namespace Core.Units
         }
     }
 
-    public class UnitsServerManager
+    public static class UnitsServerManager
     {
-        public Dictionary<string, BaseUnit> unitsPlayer { get; set; }
-        public Dictionary<string, BaseUnit> unitsEnemy { get; set; }
+        public static Dictionary<string, BaseUnit> unitsPlayer { get; set; }
+        public static Dictionary<string, BaseUnit> unitsEnemy { get; set; }
 
 
-        public UnitsServerManager()
+        static UnitsServerManager()
         {
             unitsPlayer = new Dictionary<string, BaseUnit>();
             unitsEnemy = new Dictionary<string, BaseUnit>();
         }
-        public BaseUnit CreateNewUnit(UnitEnum unitEnum, List<CharacterEnum> characters, int widthRank, int unitCount, Vector2 startPos, float rotationDeg)
+        public static void restartLists()
+        {
+            unitsPlayer = new Dictionary<string, BaseUnit>();
+            unitsEnemy = new Dictionary<string, BaseUnit>();
+        }
+        public static BaseUnit CreateNewUnit(UnitEnum unitEnum, List<CharacterEnum> characters, int widthRank, int unitCount, Vector2 startPos, float rotationDeg)
         {
             Guid guid = Guid.NewGuid();
             IUnitCreateAndSpawnParams unitCreationParams = new UnitSpawnDTO()
@@ -68,8 +73,8 @@ namespace Core.Units
             };
             return CreateNewUnit(unitCreationParams);
         }
-
-        public BaseUnit CreateNewUnit(IUnitCreateAndSpawnParams unitCreateAndSpawnParams)
+        
+        public static BaseUnit CreateNewUnit(IUnitCreateAndSpawnParams unitCreateAndSpawnParams)
         {
             Guid guid = Guid.NewGuid();
 
@@ -83,7 +88,7 @@ namespace Core.Units
             unit.Transform.rotate(rotationDeg, unit.sizeEnclosedRectangledm.X / 2, -unit.sizeEnclosedRectangledm.Y / 2);            
             return unit;
         }
-        private BaseUnit instantiateUnit(IUnitCreationParams unitCreationParams)
+        private static BaseUnit instantiateUnit(IUnitCreationParams unitCreationParams)
         {
 
             // MIgrating to db, test first
@@ -125,18 +130,16 @@ namespace Core.Units
             
         }
         
-        public void addPlayerUnit(BaseUnit unit)
+        public static void addPlayerUnit(BaseUnit unit)
         {   
             unitsPlayer[unit.UnitGuid.ToString()] = unit;
         }
 
-        public void addEnemyUnit(BaseUnit unit)
-        {
-            Guid guid = Guid.NewGuid();            
-            unit.UnitGuid = guid;
+        public static void addEnemyUnit(BaseUnit unit)
+        {            
             unitsEnemy[unit.UnitGuid.ToString()] = unit;
         }
-        public List<BaseUnit> getUnitsPlayer()
+        public static List<BaseUnit> getUnitsPlayer()
         {
             List<BaseUnit> units = new List<BaseUnit>();
             foreach (KeyValuePair<string, BaseUnit> unit in unitsPlayer)
@@ -146,7 +149,7 @@ namespace Core.Units
             return units;
         }
 
-        public List<BaseUnit> getUnitsEnemy()
+        public static List<BaseUnit> getUnitsEnemy()
         {
             List<BaseUnit> units = new List<BaseUnit>();
             foreach (KeyValuePair<string, BaseUnit> unit in unitsEnemy)
@@ -155,44 +158,15 @@ namespace Core.Units
             }
             return units;
         }
-        public List<MinimumUnitTransferInfo> getPlayerTransUnits()
-        {
-            List<MinimumUnitTransferInfo> units = new List<MinimumUnitTransferInfo>();
-            foreach (KeyValuePair<string, BaseUnit> unit in unitsPlayer)
-            {
-                MinimumUnitTransferInfo minimumUnitTransferInfo = new MinimumUnitTransferInfo(unit.Value);
-                units.Add(minimumUnitTransferInfo);
-            }
-            return units;
-        }
-        public List<MinimumUnitTransferInfo> getEnemyTransUnits()
-        {
-            List<MinimumUnitTransferInfo> units = new List<MinimumUnitTransferInfo>();
-            foreach (KeyValuePair<string, BaseUnit> unit in unitsEnemy)
-            {
-                MinimumUnitTransferInfo minimumUnitTransferInfo = new MinimumUnitTransferInfo(unit.Value);
-                units.Add(minimumUnitTransferInfo);
-            }
-            return units;
-        }
-        // ALIAS
         // call player1 to player
-        public List<BaseUnit> getUnitsPlayer1()
+        public static List<BaseUnit> getUnitsPlayer1()
         {
             return getUnitsPlayer();
         }
         // call player2 to enemy
-        public List<BaseUnit> getUnitsPlayer2()
+        public static List<BaseUnit> getUnitsPlayer2()
         {
             return getUnitsEnemy();
-        }
-        public List<MinimumUnitTransferInfo> getPlayer1TransUnits()
-        {
-            return getPlayerTransUnits();
-        }
-        public List<MinimumUnitTransferInfo> getPlayer2TransUnits()
-        {
-            return getEnemyTransUnits();
-        }
+        }        
     }
 }

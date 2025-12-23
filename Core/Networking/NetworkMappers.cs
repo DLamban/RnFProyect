@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using Aranfee;
@@ -27,6 +28,28 @@ namespace Core.Networking
             unitDef.Characters.AddRange(spawnParams.Characters.Select(c => (int)c));
 
             return unitDef;
+        }
+        public static List<UnitSpawnDTO> MapProtodefinitionToUnitList(UnitSpawnList unitSpawnList)
+        {
+            var dtoList = new List<UnitSpawnDTO>();
+
+            foreach (var proto in unitSpawnList.Units)
+            {
+                var dto = new UnitSpawnDTO()
+                {
+                    UnitTypeEnum = (UnitEnum)proto.UnitTypeEnum,
+                    Characters = proto.Characters.Select(c => (CharacterEnum)c).ToList(),
+                    WidthRank = proto.WidthRank,
+                    UnitCount = proto.UnitCount,
+                    UnitGuid = Guid.Parse(proto.UnitGuid),
+                    posVec = new Vector2(proto.PosVec.X, proto.PosVec.Y),
+                    DirectorVec = new Vector2(proto.DirectorVec.X, proto.DirectorVec.Y)
+                };
+
+                dtoList.Add(dto);
+            }
+
+            return dtoList;
         }
         public static void HandleUnitSpawn(UnitDefinition unitDef)
         {            

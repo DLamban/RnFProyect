@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Core.GameLoop
 {
-    public class PLayerInfoNetcode
+    public class PlayerInfoNetcode
     {
         private static readonly PlayerInfo instance = new PlayerInfo();
         public static PlayerInfo Instance
