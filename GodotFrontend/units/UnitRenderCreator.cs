@@ -41,7 +41,8 @@ public partial class UnitRenderCreator : Node
 	}
 	public void unitNetworkMoved(Guid guid)
 	{
-		findUnit(guid).updateTransformToRender(true);
+        // network need deferred call 
+        findUnit(guid).deferredUpdateTransformToRender();
 	}
 	// DEPRECATED, maybe can use later with other event pattern
 	private void BindSignalsHUD(CanvasLayer unitHUD)

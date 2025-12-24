@@ -95,15 +95,16 @@ public partial class UnitGodot : Node3D
 	private float targetAngleDeg;
 	MatrixAffine originalMatAffineTrans;
 	Vector2 rotPivot;
-	
 
+	// DEBUGGING vars
+	private float ticks;
 	public override void _Ready()
 	{
 		inputEnabled = false;// disabled as default
 		this.AddChild(inputButtonsNode);
 		diceThrower = DiceThrower.Instance;
 		this.coreUnit.vinculateDiceThrower(diceThrower.diceThrowerTaskDel);
-		
+		ticks = 0;
 	}
 	public void initGodotUnit(BaseUnit coreUnit, InputManager inputManager)
 	{
@@ -138,14 +139,22 @@ public partial class UnitGodot : Node3D
 		{ 
 			RotateCustomTween(delta);
 		}
-	}
-	/// <summary>
-	/// Update the graphic transform so we can saw the actual changes in the affine matrix
-	/// </summary>
-	/// <param name="instantiation">When we instantiate, we shouldn't send the position or we will have ciclic calls, and an infinite loop</param>
-	public void updateTransformToRender(bool netReceived = false)
+        ticks += (float)delta;
+    }
+    /// <summary>
+    /// We need to defer the update of the transform to render, because we are in network thread
+    /// </summary>
+    public void deferredUpdateTransformToRender()
+    {
+        CallDeferred(nameof(updateTransformToRender), true);
+    }
+    /// <summary>
+    /// Update the graphic transform so we can saw the actual changes in the affine matrix
+    /// </summary>
+    /// <param name="instantiation">When we instantiate, we shouldn't send the position or we will have ciclic calls, and an infinite loop</param>
+    public void updateTransformToRender(bool netReceived = false)
 	{
-		UnitMovementManager.ApplyAffineTransformation( this);
+		UnitMovementManager.ApplyAffineTransformation(this);
 		
 		// TODO: if we're playing as hotseat, clientNetworkController is null, and sholud avoid this line....
 		// a bit ugly, but performant
