@@ -17,7 +17,8 @@ public partial class UnitRenderCreator : Node
 	public UICanvas UICanvas { get; set; }
 	/// TEST/DEBUG VARS
 	public Dictionary<Guid, UnitGodot> units = new Dictionary<Guid, UnitGodot>();
-	Action loadedList;
+	
+
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -27,9 +28,9 @@ public partial class UnitRenderCreator : Node
 		UICanvas = canvasLayer as UICanvas;
 		BindSignalsHUD(canvasLayer);
 		
-		
-		// We need to wait for the ready function, annoying
-		if (HotSeatManager.Instance.isHotseat)
+		UnitsClientManager.Instance.unitMovedNet += unitNetworkMoved;
+        // We need to wait for the ready function, annoying
+        if (HotSeatManager.Instance.isHotseat)
 		{
 			HotSeatManager.Instance.populateBoard();
 		}

@@ -31,29 +31,34 @@ public partial class Home : Control
         // Connect signals using async lambdas
         string player1id = "Player1_" + deviceId;
         string player2id = "Player2_" + deviceId;
-        login1.Pressed += async () => await AttemptLogin(player1id);
-        login2.Pressed += async () => await AttemptLogin(player2id);
+        login1.Pressed += async () => {
+            PlayerInfoNetcode.Instance.playerSpot = PlayerSpotEnum.PLAYER1;
+            await AttemptLogin(player1id);            
+        };
+        login2.Pressed += async () => {
+            PlayerInfoNetcode.Instance.playerSpot = PlayerSpotEnum.PLAYER2;
+            await AttemptLogin(player2id);
+        };
 
         _btnFindMatch = GetNode<Button>("%BtnFindMatch");
         _btnFindMatch.Pressed += async () =>
         {
             _btnFindMatch.Disabled = true;
-            _statusLabel.Text = "Searching for opponent...";            
+            _statusLabel.Text = "Searching for opponent...";      
             await NakamaService.Instance.FindAuthoritativeMatch();            
         };
         string baseDir = AppContext.BaseDirectory;
         NakamaService.Instance.OnReceiveMatchState += OnReceiveMatchState;
         NakamaService.Instance.OnMatchFound += HandleMatchFound;
-        NakamaService.Instance.OnReceiveOpponentUnitSpawnList += OpponentListReceived;
-        PlayerInfoNetcode.Instance.playerSpot = PlayerSpotEnum.PLAYER1;
-        
-        PlayerInfoNetcode.Instance.initNetPlayer(PlayerInfoNetcode.Instance.playerSpot == PlayerSpotEnum.PLAYER1? player1id:player2id);
+        NakamaService.Instance.OnReceiveOpponentUnitSpawnList += OpponentListReceived;                
+        PlayerInfoNetcode.Instance.initNetPlayer(deviceId);
         _clientNetworkController = PlayerInfoNetcode.Instance.networkController;
-        loadUnits();
+
     }
 
     private void OpponentListReceived(List<UnitSpawnDTO> list)
     {
+        DebugOverlay.Instance.Log("Opponent list received");
         foreach (var unitParam in list)
         {
             BaseUnit unit = UnitsServerManager.CreateNewUnit(unitParam);
@@ -67,21 +72,16 @@ public partial class Home : Control
 
     private void HandleMatchFound()
     {
-        GD.Print("Match found! Transitioning to battlefield...");
+        DebugOverlay.Instance.Log("Match start");
         NakamaService.Instance.OnMatchFound -= HandleMatchFound;
         // Load the lists
         var units = loadUnits();
         _clientNetworkController.sendListtToOpponent(units);
-        
-       
-        
-        // subscribe to match state updates
-        //NakamaService.Instance.OnReceiveMatchState += OnReceiveMatchState;
     }
     
     private void OnReceiveMatchState(ServerInit data)
     {
-        
+        DebugOverlay.Instance.Log("Received match state");
         if (data.PlayerNumber == 1)
         {
             PlayerInfoNetcode.Instance.playerSpot = PlayerSpotEnum.PLAYER1;
@@ -90,31 +90,31 @@ public partial class Home : Control
         {
             PlayerInfoNetcode.Instance.playerSpot = PlayerSpotEnum.PLAYER2;
         }
-        
+        DebugOverlay.Instance.Log($"Assigned as Player {data.PlayerNumber}");
+        DebugOverlay.Instance.changeCurrentPlayerLabel("Player" + data.PlayerNumber.ToString());
 
     }
     private List<UnitSpawnDTO> loadUnits()
     {
         
-        MockList MockList = new (2);        
+        MockList MockList = new MockList(2);        
         UnitsClientManager.Instance.addAllPlayerUnits(UnitsServerManager.getUnitsPlayer());
         return MockList.playerunitsParamsToCreateandSpawn;
     }
 
     private async Task AttemptLogin(string userId)
-    {
+    {        
         try
         {
             _statusLabel.Text = "Connecting to Server...";
             _statusLabel.Modulate = new Color(1, 1, 1);
-
             await NakamaService.Instance.LoginUser(userId);
-
             _vboxConnected.Visible = true;
             _vboxDisconnected.Visible = false;
         }
         catch (Exception ex)
         {
+            DebugOverlay.Instance.Log("Connection refused");
             GD.PrintErr($"UI Login Error: {ex.Message}");
             _statusLabel.Text = "Error: Connection Refused";
             _statusLabel.Modulate = new Color(1, 0.3f, 0.3f);

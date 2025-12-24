@@ -13,6 +13,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="assets\UI\" />
+    <Folder Include="UIcode\DebugUI\" />
   </ItemGroup>
   <ItemGroup>
 	<None Include="..\Core\DB\RnFDBSqlite.db">

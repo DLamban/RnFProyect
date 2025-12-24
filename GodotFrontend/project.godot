@@ -15,6 +15,10 @@ run/main_scene="res://UIcode/Home.tscn"
 config/features=PackedStringArray("4.3", "C#", "Forward Plus")
 config/icon="res://icon.svg"
 
+[autoload]
+
+DebugOverlay="*res://UIcode/DebugUI/Debug_overlay.tscn"
+
 [display]
 
 window/size/viewport_width=1920

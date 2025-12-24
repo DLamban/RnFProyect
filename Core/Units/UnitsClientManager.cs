@@ -45,7 +45,9 @@ namespace Core.Units
         {
             BaseUnit unit = findUnit(unitGuid);
             unit.Transform.matrixTransform = newAffine.matrixTransform;
-            unitMovedNet(unitGuid);
+            
+            unitMovedNet?.Invoke(unitGuid);
+            
         }
         public BaseUnit findUnitByName(string name)
         {

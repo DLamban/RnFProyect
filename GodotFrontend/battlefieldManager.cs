@@ -14,7 +14,7 @@ public partial class battlefieldManager : Node3D
 		{
 			// do nothing, camera as default
 		}
-		else if (PlayerInfoSingletonHotSeat.Instance.playerSpot == PlayerSpotEnum.PLAYER2)
+		else if (PlayerInfoSingletonHotSeat.Instance.playerSpot == PlayerSpotEnum.PLAYER2 || PlayerInfoNetcode.Instance.playerSpot == PlayerSpotEnum.PLAYER2)
 		{
 			// change camera position to reflect battlefield
 			gimballCamera.Position = new Vector3(3, 4.5f, 4);

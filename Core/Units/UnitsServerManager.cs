@@ -75,12 +75,8 @@ namespace Core.Units
         }
         
         public static BaseUnit CreateNewUnit(IUnitCreateAndSpawnParams unitCreateAndSpawnParams)
-        {
-            Guid guid = Guid.NewGuid();
-
-            BaseUnit unit = instantiateUnit(unitCreateAndSpawnParams);
-            
-
+        {            
+            BaseUnit unit = instantiateUnit(unitCreateAndSpawnParams);            
             float rotationDeg = (float)(Math.Atan2(unitCreateAndSpawnParams.DirectorVec.Y, unitCreateAndSpawnParams.DirectorVec.X) * (180.0 / Math.PI));
 
             unit.Transform.offsetX = unitCreateAndSpawnParams.posVec.X;
